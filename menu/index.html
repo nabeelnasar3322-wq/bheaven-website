@@ -1297,6 +1297,30 @@ filter:blur(9px)!important;animation:hShadow 7s ease-in-out infinite}
 body[data-mode=drinks] .chip.pic b{color:#F3EBDD}body[data-mode=drinks] .chip.pic.on b{color:#10231F}body[data-mode=drinks] .chip.pic.on em{color:#10231F}
 @media (max-width:900px){.chips:not(.sticky) .chip.pic{width:136px}}
 </style>
+<style id="round10">
+/* hero: static (no float, glow, tilt or glare) */
+.heroPlate::before{display:none!important}
+.heroPlate .spin img{animation:none!important}
+.heroPlate .spin{filter:drop-shadow(0 12px 14px rgba(0,0,0,.3))!important}
+.heroPlate::after{animation:none!important}
+.hGlare{display:none!important}
+/* guests say: smaller */
+.rvw{padding:16px 0 30px!important}
+.rvw .wrap{max-width:1040px!important;margin-left:auto!important;margin-right:auto!important;padding:clamp(18px,2.4vw,30px)!important;border-radius:26px!important}
+.rvHead{margin-bottom:14px!important}
+.rvHead h2{font-size:clamp(1.6rem,3vw,2.4rem)!important}
+.rvScore{padding:8px 14px!important;gap:10px!important;border-radius:16px!important}
+.rvScore .big{font-size:1.8rem!important}.rvScore .g{width:24px;height:24px}
+.rvCard{flex-basis:min(280px,80%)!important;padding:16px!important;gap:6px!important;border-radius:18px!important}
+.rvCard .hl{font-size:1rem!important}
+.rvCard q{font-size:.8rem!important;line-height:1.5!important}
+.rvCard .qm{font-size:2.4rem!important;margin-top:0!important}
+.rvTrack{padding:4px 2px 8px!important;gap:14px!important}
+.rvBtns{margin-top:10px!important}
+.rvNav button{width:38px;height:38px}
+/* a little more air after Bar Bites */
+#cat-bar-bites{margin-bottom:70px}
+</style>
 </head>
 <body>
 
@@ -1498,21 +1522,6 @@ body[data-mode=drinks] .chip.pic b{color:#F3EBDD}body[data-mode=drinks] .chip.pi
 var hp=document.getElementById('heroPlate'),sp=document.getElementById('heroSpin'),hero=document.getElementById('home');
 if(!hp||!sp||!hero)return;
 var RMm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-var gl=document.createElement('div');gl.className='hGlare';sp.appendChild(gl);
-var src=document.getElementById('heroImg');
-function setMask(){var u='url('+src.src+')';gl.style.webkitMaskImage=u;gl.style.maskImage=u;}
-src.addEventListener('load',setMask);setMask();
-var tx=0,ty=0,cx=0,cy=0,press=0;
-hero.addEventListener('pointermove',function(e){var r=hp.getBoundingClientRect();var nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
- tx=Math.max(-.9,Math.min(.9,nx*1.4));ty=Math.max(-.9,Math.min(.9,ny*1.4));gl.style.setProperty('--gx',(50+nx*90)+'%');gl.style.setProperty('--gy',(40+ny*90)+'%');});
-hero.addEventListener('pointerleave',function(){tx=0;ty=0;});
-hp.addEventListener('pointerdown',function(){press=1});addEventListener('pointerup',function(){press=0});
-function frame(){cx+=(tx-cx)*.08;cy+=(ty-cy)*.08;
- if(!RMm){sp.style.transform='rotateY('+(cx*9).toFixed(2)+'deg) rotateX('+(-cy*8).toFixed(2)+'deg) translate3d('+(cx*12).toFixed(1)+'px,'+(cy*9).toFixed(1)+'px,0) scale('+(press?.972:1)+')';
- sp.style.filter='drop-shadow('+(-cx*14).toFixed(1)+'px '+(12+cy*6).toFixed(1)+'px 14px rgba(0,0,0,.3))';
- hp.style.setProperty('--sx',(-cx*34).toFixed(1)+'px');hp.style.setProperty('--ss',(1+Math.abs(cx)*.08).toFixed(3));}
- requestAnimationFrame(frame);}
-requestAnimationFrame(frame);
 hp.addEventListener('click',function(e){if(document.body.dataset.mode==='drinks')return;e.stopPropagation();if(RMm)return;var x=e.clientX||innerWidth*.7,y=e.clientY||innerHeight*.5;
  for(var i=0;i<16;i++){var b=document.createElement('span');b.className='hBit'+(i%4===1?' s':i%7===3?' y':'');b.style.left=x+'px';b.style.top=y+'px';document.body.appendChild(b);
   var a=-Math.PI/2+(Math.random()-.5)*2.4,v=90+Math.random()*190,dx=Math.cos(a)*v,dy=Math.sin(a)*v,rot=(Math.random()-.5)*720;
