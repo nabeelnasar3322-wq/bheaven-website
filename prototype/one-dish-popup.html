@@ -1,19 +1,250 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bheaven | One Dish Popup Prototype</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B-Heaven · One Dish Popup Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#f8efe0;background:#110f0c}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0,#3b2b17,#110f0c 67%);display:grid;place-items:center}button{font:inherit;cursor:pointer}.wrap{width:min(92vw,860px);padding:32px 0}.brand{font-family:Georgia,serif;font-size:31px;letter-spacing:.17em;color:#e7bc70;text-align:center}.eyebrow{text-align:center;text-transform:uppercase;letter-spacing:.28em;font-size:11px;color:#b9aa92;margin:10px 0 38px}.dish{display:flex;align-items:center;flex-direction:column;width:min(100%,390px);margin:auto;background:linear-gradient(140deg,#302417,#1c1915);border:1px solid #685030;border-radius:22px;padding:28px 22px 25px;color:inherit;box-shadow:0 25px 60px #0008;transition:transform .25s,box-shadow .25s}.dish:hover,.dish:focus-visible{transform:translateY(-7px);box-shadow:0 30px 75px #000d;outline:2px solid #d5aa62;outline-offset:3px}.plate{width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,#eee6d7 0 58%,#c7b8a2 59% 64%,#f0e9db 65% 72%,transparent 73%);display:grid;place-items:center;filter:drop-shadow(0 20px 18px #0008)}.pizza{font-size:118px;filter:drop-shadow(0 10px 8px #0007);transition:transform .35s}.dish:hover .pizza{transform:rotate(-10deg) scale(1.09)}h1{font-family:Georgia,serif;font-size:29px;font-weight:400;margin:20px 0 8px}.muted{color:#bfad94;font-size:14px;text-align:center}.hint{color:#e6be7c;font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-top:22px}.backdrop{position:fixed;inset:0;background:#030201d9;backdrop-filter:blur(9px);display:grid;place-items:center;padding:14px;z-index:10}.backdrop[hidden]{display:none}.modal{position:relative;width:min(96vw,540px);max-height:92vh;overflow:auto;border:1px solid #81633d;background:linear-gradient(155deg,#30251b,#15120f 72%);padding:25px;border-radius:24px;box-shadow:0 30px 100px #000;animation:pop .5s cubic-bezier(.17,1.4,.32,1)}@keyframes pop{from{transform:scale(.65);opacity:0}to{transform:scale(1);opacity:1}}.top{display:flex;justify-content:space-between;align-items:center;text-transform:uppercase;letter-spacing:.19em;color:#dfb66c;font-size:12px}.close{width:40px;height:40px;color:#fff;border:1px solid #71583a;border-radius:50%;background:#32291f;font-size:26px;line-height:1}.explode{height:260px;position:relative;display:grid;place-items:center;isolation:isolate}.explode .base{font-size:132px;filter:drop-shadow(0 18px 10px #000b);animation:baseIn .9s both}.ingredient{position:absolute;font-size:41px;left:50%;top:50%;filter:drop-shadow(0 6px 6px #0008);animation:burst .85s cubic-bezier(.2,.85,.3,1.2) both;animation-delay:var(--delay)}@keyframes burst{from{transform:translate(-50%,-50%) scale(.1) rotate(0);opacity:0}to{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1) rotate(var(--r));opacity:1}}@keyframes baseIn{from{transform:scale(.6) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}.modal h2{font-family:Georgia,serif;font-size:30px;font-weight:400;margin:0 0 7px}.line{border:0;border-top:1px solid #594530;margin:22px 0 15px}.allergens{display:flex;gap:9px;flex-wrap:wrap;margin:13px 0}.tag{border:1px solid #8d6541;border-radius:100px;padding:8px 13px;background:#433223;font-size:13px}.disclaimer{color:#b8a58f;font-size:12px;line-height:1.5}.replay{background:#d5ad70;color:#20170c;border:0;border-radius:50px;padding:12px 20px;font-weight:700;margin-top:17px}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --cream:#ebebea;--cream2:#f2f2f0;
+  --teal:#2d6b68;--teal-dark:#1b3c3a;
+  --text:#1a2b2a;--text-light:#6a7a78;
+  --gold:#b8905a;--white:#ffffff;
+}
+
+html,body{width:100%;min-height:100vh;background:var(--cream);font-family:'Montserrat',sans-serif;color:var(--text)}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(0,0,0,0.035) 0,rgba(0,0,0,0.035) 1px,transparent 0,transparent 50%),
+    repeating-linear-gradient(-45deg,rgba(0,0,0,0.035) 0,rgba(0,0,0,0.035) 1px,transparent 0,transparent 50%);
+  background-size:42px 42px;pointer-events:none;z-index:0;
+}
+
+.wrap{
+  position:relative;z-index:1;
+  max-width:540px;margin:0 auto;
+  padding:60px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:32px;
+}
+
+.brand{
+  font-family:'Montserrat',sans-serif;font-size:17px;font-weight:700;
+  letter-spacing:3px;color:var(--text);text-align:center;
+}
+
+.eyebrow{
+  font-size:10px;font-weight:500;letter-spacing:0.3em;
+  text-transform:uppercase;color:var(--text-light);text-align:center;
+  margin-top:4px;
+}
+
+/* ── DISH CARD ── */
+.dish{
+  width:100%;
+  background:var(--white);
+  border:1px solid rgba(0,0,0,0.06);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,0.10);
+  cursor:pointer;
+  transition:transform .3s,box-shadow .3s;
+  color:inherit;
+}
+.dish:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.14)}
+.dish:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+
+.dish-img{
+  background:var(--cream2);
+  padding:40px;
+  display:flex;justify-content:center;align-items:center;
+  min-height:220px;
+}
+.dish-img span{font-size:100px;filter:drop-shadow(0 16px 20px rgba(0,0,0,0.15))}
+
+.dish-body{padding:18px 22px 22px}
+.dish-tag{font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.dish-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--text);margin-bottom:6px}
+.dish-desc{font-size:13px;color:var(--text-light);line-height:1.65;margin-bottom:14px}
+.dish-hint{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold)}
+
+/* ── OVERLAY ── */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(20,35,34,0.72);
+  backdrop-filter:blur(6px);
+  display:grid;place-items:center;
+  padding:20px;z-index:200;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.overlay.open{opacity:1;pointer-events:all}
+
+/* ── POPUP ── */
+.popup{
+  width:min(100%,600px);
+  max-height:90dvh;overflow:auto;
+  background:var(--white);border-radius:24px;
+  position:relative;
+  box-shadow:0 24px 80px rgba(0,0,0,0.20);
+  transform:scale(0.88) translateY(20px);
+  transition:transform .3s cubic-bezier(.2,.9,.25,1.1);
+  scrollbar-width:thin;
+}
+.overlay.open .popup{transform:scale(1) translateY(0)}
+
+.popup-img-wrap{
+  position:relative;background:var(--cream2);
+  padding:44px;display:flex;justify-content:center;align-items:center;min-height:260px;
+  overflow:hidden;
+}
+.popup-img-wrap::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(0,0,0,0.03) 0,rgba(0,0,0,0.03) 1px,transparent 0,transparent 50%),
+    repeating-linear-gradient(-45deg,rgba(0,0,0,0.03) 0,rgba(0,0,0,0.03) 1px,transparent 0,transparent 50%);
+  background-size:32px 32px;
+}
+.popup-emoji{
+  font-size:130px;
+  filter:drop-shadow(0 20px 28px rgba(0,0,0,0.18));
+  transform:rotate(-4deg);
+  position:relative;z-index:1;
+  animation:popIn .45s cubic-bezier(.2,.9,.25,1.1) both;
+}
+@keyframes popIn{from{transform:scale(.6) rotate(-4deg);opacity:0}to{transform:scale(1) rotate(-4deg);opacity:1}}
+
+.popup-close{
+  position:absolute;top:14px;right:14px;z-index:10;
+  width:36px;height:36px;border:1px solid rgba(0,0,0,0.1);
+  border-radius:50%;background:var(--white);color:var(--text);
+  font-size:18px;cursor:pointer;display:grid;place-items:center;
+  transition:background .2s;
+}
+.popup-close:hover{background:var(--cream2)}
+
+.popup-ribbon{
+  position:absolute;bottom:14px;left:14px;z-index:2;
+  font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);background:var(--white);
+  border:1px solid rgba(184,144,90,0.3);padding:5px 10px;border-radius:100px;
+}
+
+.popup-body{padding:22px 26px 26px}
+.popup-cat{font-size:10px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.popup-name{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:var(--text);margin-bottom:10px}
+.popup-desc{font-size:13px;color:var(--text-light);line-height:1.75;margin-bottom:18px}
+
+.divider{border:0;border-top:1px solid rgba(0,0,0,0.07);margin:18px 0}
+
+.al-label{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.chip{padding:6px 13px;background:rgba(45,107,104,0.08);color:var(--teal-dark);
+  border-radius:100px;font-size:11px;font-weight:500;border:1px solid rgba(45,107,104,0.15)}
+.notice{font-size:11px;color:var(--text-light);line-height:1.6;margin-bottom:20px}
+
+.actions{display:flex;gap:10px}
+.btn-wa{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 20px;background:var(--teal-dark);color:#fff;border:none;
+  border-radius:100px;font-family:'Montserrat',sans-serif;font-size:11px;
+  font-weight:700;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:background .2s;
+}
+.btn-wa:hover{background:var(--teal)}
+.btn-pick{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:13px 20px;background:transparent;color:var(--teal-dark);
+  border:1.5px solid var(--teal-dark);border-radius:100px;
+  font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;
+}
+.btn-pick:hover{background:var(--teal-dark);color:#fff}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}}
 </style>
 </head>
 <body>
-<main class="wrap"><div class="brand">BHEAVEN</div><p class="eyebrow">Interactive menu · single-dish test</p><button class="dish" id="open" aria-haspopup="dialog" aria-controls="dialog"><span class="plate"><span class="pizza" aria-hidden="true">🍕</span></span><h1>Signature Pizza</h1><span class="muted">One-dish interaction concept</span><span class="hint">Tap dish to explode ↗</span></button></main>
-<div class="backdrop" id="backdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="title" id="dialog"><div class="top"><span>Bheaven · Dish details</span><button class="close" id="close" aria-label="Close popup">×</button></div><div class="explode" id="explode" aria-label="Animated illustrative pizza and ingredients"><span class="base" aria-hidden="true">🍕</span><span class="ingredient" style="--x:-120px;--y:-75px;--r:-25deg;--delay:.1s" aria-hidden="true">🍅</span><span class="ingredient" style="--x:95px;--y:-82px;--r:20deg;--delay:.18s" aria-hidden="true">🧀</span><span class="ingredient" style="--x:-112px;--y:65px;--r:30deg;--delay:.25s" aria-hidden="true">🌿</span><span class="ingredient" style="--x:105px;--y:70px;--r:-15deg;--delay:.31s" aria-hidden="true">🍄</span></div><h2 id="title">Signature Pizza</h2><p class="muted" style="text-align:left">Ingredient-explosion animation preview. Final version will use your transparent PNG photography and approved ingredient cutouts.</p><hr class="line"><strong>Allergen information</strong><div class="allergens"><span class="tag">Gluten — sample</span><span class="tag">Milk — sample</span></div><div class="disclaimer">Illustrative information only; not verified against a real recipe. Confirm all allergens with the kitchen before publication.</div><button class="replay" id="replay">↻ Replay animation</button></section></div>
+
+<div class="wrap">
+  <div>
+    <div class="brand">B·HEAVEN</div>
+    <div class="eyebrow">Interactive menu · single dish prototype</div>
+  </div>
+
+  <button class="dish" id="openBtn" aria-haspopup="dialog" aria-controls="dialog">
+    <div class="dish-img">
+      <span aria-hidden="true">🥗</span>
+    </div>
+    <div class="dish-body">
+      <div class="dish-tag">Bar Bites · Chef's Pick</div>
+      <div class="dish-name">Golden Rings</div>
+      <div class="dish-desc">Lightly fried squid finished with herbs, spring onion, chili and sea salt.</div>
+      <div class="dish-hint">Tap to explore ↗</div>
+    </div>
+  </button>
+</div>
+
+<!-- POPUP -->
+<div class="overlay" id="overlay">
+  <div class="popup" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" id="dialog">
+    <button class="popup-close" id="closeBtn" aria-label="Close popup">✕</button>
+
+    <div class="popup-img-wrap">
+      <span class="popup-emoji" aria-hidden="true">🥗</span>
+      <span class="popup-ribbon">✦ Chef's Pick</span>
+    </div>
+
+    <div class="popup-body">
+      <div class="popup-cat">Bar Bites</div>
+      <div class="popup-name" id="dlgTitle">Golden Rings</div>
+      <p class="popup-desc">Lightly fried squid finished with herbs, spring onion, chili and sea salt. A B-Heaven signature since opening.</p>
+
+      <hr class="divider">
+
+      <div class="al-label">Allergen Information</div>
+      <div class="chips">
+        <span class="chip">Gluten (wheat batter)</span>
+        <span class="chip">Seafood / Molluscs</span>
+        <span class="chip">Egg (coating)</span>
+      </div>
+      <p class="notice">Allergen information is indicative only. Confirm all allergens with the kitchen before publishing food-safety information.</p>
+
+      <div class="actions">
+        <button class="btn-wa">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.765.461 3.422 1.268 4.868L2 22l5.264-1.382A9.963 9.963 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 0 1-4.08-1.12l-.293-.174-3.04.798.813-2.97-.19-.306A8 8 0 1 1 12 20z"/></svg>
+          Ask on WhatsApp
+        </button>
+        <button class="btn-pick">♡ Add to Picks</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-const open=document.querySelector('#open'),close=document.querySelector('#close'),backdrop=document.querySelector('#backdrop');let explode=document.querySelector('#explode');
-function show(){backdrop.hidden=false;document.body.style.overflow='hidden';close.focus();replay();}
-function hide(){backdrop.hidden=true;document.body.style.overflow='';open.focus();}
-function replay(){const clone=explode.cloneNode(true);explode.replaceWith(clone);explode=clone;}
-open.addEventListener('click',show);close.addEventListener('click',hide);backdrop.addEventListener('click',e=>{if(e.target===backdrop)hide()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!backdrop.hidden)hide();if(e.key==='Tab'&&!backdrop.hidden){e.preventDefault();(document.activeElement===close?document.querySelector('#replay'):close).focus()}});document.querySelector('#replay').addEventListener('click',()=>{const fresh=explode.cloneNode(true);explode.replaceWith(fresh);explode=fresh});
-</script></body></html>
+const openBtn = document.getElementById('openBtn');
+const closeBtn = document.getElementById('closeBtn');
+const overlay  = document.getElementById('overlay');
+
+openBtn.addEventListener('click', () => {
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  closeBtn.focus();
+});
+
+function close() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  openBtn.focus();
+}
+
+closeBtn.addEventListener('click', close);
+overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+</script>
+</body>
+</html>
