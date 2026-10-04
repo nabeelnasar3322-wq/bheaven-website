@@ -1624,6 +1624,15 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .info{padding:6px 44px 28px!important}
 }
 </style>
+<style id="round38">
+/* fixed popup size: same box for every dish, text area fixed 350px, picture takes the rest */
+@media (min-width:781px){
+.ov .md{height:min(840px,calc(100vh - 24px))!important;height:min(840px,calc(100dvh - 24px))!important;grid-template-rows:minmax(0,1fr) 350px!important;overflow:hidden!important}
+.ov .md .pic{min-height:0!important;height:100%!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;padding:22px 14px 46px!important}
+.md .pic img.photo,.md .pic img.photo.round,.md .pic img.photo.rect,.md .pic img.round,.md .pic img.rect{max-height:100%!important;height:auto!important;width:auto!important;max-width:100%!important}
+.ov .md .info{min-height:0!important;overflow:auto!important;align-content:start}
+}
+</style>
 </head>
 <body>
 
