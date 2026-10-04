@@ -1640,6 +1640,15 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .pic{padding:16px 8px 44px!important}
 }
 </style>
+<style id="round41">
+/* picture view is a fixed 630 x 480 box for every dish (only shrinks if the screen is too short) */
+@media (min-width:781px){
+.ov .md{grid-template-rows:minmax(0,1fr) 330px!important}
+.ov .md .pic{padding:14px 8px 12px!important;flex-direction:column!important;justify-content:flex-start!important}
+.ov .md .pic .slNav{margin-top:10px!important;flex:0 0 34px!important}
+.ov .md .pic img#mdImg,.ov .md .pic img#mdImg.photo,.ov .md .pic img#mdImg.round,.ov .md .pic img#mdImg.rect{flex:0 0 auto!important;width:min(630px,100%)!important;height:min(480px,calc(100vh - 420px))!important;height:min(480px,calc(100dvh - 420px))!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important}
+}
+</style>
 <style id="round39">
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
