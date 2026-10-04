@@ -1592,6 +1592,16 @@ html{-webkit-tap-highlight-color:transparent}
 .ov{align-items:center!important}
 .ov .md{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}
 </style>
+<style id="round35">
+/* wide rectangle popup */
+@media (min-width:781px){
+.ov .md{width:min(1120px,calc(100vw - 32px))!important}
+.ov .md .pic{padding:30px 40px 0!important}
+.md .pic img.photo,.md .pic img.photo.round,.md .pic img.photo.rect,.md .pic img.round,.md .pic img.rect{max-height:clamp(170px,calc(100vh - 400px),340px)!important;max-height:clamp(170px,calc(100dvh - 400px),340px)!important}
+.md .pic img.round{width:min(100%,clamp(170px,calc(100dvh - 400px),340px))!important}
+.ov .md .info{padding:6px 64px 26px!important}
+}
+</style>
 </head>
 <body>
 
