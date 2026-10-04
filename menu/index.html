@@ -1633,6 +1633,13 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .info{min-height:0!important;overflow:auto!important;align-content:start}
 }
 </style>
+<style id="round40">
+/* bigger picture: wider and taller popup, text area unchanged in role */
+@media (min-width:781px){
+.ov .md{width:min(760px,calc(100vw - 24px))!important;height:min(920px,calc(100vh - 16px))!important;height:min(920px,calc(100dvh - 16px))!important;grid-template-rows:minmax(0,1fr) 336px!important}
+.ov .md .pic{padding:16px 8px 44px!important}
+}
+</style>
 <style id="round39">
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
