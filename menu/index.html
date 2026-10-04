@@ -1659,6 +1659,19 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .info>.alg{grid-row:6!important;align-self:end}
 }
 </style>
+<style id="round43">
+/* allergen filter: one aligned line (scrolls sideways only if the screen is too narrow) */
+.avoid{max-width:min(1240px,100%)!important;padding:20px 16px 16px!important}
+.avoid .row{display:flex!important;flex-wrap:nowrap!important;gap:6px!important;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 2px 4px}
+.avoid .row::-webkit-scrollbar{display:none}
+.avoid .note{min-height:0!important;margin-top:6px!important}.avoid .note:empty{display:none}
+.avoid .row .al{flex:0 0 auto!important;white-space:nowrap;padding:8px 9px!important;gap:6px!important;font-size:.74rem!important}
+.avoid .row .al b{min-width:24px!important;height:20px!important;padding:0 4px!important;font-size:.56rem!important}
+.avoid .row .al:first-child{margin-left:auto}.avoid .row .al:last-child{margin-right:auto}
+@media (max-width:1280px){.avoid{padding:18px 10px 14px!important}.avoid .row{gap:5px!important}.avoid .row .al{padding:8px 7px!important;gap:5px!important;font-size:.72rem!important}.avoid .row .al b{min-width:22px!important;padding:0 3px!important}}
+@media (max-width:900px){.avoid .row{display:flex!important}}
+@media (max-width:560px){.avoid .row{gap:6px!important}.avoid .row .al{padding:8px 10px!important;font-size:.72rem!important}}
+</style>
 <style id="round39">
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
