@@ -1520,10 +1520,12 @@ html{-webkit-tap-highlight-color:transparent}
 </style>
 <style id="round29">
 @media (min-width:781px){
-.ov .md{width:min(1280px,calc(100vw - 32px))!important;grid-template-columns:1.9fr 1fr!important;min-height:min(88vh,780px)!important;max-height:calc(100vh - 32px)!important}
+.ov .md{width:min(1280px,calc(100vw - 32px))!important;grid-template-columns:1.9fr 1fr!important;height:min(86vh,780px)!important;min-height:0!important;max-height:calc(100vh - 32px)!important}
 .ov .md .info{padding:56px 48px 56px 8px!important}
 .ov .md .pic{padding:40px 24px 40px 40px!important}
-.md .pic img.photo{max-width:100%!important;max-height:min(78vh,700px)!important}
+.md .pic img.photo{max-width:100%!important;max-height:calc(min(86vh,780px) - 150px)!important}
+.md .pic img.round,.md .pic img.rect{max-height:calc(min(86vh,780px) - 150px)!important;object-fit:contain!important}
+.ov .md .pic{min-height:0!important;overflow:hidden}
 .md .pic img.round{width:min(100%,600px)!important}
 .md .pic img.rect{width:min(100%,520px)!important}
 .md .pic img.photo.round,.md .pic img.photo.rect,.md .pic img.photo{width:100%!important;max-width:900px!important}
