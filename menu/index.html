@@ -2935,7 +2935,7 @@ document.addEventListener('keydown',e=>{if(!document.getElementById('ov').classL
     for(let y=rnd(80,380);y<H-200;y+=gap*rnd(.7,1.25)){
       side=-side;                                    // alternate sides, with a few random repeats
       if(Math.random()<.22)side=-side;
-      const k=(Math.random()*3)|0, of=rnd(.5,.62), w=Math.min(rnd(size[0],size[1]),W*.14/(1-of)), h=w/AR[k];
+      const k=(Math.random()*3)|0, of=rnd(.12,.3), w=Math.min(rnd(size[0],size[1]),W*.3/(1-of)), h=w/AR[k];
       // flip so that a hard-cut picture edge always points off the page
       let f=1; if(EDGE[k]!==0){ f=(EDGE[k]===side)?1:-1 }  else f=Math.random()<.5?1:-1;
       const img=new Image();img.src=SRC[k];img.alt='';img.decoding='async';img.loading='lazy';
