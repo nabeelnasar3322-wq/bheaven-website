@@ -1499,6 +1499,18 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .info{padding:6px 24px 34px!important}
 }
 </style>
+<style id="round27">
+/* popup hover: no full-page blur behind the popup, no scaling of filtered images (both caused choppy/blurry hover) */
+.ov{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:rgba(10,24,28,.74)!important}
+.md .pic{perspective:none!important}
+.md .pic img{will-change:transform!important;backface-visibility:hidden;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .3s ease!important}
+@media (hover:hover){
+.md .pic:hover img{transform:translate3d(0,-6px,0)!important}
+.md .nav button:hover,.md .slB:hover{transform:none!important;background:#f1f5f4!important;box-shadow:0 8px 22px rgba(0,0,0,.18)!important}
+}
+.md .nav button,.md .slB,.md .x{transition:background-color .35s ease,box-shadow .35s ease,opacity .35s ease!important}
+.md .info *{transition:none}
+</style>
 </head>
 <body>
 
