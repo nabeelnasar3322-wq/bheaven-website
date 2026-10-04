@@ -1511,6 +1511,13 @@ html{-webkit-tap-highlight-color:transparent}
 .md .nav button,.md .slB,.md .x{transition:background-color .35s ease,box-shadow .35s ease,opacity .35s ease!important}
 .md .info *{transition:none}
 </style>
+<style id="round28">
+/* no oval clipping: cutout photos already carry their own shape */
+.flyImg{object-fit:contain!important}
+.flyImg.round{border-radius:0!important}
+.md .pic img.round{border-radius:0!important}
+.md .pic img.photo{animation:none!important}
+</style>
 </head>
 <body>
 
@@ -2103,7 +2110,7 @@ function savePicks(){try{localStorage.setItem('bh_picks',JSON.stringify([...pick
 let lastFocus=null;
 function openDish(k,i,src){
   const ds=DATA[k]; if(!ds) return; i=(i+ds.length)%ds.length; cur={k,i}; const d=ds[i]; const c=catOf(k);
-  const wasOpen=ov.classList.contains('open'); const doFly=src&&!wasOpen&&!matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const wasOpen=ov.classList.contains('open'); const doFly=src&&!wasOpen&&!MENU_SLIDES[d.n]&&!matchMedia('(prefers-reduced-motion:reduce)').matches;
   const im=$('#mdImg'); im.className=''; void im.offsetWidth;
   const shape=d.dk?'glass':(PH[d.n]||'').startsWith('b_')?'rect':'round';
   im.src=imgOf(d); im.alt=d.n; im.className=shape+(doFly?'':' in'); setSlides(d);
