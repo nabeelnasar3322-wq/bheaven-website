@@ -1558,6 +1558,20 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .info{padding-right:60px!important}
 @media (max-width:780px){.ov .md .info{padding-right:24px!important}}
 </style>
+<style id="round33">
+@media (max-width:780px){.md .pic img.photo,.md .pic img.photo.round,.md .pic img.photo.rect{width:auto!important;max-width:100%!important}}
+/* stacked layout: picture on top, text below (all sizes) */
+.md .pic img.photo{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 10%,#000 90%,transparent 100%)!important;mask-image:linear-gradient(to right,transparent 0,#000 10%,#000 90%,transparent 100%)!important;-webkit-mask-composite:source-over!important;mask-composite:add!important}
+@media (min-width:781px){
+.ov .md{width:min(960px,calc(100vw - 32px))!important;grid-template-columns:1fr!important;grid-template-rows:auto auto!important;height:auto!important;max-height:calc(100vh - 32px)!important;overflow:auto!important;align-content:start}
+.ov .md .pic{padding:36px 40px 0!important;overflow:visible!important}
+.md .pic img.photo,.md .pic img.photo.round,.md .pic img.photo.rect{width:auto!important;max-width:100%!important;max-height:clamp(240px,calc(100vh - 430px),520px)!important}
+.md .pic img.round{width:min(100%,clamp(240px,calc(100vh - 430px),460px))!important;max-height:clamp(240px,calc(100vh - 430px),460px)!important}
+.md .pic img.rect{max-height:clamp(240px,calc(100vh - 430px),420px)!important}
+.ov .md .info{padding:10px 64px 30px!important;display:block}
+.ov .md .info h3{margin-top:2px}
+}
+</style>
 </head>
 <body>
 
