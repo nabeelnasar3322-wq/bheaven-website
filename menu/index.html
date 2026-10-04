@@ -1725,6 +1725,20 @@ body[data-mode="drinks"] .heroFx{display:none}
 @keyframes leafFall{0%{opacity:0;transform:translate(0,0) rotate(0)}10%{opacity:.9}100%{opacity:0;transform:translate(-20px,90px) rotate(260deg)}}
 @media (prefers-reduced-motion:reduce){.heroFx{display:none}}
 </style>
+<style id="round52">
+/* hero: slow daylight -> golden hour, with a soft skyline */
+.heroSky{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.heroSky .glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 78% 82%,rgba(255,170,90,.55),rgba(255,120,80,.18) 45%,transparent 70%),linear-gradient(180deg,rgba(255,214,160,0) 30%,rgba(255,176,110,.28) 100%);opacity:0;animation:skyShift 48s ease-in-out infinite}
+.heroSky .sun{position:absolute;right:14%;bottom:12%;width:min(20vw,220px);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,190,.95),rgba(255,190,110,.35) 55%,transparent);opacity:0;filter:blur(2px);animation:skyShift 48s ease-in-out infinite}
+.heroSky svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:min(22%,170px);opacity:.06;-webkit-mask-image:linear-gradient(0deg,#000 20%,transparent 100%);mask-image:linear-gradient(0deg,#000 20%,transparent 100%);transition:opacity 2s;animation:skyline 48s ease-in-out infinite}
+.heroSky svg path{fill:#1f4f5c}
+@keyframes skyShift{0%,12%{opacity:0}50%,62%{opacity:1}100%{opacity:0}}
+@keyframes skyline{0%,12%{opacity:.05}50%,62%{opacity:.13}100%{opacity:.05}}
+.heroSky{opacity:0;transition:opacity 2.2s ease .6s}.ready .heroSky{opacity:1}
+body[data-mode="drinks"] .heroSky .glow{filter:hue-rotate(-25deg)}
+@media (max-width:900px){.heroSky svg{height:20%}.heroSky .sun{right:6%;bottom:30%}}
+@media (prefers-reduced-motion:reduce){.heroSky .glow,.heroSky .sun,.heroSky svg{animation:none}.heroSky .glow{opacity:.45}.heroSky .sun{opacity:.5}.heroSky svg{opacity:.1}}
+</style>
 <style id="round46">
 /* palm shadows drifting in the wind, both sides of the page, over the wall texture */
 #palms{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:30;contain:strict}
@@ -3012,6 +3026,16 @@ const add=(cls,x,y,st)=>{const e=document.createElement('i');e.className='fx_'+c
 add('lf',311,170,'--d:2.6s');add('lf',315,168,'--d:4.3s');       /* leaf bits from the tongs */
 spin.appendChild(L);
 })();
+</script>
+<script>
+(()=>{const h=document.getElementById('home');if(!h)return;
+const sky=document.createElement('div');sky.className='heroSky';sky.setAttribute('aria-hidden','true');
+/* generic skyline: a tall needle tower, a sail-shaped hotel and a run of towers */
+const B=[[0,34],[30,52],[62,40],[92,70],[120,46],[150,88],[190,36],[220,60],[250,44],[290,100],[326,50],[356,38],[386,66],[420,42],[452,92],[486,52],[520,40],[552,76],[590,46],[622,58],[660,36],[690,84],[724,48],[756,40],[790,64],[826,44],[860,96],[896,50],[930,38],[962,72],[1000,46]];
+let d='M0 120';B.forEach((b,i)=>{const w=(B[i+1]?B[i+1][0]:1040)-b[0]-4,y=120-b[1];d+=' L'+b[0]+' 120 L'+b[0]+' '+y+' L'+(b[0]+w)+' '+y+' L'+(b[0]+w)+' 120'});d+=' L1040 120Z';
+const tower='M520 120 L520 40 L526 40 L526 6 L527.4 40 L534 40 L534 120Z';
+sky.innerHTML='<i class="glow"></i><i class="sun"></i><svg viewBox="0 0 1040 120" preserveAspectRatio="none"><path d="'+d+'"/><path transform="translate(-110 -10) scale(1 1.1)" d="M520 120 L520 70 L524 40 L526 4 L527.5 40 L531 70 L535 120Z"/></svg>';
+h.insertBefore(sky,h.firstChild)})();
 </script>
 </body>
 </html>
