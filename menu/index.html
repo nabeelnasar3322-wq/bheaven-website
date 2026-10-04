@@ -1676,6 +1676,7 @@ html{-webkit-tap-highlight-color:transparent}
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
 .ov.seq .md{transition:none!important;transform:none}
+.ov.seq .md .pic img.in{animation:none!important}
 .ov.seq .md .info>*{animation:mdRise .65s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--rd,0)*75ms + var(--rb,0ms))}
 .ov.seq .md .info>:nth-child(1){--rd:0}.ov.seq .md .info>:nth-child(2){--rd:1}.ov.seq .md .info>:nth-child(3){--rd:2}.ov.seq .md .info>:nth-child(4){--rd:3}.ov.seq .md .info>:nth-child(5){--rd:4}.ov.seq .md .info>:nth-child(6){--rd:5}.ov.seq .md .info>:nth-child(7){--rd:6}.ov.seq .md .info>:nth-child(8){--rd:7}
 .ov.seq.intro .md .info{--rb:760ms}
@@ -2820,34 +2821,25 @@ document.addEventListener('keydown',e=>{if(!document.getElementById('ov').classL
     // 1 · the card grows into the popup
     const a=vis(cardEl)||vis(src), b=md.getBoundingClientRect();
     if(a&&b.width){anim=md.animate([{transform:flipVars(a,b),opacity:.15},{opacity:1,offset:.3},{transform:'none',opacity:1}],{duration:700,easing:EASE});anim.onfinish=()=>{anim=null}}
-    // 3 · the card photo transforms into the exploded hero shot
-    const hero=full&&full[0];
-    if(hero&&cardSrc){im.classList.remove('photo');im.src=cardSrc;
-      later(()=>{ if(!cur||cur.k!==k)return;
-        im.animate([{opacity:1,transform:'none',filter:'blur(0)'},{opacity:0,transform:'scale(.86) rotate(-4deg)',filter:'blur(6px)'}],{duration:240,easing:'ease-in',fill:'forwards'}).onfinish=function(){
-          if(!cur||cur.k!==k)return; im.classList.add('photo');im.src=hero;
-          const fin=()=>{im.getAnimations().forEach(x=>x.cancel());place();ov.classList.add('lift')};
-          const go=()=>im.animate([{opacity:0,transform:'translateY(46px) scale(.8)',filter:'blur(10px)'},{opacity:1,transform:'none',filter:'blur(0)'}],{duration:760,easing:EASE}).onfinish=fin;
-          im.decode?im.decode().then(go,go):go();
-        }},820);
-    } else later(()=>{place();ov.classList.add('lift')},900);
+    // 3 · the exploded shot is shown straight away (no plain-photo step); it then lifts and floats
+    later(()=>{place();ov.classList.add('lift')},700);
   };
   closeDish=function(){
     if(!ov.classList.contains('open')||closing)return;
     if(RM()){return _close()}
     clear();closing=true;ov.classList.remove('lift');ov.classList.add('closing');
-    const k=cur&&cur.k, onPhoto=im.classList.contains('photo')&&cardSrc;
-    // reverse: exploded shot folds back into the plain card photo
-    if(onPhoto){im.animate([{opacity:1,transform:'none'},{opacity:0,transform:'scale(.9)'}],{duration:200,fill:'forwards'}).onfinish=()=>{im.classList.remove('photo');im.src=cardSrc;im.getAnimations().forEach(x=>x.cancel());im.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'none'}],{duration:180})}}
     later(()=>{
       const card=(cur&&cardFor(cur.k,cur.i))||cardEl, a=vis(card), b=md.getBoundingClientRect();
       const to=a?flipVars(a,b):'translateY(30px) scale(.94)';
       anim=md.animate([{transform:'none',opacity:1},{transform:to,opacity:.0}],{duration:520,easing:'cubic-bezier(.55,0,.25,1)',fill:'forwards'});
       _close();
       anim.onfinish=()=>{ if(anim){anim.cancel();anim=null} ov.classList.remove('closing','seq','intro','lift');closing=false };
-    },onPhoto?400:220);
+    },220);
   };
   $('#mdX').onclick=closeDish;
+  // warm up: decode the exploded hero shots in the background so the popup never waits for them
+  const warm=()=>{try{Object.values(MENU_SLIDES).forEach(l=>{const i=new Image();i.src=l[0];i.decode&&i.decode().catch(()=>{})})}catch(e){}};
+  window.requestIdleCallback?requestIdleCallback(warm,{timeout:3000}):setTimeout(warm,1200);
 })();
 </script>
 </body>
