@@ -2956,10 +2956,11 @@ const rnd=(a,b)=>a+Math.random()*(b-a);let lastH=0,lastW=0;
 function build(){const W=document.documentElement.clientWidth,H=Math.max(document.documentElement.scrollHeight,innerHeight);
  if(Math.abs(H-lastH)<40&&W===lastW)return;lastH=H;lastW=W;root.style.height=H+'px';root.textContent='';
  const phone=W<700,sz=phone?[34,50]:W<1100?[52,78]:[62,100],gap=phone?520:440,band=phone?W*.07:Math.min(W*.075,110);
+ const wr=document.querySelector('.wrap'),m=wr?Math.max(0,wr.getBoundingClientRect().left):0;
  let side=Math.random()<.5?-1:1,last=-1;
  for(let y=rnd(120,300);y<H-120;y+=gap*rnd(.8,1.4)){
   side=-side;let k;do{k=(Math.random()*5)|0}while(k===last);last=k;
-  const w=rnd(sz[0],sz[1]),h=w/AR[k],x=phone?rnd(-w*.5,-w*.25):rnd(-w*.15,Math.max(0,band-w*.7));
+  let w=rnd(sz[0],sz[1]);const vis=Math.max(0,m-8);if(vis<12)continue;if(vis<w*.45)w=vis/.45;const h=w/AR[k],x=-(w-vis*rnd(.75,1));
   const i=new Image();i.src=SRC[k];i.alt='';i.decoding='async';i.loading='lazy';
   i.style.cssText='width:'+w.toFixed(0)+'px;height:'+h.toFixed(0)+'px;top:'+Math.round(y)+'px;'+(side<0?'left:':'right:')+x.toFixed(0)+'px;--r0:'+rnd(-40,40).toFixed(0)+'deg;--r1:'+rnd(-40,40).toFixed(0)+'deg;--dx:'+rnd(-8,8).toFixed(0)+'px;--dy:'+rnd(-22,-10).toFixed(0)+'px;--d:'+rnd(6,10).toFixed(1)+'s;--dl:-'+rnd(0,8).toFixed(1)+'s';
   root.appendChild(i)}}
