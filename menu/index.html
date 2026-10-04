@@ -2906,12 +2906,12 @@ document.addEventListener('keydown',e=>{if(!document.getElementById('ov').classL
     for(let y=rnd(80,380);y<H-200;y+=gap*rnd(.7,1.25)){
       side=-side;                                    // alternate sides, with a few random repeats
       if(Math.random()<.22)side=-side;
-      const k=(Math.random()*3)|0, w=Math.min(rnd(size[0],size[1]),W*.42), h=w/AR[k];
+      const k=(Math.random()*3)|0, of=rnd(.5,.62), w=Math.min(rnd(size[0],size[1]),W*.14/(1-of)), h=w/AR[k];
       // flip so that a hard-cut picture edge always points off the page
       let f=1; if(EDGE[k]!==0){ f=(EDGE[k]===side)?1:-1 }  else f=Math.random()<.5?1:-1;
       const img=new Image();img.src=SRC[k];img.alt='';img.decoding='async';img.loading='lazy';
-      const off=-w*rnd(.52,.64);                     // only the outer ~40% of the shadow is on the page, never over the content                      // push part of it beyond the page edge
-      img.style.cssText='width:'+w+'px;height:'+h+'px;top:'+Math.round(y)+'px;'+(side<0?'left:'+off+'px':'right:'+off+'px')+';opacity:'+rnd(.15,.22).toFixed(2)+';--f:'+f+';--r:'+rnd(-14,14).toFixed(1)+'deg;--d:'+rnd(9,15).toFixed(1)+'s;--dl:-'+rnd(0,12).toFixed(1)+'s';
+      const off=-w*of;                     // only the outer ~40% of the shadow is on the page, never over the content                      // push part of it beyond the page edge
+      img.style.cssText='width:'+w+'px;height:'+h+'px;top:'+Math.round(y)+'px;'+(side<0?'left:'+off+'px':'right:'+off+'px')+';opacity:'+rnd(.18,.26).toFixed(2)+';--f:'+f+';--r:'+rnd(-14,14).toFixed(1)+'deg;--d:'+rnd(9,15).toFixed(1)+'s;--dl:-'+rnd(0,12).toFixed(1)+'s';
       root.appendChild(img);
     }
   }
