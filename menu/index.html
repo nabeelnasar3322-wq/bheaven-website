@@ -1718,6 +1718,35 @@ html{-webkit-tap-highlight-color:transparent}
 .chips:not(.sticky) .chip.pic{flex:0 0 calc((100% - 42px)/4)!important;width:calc((100% - 42px)/4)!important;max-width:210px}
 }
 </style>
+<style id="round48">
+/* hero: chefs at work */
+.heroFx{position:absolute;left:0;top:0;width:100%;aspect-ratio:1200/1027;pointer-events:none;z-index:3}
+body[data-mode="drinks"] .heroFx{display:none}
+.heroFx .fx_ch{position:absolute;background-repeat:no-repeat;opacity:0;transform-origin:50% 96%;will-change:transform;
+ -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 52%,#000 45%,transparent 92%);mask-image:radial-gradient(ellipse 50% 50% at 50% 52%,#000 45%,transparent 92%)}
+.ready .heroFx .fx_ch.arm{animation:chPop .9s cubic-bezier(.3,1.5,.5,1) var(--d) both,arm var(--t) ease-in-out calc(var(--d) + .9s) infinite}.ready .heroFx .fx_ch:not(.arm){animation:chPop .9s cubic-bezier(.3,1.5,.5,1) var(--d) both,var(--w) var(--t) ease-in-out calc(var(--d) + .9s) infinite}
+@keyframes chPop{0%{opacity:0;transform:translateY(-14px) scale(.9)}40%{opacity:1}100%{opacity:1;transform:none}}
+.heroFx .fx_ch.arm{transform-origin:var(--o)}@keyframes arm{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3.5deg) translateY(1px)}}@keyframes wkA{0%,100%{transform:rotate(-.3deg)}50%{transform:rotate(.35deg) translateY(-1px)}}
+@keyframes wkB{0%,100%{transform:rotate(0) translateY(0) scale(1)}30%{transform:rotate(.3deg) translateY(1px)}60%{transform:rotate(-.25deg) translateY(-1px) scale(1)}}
+@keyframes wkC{0%,100%{transform:rotate(-.3deg)}50%{transform:rotate(.6deg)}}
+@keyframes wkD{0%,100%{transform:rotate(0) scale(1)}25%{transform:rotate(.4deg)}50%{transform:rotate(0)}75%{transform:rotate(-.3deg)}}
+.heroFx .fx_dr,.heroFx .fx_lf,.heroFx .fx_st,.heroFx .fx_gl{position:absolute;opacity:0;pointer-events:none}
+.heroFx .fx_dr{width:5px!important;height:9px!important;display:block;border-radius:50%;background:#3b1d0e;box-shadow:inset 1px 1px 1px rgba(255,255,255,.3)}
+.ready .heroFx .fx_dr{animation:drip 1.1s ease-in var(--d) infinite}
+@keyframes drip{0%{opacity:0;transform:translateY(0) scaleY(.6)}15%{opacity:.95}85%{opacity:.9;transform:translateY(60px) scaleY(1.3)}100%{opacity:0;transform:translateY(70px)}}
+.heroFx .fx_lf{width:12px!important;height:7px!important;background:#4c8f3a;border-radius:0 80% 0 80%}
+.ready .heroFx .fx_lf{animation:leafFall 3.2s ease-in var(--d) infinite}
+@keyframes leafFall{0%{opacity:0;transform:translate(0,0) rotate(0)}10%{opacity:.9}100%{opacity:0;transform:translate(-20px,90px) rotate(260deg)}}
+.heroFx .fx_st{width:50px!important;height:60px!important;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.55),transparent);filter:blur(5px)}
+.ready .heroFx .fx_st{animation:steam 4.2s ease-out var(--d) infinite}
+@keyframes steam{0%{opacity:0;transform:translate(0,0) scale(.7)}25%{opacity:.7}100%{opacity:0;transform:translate(var(--sx),-60px) scale(1.6)}}
+.heroFx .fx_gl{width:16px!important;height:16px!important;background:radial-gradient(closest-side,#fff,rgba(255,255,255,0));}
+.heroFx .fx_gl:before,.heroFx .fx_gl:after{content:"";position:absolute;left:50%;top:50%;background:#fff;transform:translate(-50%,-50%)}
+.heroFx .fx_gl:before{width:100%;height:8%}.heroFx .fx_gl:after{width:8%;height:100%}
+.ready .heroFx .fx_gl{animation:glint 2.8s ease-in-out var(--d) infinite}
+@keyframes glint{0%,60%,100%{opacity:0;transform:scale(.2) rotate(0)}75%{opacity:1;transform:scale(1) rotate(45deg)}}
+@media (prefers-reduced-motion:reduce){.heroFx{display:none}}
+</style>
 <style id="round39">
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
@@ -2919,6 +2948,30 @@ document.addEventListener('keydown',e=>{if(!document.getElementById('ov').classL
   if(document.readyState==='complete')go();else addEventListener('load',go);
   let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(go,300)});
   if('ResizeObserver' in window){let t2;new ResizeObserver(()=>{clearTimeout(t2);t2=setTimeout(go,500)}).observe(document.body)}
+})();
+</script>
+<script>
+(()=>{const spin=document.getElementById('heroSpin');if(!spin||typeof HERO_IMG==='undefined')return;
+const L=document.createElement('div');L.className='heroFx';L.setAttribute('aria-hidden','true');
+const W=900,H=770;
+/* chef boxes measured on the 900x770 photo: x,y,w,h, animation, duration, delay */
+const C=[[100,0,160,190,'wkC',3.1,.0],[540,12,140,210,'wkA',2.6,.25],[715,222,125,215,'wkB',2.2,.5],[92,342,135,196,'wkD',2.9,.75],[480,380,140,170,'wkC',2.4,1.0]];
+const A=[[170,88,95,70,'8% 55%',1.1,.1],[726,262,60,55,'90% 40%',.9,.4],[548,452,80,70,'10% 20%',1.3,.7]];const url='url('+HERO_IMG+')';
+A.forEach(c=>C.push(c));
+C.forEach(c=>{const[x,y,w,h,a,t,d]=c,e=document.createElement('i');e.className='fx_ch';const arm=typeof a==='string'&&a.indexOf('%')>0;if(arm){e.classList.add('arm');e.style.setProperty('--o',a)}
+ const wp=w/W*100,hp=h/H*100;
+ e.style.cssText='left:'+x/W*100+'%;top:'+y/H*100+'%;width:'+wp+'%;height:'+hp+'%;background-image:'+url+';background-size:'+(100/wp*100)+'% auto;background-position:'+(x/W*100/(100-wp)*100)+'% '+(y/H*100/(100-hp)*100)+'%;--w:'+(arm?'arm':a)+';--t:'+t+'s;--d:'+(1.6+d)+'s';
+ L.appendChild(e)});
+const add=(cls,l,t,st)=>{const e=document.createElement('i');e.className='fx_'+cls;e.style.cssText='left:'+l/W*100+'%;top:'+t/H*100+'%;'+st;L.appendChild(e)};
+/* sauce drips from the pouring can */
+[0,.37,.74].forEach(d=>add('dr',716,300,'--d:'+(2.2+d)+'s'));
+/* leaf bits from top-left chef */
+add('lf',232,128,'--d:2.4s');add('lf',236,126,'--d:4.1s');
+/* steam over the salad */
+[[430,330,'-14px',0],[520,360,'14px',1.4],[350,380,'-7px',2.8]].forEach(s=>add('st',s[0],s[1],'--sx:'+s[2]+';--d:'+(2.2+s[3])+'s'));
+/* glints on glaze / pomegranate */
+[[186,328,.0],[483,296,.9],[655,285,1.7],[700,495,2.4],[330,515,1.3]].forEach(g=>add('gl',g[0],g[1],'--d:'+(2+g[2])+'s'));
+spin.appendChild(L);
 })();
 </script>
 </body>
