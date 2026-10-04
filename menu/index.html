@@ -1672,6 +1672,18 @@ html{-webkit-tap-highlight-color:transparent}
 @media (max-width:900px){.avoid .row{display:flex!important}}
 @media (max-width:560px){.avoid .row{gap:6px!important}.avoid .row .al{padding:8px 10px!important;font-size:.72rem!important}}
 </style>
+<style id="round44">
+/* dish prev/next arrows move out of the picture and down into the text area */
+@media (min-width:781px){
+.ov .md .nav{position:absolute!important;left:auto!important;right:44px!important;top:auto!important;bottom:26px!important;width:auto!important;height:auto!important;display:flex!important;gap:10px!important;pointer-events:auto!important}
+.ov .md .nav button,.ov .md .nav #mdPrev,.ov .md .nav #mdNext{position:static!important;translate:none!important;top:auto!important;left:auto!important;right:auto!important;width:40px!important;height:40px!important}
+.ov .md .info .alg{padding-right:108px!important}
+}
+@media (max-width:780px){
+.ov .md .nav{position:static!important;inset:auto!important;width:auto!important;height:auto!important;display:flex!important;justify-content:center;gap:12px;padding:4px 0 20px;pointer-events:auto!important}
+.ov .md .nav button,.ov .md .nav #mdPrev,.ov .md .nav #mdNext{position:static!important;translate:none!important;top:auto!important;left:auto!important;right:auto!important;width:46px!important;height:46px!important}
+}
+</style>
 <style id="round39">
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
