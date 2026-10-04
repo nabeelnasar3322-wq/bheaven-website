@@ -2894,7 +2894,7 @@ document.addEventListener('keydown',e=>{if(!document.getElementById('ov').classL
     const W=document.documentElement.clientWidth,H=Math.max(document.documentElement.scrollHeight,innerHeight);
     if(Math.abs(H-lastH)<40&&W===lastW)return; lastH=H;lastW=W;
     root.style.height=H+'px';root.textContent='';
-    const phone=W<700, size=phone?[200,300]:[W<1100?320:380,W<1100?520:640], gap=phone?900:760;
+    const phone=W<700, size=phone?[170,250]:[W<1100?240:300,W<1100?380:480], gap=phone?1100:1000;
     let side=Math.random()<.5?-1:1;
     for(let y=rnd(80,380);y<H-200;y+=gap*rnd(.7,1.25)){
       side=-side;                                    // alternate sides, with a few random repeats
@@ -2903,8 +2903,8 @@ document.addEventListener('keydown',e=>{if(!document.getElementById('ov').classL
       // flip so that a hard-cut picture edge always points off the page
       let f=1; if(EDGE[k]!==0){ f=(EDGE[k]===side)?1:-1 }  else f=Math.random()<.5?1:-1;
       const img=new Image();img.src=SRC[k];img.alt='';img.decoding='async';img.loading='lazy';
-      const off=-w*rnd(.16,.3);                      // push part of it beyond the page edge
-      img.style.cssText='width:'+w+'px;height:'+h+'px;top:'+Math.round(y)+'px;'+(side<0?'left:'+off+'px':'right:'+off+'px')+';opacity:'+rnd(.62,.95).toFixed(2)+';--f:'+f+';--r:'+rnd(-14,14).toFixed(1)+'deg;--d:'+rnd(9,15).toFixed(1)+'s;--dl:-'+rnd(0,12).toFixed(1)+'s';
+      const off=-w*rnd(.36,.52);                      // push part of it beyond the page edge
+      img.style.cssText='width:'+w+'px;height:'+h+'px;top:'+Math.round(y)+'px;'+(side<0?'left:'+off+'px':'right:'+off+'px')+';opacity:'+rnd(.22,.36).toFixed(2)+';--f:'+f+';--r:'+rnd(-14,14).toFixed(1)+'deg;--d:'+rnd(9,15).toFixed(1)+'s;--dl:-'+rnd(0,12).toFixed(1)+'s';
       root.appendChild(img);
     }
   }
