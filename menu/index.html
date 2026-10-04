@@ -1649,6 +1649,16 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .pic img#mdImg,.ov .md .pic img#mdImg.photo,.ov .md .pic img#mdImg.round,.ov .md .pic img#mdImg.rect{flex:0 0 auto!important;width:min(630px,100%)!important;height:min(480px,calc(100vh - 420px))!important;height:min(480px,calc(100dvh - 420px))!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important}
 }
 </style>
+<style id="round42">
+/* tighter text area (sized to the longest dish), allergens pinned to the bottom, more room for the picture */
+@media (min-width:781px){
+.ov .md{width:min(760px,calc(100vw - 24px))!important;grid-template-rows:minmax(0,1fr) 304px!important}
+.ov .md .pic{padding:12px 8px 10px!important}
+.ov .md .pic img#mdImg,.ov .md .pic img#mdImg.photo,.ov .md .pic img#mdImg.round,.ov .md .pic img#mdImg.rect{width:min(680px,100%)!important;height:min(520px,calc(100vh - 406px))!important;height:min(520px,calc(100dvh - 406px))!important}
+.ov .md .info{grid-template-rows:repeat(4,auto) minmax(0,1fr) auto!important;padding:4px 44px 26px!important;align-content:stretch!important;overflow:hidden!important}
+.ov .md .info>.alg{grid-row:6!important;align-self:end}
+}
+</style>
 <style id="round39">
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
