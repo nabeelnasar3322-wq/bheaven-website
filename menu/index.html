@@ -1602,6 +1602,18 @@ html{-webkit-tap-highlight-color:transparent}
 .ov .md .info{padding:6px 64px 26px!important}
 }
 </style>
+<style id="round36">
+/* vertical (portrait) popup: narrow and tall, picture on top, text below */
+@media (min-width:781px){
+.ov .md{width:min(560px,calc(100vw - 32px))!important}
+.ov .md .pic{padding:34px 36px 0!important}
+.md .pic img.photo,.md .pic img.photo.round,.md .pic img.photo.rect,.md .pic img.round,.md .pic img.rect{max-height:clamp(200px,calc(100dvh - 470px),400px)!important}
+.md .pic img.round{width:min(100%,clamp(200px,calc(100dvh - 470px),400px))!important}
+.ov .md .info{padding:8px 40px 30px!important;column-gap:20px}
+.ov .md .info>.price{font-size:clamp(1.9rem,3vw,2.4rem)!important;padding-left:20px}
+.ov .md .info h3{font-size:clamp(1.5rem,2.4vw,1.9rem)}
+}
+</style>
 </head>
 <body>
 
