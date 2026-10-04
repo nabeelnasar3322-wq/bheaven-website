@@ -1711,6 +1711,13 @@ html{-webkit-tap-highlight-color:transparent}
 @media (prefers-reduced-motion:reduce){#palms img{animation:none}}
 @media print{#palms{display:none}}
 </style>
+<style id="round47">
+/* iPad: category cards in two tidy rows, 4 on top and 3 centred below */
+@media (min-width:561px) and (max-width:1200px){
+.chips:not(.sticky){flex-wrap:wrap!important;justify-content:center!important;overflow:visible!important;margin:0 auto!important;max-width:880px;padding:4px 0 10px!important;gap:14px!important}
+.chips:not(.sticky) .chip.pic{flex:0 0 calc((100% - 42px)/4)!important;width:calc((100% - 42px)/4)!important;max-width:210px}
+}
+</style>
 <style id="round39">
 /* ===== cinematic popup: card grows, background blurs, photo morphs, text cascades ===== */
 .ov{-webkit-backdrop-filter:blur(14px) saturate(1.05)!important;backdrop-filter:blur(14px) saturate(1.05)!important;background:rgba(10,24,28,.46)!important;transition:opacity .45s cubic-bezier(.22,1,.36,1)!important}
