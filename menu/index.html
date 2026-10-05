@@ -244,9 +244,11 @@ nav.top ul a{white-space:nowrap}
 @media (max-width:900px){
   .cpStage{height:auto;padding:80px 0;flex-direction:column}
   .cpHead{position:relative;max-width:none;margin-bottom:40px}
-  .cpOrbit{width:100%;height:400px;max-width:500px}
+  .cpOrbit{position:relative;width:100%;height:360px;max-width:420px;margin:0 auto}
+  .cpPlate{width:96px;height:96px}
+  .cpPlate img{width:82px;height:82px}
   .cpCard{position:relative;width:90%;max-width:320px;margin:20px auto;bottom:auto;right:auto}
-  .cpArrows{bottom:20px;flex-direction:row}
+  .cpArrows{position:relative;bottom:auto;left:auto;transform:none;justify-content:center;margin-top:8px}
   .cPick{position:relative;width:50px;height:50px;margin:20px auto 0;bottom:auto;right:auto;font-size:1.5rem}
 }
 
@@ -1505,7 +1507,6 @@ html[dir=rtl] nav.top .navSw{margin:0 auto 0 12px}
         <button id="cpPrev" aria-label="Previous dish"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
         <button id="cpNext" aria-label="Next dish"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
       </div>
-      <button class="cPick" id="cPick"></button>
     </div>
   </div>
 </section>
@@ -1849,7 +1850,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"
 const $ = s => document.querySelector(s);
 
 /* ---------- static images ---------- */
-$('#heroImg').src = HERO_IMG; $('#bowlImg').src = A.g_pesto; $('#chefImg').src = A.chef;
+$('#heroImg').src = HERO_IMG; $('#bowlImg').src = A.g_pesto;
 
 /* ---------- marquee ---------- */
 (()=>{const w=["Charcoal","Sumac","Za'atar","Citrus","Smoke","Fresh herbs","Pomegranate","Skyline views"];const h=w.map(x=>`<span>${x}</span>`).join('');$('#marq1').innerHTML=h+h+h+h;})();
@@ -2078,170 +2079,77 @@ function applyAvoid(){
 /* ===== Arc Carousel Initialize ===== */
 (()=>{
   const WC = CATS.find(c => c.lay === 'wheel');
-  if (!WC) return;
-  
-  const k = WC.k, ds = M[k], N = ds.length;
   const platesEl = document.getElementById('cpPlates');
   const cardEl = document.getElementById('cpCard');
   const stageEl = document.querySelector('.cpStage');
-  
-  let activeIdx = 0;
-  let autoTimer;
-  
-  // Arc positioning: dishes arranged in a circle
+  const orbit = document.querySelector('.cpOrbit');
+  if (!WC || !platesEl || !cardEl || !stageEl || !orbit) return;
+  const k = WC.k, ds = M[k] || [], N = ds.length;
+  if (!N) return;
+  let activeIdx = 0, autoTimer, inView = false;
+
+  // dishes sit on a 270° arc, sized to the orbit box
   const positionDishes = () => {
-    const plates = platesEl.querySelectorAll('.cpPlate');
-    const angleStep = (Math.PI * 1.5) / Math.max(1, N - 1); // 270 degrees arc
-    const radius = 250;
-    const centerX = 400;
-    const centerY = 300;
-    
-    plates.forEach((plate, i) => {
-      const startAngle = Math.PI / 4; // Start from 45 degrees
-      const angle = startAngle + (i * angleStep);
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-      
-      plate.style.left = x + 'px';
-      plate.style.top = y + 'px';
-      plate.style.transform = `translate(-50%, -50%) scale(${i === activeIdx ? 1.1 : 0.85}) opacity(${i === activeIdx ? 1 : 0.6})`;
-      plate.style.zIndex = i === activeIdx ? 10 : (N - i);
-      
-      plate.classList.toggle('active', i === activeIdx);
+    const w = orbit.clientWidth || 800, h = orbit.clientHeight || 600;
+    const cx = w / 2, cy = h / 2, radius = Math.max(90, Math.min(w, h) / 2 - (w < 500 ? 56 : 80));
+    const step = (Math.PI * 1.5) / Math.max(1, N - 1), start = Math.PI / 4;
+    platesEl.querySelectorAll('.cpPlate').forEach((plate, i) => {
+      const ang = start + i * step, on = i === activeIdx;
+      plate.style.left = (cx + radius * Math.cos(ang)) + 'px';
+      plate.style.top = (cy + radius * Math.sin(ang)) + 'px';
+      plate.style.transform = `translate(-50%,-50%) scale(${on ? 1.1 : 0.85})`;
+      plate.style.opacity = on ? 1 : 0.6;
+      plate.style.zIndex = on ? 10 : (N - i);
+      plate.classList.toggle('active', on);
     });
   };
-  
-  // Create plates
-  const createPlates = () => {
-    platesEl.innerHTML = '';
-    ds.forEach((d, i) => {
-      const plate = document.createElement('div');
-      plate.className = 'cpPlate';
-      plate.innerHTML = `<img src="${imgOf(d.k)}" alt="${d.n}" loading="lazy">`;
-      plate.onclick = () => selectDish(i);
-      platesEl.appendChild(plate);
-    });
-    positionDishes();
-  };
-  
-  // Update card display
+
+  const startAuto = () => { clearInterval(autoTimer); autoTimer = setInterval(() => selectDish(activeIdx + 1), 5200); };
+
   const selectDish = (idx) => {
-    activeIdx = idx;
-    const d = ds[idx];
-    cardEl.classList.remove('fade');
-    void cardEl.offsetWidth; // Trigger reflow
-    cardEl.innerHTML = `
-      <span class="eyebrow">Our specialty</span>
-      <b>${esc(d.n)}</b>
-      <p>${d.desc || ''}</p>
-      <span class="price">${P(d.p)}</span>
-    `;
-    
-    positionDishes();
-    clearInterval(autoTimer);
-    autoTimer = setInterval(() => {
-      activeIdx = (activeIdx + 1) % N;
-      selectDish(activeIdx);
-    }, 5200);
+    activeIdx = ((idx % N) + N) % N;
+    const d = ds[activeIdx];
+    cardEl.classList.remove('fade'); void cardEl.offsetWidth;
+    cardEl.innerHTML = `<span class="eyebrow">Our specialty</span><b>${esc(d.n)}</b><p>${esc(d.d || '')}</p><span class="price">${P(d.p)}</span>`;
+    cardEl.dataset.k = k; cardEl.dataset.i = activeIdx;
+    positionDishes(); startAuto();
   };
-  
-  // Navigation
-  document.getElementById('cpPrev').onclick = () => {
-    activeIdx = (activeIdx - 1 + N) % N;
-    selectDish(activeIdx);
-  };
-  
-  document.getElementById('cpNext').onclick = () => {
-    activeIdx = (activeIdx + 1) % N;
-    selectDish(activeIdx);
-  };
-  
-  // Keyboard navigation
+
+  platesEl.innerHTML = '';
+  ds.forEach((d, i) => {
+    const plate = document.createElement('div');
+    plate.className = 'cpPlate'; plate.dataset.k = k; plate.dataset.i = i;
+    plate.innerHTML = `<img src="${imgOf(d)}" alt="${esc(d.n)}" loading="lazy">`;
+    // first tap brings a dish to the front, a tap on the front dish opens it
+    plate.onclick = () => { if (i === activeIdx && typeof openDish === 'function') openDish(k, i, plate.querySelector('img')); else selectDish(i); };
+    platesEl.appendChild(plate);
+  });
+  cardEl.style.cursor = 'pointer';
+  cardEl.onclick = () => { if (typeof openDish === 'function') openDish(k, activeIdx, platesEl.children[activeIdx].querySelector('img')); };
+
+  document.getElementById('cpPrev').onclick = () => selectDish(activeIdx - 1);
+  document.getElementById('cpNext').onclick = () => selectDish(activeIdx + 1);
+
+  // arrow keys only while the section is on screen and no popup is open
+  try { new IntersectionObserver(e => { inView = e[0].isIntersecting }, { threshold: 0.4 }).observe(stageEl) } catch (e) {}
   document.addEventListener('keydown', (e) => {
-    if (!stageEl.closest(document.body)) return;
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      activeIdx = (activeIdx - 1 + N) % N;
-      selectDish(activeIdx);
-    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      activeIdx = (activeIdx + 1) % N;
-      selectDish(activeIdx);
-    }
+    const ov = document.getElementById('ov');
+    if (!inView || (ov && ov.classList.contains('open'))) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target.tagName || ''))) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); selectDish(activeIdx - 1) }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); selectDish(activeIdx + 1) }
   });
-  
-  // Pause auto on interaction
+
   stageEl.addEventListener('pointerenter', () => clearInterval(autoTimer));
-  stageEl.addEventListener('pointerleave', () => {
-    clearInterval(autoTimer);
-    autoTimer = setInterval(() => {
-      activeIdx = (activeIdx + 1) % N;
-      selectDish(activeIdx);
-    }, 5200);
-  });
-  
-  // Initialize
-  createPlates();
+  stageEl.addEventListener('pointerleave', startAuto);
+  window.addEventListener('resize', positionDishes);
   selectDish(0);
-  
-  // Responsive adjust
-  window.addEventListener('resize', () => {
-    const isMobile = window.innerWidth < 900;
-    const orbit = document.querySelector('.cpOrbit');
-    if (isMobile) {
-      orbit.style.width = '100%';
-      orbit.style.height = '400px';
-    } else {
-      orbit.style.width = '800px';
-      orbit.style.height = '600px';
-    }
-    positionDishes();
-  });
 })();
 
-
-/* ---------- CHEF interaction ---------- */
-(()=>{const lines=["“Every plate starts with the Levant and ends with a view.”","Charcoal, smoke and fresh herbs. That's the whole secret.","Hungry yet? Let's get you a table.","Save room for the Umali. You'll thank me."];
-  let li=0,tm; const chef=$('#chef'),bub=$('#bubble'),hint=$('#hint');
-  function say(){bub.textContent=lines[li%lines.length];li++;bub.classList.remove('show');void bub.offsetWidth;bub.classList.add('show');hint.style.opacity=0;clearTimeout(tm);tm=setTimeout(()=>bub.classList.remove('show'),3800);
-    chef.animate([{transform:'scale(1) rotate(0)'},{transform:'scale(1.04) rotate(-1.5deg)'},{transform:'scale(1) rotate(0)'}],{duration:600,easing:'cubic-bezier(.3,1.4,.5,1)'});
-    confetti();}
-  chef.addEventListener('click',say); chef.addEventListener('keydown',e=>{if(e.key==='Enter')say()});
-  const stage=$('#chefStage'); stage.addEventListener('pointermove',e=>{if(innerWidth<900)return;const b=stage.getBoundingClientRect();const mx=(e.clientX-b.left)/b.width-.5;chef.style.translate=`${mx*-18}px 0`;});
-  function confetti(){const b=chef.getBoundingClientRect(),s=stage.getBoundingClientRect();const pool=['g_basil1','g_basil2','g_tomato','g_basil3','g_tomA','g_lemon','g_tomC'];
-    for(let j=0;j<9;j++){const el=document.createElement('img');el.src=A[pool[j%pool.length]];el.style.cssText=`position:absolute;width:${26+Math.random()*22}px;left:${b.left-s.left+b.width*0.45}px;top:${b.top-s.top+b.height*0.3}px;z-index:7;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.2))`;stage.appendChild(el);
-      const ang=-Math.PI/2+(Math.random()-.5)*2.4, sp=160+Math.random()*180;
-      el.animate([{transform:'translate(0,0) rotate(0) scale(.4)',opacity:1},{transform:`translate(${Math.cos(ang)*sp}px,${Math.sin(ang)*sp}px) rotate(${Math.random()*540-270}deg) scale(1)`,opacity:1,offset:.6},{transform:`translate(${Math.cos(ang)*sp*1.2}px,${Math.sin(ang)*sp+220}px) rotate(${Math.random()*720}deg) scale(.9)`,opacity:0}],{duration:1500+Math.random()*500,easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish=()=>el.remove();}}
-})();
-
-
-/* ---------- Chef's pick of the day ---------- */
-(()=>{const PK={0:["From the gardens","Fattoush Salad","Sunday reset. A fresh fattoush with extra sumac."],1:["Sharers","Oriental Mix Grill","Monday means mix grill. Lamb chops, tawook and kofta off the charcoal."],2:["Chef's mains","Seabass a la Harra","The seabass came in fresh this morning. I'm doing it a la harra."],3:["From the gardens","Passion Kale & Quinoa Salad","Something light today. My kale and quinoa with passion fruit."],4:["Bar bites","Golden Rings","Ladies night! Start with the Golden Rings, trust me."],5:["Chef's mains","Ribeye Al Sham","Jazz and a ribeye. That's Friday sorted."],6:["Bar bites","Spiced Shawarma Bites","Layali tonight. Shawarma bites for the table, habibi."]};
- const n=new Date(),dd=new Date(n.getTime()+n.getTimezoneOffset()*6e4+4*36e5),day=dd.getDay(),[k,name,line]=PK[day];const d=M[k].find(x=>x.n===name),i=M[k].indexOf(d);
- const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
- const st=$('#chefStage'),clo=$('#clo');$('#cloDish').src=img(name);$('#cloDish').alt=name;$('#cloCap').innerHTML=`<small>Chef's pick · ${DN[day]}</small><b>${esc(name)} · ${P(d.p)}</b>`;
- const pill=()=>{const on=st.classList.contains('pk');$('#cPick').innerHTML=`<i>${on?'↺':'✦'}</i><span><small>${on?'Back to the grill':"Chef's pick · "+DN[day]}</small><b>${on?'Show the chef again':"See today's special"}</b></span>`};
- $('#cPick').onclick=()=>{st.classList.toggle('pk');clo.classList.remove('up');pill();if(st.classList.contains('pk')){const bb=$('#bubble');bb.textContent='“'+line+'”';bb.classList.add('show');clearTimeout(window.__pkT);window.__pkT=setTimeout(()=>bb.classList.remove('show'),4200)}};pill();
- if(!matchMedia('(hover:hover)').matches)$('#hint2').textContent='Tap the plate';
- const hot=$('#cloHot');hot.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')clo.classList.add('up')});clo.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')clo.classList.remove('up')});
- const od=e=>{e.stopPropagation();openDish(k,i,$('#cloDish'))};$('#cloDish').addEventListener('click',od);$('#cloCap').addEventListener('click',od);
- $('#chef').addEventListener('click',e=>{if(!st.classList.contains('pk')){e.stopImmediatePropagation();$('#cPick').click();return}e.stopImmediatePropagation();if(clo.classList.contains('up'))openDish(k,i);else clo.classList.add('up')},true);
- const place=()=>{const bt=$('#cPick'),h=document.querySelector('.chefHead');if(h&&bt.parentElement!==h)h.appendChild(bt);bt.style.left='';bt.style.top=''};setInterval(place,1200);addEventListener('resize',place);setTimeout(place,300);setTimeout(place,1500);
- const bub=$('#bubble');let first=true;$('#chef').addEventListener('click',()=>{if(first){first=false;setTimeout(()=>{bub.textContent='“'+line+'”'},0)}})})();
 
 /* ---------- Cocktail matchmaker ---------- */
 
 /* bubble sits above the chef's hat on phones */
-
-/* wheel: caption + arrows follow the front plate */
-(()=>{const st=$('#chefStage'),cap=$('#wCap'),L=$('#wL'),R=$('#wR');let last='';
- L.onclick=()=>$('#wPrev').click();R.onclick=()=>$('#wNext').click();cap.onclick=()=>{const on=document.querySelector('#wheel .wp.on');on&&on.click()};
- let WV=true;try{new IntersectionObserver(e=>{WV=e[0].isIntersecting},{rootMargin:'250px 0px'}).observe($('#wheel'))}catch(e){}
- function f(){if(!WV)return requestAnimationFrame(f);const on=document.querySelector('#wheel .wp.on');if(!on)return requestAnimationFrame(f);const r=on.getBoundingClientRect(),s=st.getBoundingClientRect();
-  const k=on.dataset.wk,i=+on.dataset.wi;const key=k+i;if(key!==last&&M[k]&&M[k][i]){last=key;cap.innerHTML=`<b>${esc(M[k][i].n)}</b><em>${P(M[k][i].p)}</em>`}
-  const cx=r.left-s.left+r.width/2,by=r.bottom-s.top;cap.style.left=cx+'px';cap.style.top=(by+10)+'px';
-  const gap=innerWidth<900?8:22,cy=r.top-s.top+r.height/2-23;L.style.left=Math.max(4,r.left-s.left-46-gap)+'px';R.style.left=Math.min(s.width-50,r.right-s.left+gap)+'px';L.style.top=cy+'px';R.style.top=cy+'px';requestAnimationFrame(f)}
- requestAnimationFrame(f)})();
 
 /* section number matches the title's height */
 (()=>{const f=()=>document.querySelectorAll('.ch').forEach(c=>{const n=c.querySelector('.num'),h=c.querySelector('h2');if(n&&h&&h.offsetHeight)n.style.setProperty('font-size',Math.round(h.offsetHeight*1.32)+'px','important')});addEventListener('resize',f);setTimeout(f,300);setTimeout(f,1500);document.addEventListener('click',()=>setTimeout(f,400))})();
