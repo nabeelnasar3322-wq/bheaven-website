@@ -1149,16 +1149,8 @@ body[data-mode=drinks] .sq .meta{flex-direction:column;gap:6px;align-items:flex-
 body[data-mode=drinks] .sq .meta em{white-space:normal;line-height:1.5}
 body[data-mode=drinks] #floaters{display:none!important}
 
-/* drinks hero: dusk-to-night sky, skyline, glass lineup, tonight's cocktail */
-.hSky,.hgName,.tCock{display:none}
-body[data-mode=drinks] .hSky{display:block;position:absolute;left:0;right:0;bottom:0;height:clamp(90px,16vw,190px);z-index:1;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 160' preserveAspectRatio='none'%3E%3Cpath fill='%23071315' d='M0 160V118h30v-14h22v14h18V92h20v26h26V70h14V52h6V70h14v48h30V96h24v22h22V84h18v34h28V60h10V30h4V60h10v58h26V100h30v18h24V88h20v30h30V74h12V58h8V74h12v44h28V98h26v20h22V90h18v28h32V66h10V40h4V66h10v52h28V104h24v14h30V86h20v32h26V72h14v46h24V96h30v22h20V80h18v38h28V94h22v24h26V108h30v10h18L1200 118V160z'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
-body[data-mode=drinks] .hero::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 72% 105%,rgba(255,142,66,.55),rgba(214,100,70,.22) 38%,transparent 70%),radial-gradient(ellipse 70% 40% at 30% 110%,rgba(255,190,110,.28),transparent 70%);animation:hDusk 26s ease-in-out infinite alternate}
-@keyframes hDusk{0%{opacity:1}55%{opacity:.5}100%{opacity:.12}}
-body[data-mode=drinks] .hgName{display:block;position:absolute;left:50%;bottom:-52px;transform:translateX(-50%);white-space:nowrap;text-align:center;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);transition:opacity .45s ease}
-body[data-mode=drinks] .hgName b{display:block;margin-top:5px;font-family:'Montserrat',sans-serif;font-size:1rem;letter-spacing:.06em;color:var(--ink);font-weight:700}
-body[data-mode=drinks] #heroImg{transition:opacity .5s ease,transform .5s ease}
-body[data-mode=drinks] #heroImg.hswap{opacity:0;transform:translateY(10px) scale(.97)}
-body[data-mode=drinks] .hgName.hswap{opacity:0}
+/* drinks hero: photo banner + tonight's cocktail */
+.hgName,.tCock{display:none}
 body[data-mode=drinks] .heroMeta{margin-top:34px}
 body[data-mode=drinks] .tCock{display:inline-flex;align-items:center;gap:14px;background:rgba(255,255,255,.07);border:1px solid rgba(214,180,110,.4);border-radius:999px;padding:8px 24px 8px 8px;cursor:pointer;color:var(--ink);text-align:left;font:inherit;letter-spacing:0;backdrop-filter:blur(6px);transition:transform .35s cubic-bezier(.2,.8,.2,1),background .3s}
 body[data-mode=drinks] .tCock:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
@@ -1166,8 +1158,13 @@ body[data-mode=drinks] .tCock:focus-visible{outline:2px solid var(--gold);outlin
 .tCock i{flex:0 0 auto;width:46px;height:46px;border-radius:50%;background:var(--gold);color:#10231F;display:grid;place-items:center;font-style:normal;font-size:1.05rem}
 .tCock small{display:block;font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
 .tCock b{display:block;font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;line-height:1.1;color:var(--ink)}
-@media (max-width:900px){body[data-mode=drinks] .hgName{bottom:-46px}body[data-mode=drinks] .hero{padding-bottom:110px}body[data-mode=drinks] .tCock{margin:0 auto}}
-@media (prefers-reduced-motion:reduce){body[data-mode=drinks] .hero::before{animation:none;opacity:.55}body[data-mode=drinks] #heroImg,body[data-mode=drinks] .hgName{transition:none}}
+@media (max-width:900px){body[data-mode=drinks] .tCock{margin:0 auto}}
+body[data-mode=drinks] .heroPlate,body[data-mode=drinks] .hero::after{display:none!important}
+body[data-mode=drinks] .hero{background:linear-gradient(90deg,rgba(6,17,19,.88) 0%,rgba(6,17,19,.66) 34%,rgba(6,17,19,.12) 62%,rgba(6,17,19,0) 100%),linear-gradient(0deg,rgba(14,32,36,1) 0%,rgba(14,32,36,0) 22%),url(img/drinks-hero.webp) 62% center/cover no-repeat;background-color:#0E2024}
+body[data-mode=drinks] .hero::before{content:none}
+body[data-mode=drinks] .hero .wrap{grid-template-columns:minmax(0,640px) 1fr}
+body[data-mode=drinks] .heroCopy p{color:#D9E3E2}
+@media (max-width:900px){body[data-mode=drinks] .hero{padding-bottom:400px;background:linear-gradient(180deg,#0E2024 calc(100% - 478px),rgba(14,32,36,0) calc(100% - 300px)),linear-gradient(0deg,rgba(14,32,36,1) 0%,rgba(14,32,36,0) 12%),url(img/drinks-hero-m.webp) 68% 100%/max(100%,778px) auto no-repeat;background-color:#0E2024}body[data-mode=drinks] .hero .wrap{grid-template-columns:1fr}}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -1986,10 +1983,8 @@ html[dir=rtl] nav.top .navSw{margin:0 auto 0 12px}
       <div class="spin" id="heroSpin"><img id="heroImg" alt="Signature salad"></div>
       <div class="bowl" id="heroBowl"><img id="bowlImg" alt=""></div>
       <div class="cap"><b id="heroCap">Fattoush Salad</b>Tap the plate to look closer</div>
-      <div class="hgName" id="hgName" aria-live="polite"></div>
     </div>
   </div>
-  <div class="hSky" aria-hidden="true"></div>
   <div class="scrollCue"><i></i>Scroll</div>
 </header>
 
@@ -2741,29 +2736,14 @@ $('#burger').onclick=()=>$('#mnav').classList.add('open'); $('#mnavX').onclick=(
 $('#mnav').addEventListener('click',e=>{if(e.target.tagName==='A')$('#mnav').classList.remove('open')});
 renderChips();
 
-/* drinks hero: rotating glass lineup + tonight's cocktail */
+/* drinks hero: tonight's cocktail chip */
 (()=>{
-  const K='Signature cocktails', LINE=[9,0,2,4,6], hp=$('#heroPlate'), im=$('#heroImg'), nm=$('#hgName'), meta=$('#heroMeta');
-  let n=0,timer=null,vis=true;
-  const dk=()=>document.body.dataset.mode==='drinks';
+  const K='Signature cocktails';
   const tonight=()=>{const t=new Date(),d=new Date(t.getTime()+t.getTimezoneOffset()*6e4+4*36e5);return Math.floor(d/864e5)%DM[K].length};
-  function show(i,instant){
-    const d=DM[K][i]; if(!d)return;
-    const go=()=>{im.src=d.img;hp.dataset.k=K;hp.dataset.i=i;nm.innerHTML=`${esc(K==='Signature cocktails'?'Signature':'')}<b>${esc(d.n)}</b>`;im.classList.remove('hswap');nm.classList.remove('hswap')};
-    if(instant){go();return}
-    im.classList.add('hswap');nm.classList.add('hswap');setTimeout(go,520);
-  }
-  function chip(){
-    const b=$('#tCock'); if(!b)return; const i=tonight(), d=DM[K][i];
-    b.innerHTML=`<i>✦</i><span><small>Tonight's cocktail</small><b>${esc(d.n)}</b></span>`;
-    b.onclick=()=>openDish(K,i);
-  }
-  function tick(){ if(!dk()||!vis||document.hidden)return; n=(n+1)%LINE.length; show(LINE[n]) }
-  function start(){clearInterval(timer);timer=null;if(!dk()||matchMedia('(prefers-reduced-motion:reduce)').matches)return;timer=setInterval(tick,4200)}
-  const _am=applyMode;
-  applyMode=function(m){_am(m); if(m==='drinks'){n=0;show(LINE[0],true);chip()} start()};
-  try{new IntersectionObserver(e=>{vis=e[0].isIntersecting},{threshold:.2}).observe($('#home'))}catch(e){}
-  if(dk()){show(LINE[0],true);chip();start()}
+  function chip(){const b=$('#tCock'); if(!b)return; const i=tonight(), d=DM[K][i];
+    b.innerHTML=`<i>✦</i><span><small>Tonight's cocktail</small><b>${esc(d.n)}</b></span>`; b.onclick=()=>openDish(K,i);}
+  const _am=applyMode; applyMode=function(m){_am(m); if(m==='drinks')chip()};
+  if(document.body.dataset.mode==='drinks')chip();
 })();
 if(location.hash==='#drinks') setMode('drinks',{instant:true});
 addEventListener('hashchange',()=>{if(location.hash==='#drinks')setMode('drinks',{scroll:true});});
@@ -2788,7 +2768,7 @@ const SV={
 };
 // [section, type, x%, y px, width px, depth, hideOnMobile]
 const PR=[
- ['hero','g_basil1',30,96,50,1,1],['hero','g_tomato',44,220,58,1.2,1,'f'],['hero','g_lemon',40,560,62,.8,1,'f'],['hero','ice2',40,560,64,.8,1,'d'],['hero','g_tomC',6,640,46,.6,1,'f'],['hero','g_basil2',90,700,50,1,1],['hero','g_tomA',88,112,42,1,0,'f'],
+ ['hero','g_basil1',30,96,50,1,1],['hero','g_tomato',44,220,58,1.2,1,'f'],['hero','g_lemon',40,560,62,.8,1,'f'],['hero','g_tomC',6,640,46,.6,1,'f'],['hero','g_basil2',90,700,50,1,1],['hero','g_tomA',88,112,42,1,0,'f'],
  ['tools','g_basil2',6,40,58,1],['tools','g_tomA',92,80,52,1.1,0,'f'],['tools','g_carrot',86,380,78,.9,1,'f'],
  ['s1','g_tomB',3,120,48,1,1,'f'],['s1','g_basil3',94,260,62,1.2],['s1','g_lemon',48,40,54,.8,1],['s1','g_avo',90,960,96,.9,1,'f'],
  ['s2','g_dip',2,60,112,1,1,'f'],['s2','g_basil1',95,200,46,.8,1],
@@ -2798,7 +2778,7 @@ const PR=[
  ['s6','g_tomA',3,60,48,1,0,'f'],['s6','g_basil3',95,300,50,1],['s6','g_avo',88,40,86,.9,1,'f'],
  ['band','g_lemon',88,120,68,1,0,'f'],['band','ice',88,120,72,1,0,'d'],['band','g_basil2',8,90,48,1,1],
  ['foot','g_tomato',90,20,50,1,0,'f'],['foot','g_basil1',70,10,40,.8,1],
- ['hero','palm',-3,60,230,.35,1,'d'],['hero','palm',84,560,200,.4,1,'d'],['hero','ice',86,120,70,1,0,'d'],['tools','ice2',92,80,64,1,0,'d'],['tools','palm',-2,300,160,.4,1,'d'],
+ ['tools','ice2',92,80,64,1,0,'d'],['tools','palm',-2,300,160,.4,1,'d'],
  ['d1','ice',93,40,70,1],['d1','palm',-3,380,190,.4,1],['d2','g_basil2',4,80,50,1],['d2','ice2',94,640,60,1,1],['d3','palm',90,20,170,.4,1],['d3','g_basil3',3,420,50,1,1],
  ['d4','ice',3,60,66,1],['d4','palm',92,500,180,.4,1],['d5','g_basil1',94,60,46,1,1],['d6','palm',-2,120,200,.4,1],['d6','ice2',94,900,62,1,1],['d7','g_basil2',93,80,50,1]
 ];
