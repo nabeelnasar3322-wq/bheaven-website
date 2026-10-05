@@ -1144,6 +1144,10 @@ html[dir=rtl] .cpHead{text-align:left;align-items:flex-start}html[dir=rtl] .cpHe
 @media (prefers-reduced-motion:reduce){.cpP,.cpInfoIn{transition-duration:.01ms!important}}
 /* drinks: single Food/Drinks switch (nav keeps it) */
 body[data-mode=drinks] .tools .modeSw:not(.navSw){display:none}
+/* drinks: stack name above price so 'glass · bottle' fits */
+body[data-mode=drinks] .sq .meta{flex-direction:column;gap:6px;align-items:flex-start}
+body[data-mode=drinks] .sq .meta em{white-space:normal;line-height:1.5}
+body[data-mode=drinks] #floaters{display:none!important}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -2218,8 +2222,8 @@ const SOFT_V={"Americano Coffee":{g:'cup',a:'#3A2014'},"Cappuccino":{g:'cup',a:'
 /* ---------- build DM (drinks data in the same shape as the food menu) ---------- */
 const DM={}, DSPEC={};
 const put=(k,item,spec)=>{(DM[k]=DM[k]||[]).push(item); item.spec=spec;};
-SIG.forEach(([n,p,d,v])=>put("Signature cocktails",{n,d,p:"AED "+p,t:[]},v));
-CLA.forEach(([n,p,d,v])=>put("Clásico cocktails",{n,d,p:"AED "+p,t:[]},v));
+SIG.forEach(([n,p,d,v])=>put("Signature cocktails",{n,d,p:String(p).includes("|")?"AED "+String(p).split("|")[0].trim()+" glass · "+String(p).split("|")[1].trim()+" bottle":"AED "+p,t:[]},v));
+CLA.forEach(([n,p,d,v])=>put("Clásico cocktails",{n,d,p:String(p).includes("|")?"AED "+String(p).split("|")[0].trim()+" glass · "+String(p).split("|")[1].trim()+" bottle":"AED "+p,t:[]},v));
 BGOOD.forEach(([n,v])=>put("B-Good",{n,d:"",p:"AED 40",t:[]},v));
 const gb=(c1,c2)=>c1&&c2?`AED ${c1} glass · ${c2} bottle`:c1?`AED ${c1} glass`:`AED ${c2} bottle`;
 Object.entries(WINE).forEach(([g,rows])=>rows.forEach(([n,s,c1,c2])=>put("Wine & bubbles",{n,d:s,p:gb(c1,c2),t:[],grp:g,c1,c2},WINE_V[g])));
