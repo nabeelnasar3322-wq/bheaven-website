@@ -495,7 +495,7 @@ body[data-mode=drinks] .prog{background:linear-gradient(90deg,var(--gold),var(--
 
 /* shelf (signature cocktails) */
 .shelf{position:relative}
-.shTrack{display:flex;gap:30px;overflow-x:auto;scroll-snap-type:x mandatory;padding:40px 6px 30px;margin:0 -6px;scrollbar-width:none;cursor:grab}
+.shTrack{display:flex;gap:30px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding:40px 6px 30px;margin:0 -6px;scrollbar-width:none;cursor:grab}
 .shTrack::-webkit-scrollbar{display:none}
 .shTrack.drag{cursor:grabbing;scroll-snap-type:none}
 .gl{flex:0 0 200px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
@@ -548,7 +548,7 @@ body[data-mode=drinks] .prog{background:linear-gradient(90deg,var(--gold),var(--
 .bcap b{display:block;font-family:'Montserrat',sans-serif;font-size:1.7rem;font-weight:600;margin:6px 0 6px;line-height:1.1}
 .bcap em{font-style:normal;color:var(--teal-d);font-size:.78rem;letter-spacing:.12em;font-weight:600}
 .dFoot{padding:10px 32px 90px;text-align:center;color:var(--muted);font-size:.8rem;line-height:1.8}
-@media (max-width:900px){.bgrid{grid-template-columns:1fr}.bviz{display:none}.board .tabs{flex-wrap:nowrap;overflow-x:auto;margin:0 -20px 24px;padding:0 20px;scrollbar-width:none}.board .tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 auto}.row,.bhead{grid-template-columns:34px 1fr 54px 64px;gap:10px}.board.one .row,.board.one .bhead{grid-template-columns:34px 1fr 64px}.row img{height:32px}.row .rn b{font-size:1.08rem}.gl{flex-basis:160px}.gl img{height:200px}.shelfBar{margin:-114px 0 114px}}
+@media (max-width:900px){.bgrid{grid-template-columns:1fr}.bviz{display:none}.board .tabs{flex-wrap:nowrap;overflow-x:auto;scroll-behavior:smooth;margin:0 -20px 24px;padding:0 20px;scrollbar-width:none}.board .tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 auto}.row,.bhead{grid-template-columns:34px 1fr 54px 64px;gap:10px}.board.one .row,.board.one .bhead{grid-template-columns:34px 1fr 64px}.row img{height:32px}.row .rn b{font-size:1.08rem}.gl{flex-basis:160px}.gl img{height:200px}.shelfBar{margin:-114px 0 114px}}
 
 /* ===== B-Heaven brand type: Gotham/Montserrat structure from the printed menus ===== */
 :root{--head:#5F8F9B}
@@ -1989,7 +1989,7 @@ img[src*="paloma-picante"]{object-position:50% 45%}img[src*="heaven-mule"]{objec
 
 /* B-Good Slider: tall photo cards */
 .slider{position:relative;margin-top:12px}
-.sliderTrack{display:flex;gap:22px;overflow-x:auto;scroll-behavior:smooth;padding:0 40px;scrollbar-width:none;-webkit-user-select:none;user-select:none}
+.sliderTrack{display:flex;gap:22px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding:0 40px;scrollbar-width:none;-webkit-user-select:none;user-select:none}
 .sliderTrack::-webkit-scrollbar{display:none}
 .sliderCard{flex:0 0 300px;padding:0;border:none;border-radius:24px;overflow:hidden;background:linear-gradient(170deg,#1a3a3a,#0b1a1d);border:1px solid rgba(255,255,255,.1);cursor:pointer;text-align:left;color:#F7EFE0;font-family:'Montserrat',sans-serif;transition:opacity .3s,transform .3s;position:relative}
 .sliderCard:first-child{margin-left:0}
@@ -2670,7 +2670,7 @@ function applyMode(m){
   renderChips();
   setTimeout(()=>{try{measure();measurePX();}catch(e){} try{onScroll();}catch(e){}},80);
 }
-function toMenu(smooth){const t=$('#menu'); window.scrollTo({top:t.getBoundingClientRect().top+scrollY-60,behavior:smooth?'smooth':'instant'});}
+function toMenu(smooth=true){const t=$('#menu'); window.scrollTo({top:t.getBoundingClientRect().top+scrollY-60,behavior:smooth?'smooth':'instant'});}
 function setMode(m,opt={}){
   const cur=document.body.dataset.mode||'food';
   if(m===cur){ if(opt.scroll) toMenu(true); return; }
