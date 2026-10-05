@@ -2038,6 +2038,8 @@ body[data-mode=drinks] .bviz img{height:340px}
 .claPh em{font-style:normal;font-size:1rem;font-weight:700;color:#D6B46E;margin-top:4px}
 @media (max-width:1100px){.cla{grid-template-columns:1fr}.claPh{order:-1;min-height:420px}}
 @media (max-width:700px){.claGrid{grid-template-columns:1fr}.claPh{min-height:380px}}
+.claPh em{display:flex;gap:18px;flex-wrap:wrap}.claPh em u{text-decoration:none;font-weight:500;font-size:.78em;color:rgba(214,180,110,.75)}
+.sigTag{direction:ltr;unicode-bidi:isolate;display:inline-block}
 </style>
 </head>
 <body>
@@ -2575,7 +2577,7 @@ function claHTML(k){
   return `<div class="cla"><div class="claL"><div class="claGrid">${L.map((d,i)=>{const [g,b]=pr(d), sp=CLA_SP[d.n]||'';
     return `<div class="claC" data-k="${esc(k)}" data-i="${i}"><div class="claT"><span class="claSp" data-sp="${esc(sp.split(' ')[0].toLowerCase())}">${esc(sp)}</span><span class="claN">${String(i+1).padStart(2,'0')}</span></div><b>${esc(d.n)}</b><p>${esc(d.d||'')}</p><div class="claP"><span>${P('AED '+g)}</span>${b?`<span>${b}</span>`:''}</div></div>`}).join('')}</div>
   <p class="claNote">Prices in AED. Glass above, bottle below.</p></div>
-  <figure class="claPh"><img src="${fd.img}" alt="${esc(fd.n)}" style="object-position:${fd.pos||'50% 40%'}"><figcaption><small>Cl\u00e1sico of the night</small><b>${esc(fd.n)}</b><span>${esc(fd.d||'')}</span><em>${P('AED '+fp[0])} glass \u00b7 ${fp[1]} bottle</em></figcaption></figure></div>`;
+  <figure class="claPh"><img src="${fd.img}" alt="${esc(fd.n)}" style="object-position:${fd.pos||'50% 40%'}"><figcaption><small>Cl\u00e1sico of the night</small><b>${esc(fd.n)}</b><span>${esc(fd.d||'')}</span><em><span>${P('AED '+fp[0])} <u>Glass</u></span><span>${fp[1]} <u>Bottle</u></span></em></figcaption></figure></div>`;
 }
 let dn=0;
 $('#drinkRoot').innerHTML = DCATS.map((c,ci)=>{ dn++; let body='';
