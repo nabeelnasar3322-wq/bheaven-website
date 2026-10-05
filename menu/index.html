@@ -2991,7 +2991,7 @@ function build(){const W=document.documentElement.clientWidth,H=Math.max(documen
  let side=Math.random()<.5?-1:1,last=-1;
  for(let y=rnd(120,300);y<H-120;y+=gap*rnd(.8,1.4)){
   side=-side;let k;do{k=(Math.random()*5)|0}while(k===last);last=k;
-  let w=rnd(sz[0],sz[1]);let vis=Math.max(0,m-8);if(vis<12)continue;if(Math.random()<.4){w*=rnd(1.6,2);vis+=Math.min(44,w*.22)}if(vis<w*.45)w=vis/.45;const h=w/AR[k],x=-(w-vis*rnd(.75,1));
+  let w=rnd(sz[0],sz[1]);let vis=Math.max(0,m-8);if(vis<12)continue;if(Math.random()<.4){w*=rnd(1.8,2.4);vis+=Math.min(48,w*.22)}if(vis<w*.45)w=vis/.45;const h=w/AR[k],x=-(w-vis*rnd(.75,1));
   const i=new Image();i.src=SRC[k];i.alt='';i.decoding='async';i.loading='lazy';
   i.style.cssText='width:'+w.toFixed(0)+'px;height:'+h.toFixed(0)+'px;top:'+Math.round(y)+'px;'+(side<0?'left:':'right:')+x.toFixed(0)+'px;--r0:'+rnd(-40,40).toFixed(0)+'deg;--r1:'+rnd(-40,40).toFixed(0)+'deg;--dx:'+rnd(-8,8).toFixed(0)+'px;--dy:'+rnd(-22,-10).toFixed(0)+'px;--d:'+rnd(6,10).toFixed(1)+'s;--dl:-'+rnd(0,8).toFixed(1)+'s';
   i.dataset.y=Math.round(y+h/2);i.dataset.f=rnd(-.28,.32).toFixed(2);root.appendChild(i)}par()}
