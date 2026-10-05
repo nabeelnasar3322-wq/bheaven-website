@@ -1040,6 +1040,99 @@ nav.top ul{position:static;transform:none;margin:0 auto;padding:0 24px}
 @media (max-width:420px){nav.top .navSw button{padding:7px 12px;font-size:.6rem;letter-spacing:.14em}}
 /* Section numbers readable in drinks mode */
 body[data-mode=drinks] .ch .num,body[data-mode=drinks] .sideItem .num{-webkit-text-stroke-color:rgba(214,180,110,.95)!important;color:rgba(214,180,110,.14)!important}
+
+/* ============ CHEF'S PASS (arc carousel) ============ */
+.cpSec{--u:calc(min(100vw,1440px)/1440);--cx:calc(960*var(--u));--cy:calc(265*var(--u));--sx:310;--cpb:#5B87A3;--cpd:#4E7288;position:relative;padding:34px 0 30px;overflow:hidden}
+.cpStage{position:relative;width:100%;max-width:1440px;margin:0 auto;height:calc(700*var(--u))}
+.cpHead{position:absolute;z-index:6;left:calc(80*var(--u));top:calc(20*var(--u));width:calc(560*var(--u));min-width:330px}
+.cpHead .eyebrow{display:block;font-size:.68rem;letter-spacing:.34em;color:var(--cpd);margin-bottom:calc(22*var(--u))}
+.cpHead h2{font-size:clamp(2.6rem,4.7vw,4.3rem)!important;line-height:1!important;font-weight:700;text-transform:uppercase;color:var(--cpb);letter-spacing:-.005em;margin:0}
+.cpHead .q{font-family:'Montserrat',sans-serif;font-style:italic;font-weight:300;font-size:clamp(1.05rem,1.55vw,1.4rem);line-height:1.45;color:#6D7F8B;max-width:min(400px,100%);margin:calc(28*var(--u)) 0 calc(32*var(--u))}
+.cpPill{display:inline-flex;align-items:center;gap:16px;background:#fff;border:0;border-radius:999px;padding:9px 30px 9px 9px;cursor:pointer;box-shadow:0 14px 30px -18px rgba(30,71,76,.45),0 1px 0 rgba(255,255,255,.9) inset;text-align:left;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.cpPill:hover{transform:translateY(-2px);box-shadow:0 20px 36px -18px rgba(30,71,76,.55)}
+.cpPill:focus-visible{outline:2px solid var(--cpb);outline-offset:3px}
+.cpPill i{flex:0 0 auto;width:54px;height:54px;border-radius:50%;background:var(--teal-deep);color:var(--gold);display:grid;place-items:center;font-style:normal;font-size:1.15rem;line-height:1}
+.cpPill span{display:block}
+.cpPill small{display:block;font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.cpPill b{display:block;font-size:1.1rem;font-weight:600;color:var(--ink);line-height:1.15}
+
+.cpViz{position:absolute;inset:0;outline:0}
+.cpViz::before{content:'';position:absolute;left:var(--cx);top:var(--cy);width:calc(900*var(--u));height:calc(900*var(--u));transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(132,172,194,.26) 0,rgba(132,172,194,.10) 42%,transparent 68%);pointer-events:none}
+.cpArt{position:absolute;inset:0}
+.cpRing{position:absolute;left:var(--cx);top:var(--cy);width:calc(512*var(--u));height:calc(512*var(--u));transform:translate(-50%,-50%);border-radius:50%;border:1.5px dashed rgba(78,114,136,.42);pointer-events:none}
+.cpLeaf,.cpLemon{position:absolute;pointer-events:none;z-index:7;filter:drop-shadow(0 12px 12px rgba(30,60,50,.22))}
+.cpLeaf.l1{left:calc(668*var(--u));top:calc(85*var(--u));width:calc(130*var(--u));transform:translate(-50%,-50%) rotate(-28deg);animation:cpFloat 7s ease-in-out infinite}
+.cpLeaf.l2{left:calc(130*var(--u));top:calc(612*var(--u));width:calc(150*var(--u));transform:translate(-50%,-50%) rotate(34deg);animation:cpFloat 8s ease-in-out -2s infinite}
+.cpLemon{left:calc(1277*var(--u));top:calc(643*var(--u));width:calc(46*var(--u));transform:translate(-50%,-50%);animation:cpFloat 6s ease-in-out -1s infinite}
+@keyframes cpFloat{50%{translate:0 calc(-8*var(--u))}}
+
+.cpPlates{position:absolute;inset:0}
+.cpP{position:absolute;left:var(--cx);top:var(--cy);width:calc(500*var(--u));height:calc(500*var(--u));margin:calc(-250*var(--u)) 0 0 calc(-250*var(--u));padding:0;border:0;background:none;border-radius:50%;cursor:pointer;transition:transform .8s cubic-bezier(.22,1,.36,1),opacity .6s ease,filter .6s ease;will-change:transform}
+.cpP img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 calc(26*var(--u)) calc(30*var(--u)) rgba(28,58,76,.28));pointer-events:none;-webkit-user-drag:none}
+.cpP[data-s="0"]{z-index:5;transform:none}
+.cpP[data-s="-1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)*-1),calc(155*var(--u))) scale(.596);filter:saturate(.92)}
+.cpP[data-s="1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)),calc(155*var(--u))) scale(.596);filter:saturate(.92)}
+.cpP[data-s="xl"]{z-index:1;opacity:0;pointer-events:none;transform:translate(calc(var(--sx)*var(--u)*-1.35),calc(110*var(--u))) scale(.4)}
+.cpP[data-s="xr"]{z-index:1;opacity:0;pointer-events:none;transform:translate(calc(var(--sx)*var(--u)*1.35),calc(110*var(--u))) scale(.4)}
+.cpP[data-s="-1"]:hover,.cpP[data-s="1"]:hover{filter:saturate(1) brightness(1.03)}
+.cpP:focus-visible{outline:2px solid var(--cpb);outline-offset:4px}
+
+.cpCall{position:absolute;inset:0;pointer-events:none;transition:opacity .25s ease}
+.cpCi{position:absolute;left:calc((960 + var(--dx))*var(--u));top:calc((265 + var(--dy))*var(--u));z-index:6}
+.cpCi .dot{position:absolute;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#fff;border:2px solid var(--cpd);box-sizing:border-box}
+.cpCi .ln{position:absolute;left:0;top:0;height:1px;width:calc((270 - var(--dx))*var(--u));background:rgba(78,114,136,.55);transform-origin:left;animation:cpLn .7s cubic-bezier(.22,1,.36,1) both}
+.cpCi .lb{position:absolute;left:calc((282 - var(--dx))*var(--u));top:0;transform:translateY(-50%);width:calc(165*var(--u));font-size:clamp(.7rem,.95vw,.88rem);font-weight:700;color:var(--ink);line-height:1.2;animation:cpLb .6s .15s ease both}
+@keyframes cpLn{from{transform:scaleX(0)}}
+@keyframes cpLb{from{opacity:0;transform:translate(-8px,-50%)}}
+.cpCall.out,.cpInfo .out{opacity:0}
+
+.cpInfo{position:absolute;left:var(--cx);top:calc(var(--cy) + 255*var(--u));width:calc(608*var(--u));transform:translateX(-50%);text-align:center;z-index:6;min-height:calc(130*var(--u))}
+.cpInfoIn{width:calc(430*var(--u));min-width:250px;margin:0 auto;transition:opacity .25s ease,transform .25s ease}
+.cpInfoIn.out{opacity:0;transform:translateY(6px)}
+.cpKick{display:block;font-size:.66rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.cpName{display:block;font-family:'Montserrat',sans-serif;font-size:clamp(1.3rem,1.95vw,1.8rem);font-weight:700;color:var(--teal-deep);line-height:1.12;margin:calc(10*var(--u)) 0 calc(8*var(--u))}
+.cpDesc{margin:0 auto;font-size:clamp(.78rem,.98vw,.9rem);line-height:1.55;color:var(--muted);max-width:420px}
+.cpPrice{display:block;font-style:normal;font-weight:700;font-size:.95rem;letter-spacing:.06em;color:var(--teal-deep);margin-top:calc(12*var(--u))}
+.cpChips{display:none}
+.cpNav{position:absolute;top:calc(54*var(--u));width:max(44px,calc(52*var(--u)));height:max(44px,calc(52*var(--u)));border-radius:50%;border:0;background:#fff;color:var(--teal-deep);display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 24px -12px rgba(30,60,76,.4);transition:transform .25s,background .25s,color .25s;transform:translate(-50%,-50%)}
+.cpNav.prev{left:0}
+.cpNav.next{left:100%}
+.cpNav:hover{background:var(--teal-deep);color:#fff}
+.cpNav:active{transform:translate(-50%,-50%) scale(.94)}
+.cpNav:focus-visible{outline:2px solid var(--cpb);outline-offset:3px}
+.cpNav svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+@media (max-width:1099px){
+  .cpSec{--u:min(calc((100vw - 24px)/800),.86px);--cx:50%;--cy:calc(262*var(--u));--sx:250;padding:56px 0 54px}
+  .cpStage{height:auto;max-width:760px}
+  .cpHead{position:relative;left:auto;top:auto;width:auto;min-width:0;padding:0 24px;margin-bottom:calc(30*var(--u))}
+  .cpHead .eyebrow{margin-bottom:14px}
+  .cpHead .q{margin:18px 0 22px}
+  .cpViz{position:relative;inset:auto}
+  .cpArt{position:relative;inset:auto;height:calc(560*var(--u))}
+  .cpViz::before{top:calc(262*var(--u))}
+  .cpCall,.cpLeaf.l1,.cpLemon{display:none}
+  .cpLeaf.l2{display:none}
+  .cpInfo{position:relative;left:auto;top:auto;transform:none;width:auto;margin:6px 0 0;padding:0 70px;min-height:0}
+  .cpInfoIn{width:auto;min-width:0}
+  .cpNav{top:64px;width:46px;height:46px;transform:translateY(-50%)}
+  .cpNav.prev{left:16px}
+  .cpNav.next{left:auto;right:16px}
+  .cpNav:active{transform:translateY(-50%) scale(.94)}
+  .cpChips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+  .cpChips span{font-size:.72rem;font-weight:600;color:var(--cpd);background:rgba(255,255,255,.75);border:1px solid rgba(78,114,136,.28);border-radius:999px;padding:6px 12px}
+}
+@media (max-width:480px){
+  .cpHead h2{font-size:2.35rem!important}
+  .cpPill i{width:46px;height:46px}
+  .cpPill b{font-size:1rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .cpP,.cpInfoIn,.cpCall{transition:none}
+  .cpLeaf,.cpLemon,.cpCi .ln,.cpCi .lb{animation:none}
+}
+
+html[dir=rtl] .cpHead{text-align:left;align-items:flex-start}html[dir=rtl] .cpHead .cpPill{direction:rtl}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -1888,26 +1981,28 @@ html[dir=rtl] nav.top .navSw{margin:0 auto 0 12px}
 </div></div></section>
 <main id="drinkRoot"></main>
 
-<section class="chefSec" id="story" data-pr="chef">
-  <div class="wrap">
-    <div class="chefStage" id="chefStage">
-      <div class="chefHead">
-        <span class="eyebrow" id="chefEyebrow">Our story</span>
-        <h2>From the chef's pass</h2>
-        <p class="q">“Every plate starts with the Levant and ends with a view.”</p>
-        <button class="cPick" id="cPick"></button>
+<section class="cpSec" id="story" data-pr="chef">
+  <div class="cpStage" id="cpStage">
+    <div class="cpHead">
+      <span class="eyebrow" id="cpEyebrow">Our story</span>
+      <h2>From the chef's pass</h2>
+      <p class="q">“Every plate starts with the Levant and ends with a view.”</p>
+      <button class="cpPill" id="cpPill" type="button"></button>
+    </div>
+    <div class="cpViz" id="cpViz" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Chef's mains">
+      <div class="cpArt" id="cpArt">
+        <div class="cpRing"></div>
+        <img class="cpLeaf l1" id="cpL1" alt="" aria-hidden="true">
+        <img class="cpLeaf l2" id="cpL2" alt="" aria-hidden="true">
+        <img class="cpLemon" id="cpLem" alt="" aria-hidden="true">
+        <div class="cpPlates" id="cpPlates"></div>
+        <div class="cpCall" id="cpCall"></div>
       </div>
-      <div class="wheel" id="wheel"></div>
-      <div class="wCard" id="wCard"></div>
-      <div class="dots" id="wDots"></div>
-      <div class="arrows" id="wArrows">
-        <button id="wPrev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <button id="wNext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      <div class="cpInfo" aria-live="polite">
+        <button class="cpNav prev" id="cpPrev" type="button" aria-label="Previous dish"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="cpInfoIn" id="cpInfo"></div>
+        <button class="cpNav next" id="cpNext" type="button" aria-label="Next dish"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
-      <div class="chef" id="chef" role="button" tabindex="0" aria-label="Say hi to the chef"><img id="chefImg" alt="B-Heaven head chef holding a roast"><div class="clo" id="clo"><img src="img/8dbedf97a15b.webp" alt="Chef Marlon presenting a covered dish"><img class="dsh" id="cloDish" alt=""><img class="lid" src="img/3d66f80ed17a.webp" alt=""><span class="hot" id="cloHot" aria-hidden="true"></span><span class="cap" id="cloCap"></span><span class="hint2" id="hint2">Hover the plate</span></div></div>
-      <div class="bubble" id="bubble"></div>
-      <button class="wNav" id="wL" aria-label="Previous dish"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="wNav" id="wR" aria-label="Next dish"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button><div class="wCap" id="wCap" role="button" tabindex="0"></div>
-      <div class="hint" id="hint"><i></i>Tap the chef for today's special</div>
     </div>
   </div>
 </section>
@@ -2251,7 +2346,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"
 const $ = s => document.querySelector(s);
 
 /* ---------- static images ---------- */
-$('#heroImg').src = HERO_IMG; $('#bowlImg').src = A.g_pesto; $('#chefImg').src = A.chef;
+$('#heroImg').src = HERO_IMG; $('#bowlImg').src = A.g_pesto;
 
 /* ---------- marquee ---------- */
 (()=>{const w=["Charcoal","Sumac","Za'atar","Citrus","Smoke","Fresh herbs","Pomegranate","Skyline views"];const h=w.map(x=>`<span>${x}</span>`).join('');$('#marq1').innerHTML=h+h+h+h;})();
@@ -2476,75 +2571,53 @@ function applyAvoid(){
   function f(t){if(!vis){last=t;requestAnimationFrame(f);return;}const dt=Math.min(50,t-last);last=t;const dk=document.body.dataset.mode==='drinks';r=0;bowl.style.transform=`translate(${mx*-26}px,${my*-26}px)`;requestAnimationFrame(f)}requestAnimationFrame(f);
 })();
 
-/* ---------- CHEF WHEEL (category with lay:"wheel") ---------- */
+/* ---------- CHEF'S PASS: arc carousel (category with lay:"wheel") ---------- */
 (()=>{
   const WC=CATS.find(c=>c.lay==='wheel'), k=WC.k, ds=M[k], N=ds.length;
-  $('#chefEyebrow').textContent=String(CATS.indexOf(WC)+1).padStart(2,'0')+' — Our story · '+WC.t;
-  const wheel=$('#wheel'), card=$('#wCard'), dotsEl=$('#wDots');
-  wheel.innerHTML=ds.map((d,i)=>`<button class="wp" data-wk="${esc(k)}" data-wi="${i}" aria-label="${esc(d.n)}"><img loading="lazy" decoding="async" src="${imgOf(d)}" alt="${esc(d.n)}"></button>`).join('');
-  dotsEl.innerHTML=ds.map((d,i)=>`<button data-i="${i}" aria-label="${esc(d.n)}"></button>`).join('');
-  const els=[...wheel.children]; let act=0, pos=0, auto;
-  function card_(){const d=ds[act];card.classList.add('fade');setTimeout(()=>{card.innerHTML=`<span class="eyebrow">${WC.t} · ${act+1}/${N}</span><b>${esc(d.n)}</b><p>${esc(d.d)}</p><div class="r"><em>${P(d.p)}</em><button id="wOpen">View dish</button></div>`;card.classList.remove('fade');$('#wOpen').onclick=()=>openDish(k,act);layout();},220);[...dotsEl.children].forEach((b,i)=>b.classList.toggle('on',i===act));}
-  let running=false; function kick(){if(!running){running=true;requestAnimationFrame(tick);}}
-  function go(i){act=(i+N)%N;card_();kick();}
-  function layout(){
-    const stage=$('#chefStage'), mob=innerWidth<900, S=stage.getBoundingClientRect(), C=$('#chef').getBoundingClientRect();
-    const W=S.width;
-    const big=mob?Math.min(W*0.5,215):Math.round(Math.max(220,Math.min(340,S.height*0.39))), sm=big*(mob?0.4:0.42);
-    const cx=mob?W/2:C.left-S.left+C.width*0.55;
-    const Rx=mob?W/2-sm/2-6:Math.max(200,Math.min(W*0.4,cx-card.offsetWidth-big*0.35-12,W-cx-sm/2-8,480)), Ry=Rx*(mob?0.24:0.2);
-    const cy=Math.min(C.top-S.top+C.height*(mob?0.66:0.68), S.height-big/2-Ry*0.2-(mob?60:10));
-    els.forEach((el,i)=>{
-      const th=Math.PI/2+(i-pos)*(2*Math.PI/N), x=cx+Rx*Math.cos(th), y=cy+Ry*Math.sin(th), depth=Math.sin(th);
-      const sz=sm+(big-sm)*(depth+1)/2;
-      el.style.transform=`translate(${x}px,${y}px) scale(${sz/300})`;
-      el.style.zIndex=depth>-0.05?String(10+Math.round(depth*10)):'1';
-      el.style.filter=depth<0?`brightness(${(0.78+0.22*(depth+1)).toFixed(3)}) saturate(.9)`:'';
-      el.classList.toggle('on',i===act);
-    });
-    if(!mob){const L='0px';card.style.left=L;card.style.top='210px';card.style.transform='';
-      const cb=210+card.offsetHeight+16; dotsEl.style.left=L;dotsEl.style.transform='';dotsEl.style.top=(cb+14)+'px';
-      const ar=$('#wArrows');ar.style.display='';ar.style.left='150px';ar.style.top=cb+'px';}
-    else{card.style.left='';card.style.top='';}
+  const ING={
+    "Smokehouse Beef Ribs":["Slow-smoked beef short ribs","Truffle potato puree","Rich beef jus"],
+    "Golden Milanese":["Crispy breaded chicken","Rocket & cherry tomatoes","Shaved Parmesan"],
+    "Truffle Woodland Risotto":["Creamy Arborio rice","Wild shiitake mushrooms","Truffle oil"],
+    "Chermoula Grilled Jumbo Prawns":["Chargrilled jumbo prawns","Traditional chermoula","Lemon butter"],
+    "Seabass a la Harra":["Grilled seabass","Spicy harra","Cous cous & baby vegetables"],
+    "Ribeye Al Sham":["Grilled ribeye","Truffle potato puree","Seasonal vegetables"]
+  };
+  const DOTS=[[61,-226],[180,-151],[232,-34]];
+  $('#cpEyebrow').textContent=String(CATS.indexOf(WC)+1).padStart(2,'0')+' — Our story · '+WC.t;
+  $('#cpL1').src=A.g_basil1; $('#cpL2').src=A.g_basil2; $('#cpLem').src=A.g_lemon;
+  const plates=$('#cpPlates'), info=$('#cpInfo'), call=$('#cpCall'), viz=$('#cpViz');
+  plates.innerHTML=ds.map((d,i)=>`<button type="button" class="cpP" data-i="${i}" aria-label="${esc(d.n)}"><img decoding="async" src="${imgOf(d)}" alt=""></button>`).join('');
+  const els=[...plates.children]; let act=0, auto=null, hover=false, vis=true;
+  const slotOf=i=>{let o=((i-act)%N+N)%N; if(o>N/2)o-=N; return o};
+  function paint(){els.forEach((el,i)=>{const o=slotOf(i);el.dataset.s=o===0?'0':o===-1?'-1':o===1?'1':(o<0?'xl':'xr');el.tabIndex=o===0?0:-1;el.setAttribute('aria-hidden',Math.abs(o)>1?'true':'false');if(o===0)el.setAttribute('aria-label',ds[i].n);else el.setAttribute('aria-label',ds[i].n)})}
+  function fill(){
+    const d=ds[act], ing=ING[d.n]||[];
+    info.innerHTML=`<span class="cpKick">${esc(WC.t)} · ${act+1}/${N}</span><b class="cpName">${esc(d.n)}</b><p class="cpDesc">${esc(d.d)}</p><em class="cpPrice">${P(d.p)}</em><div class="cpChips">${ing.map(t=>`<span>${esc(t)}</span>`).join('')}</div>`;
+    call.innerHTML=ing.slice(0,3).map((t,j)=>`<div class="cpCi" style="--dx:${DOTS[j][0]};--dy:${DOTS[j][1]}"><i class="dot"></i><s class="ln" style="animation-delay:${j*90}ms"></s><span class="lb">${esc(t)}</span></div>`).join('');
   }
-  function tick(){let d=act-pos; d=((d%N)+N)%N; if(d>N/2)d-=N; pos+=d*0.075; if(Math.abs(d)<0.002){pos=act;layout();running=false;return;} layout(); requestAnimationFrame(tick);}
-  addEventListener('resize',()=>layout());
-  wheel.addEventListener('click',e=>{const b=e.target.closest('.wp');if(!b)return;const i=+b.dataset.wi; if(i===act) openDish(k,i,b.querySelector('img')); else go(i); reset();});
-  dotsEl.addEventListener('click',e=>{const b=e.target.closest('button');if(b){go(+b.dataset.i);reset();}});
-  $('#wPrev').onclick=()=>{go(act-1);reset()}; $('#wNext').onclick=()=>{go(act+1);reset()};
-  function reset(){clearInterval(auto);auto=setInterval(()=>go(act+1),4800);}
-  const stage=$('#chefStage'); stage.addEventListener('pointerenter',()=>clearInterval(auto)); stage.addEventListener('pointerleave',reset);
-  card_(); reset(); layout(); kick();
+  let ft=0;
+  function swap(){info.classList.add('out');call.classList.add('out');clearTimeout(ft);ft=setTimeout(()=>{fill();info.classList.remove('out');call.classList.remove('out')},230)}
+  function go(i,user){act=(i%N+N)%N;paint();swap();if(user)restart()}
+  function restart(){clearInterval(auto);auto=null;if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;auto=setInterval(()=>{if(!hover&&vis&&!document.hidden&&!document.getElementById('ov')?.classList.contains('open'))go(act+1)},5200)}
+  plates.addEventListener('click',e=>{const b=e.target.closest('.cpP');if(!b)return;const i=+b.dataset.i;if(i===act)openDish(k,i,b.querySelector('img'));else go(i,true)});
+  $('#cpPrev').onclick=()=>go(act-1,true); $('#cpNext').onclick=()=>go(act+1,true);
+  viz.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();go(act-1,true)}else if(e.key==='ArrowRight'){e.preventDefault();go(act+1,true)}});
+  viz.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hover=true});
+  viz.addEventListener('pointerleave',()=>{hover=false});
+  let sx=null,sy=0;
+  viz.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  viz.addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;if(Math.abs(dx)>42&&Math.abs(dx)>Math.abs(dy)*1.4)go(act+(dx<0?1:-1),true)},{passive:true});
+  try{new IntersectionObserver(es=>{vis=es[0].isIntersecting},{threshold:.25}).observe($('#story'))}catch(e){}
+  paint(); fill(); restart();
+
+  /* today's special: opens that dish */
+  const PK={0:["From the gardens","Fattoush Salad"],1:["Sharers","Oriental Mix Grill"],2:["Chef's mains","Seabass a la Harra"],3:["From the gardens","Passion Kale & Quinoa Salad"],4:["Bar bites","Golden Rings"],5:["Chef's mains","Ribeye Al Sham"],6:["Bar bites","Spiced Shawarma Bites"]};
+  const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const n=new Date(), day=new Date(n.getTime()+n.getTimezoneOffset()*6e4+4*36e5).getDay(), [pk,pn]=PK[day];
+  const pill=$('#cpPill');
+  pill.innerHTML=`<i>✦</i><span><small>Chef's pick · ${DN[day]}</small><b>See today's special</b></span>`;
+  pill.onclick=()=>{const i=M[pk].findIndex(x=>x.n===pn);if(i>-1)openDish(pk,i)};
 })();
-
-/* ---------- CHEF interaction ---------- */
-(()=>{const lines=["“Every plate starts with the Levant and ends with a view.”","Charcoal, smoke and fresh herbs. That's the whole secret.","Hungry yet? Let's get you a table.","Save room for the Umali. You'll thank me."];
-  let li=0,tm; const chef=$('#chef'),bub=$('#bubble'),hint=$('#hint');
-  function say(){bub.textContent=lines[li%lines.length];li++;bub.classList.remove('show');void bub.offsetWidth;bub.classList.add('show');hint.style.opacity=0;clearTimeout(tm);tm=setTimeout(()=>bub.classList.remove('show'),3800);
-    chef.animate([{transform:'scale(1) rotate(0)'},{transform:'scale(1.04) rotate(-1.5deg)'},{transform:'scale(1) rotate(0)'}],{duration:600,easing:'cubic-bezier(.3,1.4,.5,1)'});
-    confetti();}
-  chef.addEventListener('click',say); chef.addEventListener('keydown',e=>{if(e.key==='Enter')say()});
-  const stage=$('#chefStage'); stage.addEventListener('pointermove',e=>{if(innerWidth<900)return;const b=stage.getBoundingClientRect();const mx=(e.clientX-b.left)/b.width-.5;chef.style.translate=`${mx*-18}px 0`;});
-  function confetti(){const b=chef.getBoundingClientRect(),s=stage.getBoundingClientRect();const pool=['g_basil1','g_basil2','g_tomato','g_basil3','g_tomA','g_lemon','g_tomC'];
-    for(let j=0;j<9;j++){const el=document.createElement('img');el.src=A[pool[j%pool.length]];el.style.cssText=`position:absolute;width:${26+Math.random()*22}px;left:${b.left-s.left+b.width*0.45}px;top:${b.top-s.top+b.height*0.3}px;z-index:7;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.2))`;stage.appendChild(el);
-      const ang=-Math.PI/2+(Math.random()-.5)*2.4, sp=160+Math.random()*180;
-      el.animate([{transform:'translate(0,0) rotate(0) scale(.4)',opacity:1},{transform:`translate(${Math.cos(ang)*sp}px,${Math.sin(ang)*sp}px) rotate(${Math.random()*540-270}deg) scale(1)`,opacity:1,offset:.6},{transform:`translate(${Math.cos(ang)*sp*1.2}px,${Math.sin(ang)*sp+220}px) rotate(${Math.random()*720}deg) scale(.9)`,opacity:0}],{duration:1500+Math.random()*500,easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish=()=>el.remove();}}
-})();
-
-
-/* ---------- Chef's pick of the day ---------- */
-(()=>{const PK={0:["From the gardens","Fattoush Salad","Sunday reset. A fresh fattoush with extra sumac."],1:["Sharers","Oriental Mix Grill","Monday means mix grill. Lamb chops, tawook and kofta off the charcoal."],2:["Chef's mains","Seabass a la Harra","The seabass came in fresh this morning. I'm doing it a la harra."],3:["From the gardens","Passion Kale & Quinoa Salad","Something light today. My kale and quinoa with passion fruit."],4:["Bar bites","Golden Rings","Ladies night! Start with the Golden Rings, trust me."],5:["Chef's mains","Ribeye Al Sham","Jazz and a ribeye. That's Friday sorted."],6:["Bar bites","Spiced Shawarma Bites","Layali tonight. Shawarma bites for the table, habibi."]};
- const n=new Date(),dd=new Date(n.getTime()+n.getTimezoneOffset()*6e4+4*36e5),day=dd.getDay(),[k,name,line]=PK[day];const d=M[k].find(x=>x.n===name),i=M[k].indexOf(d);
- const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
- const st=$('#chefStage'),clo=$('#clo');$('#cloDish').src=img(name);$('#cloDish').alt=name;$('#cloCap').innerHTML=`<small>Chef's pick · ${DN[day]}</small><b>${esc(name)} · ${P(d.p)}</b>`;
- const pill=()=>{const on=st.classList.contains('pk');$('#cPick').innerHTML=`<i>${on?'↺':'✦'}</i><span><small>${on?'Back to the grill':"Chef's pick · "+DN[day]}</small><b>${on?'Show the chef again':"See today's special"}</b></span>`};
- $('#cPick').onclick=()=>{st.classList.toggle('pk');clo.classList.remove('up');pill();if(st.classList.contains('pk')){const bb=$('#bubble');bb.textContent='“'+line+'”';bb.classList.add('show');clearTimeout(window.__pkT);window.__pkT=setTimeout(()=>bb.classList.remove('show'),4200)}};pill();
- if(!matchMedia('(hover:hover)').matches)$('#hint2').textContent='Tap the plate';
- const hot=$('#cloHot');hot.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')clo.classList.add('up')});clo.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')clo.classList.remove('up')});
- const od=e=>{e.stopPropagation();openDish(k,i,$('#cloDish'))};$('#cloDish').addEventListener('click',od);$('#cloCap').addEventListener('click',od);
- $('#chef').addEventListener('click',e=>{if(!st.classList.contains('pk')){e.stopImmediatePropagation();$('#cPick').click();return}e.stopImmediatePropagation();if(clo.classList.contains('up'))openDish(k,i);else clo.classList.add('up')},true);
- const place=()=>{const bt=$('#cPick'),h=document.querySelector('.chefHead');if(h&&bt.parentElement!==h)h.appendChild(bt);bt.style.left='';bt.style.top=''};setInterval(place,1200);addEventListener('resize',place);setTimeout(place,300);setTimeout(place,1500);
- const bub=$('#bubble');let first=true;$('#chef').addEventListener('click',()=>{if(first){first=false;setTimeout(()=>{bub.textContent='“'+line+'”'},0)}})})();
 
 /* ---------- Cocktail matchmaker ---------- */
 (()=>{const Q=[["Sweet or bitter?",["Sweet","Soft, fruity, rounded"],["Bitter","Dry, bold, grown-up"]],["Fruity or spiced?",["Fruity","Citrus and tropical"],["Spiced","Warm, smoky, herbal"]],["Strong or light?",["Strong","Spirit-forward, slow sip"],["Light","Long, fresh, easy"]]];
@@ -2555,19 +2628,6 @@ function applyAvoid(){
   box.innerHTML=`<div class="cmRes"><img loading="lazy" decoding="async" src="${d.img}" alt="${esc(n)}" data-open><div><small>Your B-Heaven match</small><h3>${esc(n)}</h3><p>${esc((d.d||'').split('. ')[0].replace(/\.$/,''))}.</p><div class="row"><span>${P(d.p.split('|')[0].trim()+(/^AED/.test(d.p)?'':''))}</span><a class="btn" href="${WA+encodeURIComponent("Hi B-Heaven, save me a "+n+" tonight! I'd like to book a table.")}" target="_blank" rel="noopener">Book a table</a><button class="cmAgain">Try again</button></div></div></div>`;
   box.querySelector('[data-open]').onclick=()=>openDish(k,i)}
  box.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.classList.contains('cmAgain')){a=[];step();return}if(b.dataset.v){a.push(b.dataset.v);step()}};step()})();
-
-/* bubble sits above the chef's hat on phones */
-(()=>{const b=$('#bubble'),c=$('#chef');const f=()=>{if(innerWidth>=900){const st=$('#chefStage'),cr=c.getBoundingClientRect(),sr=st.getBoundingClientRect();let l=cr.left-sr.left+cr.width*0.80,t=cr.top-sr.top+cr.height*0.02;const w=Math.min(260,sr.width-l-10);b.style.maxWidth=Math.max(180,w)+'px';b.style.left=l+'px';b.style.right='auto';b.style.top=t+'px';b.style.bottom='auto';return}b.style.left='';b.style.right='';b.style.maxWidth='';b.style.top=Math.max(0,c.offsetTop-b.offsetHeight-12)+'px'};setInterval(f,1500);new ResizeObserver(f).observe(b);addEventListener('resize',f);setTimeout(f,500)})();
-
-/* wheel: caption + arrows follow the front plate */
-(()=>{const st=$('#chefStage'),cap=$('#wCap'),L=$('#wL'),R=$('#wR');let last='';
- L.onclick=()=>$('#wPrev').click();R.onclick=()=>$('#wNext').click();cap.onclick=()=>{const on=document.querySelector('#wheel .wp.on');on&&on.click()};
- let WV=true;try{new IntersectionObserver(e=>{WV=e[0].isIntersecting},{rootMargin:'250px 0px'}).observe($('#wheel'))}catch(e){}
- function f(){if(!WV)return requestAnimationFrame(f);const on=document.querySelector('#wheel .wp.on');if(!on)return requestAnimationFrame(f);const r=on.getBoundingClientRect(),s=st.getBoundingClientRect();
-  const k=on.dataset.wk,i=+on.dataset.wi;const key=k+i;if(key!==last&&M[k]&&M[k][i]){last=key;cap.innerHTML=`<b>${esc(M[k][i].n)}</b><em>${P(M[k][i].p)}</em>`}
-  const cx=r.left-s.left+r.width/2,by=r.bottom-s.top;cap.style.left=cx+'px';cap.style.top=(by+10)+'px';
-  const gap=innerWidth<900?8:22,cy=r.top-s.top+r.height/2-23;L.style.left=Math.max(4,r.left-s.left-46-gap)+'px';R.style.left=Math.min(s.width-50,r.right-s.left+gap)+'px';L.style.top=cy+'px';R.style.top=cy+'px';requestAnimationFrame(f)}
- requestAnimationFrame(f)})();
 
 /* section number matches the title's height */
 (()=>{const f=()=>document.querySelectorAll('.ch').forEach(c=>{const n=c.querySelector('.num'),h=c.querySelector('h2');if(n&&h&&h.offsetHeight)n.style.setProperty('font-size',Math.round(h.offsetHeight*1.32)+'px','important')});addEventListener('resize',f);setTimeout(f,300);setTimeout(f,1500);document.addEventListener('click',()=>setTimeout(f,400))})();
@@ -2674,7 +2734,6 @@ const PR=[
  ['s4','g_basil2',5,70,50,1],['s4','g_carrot',88,120,82,.9],['s4','g_tomB',94,760,46,1,1],
  ['s5','g_basil1',4,160,54,1,1],['s5','g_tomC',93,520,46,1.1,1],['s5','g_lemon',50,40,52,.7,1],
  ['s6','g_tomA',3,60,48,1],['s6','g_basil3',95,300,50,1],['s6','g_avo',88,40,86,.9,1],
- ['chef','g_basil3',3,30,56,1],['chef','g_lemon',42,40,58,.9,1],['chef','g_tomB',56,20,50,.8,1],
  ['band','g_lemon',88,120,68,1,0,'f'],['band','ice',88,120,72,1,0,'d'],['band','g_basil2',8,90,48,1,1],
  ['foot','g_tomato',90,20,50,1,0,'f'],['foot','g_basil1',70,10,40,.8,1],
  ['hero','palm',-3,60,230,.35,1,'d'],['hero','palm',84,560,200,.4,1,'d'],['hero','ice',86,120,70,1,0,'d'],['tools','ice2',92,80,64,1,0,'d'],['tools','palm',-2,300,160,.4,1,'d'],
@@ -3063,7 +3122,7 @@ addEventListener('load',()=>idle(()=>{
 /* ===== English / Arabic ===== */
 (()=>{
 const AR={"Home": "الرئيسية", "Menu": "القائمة", "Drinks": "المشروبات", "Our Story": "قصتنا", "Events": "الفعاليات", "Contact Us": "تواصل معنا", "Food": "الطعام", "Book a table": "احجز طاولة", "Follow on Instagram": "تابعنا على إنستغرام", "Follow on Facebook": "تابعنا على فيسبوك", "Opens today": "يفتح اليوم", "at 9 AM": "الساعة 9 صباحاً", "Rooftop · Al Jaddaf · Dubai": "على السطح · الجداف · دبي", "Modern Levant plates from a charcoal kitchen, served on the rooftop of Barceló Al Jaddaf with the skyline for company.": "أطباق شامية عصرية من مطبخ الفحم، تُقدَّم على سطح برشلو الجداف وأفق المدينة يرافقكم.", "Explore the menu": "استعرض القائمة", "Book on WhatsApp": "احجز عبر واتساب", "dishes": "طبقاً", "nights a week": "ليالٍ أسبوعياً", "open daily": "يومياً", "Tap the plate to look closer": "اضغط على الطبق لتراه عن قرب", "Scroll": "مرّر", "Charcoal": "فحم", "Sumac": "سماق", "Za'atar": "زعتر", "Citrus": "حمضيات", "Smoke": "تدخين", "Fresh herbs": "أعشاب طازجة", "Pomegranate": "رمان", "Skyline views": "إطلالات على الأفق", "Seven chapters, thirty-three plates. Tap any dish to see it up close, save it to your picks, and send them to us when you book.": "سبعة فصول وثلاثة وثلاثون طبقاً. اضغط على أي طبق لرؤيته عن قرب، واحفظه في اختياراتك، وأرسلها إلينا عند الحجز.", "Bar Bites": "أطباق خفيفة", "6 dishes": "6 أطباق", "Sharers": "أطباق للمشاركة", "4 dishes": "4 أطباق", "Chef's Mains": "أطباق الشيف الرئيسية", "From the Gardens": "من الحدائق", "7 dishes": "7 أطباق", "Signature Burgers": "برغر مميز", "2 dishes": "طبقان", "Stone Oven Favourites": "مفضلات فرن الحجر", "3 dishes": "3 أطباق", "Sweet Finish": "ختام حلو", "5 dishes": "5 أطباق", "*All prices are in Dirhams & inclusive of 10% service charge, 7% municipality fee and 5% VAT. Alcoholic beverages are served to guests aged 21 and over.": "*جميع الأسعار بالدرهم وتشمل رسوم الخدمة 10% ورسوم البلدية 7% وضريبة القيمة المضافة 5%. تُقدَّم المشروبات الكحولية للضيوف من عمر 21 عاماً فأكثر.", "Avoiding something? Tap to filter": "تتجنب شيئاً؟ اضغط للتصفية", "Gluten": "الغلوتين", "Dairy": "الألبان", "Nuts": "المكسرات", "Shellfish": "المحار والقشريات", "Egg": "البيض", "Sesame": "السمسم", "Mustard": "الخردل", "Fish": "السمك", "Celery": "الكرفس", "Peanuts": "الفول السوداني", "Soya": "الصويا", "Sulphites": "الكبريتيت", "Vegetarian": "نباتي", "Bar": "أطباق", "Bites": "خفيفة", "Small plates, big flavours. Vibrant bites to start your B-Heaven evening.": "أطباق صغيرة ونكهات كبيرة. لقيمات نابضة بالحياة لتبدأ بها أمسيتك في بي-هيفن.", "Slow-cooked hickory brisket glazed with BBQ sauce, served with mustard slaw.": "صدر بقر مطهو ببطء على خشب الهيكوري ومغطى بصلصة الباربكيو، يُقدَّم مع سلطة الملفوف بالخردل.", "Tender chicken shawarma wrapped in flat bread with garlic sauce, pickles and crispy fries.": "شاورما دجاج طرية ملفوفة بالخبز مع صلصة الثوم والمخلل والبطاطا المقرمشة.", "Tomatoes, olives and feta cheese spread on grilled sourdough with basil, cucumber and oregano.": "طماطم وزيتون وجبنة فيتا على خبز العجين المخمّر المشوي مع الريحان والخيار والأوريجانو.", "Two Angus beef sliders with smoked cheddar, pickles and burger sauce.": "شريحتا برغر أنغوس صغيرتان مع جبنة شيدر مدخنة ومخلل وصلصة البرغر.", "Chef’s pick": "اختيار الشيف", "Lightly fried squid finished with herbs, spring onion, chili and sea salt.": "حبار مقلي بخفة مع الأعشاب والبصل الأخضر والفلفل الحار وملح البحر.", "Crispy wings tossed with BBQ glaze, sesame and chives.": "أجنحة مقرمشة مغطاة بصلصة الباربكيو مع السمسم والثوم المعمر.", "Generous platters made for the middle of the table and good company.": "أطباق سخية تُوضع في وسط الطاولة وتليق بالصحبة الطيبة.", "Chicken wings, loaded fries, crispy squid and padron peppers.": "أجنحة دجاج وبطاطا محمّلة وحبار مقرمش وفلفل بادرون.", "Black beans, smoked cheddar, sour cream, pickled jalapeño, avocado, tomatillo salsa and house chilli beef.": "فاصولياء سوداء وجبنة شيدر مدخنة وكريمة حامضة وهالبينو مخلل وأفوكادو وصلصة التوماتيلو ولحم بقري بالفلفل على طريقة المطعم.", "Grilled lamb chops, chicken shish tawook, beef kebab and lamb kofta with grilled vegetables, garlic sauce, tahini and warm Arabic bread.": "ريش لحم ضأن مشوية وشيش طاووق دجاج وكباب لحم وكفتة ضأن مع خضار مشوية وصلصة الثوم والطحينة والخبز العربي الساخن.", "Choice of garlic butter herbs, creamy sauce or oriental harra sauce.": "اختر بين زبدة الثوم والأعشاب أو الصلصة الكريمية أو صلصة الحارة الشرقية.", "Chef's pick · Monday": "اختيار الشيف · الاثنين", "See today's special": "اكتشف طبق اليوم", "View dish": "عرض الطبق", "Hover the plate": "مرّر فوق الطبق", "Tap the chef for today's special": "اضغط على الشيف لطبق اليوم", "“Every plate starts with the Levant and ends with a view.”": "«كل طبق يبدأ من بلاد الشام وينتهي بإطلالة.»", "Slow-smoked beef short ribs with creamy truffle potato puree, seasonal vegetables and rich beef jus.": "أضلاع بقر قصيرة مدخّنة ببطء مع هريس البطاطا الكريمي بالكمأة وخضار الموسم ومرق اللحم الغني.", "From": "من", "chef's": "مطبخ", "pass": "الشيف", "Gardens": "الحدائق", "Bright salads and Levantine dips built on garden produce and sharp dressings.": "سلطات منعشة ومقبلات شامية مبنية على منتجات الحدائق وصلصات منعشة.", "Hummus, muhammara and beetroot mutabal served with crispy sumac bread.": "حمص ومحمّرة ومتبّل الشمندر يُقدَّم مع خبز السماق المقرمش.", "Fresh parsley, tomatoes, mint and bulgur tossed with lemon and olive oil. Add grilled shrimp AED 49.": "بقدونس طازج وطماطم ونعناع وبرغل مع الليمون وزيت الزيتون. أضف روبيان مشوي 49 درهماً.", "Fresh vegetables, herbs and crispy pita tossed in tangy sumac dressing.": "خضار وأعشاب طازجة وخبز بيتا مقرمش مع صلصة السماق المنعشة.", "Grilled salmon, fresh jarjeer, avocado, cherry tomatoes, cucumber, capers and lemon sumac dressing.": "سلمون مشوي وجرجير طازج وأفوكادو وطماطم كرزية وخيار وكبر وصلصة الليمون والسماق.", "Red and white quinoa, kale, mango, cashews, pomegranate and passion fruit dressing.": "كينوا حمراء وبيضاء وكيل ومانجو وكاجو ورمان وصلصة فاكهة الباشن.", "Baby gem lettuce, garlic-herb croutons, shaved Parmesan and Caesar dressing. Shrimp 69 / Chicken 59.": "خس بيبي جيم وخبز محمّص بالثوم والأعشاب وبارميزان مبشور وصلصة سيزر. روبيان 69 / دجاج 59.", "Grilled halloumi, mixed leaves, cherry tomatoes, cucumber, olives and lemon oregano dressing.": "جبنة حلوم مشوية وأوراق خضراء مشكلة وطماطم كرزية وخيار وزيتون وصلصة الليمون والأوريجانو.", "Signature": "برغر", "Burgers": "مميز", "Stacked, juicy and served on toasted brioche. Comfort food, elevated.": "مرصوص وعصيري ويُقدَّم على خبز بريوش محمّص. طعام مريح بنكهة راقية.", "Angus beef patties, smoked cheddar cheese, crisp beef bacon, house pickles, guacamole and signature burger sauce.": "قرصان من لحم أنغوس وجبنة شيدر مدخنة ولحم بقري مقدّد مقرمش ومخلل المطعم وغواكامولي وصلصة البرغر الخاصة.", "Crispy buttermilk chicken breast, house slaw, pickles and spicy mayo on a toasted brioche bun.": "صدر دجاج مقرمش بالزبدة المخفوقة مع سلطة الملفوف والمخلل والمايونيز الحار على خبز بريوش محمّص.", "Stone": "مفضلات", "Oven": "فرن", "Favourites": "الحجر", "Handcrafted pizzas baked in our stone oven with the finest ingredients.": "بيتزا مصنوعة يدوياً ومخبوزة في فرن الحجر لدينا من أجود المكونات.", "Tomato sauce, mozzarella, bresaola beef, truffle, peppers and fresh herbs.": "صلصة الطماطم وموزاريلا ولحم بريزاولا وكمأة وفلفل وأعشاب طازجة.", "Buffalo mozzarella, vine tomatoes, basil and olive oil.": "موزاريلا الجاموس وطماطم العنقود والريحان وزيت الزيتون.", "Sautéed wild mushrooms, mozzarella, Parmesan, smoked cheddar, gorgonzola cheese and fresh basil.": "فطر بري مقلي مع موزاريلا وبارميزان وشيدر مدخن وجبنة غورغونزولا وريحان طازج.", "Sweet": "ختام", "Finish": "حلو", "A sweet close to the evening, from warm Umali to burnt cheesecake.": "ختام حلو للأمسية، من أم علي الدافئة إلى تشيز كيك المحروق.", "Baked puff pastry, served with vanilla ice cream and nuts.": "عجينة مورّقة مخبوزة تُقدَّم مع آيس كريم الفانيلا والمكسرات.", "Rich brownie with vanilla ice cream and chocolate sauce.": "براوني غني مع آيس كريم الفانيلا وصلصة الشوكولاتة.", "Vanilla ice cream topped with freshly brewed espresso.": "آيس كريم الفانيلا مغطى بإسبريسو طازج.", "Served with salted caramel sorbet.": "يُقدَّم مع سوربيه الكراميل المملح.", "A selection of seasonal fruit.": "تشكيلة من فاكهة الموسم.", "Cocktail matchmaker": "اختر كوكتيلك", "Find": "اعثر", "your": "على", "cocktail": "كوكتيلك", "Three quick questions and our bar picks the cocktail made for you.": "ثلاثة أسئلة سريعة ويختار لك البار الكوكتيل المناسب.", "Question 1 of 3": "السؤال 1 من 3", "Sweet or bitter?": "حلو أم مرّ؟", "Soft, fruity, rounded": "ناعم وفاكهي ومتوازن", "Bitter": "مرّ", "Dry, bold, grown-up": "جاف وجريء وناضج", "10 drinks": "10 مشروبات", "Cocktails": "كوكتيلات", "Ten house creations, from milk-washed rum to clarified bourbon. Swipe the shelf and tap a glass for its story.": "عشرة إبداعات خاصة، من الروم المصفّى بالحليب إلى البوربون الرائق. مرّر الرف واضغط على كأس لتعرف قصته.", "Drag · tap a glass": "اسحب · اضغط على كأس", "Clásico": "كلاسيك", "The classics, reworked with a Mediterranean hand: olive oil-washed gin, cumin mango, walnut bourbon.": "الكلاسيكيات بلمسة متوسطية: جين مغسول بزيت الزيتون ومانجو بالكمون وبوربون بالجوز.", "Olive oil-washed gin · Sweet vermouth · Campari": "جين مغسول بزيت الزيتون · فيرموث حلو · كامباري", "Walnut infused bourbon whiskey · Bitters · Wild honey": "ويسكي بوربون منقوع بالجوز · بيترز · عسل بري", "Chili tequila · Lime juice · Sweet and savory syrup · Grapefruit soda": "تكيلا بالفلفل الحار · عصير الليمون الأخضر · شراب حلو ومالح · صودا الجريب فروت", "Tequila · Cumin infused mango · Cointreau · Fresh lime juice": "تكيلا · مانجو منقوعة بالكمون · كوانترو · عصير ليمون أخضر طازج", "Bourbon whiskey · Sweet vermouth · Campari · Black peppercorn & cardamom bitters": "ويسكي بوربون · فيرموث حلو · كامباري · بيترز الفلفل الأسود والهيل", "Gin · Black tea syrup · Orange bitters · Tonics": "جين · شراب الشاي الأسود · بيترز البرتقال · تونك", "Gin · All citrus · Chili tincture · Chili oil": "جين · كل الحمضيات · خلاصة الفلفل الحار · زيت الفلفل الحار", "Vodka · Espresso · Kahlua · Vanilla · Foamee": "فودكا · إسبريسو · كالوا · فانيلا · رغوة", "Red or white wine · Seasonal fruits · Brandy · Wild honey": "نبيذ أحمر أو أبيض · فواكه الموسم · براندي · عسل بري", "Gin or vodka · Dry vermouth · Mediterranean homemade cordial": "جين أو فودكا · فيرموث جاف · شراب متوسطي منزلي", "7 drinks": "7 مشروبات", "B-Good": "بي-غود", "Zero": "صفر", "Proof": "كحول", "All the flavour, none of the alcohol. Fresh coolers, coladas and lemonades.": "كل النكهة بلا كحول. مشروبات منعشة وكولادا وليمونادا.", "21 on the list": "21 في القائمة", "Wine": "النبيذ", "Bubbles": "فقاعات", "A tight list across the Old and New World, poured by the glass or the bottle.": "قائمة منتقاة من العالمين القديم والجديد، بالكأس أو بالزجاجة.", "White": "أبيض", "Rosé": "روزيه", "Red": "أحمر", "Sparkling": "فوّار", "Champagne": "شمبانيا", "Glass": "كأس", "Bottle": "زجاجة", "45 glass · 220 bottle": "45 للكأس · 220 للزجاجة", "8 on the list": "8 في القائمة", "Beers": "البيرة", "Ice-cold bottles and pints on draught.": "زجاجات مثلجة وبيرة مضغوطة.", "Bottles": "زجاجات", "Draught": "مضغوطة", "Netherlands": "هولندا", "United States": "الولايات المتحدة", "Barcelona": "برشلونة", "Mexico": "المكسيك", "61 on the list": "61 في القائمة", "Spirits": "المشروبات الروحية", "From Tito's to Macallan 18. Neat, on the rocks or with your mixer of choice.": "من تيتوس إلى ماكالان 18. صافياً أو مع الثلج أو مع المزيج الذي تفضله.", "Tequila & Mezcal": "تكيلا ومزكال", "Single Malt": "سنغل مولت", "Blended": "مخلوط", "Irish & Bourbon": "آيرش وبوربون", "Cognac": "كونياك", "Rum": "روم", "Gin": "جين", "Vodka": "فودكا", "65 glass · 750 bottle": "65 للكأس · 750 للزجاجة", "24 on the list": "24 في القائمة", "Coffee,": "قهوة", "Tea": "وشاي", "Soft": "ومشروبات", "Espresso to Avantcha tea, fresh juices and soft drinks.": "من الإسبريسو إلى شاي أفانتشا، وعصائر طازجة ومشروبات غازية.", "Coffee & Tea": "القهوة والشاي", "Juices": "العصائر", "Soft Beverages": "المشروبات الغازية", "*All prices are in Dirhams & inclusive of 10% service charge, 7% municipality fee and 5% VAT.": "*جميع الأسعار بالدرهم وتشمل رسوم الخدمة 10% ورسوم البلدية 7% وضريبة القيمة المضافة 5%.", "Alcoholic beverages are served to guests aged 21 and over. Please drink responsibly.": "تُقدَّم المشروبات الكحولية للضيوف من عمر 21 عاماً فأكثر. يرجى الاستمتاع بمسؤولية.", "Crispy breaded chicken breast topped with fresh rocket, cherry tomatoes, shaved Parmesan and tomato ragout.": "صدر دجاج مقرمش مغطى بالجرجير الطازج والطماطم الكرزية والبارميزان المبشور وراغو الطماطم.", "A": "", "taste": "نكهة", "above": "فوق", "the": "", "city": "المدينة", "The": "", "See": "نراكم", "you": "", "rooftop.": "السطح.", "Chargrilled jumbo prawns marinated in traditional chermoula, served with rocca salad and lemon butter.": "روبيان جامبو مشوي على الفحم متبّل بالشرمولة التقليدية، يُقدَّم مع سلطة الجرجير وزبدة الليمون.", "Grilled seabass with spicy harra, fragrant cous cous and baby vegetables.": "سمك قاروص مشوي مع صلصة الحارة الحارة وكسكسي عطري وخضار صغيرة.", "Grilled ribeye beef steak with truffle potato puree and seasonal vegetables.": "ستيك ريب آي مشوي مع هريس البطاطا بالكمأة وخضار الموسم.", "Creamy Arborio rice with wild shiitake mushrooms, Parmesan, fresh herbs and a drizzle of truffle oil.": "أرز أربوريو كريمي مع فطر الشيتاكي البري والبارميزان وأعشاب طازجة وقطرات من زيت الكمأة.", "Signature plates from the pass: charcoal, spice and slow-cooked craft.": "أطباق مميزة من مطبخ الشيف: فحم وتوابل وطهي بطيء متقن.", "What guests say": "ماذا يقول ضيوفنا", "Loved": "محبوب", "on": "على", "Google": "غوغل", "from 271 Google reviews": "من 271 تقييماً على غوغل", "Local Guide": "مرشد محلي", "Google review": "تقييم غوغل", "Read all reviews": "اقرأ كل التقييمات", "Leave a review": "اترك تقييماً", "Reviews shown as written by guests on Google.": "التقييمات معروضة كما كتبها الضيوف على غوغل.", "Weekly nights": "ليالي الأسبوع", "Something": "شيء", "every": "مميز", "weekend": "كل أسبوع", "Hover or tap a card to turn it over, then book your spot straight on WhatsApp.": "مرّر أو اضغط على البطاقة لقلبها، ثم احجز مكانك مباشرة عبر واتساب.", "Thu": "الخميس", "Ladies night": "ليلة السيدات", "Velvet Thursdays": "خميس المخمل", "Music, mocktails and the skyline to start the weekend.": "موسيقى وموكتيلات وأفق المدينة لتبدأ عطلة نهاية الأسبوع.", "↻ Turn over": "↻ اقلب البطاقة", "When": "الموعد", "7 PM – midnight": "7 مساءً – منتصف الليل", "Price": "السعر", "89 per lady": "89 للسيدة", "Book Thursday": "احجز الخميس", "Fri": "الجمعة", "Live music": "موسيقى حية", "Jazz Fridays with Anetta": "جمعة الجاز مع أنيتا", "Live jazz on the rooftop as the city lights come on.": "جاز حي على السطح مع إضاءة أنوار المدينة.", "9 PM – midnight": "9 مساءً – منتصف الليل", "Ladies": "السيدات", "99 · Gents": "99 · السادة", "Book Friday": "احجز الجمعة", "Sat": "السبت", "Arabic night": "ليلة عربية", "Layali Night with Nouha Issa": "ليالي مع نوهى عيسى", "Classic Arabic songs, shisha and late-night plates.": "أغانٍ عربية كلاسيكية وشيشة وأطباق السهرة.", "9 PM – 1 AM": "9 مساءً – 1 صباحاً", "Good to know": "من المفيد معرفته", "Book ahead": "احجز مسبقاً", "Book Saturday": "احجز السبت", "Daily": "يومياً", "Sunset happy hour": "ساعة السعادة عند الغروب", "B-Heaven Happy Hours": "ساعات سعادة بي-هيفن", "Sunset prices on spirits, cocktails, wine and beer as the skyline turns gold.": "أسعار الغروب على المشروبات الروحية والكوكتيلات والنبيذ والبيرة بينما يتحول الأفق إلى الذهبي.", "Everyday, sunset – 8 PM": "يومياً، من الغروب حتى 8 مساءً", "Drinks from": "المشروبات من", "Book happy hour": "احجز ساعة السعادة", "Private events": "فعاليات خاصة", "Your night, our rooftop.": "ليلتك، على سطحنا.", "Birthdays, engagements, corporate nights or a full skyline buyout — we'll shape the menu, music and seating around your guest list.": "أعياد ميلاد وخطوبة وأمسيات شركات أو حجز كامل للمكان — نصمّم القائمة والموسيقى والجلسات حول قائمة ضيوفك.", "Semi-private lounges & full venue buyouts": "صالات شبه خاصة وحجز المكان بالكامل", "Custom set menus & drink packages": "قوائم مخصصة وباقات مشروبات", "Live DJ, jazz or your own entertainment": "دي جي حي أو جاز أو ترفيهك الخاص", "Enquire on WhatsApp": "استفسر عبر واتساب", "Email us": "راسلنا", "Birthdays & celebrations": "أعياد الميلاد والاحتفالات", "Cake, decor and a table with a view": "كعكة وديكور وطاولة بإطلالة", "Corporate nights": "أمسيات الشركات", "Team dinners, launches & client hosting": "عشاء فرق وإطلاقات واستضافة عملاء", "Proposals & anniversaries": "طلبات الزواج والذكرى السنوية", "Sunset timing, quiet corner on request": "توقيت الغروب وزاوية هادئة عند الطلب", "Find us": "موقعنا", "Barceló Al Jaddaf": "برشلو الجداف", "Dubai": "دبي", "Get directions": "احصل على الاتجاهات", "Hours": "ساعات العمل", "Open daily": "مفتوح يومياً", "9 AM – 2 AM": "9 صباحاً – 2 صباحاً", "Smart casual": "أنيق غير رسمي", "Closed · opens 9 AM": "مغلق · يفتح 9 صباحاً", "Contact": "التواصل", "Modern Levant · Rooftop Dubai": "مطبخ شامي عصري · سطح دبي", "My picks": "اختياراتي", "Add to picks": "أضف إلى اختياراتي", "Ask on WhatsApp": "اسأل عبر واتساب", "Saved for your visit": "محفوظ لزيارتك", "Nothing saved yet. Open any dish and tap “Add to picks”.": "لا شيء محفوظ بعد. افتح أي طبق واضغط «أضف إلى اختياراتي».", "Estimated": "الإجمالي التقديري", "Send picks & book": "أرسل الاختيارات واحجز", "Menu type": "نوع القائمة", "Open menu": "افتح القائمة", "Close": "إغلاق", "Previous": "السابق", "Next": "التالي", "Say hi to the chef": "قل مرحباً للشيف", "Previous dish": "الطبق السابق", "Next dish": "الطبق التالي", "Previous review": "التقييم السابق", "Next review": "التقييم التالي", "Dish details": "تفاصيل الطبق", "Open now": "مفتوح الآن", "until 2 AM": "حتى 2 صباحاً", "Tonight": "الليلة", "Opens today at 9 AM": "يفتح اليوم الساعة 9 صباحاً", "Open now · until 2 AM": "مفتوح الآن · حتى 2 صباحاً", "Pint · Barcelona": "باينت · برشلونة", "From pineapple fields kissed by the tropical sun to coconuts gathered by the sea, this milk-washed rum cocktail transforms familiar island flavors into a crystal-clear, silky-smooth experience.": "من حقول الأناناس التي قبّلتها الشمس الاستوائية إلى جوز الهند المقطوف قرب البحر، يحوّل هذا الكوكتيل المصفّى بالحليب نكهات الجزر المألوفة إلى تجربة صافية كالبلّور ناعمة كالحرير.", "Inspired by the glow of a tropical sunset, pineapple is gently toasted to deepen its sweetness before being blended with golden honey into a vibrant shrub. Lifted by Tito's vodka, the result is a sophisticated balance of bright acidity, subtle smoke, and effortless elegance.": "مستوحى من توهّج غروب استوائي، يُحمَّص الأناناس برفق ليعمّق حلاوته ثم يُمزج مع العسل الذهبي في شراب نابض بالحياة. وبفودكا تيتوس يبلغ توازناً راقياً بين الحموضة المنعشة والدخان الخفيف والأناقة العفوية.", "A journey of contrasts unfolds with every sip: vibrant lime awakens the palate, spiced ginger adds warmth and complexity, while aromatic bitters weave the elements into perfect harmony.": "رحلة من التناقضات تتكشف مع كل رشفة: الليمون الأخضر النابض يوقظ الحواس، والزنجبيل المتبّل يضيف الدفء والعمق، فيما ينسج البيترز العطري العناصر في انسجام تام.", "A journey through citrus orchards and spice markets, where fresh citrus awakens the palate, tequila provides depth, and a delicate chili warmth lingers beneath a refreshing sparkle.": "رحلة بين بساتين الحمضيات وأسواق التوابل، حيث تنعش الحمضيات الطازجة الحواس، وتمنح التكيلا العمق، ويبقى دفء الفلفل الحار الرقيق تحت فوران منعش.", "A study in balance and texture, where the bright botanicals of Bombay gin meet the earthy intrigue of mushroom brine. Refined, polished, and effortlessly complex.": "دراسة في التوازن والقوام، حيث تلتقي أعشاب جين بومباي المنعشة مع غموض ماء الفطر الترابي. راقٍ ومصقول ومعقّد بسلاسة.", "A journey through layers of flavor unfolds with every sip: earthy beetroot grounds the palate, honey adds gentle warmth, and botanical gin brings brightness, all carried by the graceful touch of sweet vermouth.": "رحلة عبر طبقات النكهة مع كل رشفة: الشمندر الترابي يرسّخ المذاق، والعسل يضيف دفئاً لطيفاً، والجين العشبي يمنح الانتعاش، وكلها بلمسة رشيقة من الفيرموث الحلو.", "A rich blend of whiskey, crisp apple, warm cinnamon, and golden honey. Smooth, spiced, and gently sweet, with a comforting warmth and a soft, lingering finish.": "مزيج غني من الويسكي والتفاح المقرمش والقرفة الدافئة والعسل الذهبي. ناعم ومتبّل وحلو بلطف، بدفء مريح ونهاية رقيقة تدوم.", "Crafted with precision and patience, this clarified bourbon creation reveals a smoother side of whiskey: bright, elegant, and beautifully balanced from the first sip to the last.": "صُنع بدقة وصبر، ويكشف هذا البوربون الرائق وجهاً أنعم للويسكي: منعش وأنيق ومتوازن بجمال من أول رشفة إلى آخرها.", "A vibrant blend of pisco, tropical fruit, and fresh citrus, balanced with a silky foam finish. Bright, juicy, and refreshing with a smooth, tangy sweetness and a tropical twist.": "مزيج نابض من البيسكو والفواكه الاستوائية والحمضيات الطازجة، متوازن بلمسة رغوة حريرية. منعش وعصيري بحلاوة ناعمة لاذعة ولمسة استوائية.", "Ruby-red drink combining juicy sweet cherries with zesty lemon for a crisp, tangy kick. Light herbal or floral notes add a smooth Mediterranean touch, creating a refreshing, well-balanced sip that's both fruity and slightly tart.": "مشروب أحمر ياقوتي يجمع الكرز الحلو العصيري مع الليمون المنعش لنكهة مقرمشة لاذعة. نفحات عشبية أو زهرية خفيفة تضيف لمسة متوسطية ناعمة، لرشفة منعشة ومتوازنة فاكهية وحامضة قليلاً."};
-Object.assign(AR,{"· until 2 AM": "· حتى الثانية صباحاً", "SUL": "كبريتيت", "Fattoush Salad": "سلطة فتوش", "Smoky Beef Brisket": "صدر لحم بقري مدخّن", "Spiced Shawarma Bites": "لقيمات شاورما متبّلة", "Mediterranean Bruschetta": "بروشيتا متوسطية", "Luqma Beef Sliders": "سلايدرز لحم لقمة", "Golden Rings": "حلقات ذهبية", "Fire Chicken Wings": "أجنحة دجاج حارة", "The Social Platter": "طبق السوشال", "Supreme Nachos": "ناتشوز سوبريم", "Oriental Mix Grill": "مشاوي مشكّلة شرقية", "Oriental Mix Grill ·": "مشاوي مشكّلة شرقية ·", "Coastal Mussels & Fries": "بلح البحر مع البطاطس", "Smokehouse Beef Ribs": "ضلوع لحم بقري مدخّنة", "Levant Trio of Dips": "ثلاثية مقبلات الشام", "Classic Tabbouleh Salad": "سلطة تبولة كلاسيكية", "Sumac Salmon Salad": "سلطة سلمون بالسماق", "Passion Kale & Quinoa Salad": "سلطة الكالي والكينوا بالباشن فروت", "Signature House Caesar Salad": "سلطة سيزر الخاصة", "Charred Halloumi Salad": "سلطة حلوم مشوي", "The Classic Burger": "البرغر الكلاسيكي", "Golden Crunch Chicken": "دجاج مقرمش ذهبي", "Spicy Bresaola Royal Pizza": "بيتزا برزاولا رويال الحارة", "Garden Margherita": "مارغريتا الحديقة", "Four Cheese Mushroom Pizza": "بيتزا الفطر بالأجبان الأربعة", "Umali": "أم علي", "Warm Choco Brownie": "براوني الشوكولاتة الدافئ", "Pistachio Affogato": "أفوغاتو الفستق", "Burnt Cheesecake": "تشيز كيك محروق", "Seasonal Fruit Platter": "طبق فواكه الموسم", "Golden Milanese": "ميلانيزي ذهبي", "Ribeye Al Sham": "ريب آي الشام", "Ribeye Al Sham ·": "ريب آي الشام ·", "Heaven Mule": "هيفن موول", "Farmers Nectar": "رحيق المزارعين", "Bee Apple And Cinnamon": "نحلة وتفاح وقرفة", "All Citrus Lemonade": "ليموناضة الحمضيات", "Pineapple Mint Cooler": "مبرّد الأناناس والنعناع", "Lemon Iced Tea": "شاي مثلج بالليمون", "Americano Coffee": "قهوة أمريكانو", "Cappuccino": "كابتشينو", "Espresso": "إسبريسو", "Double Espresso": "إسبريسو مزدوج", "Café Latte": "كافيه لاتيه", "Cortado": "كورتادو", "Avantcha Tea": "شاي أفانتشا", "Sauvignon Blanc · Valle Central, Chile": "سوفينيون بلان · الوادي المركزي، تشيلي", "Albariño · Rías Baixas, Spain": "ألبارينيو · ريّاس بايشاس، إسبانيا", "Chardonnay · Mendoza, Argentina": "شاردونيه · مندوزا، الأرجنتين", "Sauvignon Blanc · Marlborough, New Zealand": "سوفينيون بلان · مارلبورو، نيوزيلندا", "Pinot Grigio delle Venezie · Tuscany, Italy": "بينو غريجيو دلي فينيتسيه · توسكانا، إيطاليا", "Pinot Grigio · South Australia": "بينو غريجيو · جنوب أستراليا"});
+Object.assign(AR,{"Slow-smoked beef short ribs": "ريب لحم بقري مدخن ببطء", "Truffle potato puree": "هريس بطاطس بالكمأة", "Rich beef jus": "صلصة اللحم الغنية", "Crispy breaded chicken": "دجاج مقرمش مبهّر", "Rocket & cherry tomatoes": "جرجير وطماطم كرزية", "Shaved Parmesan": "جبنة بارميزان مبشورة", "Creamy Arborio rice": "أرز أربوريو كريمي", "Wild shiitake mushrooms": "فطر شيتاكي بري", "Truffle oil": "زيت الكمأة", "Chargrilled jumbo prawns": "روبيان جامبو مشوي على الفحم", "Traditional chermoula": "شرمولة تقليدية", "Lemon butter": "زبدة الليمون", "Grilled seabass": "سمك قاروص مشوي", "Spicy harra": "حرّة حارة", "Cous cous & baby vegetables": "كسكس وخضار صغيرة", "Grilled ribeye": "ريب آي مشوي", "Seasonal vegetables": "خضار موسمية", "See today's special": "اطلب طبق اليوم", "From the chef's pass": "من ركن الشيف", "· until 2 AM": "· حتى الثانية صباحاً", "SUL": "كبريتيت", "Fattoush Salad": "سلطة فتوش", "Smoky Beef Brisket": "صدر لحم بقري مدخّن", "Spiced Shawarma Bites": "لقيمات شاورما متبّلة", "Mediterranean Bruschetta": "بروشيتا متوسطية", "Luqma Beef Sliders": "سلايدرز لحم لقمة", "Golden Rings": "حلقات ذهبية", "Fire Chicken Wings": "أجنحة دجاج حارة", "The Social Platter": "طبق السوشال", "Supreme Nachos": "ناتشوز سوبريم", "Oriental Mix Grill": "مشاوي مشكّلة شرقية", "Oriental Mix Grill ·": "مشاوي مشكّلة شرقية ·", "Coastal Mussels & Fries": "بلح البحر مع البطاطس", "Smokehouse Beef Ribs": "ضلوع لحم بقري مدخّنة", "Levant Trio of Dips": "ثلاثية مقبلات الشام", "Classic Tabbouleh Salad": "سلطة تبولة كلاسيكية", "Sumac Salmon Salad": "سلطة سلمون بالسماق", "Passion Kale & Quinoa Salad": "سلطة الكالي والكينوا بالباشن فروت", "Signature House Caesar Salad": "سلطة سيزر الخاصة", "Charred Halloumi Salad": "سلطة حلوم مشوي", "The Classic Burger": "البرغر الكلاسيكي", "Golden Crunch Chicken": "دجاج مقرمش ذهبي", "Spicy Bresaola Royal Pizza": "بيتزا برزاولا رويال الحارة", "Garden Margherita": "مارغريتا الحديقة", "Four Cheese Mushroom Pizza": "بيتزا الفطر بالأجبان الأربعة", "Umali": "أم علي", "Warm Choco Brownie": "براوني الشوكولاتة الدافئ", "Pistachio Affogato": "أفوغاتو الفستق", "Burnt Cheesecake": "تشيز كيك محروق", "Seasonal Fruit Platter": "طبق فواكه الموسم", "Golden Milanese": "ميلانيزي ذهبي", "Ribeye Al Sham": "ريب آي الشام", "Ribeye Al Sham ·": "ريب آي الشام ·", "Heaven Mule": "هيفن موول", "Farmers Nectar": "رحيق المزارعين", "Bee Apple And Cinnamon": "نحلة وتفاح وقرفة", "All Citrus Lemonade": "ليموناضة الحمضيات", "Pineapple Mint Cooler": "مبرّد الأناناس والنعناع", "Lemon Iced Tea": "شاي مثلج بالليمون", "Americano Coffee": "قهوة أمريكانو", "Cappuccino": "كابتشينو", "Espresso": "إسبريسو", "Double Espresso": "إسبريسو مزدوج", "Café Latte": "كافيه لاتيه", "Cortado": "كورتادو", "Avantcha Tea": "شاي أفانتشا", "Sauvignon Blanc · Valle Central, Chile": "سوفينيون بلان · الوادي المركزي، تشيلي", "Albariño · Rías Baixas, Spain": "ألبارينيو · ريّاس بايشاس، إسبانيا", "Chardonnay · Mendoza, Argentina": "شاردونيه · مندوزا، الأرجنتين", "Sauvignon Blanc · Marlborough, New Zealand": "سوفينيون بلان · مارلبورو، نيوزيلندا", "Pinot Grigio delle Venezie · Tuscany, Italy": "بينو غريجيو دلي فينيتسيه · توسكانا، إيطاليا", "Pinot Grigio · South Australia": "بينو غريجيو · جنوب أستراليا"});
 const ALK={Gluten:'الغلوتين',Dairy:'الألبان',Nuts:'المكسرات',Shellfish:'القشريات',Egg:'البيض',Sesame:'السمسم',Mustard:'الخردل',Fish:'السمك',Celery:'الكرفس',Peanuts:'الفول السوداني',Soya:'الصويا',Sulphites:'الكبريتيت',Vegetarian:'نباتي'};
 const REL=(n,u)=>{const m={day:['يوم','يومين','أيام'],week:['أسبوع','أسبوعين','أسابيع'],month:['شهر','شهرين','أشهر'],hour:['ساعة','ساعتين','ساعات'],year:['سنة','سنتين','سنوات']}[u];if(!m)return null;return n===1?m[0]:n===2?m[1]:n+' '+m[2]};
 const HM=x=>x.replace(/(\d+)h/,'$1 س').replace(/(\d+)m/,'$1 د');
