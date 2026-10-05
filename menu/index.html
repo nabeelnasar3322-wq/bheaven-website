@@ -1142,6 +1142,8 @@ html[dir=rtl] .cpHead{text-align:left;align-items:flex-start}html[dir=rtl] .cpHe
 .cpCall{transition:opacity .35s ease}
 .cpP[data-s="xl"],.cpP[data-s="xr"]{visibility:hidden;transition:transform 1s cubic-bezier(.25,.8,.25,1),opacity .7s ease,visibility 0s .7s}
 @media (prefers-reduced-motion:reduce){.cpP,.cpInfoIn{transition-duration:.01ms!important}}
+/* drinks: single Food/Drinks switch (nav keeps it) */
+body[data-mode=drinks] .tools .modeSw:not(.navSw){display:none}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -2737,12 +2739,12 @@ const SV={
 const PR=[
  ['hero','g_basil1',30,96,50,1,1],['hero','g_tomato',44,220,58,1.2,1,'f'],['hero','g_lemon',40,560,62,.8,1,'f'],['hero','ice2',40,560,64,.8,1,'d'],['hero','g_tomC',6,640,46,.6,1,'f'],['hero','g_basil2',90,700,50,1,1],['hero','g_tomA',88,112,42,1,0,'f'],
  ['tools','g_basil2',6,40,58,1],['tools','g_tomA',92,80,52,1.1,0,'f'],['tools','g_carrot',86,380,78,.9,1,'f'],
- ['s1','g_tomB',3,120,48,1,1],['s1','g_basil3',94,260,62,1.2],['s1','g_lemon',48,40,54,.8,1],['s1','g_avo',90,960,96,.9,1],
- ['s2','g_dip',2,60,112,1,1],['s2','g_basil1',95,200,46,.8,1],
- ['s3','g_lemon',92,60,68,1],['s3','g_tomato',4,520,50,1.1],['s3','g_tomA',50,1080,46,.9,1],
- ['s4','g_basil2',5,70,50,1],['s4','g_carrot',88,120,82,.9],['s4','g_tomB',94,760,46,1,1],
- ['s5','g_basil1',4,160,54,1,1],['s5','g_tomC',93,520,46,1.1,1],['s5','g_lemon',50,40,52,.7,1],
- ['s6','g_tomA',3,60,48,1],['s6','g_basil3',95,300,50,1],['s6','g_avo',88,40,86,.9,1],
+ ['s1','g_tomB',3,120,48,1,1,'f'],['s1','g_basil3',94,260,62,1.2],['s1','g_lemon',48,40,54,.8,1],['s1','g_avo',90,960,96,.9,1,'f'],
+ ['s2','g_dip',2,60,112,1,1,'f'],['s2','g_basil1',95,200,46,.8,1],
+ ['s3','g_lemon',92,60,68,1],['s3','g_tomato',4,520,50,1.1,0,'f'],['s3','g_tomA',50,1080,46,.9,1,'f'],
+ ['s4','g_basil2',5,70,50,1],['s4','g_carrot',88,120,82,.9,0,'f'],['s4','g_tomB',94,760,46,1,1,'f'],
+ ['s5','g_basil1',4,160,54,1,1],['s5','g_tomC',93,520,46,1.1,1,'f'],['s5','g_lemon',50,40,52,.7,1],
+ ['s6','g_tomA',3,60,48,1,0,'f'],['s6','g_basil3',95,300,50,1],['s6','g_avo',88,40,86,.9,1,'f'],
  ['band','g_lemon',88,120,68,1,0,'f'],['band','ice',88,120,72,1,0,'d'],['band','g_basil2',8,90,48,1,1],
  ['foot','g_tomato',90,20,50,1,0,'f'],['foot','g_basil1',70,10,40,.8,1],
  ['hero','palm',-3,60,230,.35,1,'d'],['hero','palm',84,560,200,.4,1,'d'],['hero','ice',86,120,70,1,0,'d'],['tools','ice2',92,80,64,1,0,'d'],['tools','palm',-2,300,160,.4,1,'d'],
