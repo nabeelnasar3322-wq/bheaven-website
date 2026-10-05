@@ -1067,14 +1067,13 @@ body[data-mode=drinks] .ch .num,body[data-mode=drinks] .sideItem .num{-webkit-te
 @keyframes cpFloat{50%{translate:0 calc(-8*var(--u))}}
 
 .cpPlates{position:absolute;inset:0}
-.cpP{position:absolute;left:var(--cx);top:var(--cy);width:calc(500*var(--u));height:calc(500*var(--u));margin:calc(-250*var(--u)) 0 0 calc(-250*var(--u));padding:0;border:0;background:none;border-radius:50%;cursor:pointer;transition:transform .8s cubic-bezier(.22,1,.36,1),opacity .6s ease,filter .6s ease;will-change:transform}
+.cpP{position:absolute;left:var(--cx);top:var(--cy);width:calc(500*var(--u));height:calc(500*var(--u));margin:calc(-250*var(--u)) 0 0 calc(-250*var(--u));padding:0;border:0;background:none;border-radius:50%;cursor:pointer;transition:transform 1s cubic-bezier(.25,.8,.25,1),opacity .7s ease;will-change:transform,opacity;backface-visibility:hidden}
 .cpP img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 calc(26*var(--u)) calc(30*var(--u)) rgba(28,58,76,.28));pointer-events:none;-webkit-user-drag:none}
 .cpP[data-s="0"]{z-index:5;transform:none}
-.cpP[data-s="-1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)*-1),calc(155*var(--u))) scale(.596);filter:saturate(.92)}
-.cpP[data-s="1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)),calc(155*var(--u))) scale(.596);filter:saturate(.92)}
+.cpP[data-s="-1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)*-1),calc(155*var(--u))) scale(.596)}
+.cpP[data-s="1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)),calc(155*var(--u))) scale(.596)}
 .cpP[data-s="xl"]{z-index:1;opacity:0;pointer-events:none;transform:translate(calc(var(--sx)*var(--u)*-1.35),calc(110*var(--u))) scale(.4)}
 .cpP[data-s="xr"]{z-index:1;opacity:0;pointer-events:none;transform:translate(calc(var(--sx)*var(--u)*1.35),calc(110*var(--u))) scale(.4)}
-.cpP[data-s="-1"]:hover,.cpP[data-s="1"]:hover{filter:saturate(1) brightness(1.03)}
 .cpP:focus-visible{outline:2px solid var(--cpb);outline-offset:4px}
 
 .cpCall{position:absolute;inset:0;pointer-events:none;transition:opacity .25s ease}
@@ -1133,6 +1132,16 @@ body[data-mode=drinks] .ch .num,body[data-mode=drinks] .sideItem .num{-webkit-te
 }
 
 html[dir=rtl] .cpHead{text-align:left;align-items:flex-start}html[dir=rtl] .cpHead .cpPill{direction:rtl}
+/* chef's pass: smoother scroll + motion */
+.cpSec{content-visibility:auto;contain-intrinsic-size:auto calc(760*var(--u));contain:layout paint style}
+.cpViz{touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.cpLeaf,.cpLemon{will-change:translate;filter:none;transform:translate(-50%,-50%) rotate(var(--r,0deg))}
+.cpLeaf.l1{--r:-28deg}.cpLeaf.l2{--r:34deg}
+.cpSec.off .cpLeaf,.cpSec.off .cpLemon{animation-play-state:paused}
+.cpInfoIn{transition:opacity .35s ease,transform .45s cubic-bezier(.25,.8,.25,1)}
+.cpCall{transition:opacity .35s ease}
+.cpP[data-s="xl"],.cpP[data-s="xr"]{visibility:hidden;transition:transform 1s cubic-bezier(.25,.8,.25,1),opacity .7s ease,visibility 0s .7s}
+@media (prefers-reduced-motion:reduce){.cpP,.cpInfoIn{transition-duration:.01ms!important}}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -2596,7 +2605,7 @@ function applyAvoid(){
     call.innerHTML=ing.slice(0,3).map((t,j)=>`<div class="cpCi" style="--dx:${DOTS[j][0]};--dy:${DOTS[j][1]}"><i class="dot"></i><s class="ln" style="animation-delay:${j*90}ms"></s><span class="lb">${esc(t)}</span></div>`).join('');
   }
   let ft=0;
-  function swap(){info.classList.add('out');call.classList.add('out');clearTimeout(ft);ft=setTimeout(()=>{fill();info.classList.remove('out');call.classList.remove('out')},230)}
+  function swap(){info.classList.add('out');call.classList.add('out');clearTimeout(ft);ft=setTimeout(()=>{fill();requestAnimationFrame(()=>{info.classList.remove('out');call.classList.remove('out')})},300)}
   function go(i,user){act=(i%N+N)%N;paint();swap();if(user)restart()}
   function restart(){clearInterval(auto);auto=null;if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;auto=setInterval(()=>{if(!hover&&vis&&!document.hidden&&!document.getElementById('ov')?.classList.contains('open'))go(act+1)},5200)}
   plates.addEventListener('click',e=>{const b=e.target.closest('.cpP');if(!b)return;const i=+b.dataset.i;if(i===act)openDish(k,i,b.querySelector('img'));else go(i,true)});
@@ -2607,7 +2616,7 @@ function applyAvoid(){
   let sx=null,sy=0;
   viz.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
   viz.addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;if(Math.abs(dx)>42&&Math.abs(dx)>Math.abs(dy)*1.4)go(act+(dx<0?1:-1),true)},{passive:true});
-  try{new IntersectionObserver(es=>{vis=es[0].isIntersecting},{threshold:.25}).observe($('#story'))}catch(e){}
+  try{new IntersectionObserver(es=>{vis=es[0].isIntersecting;$('#story').classList.toggle('off',!es[0].isIntersecting)},{threshold:0,rootMargin:'80px 0px'}).observe($('#story'))}catch(e){}
   paint(); fill(); restart();
 
   /* today's special: opens that dish */
