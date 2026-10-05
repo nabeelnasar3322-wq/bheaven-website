@@ -1166,10 +1166,10 @@ body[data-mode=drinks] .hero .wrap{grid-template-columns:minmax(0,640px) 1fr}
 body[data-mode=drinks] .heroCopy p{color:#D9E3E2}
 @media (max-width:900px){body[data-mode=drinks] .hero{padding-bottom:400px;background:linear-gradient(180deg,#0E2024 calc(100% - 478px),rgba(14,32,36,0) calc(100% - 300px)),linear-gradient(0deg,rgba(14,32,36,1) 0%,rgba(14,32,36,0) 12%),url(img/drinks-hero-m.webp) 68% 100%/max(100%,778px) auto no-repeat;background-color:#0E2024}body[data-mode=drinks] .hero .wrap{grid-template-columns:1fr}}
 /* Heaven Mule real photo */
-img[src*="heaven-mule"]{object-fit:cover}
-.gl img[src*="heaven-mule"]{width:min(190px,100%);height:250px;border-radius:14px;box-shadow:0 24px 36px -22px rgba(0,0,0,.7)}
-.sq.dk .tileBox img[src*="heaven-mule"],.chip.pic.dk .cl img[src*="heaven-mule"]{border-radius:10px}
-.ov .md .pic img#mdImg[src*="heaven-mule"]{width:100%!important;max-width:none!important;object-fit:cover!important;border-radius:18px!important}
+img[src*="heaven-mule"],img[src*="paloma-picante"]{object-fit:cover}
+.gl img[src*="heaven-mule"],.gl img[src*="paloma-picante"]{width:min(190px,100%);height:250px;border-radius:14px;box-shadow:0 24px 36px -22px rgba(0,0,0,.7)}
+.sq.dk .tileBox img[src*="heaven-mule"],.chip.pic.dk .cl img[src*="heaven-mule"],.sq.dk .tileBox img[src*="paloma-picante"],.chip.pic.dk .cl img[src*="paloma-picante"]{border-radius:10px}
+.ov .md .pic img#mdImg[src*="heaven-mule"],.ov .md .pic img#mdImg[src*="paloma-picante"]{width:100%!important;max-width:none!important;object-fit:cover!important;border-radius:18px!important}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -2346,6 +2346,7 @@ function glassSVG(v){
 }
 Object.entries(DM).forEach(([k,list])=>list.forEach(d=>{d.img=glassSVG(d.spec); d.dk=1;}));
 (DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).img='img/heaven-mule.webp'; (DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).photo=1;
+Object.values(DM).forEach(l=>l.forEach(d=>{if(d.n==='Paloma Picante'){d.img='img/paloma-picante.webp';d.photo=1;d.tall=1}}));
 
 const DATA = Object.assign({}, M, DM);
 const AL = {C:"Celery",G:"Gluten",D:"Dairy",S:"Shellfish",N:"Nuts",F:"Fish",E:"Egg",M:"Mustard",P:"Peanuts",SE:"Sesame",SO:"Soya",SUL:"Sulphites",V:"Vegetarian"};
@@ -2542,7 +2543,7 @@ function openDish(k,i,src){
   const im=$('#mdImg'); im.className=''; void im.offsetWidth;
   const shape=d.photo?'rect':d.dk?'glass':(PH[d.n]||'').startsWith('b_')?'rect':'round';
   im.src=imgOf(d); im.alt=d.n; im.className=shape+(doFly?'':' in'); setSlides(d);
-  ['width','max-width','object-fit','border-radius'].forEach(p=>im.style.removeProperty(p)); if(d.photo){im.style.setProperty('width','100%','important');im.style.setProperty('max-width','none','important');im.style.setProperty('object-fit','cover','important');im.style.setProperty('border-radius','18px','important')}
+  ['width','max-width','object-fit','border-radius','background','height'].forEach(p=>im.style.removeProperty(p)); if(d.photo){im.style.setProperty('width','100%','important');im.style.setProperty('max-width','none','important');im.style.setProperty('object-fit',d.tall?'contain':'cover','important');if(d.tall){im.style.setProperty('background','#04090a','important');im.style.setProperty('height','min(52vh,440px)','important')}im.style.setProperty('border-radius','18px','important')}
   $('#mdCnt').textContent=`${String(i+1).padStart(2,'0')} / ${String(ds.length).padStart(2,'0')}`;
   $('#mdCat').textContent=c?c.t:k; $('#mdName').textContent=d.n; $('#mdDesc').textContent=d.d; $('#mdPrice').innerHTML=P(d.p);
   $('#mdAlg').innerHTML=d.t.map(t=>`<span><b>${t}</b>${AL[t]||t}</span>`).join('');
