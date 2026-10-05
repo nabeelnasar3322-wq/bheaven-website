@@ -1788,6 +1788,10 @@ body[data-mode="drinks"] .heroFx{display:none}
 @keyframes mdShadow{0%,100%{transform:scaleX(1);opacity:.95}50%{transform:scaleX(.82);opacity:.6}}
 @media (prefers-reduced-motion:reduce){.ov.seq .md .info>*,.ov.seq .md .info .alg>span{animation:none!important}.ov.lift .md .pic img#mdImg,.ov.lift .md .pic .gShadow{animation:none!important}}
 </style>
+<style id="perf-pause">
+.pz,.pz *,.pz *::before,.pz *::after{animation-play-state:paused!important}
+#palms img.pz,#floaters img.pz{will-change:auto}
+</style>
 </head>
 <body>
 
@@ -2537,7 +2541,8 @@ function applyAvoid(){
 /* wheel: caption + arrows follow the front plate */
 (()=>{const st=$('#chefStage'),cap=$('#wCap'),L=$('#wL'),R=$('#wR');let last='';
  L.onclick=()=>$('#wPrev').click();R.onclick=()=>$('#wNext').click();cap.onclick=()=>{const on=document.querySelector('#wheel .wp.on');on&&on.click()};
- function f(){const on=document.querySelector('#wheel .wp.on');if(!on)return requestAnimationFrame(f);const r=on.getBoundingClientRect(),s=st.getBoundingClientRect();
+ let WV=true;try{new IntersectionObserver(e=>{WV=e[0].isIntersecting},{rootMargin:'250px 0px'}).observe($('#wheel'))}catch(e){}
+ function f(){if(!WV)return requestAnimationFrame(f);const on=document.querySelector('#wheel .wp.on');if(!on)return requestAnimationFrame(f);const r=on.getBoundingClientRect(),s=st.getBoundingClientRect();
   const k=on.dataset.wk,i=+on.dataset.wi;const key=k+i;if(key!==last&&M[k]&&M[k][i]){last=key;cap.innerHTML=`<b>${esc(M[k][i].n)}</b><em>${P(M[k][i].p)}</em>`}
   const cx=r.left-s.left+r.width/2,by=r.bottom-s.top;cap.style.left=cx+'px';cap.style.top=(by+10)+'px';
   const gap=innerWidth<900?8:22,cy=r.top-s.top+r.height/2-23;L.style.left=Math.max(4,r.left-s.left-46-gap)+'px';R.style.left=Math.min(s.width-50,r.right-s.left+gap)+'px';L.style.top=cy+'px';R.style.top=cy+'px';requestAnimationFrame(f)}
@@ -2557,11 +2562,16 @@ document.querySelectorAll('.ev').forEach(ev=>{ev.addEventListener('click',e=>{if
 /* ---------- NAV ---------- */
 const nav=$('#top'), sticky=$('#chipsSticky');
 const prog=$('#prog');
-function onScroll(){nav.classList.toggle('solid',scrollY>40);
-  const dk=document.body.dataset.mode==='drinks'; const m=(dk?$('#drinkRoot'):$('#menuRoot')).getBoundingClientRect(), st=(dk?$('#drinkRoot'):$('#menuRoot')).getBoundingClientRect(); sticky.classList.toggle('show',m.top<120&&st.bottom>300);
-  sticky.style.top=nav.offsetHeight+'px';
-  const h=document.documentElement.scrollHeight-innerHeight; prog.style.transform=`scaleX(${h>0?scrollY/h:0})`;
+let _sq=0,_sh=0,_nh=0,_sol=null;
+function _calc(){_sh=document.documentElement.scrollHeight-innerHeight;_nh=nav.offsetHeight}
+function _onScroll(){_sq=0;const y=scrollY,sol=y>40;
+  if(sol!==_sol){_sol=sol;nav.classList.toggle('solid',sol);_nh=nav.offsetHeight}
+  const dk=document.body.dataset.mode==='drinks'; const m=(dk?$('#drinkRoot'):$('#menuRoot')).getBoundingClientRect(); sticky.classList.toggle('show',m.top<120&&m.bottom>300);
+  sticky.style.top=_nh+'px';
+  prog.style.transform=`scaleX(${_sh>0?y/_sh:0})`;
 }
+function onScroll(){if(!_sq)_sq=requestAnimationFrame(_onScroll)}
+_calc();addEventListener('resize',_calc);addEventListener('load',_calc);try{new ResizeObserver(_calc).observe(document.body)}catch(e){}
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
 const navMap=[['home','#home'],['menu','#menu'],['story','#story'],['events','#events'],['contact','#contact']];
 const nio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let id=en.target.id; if(id.startsWith('cat-')||id.startsWith('d-')||id==='menuRoot'||id==='drinkRoot'||id==='menu')id=document.body.dataset.mode==='drinks'?'drinks':'menu'; document.querySelectorAll('nav.top ul a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));}}),{rootMargin:'-50% 0px -50% 0px'});
@@ -3012,6 +3022,21 @@ const add=(cls,x,y,st)=>{const e=document.createElement('i');e.className='fx_'+c
 add('lf',311,170,'--d:2.6s');add('lf',315,168,'--d:4.3s');       /* leaf bits from the tongs */
 spin.appendChild(L);
 })();
+</script>
+<script>
+/* ===== perf: pause what you can't see, warm images while idle ===== */
+(()=>{try{
+const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('pz',!e.isIntersecting)),{rootMargin:'250px 0px'});
+const seen=new WeakSet(),watch=el=>{if(el.nodeType===1&&!seen.has(el)){seen.add(el);io.observe(el)}};
+document.querySelectorAll('.hero,.marq').forEach(watch);
+['palms','floaters'].forEach(id=>{const r=document.getElementById(id);if(!r)return;[...r.children].forEach(watch);new MutationObserver(m=>m.forEach(x=>x.addedNodes.forEach(watch))).observe(r,{childList:true})});
+const idle=window.requestIdleCallback||(f=>setTimeout(f,300));
+addEventListener('load',()=>idle(()=>{
+ const urls=[...new Set((([...document.scripts].map(t=>t.textContent).join('\n')).match(/img\/[0-9a-f]{12}\.webp/g))||[])];
+ let i=0;const next=()=>{if(i>=urls.length)return;const batch=urls.slice(i,i+3);i+=3;let n=batch.length;batch.forEach(u=>{const m=new Image();m.onload=m.onerror=()=>{if(--n===0)idle(next)};m.src=u})};
+ next();
+},{timeout:4000}));
+}catch(e){}})();
 </script>
 </body>
 </html>
