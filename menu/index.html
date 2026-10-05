@@ -1160,16 +1160,34 @@ body[data-mode=drinks] .tCock:focus-visible{outline:2px solid var(--gold);outlin
 .tCock b{display:block;font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;line-height:1.1;color:var(--ink)}
 @media (max-width:900px){body[data-mode=drinks] .tCock{margin:0 auto}}
 body[data-mode=drinks] .heroPlate,body[data-mode=drinks] .hero::after{display:none!important}
-body[data-mode=drinks] .hero{background:linear-gradient(90deg,rgba(6,17,19,.88) 0%,rgba(6,17,19,.66) 34%,rgba(6,17,19,.12) 62%,rgba(6,17,19,0) 100%),linear-gradient(0deg,rgba(14,32,36,1) 0%,rgba(14,32,36,0) 22%),url(img/drinks-hero.webp) 62% center/cover no-repeat;background-color:#0E2024}
+body[data-mode=drinks] .hero{background-color:#0E2024}
 body[data-mode=drinks] .hero::before{content:none}
 body[data-mode=drinks] .hero .wrap{grid-template-columns:minmax(0,640px) 1fr}
 body[data-mode=drinks] .heroCopy p{color:#D9E3E2}
-@media (max-width:900px){body[data-mode=drinks] .hero{padding-bottom:400px;background:linear-gradient(180deg,#0E2024 calc(100% - 478px),rgba(14,32,36,0) calc(100% - 300px)),linear-gradient(0deg,rgba(14,32,36,1) 0%,rgba(14,32,36,0) 12%),url(img/drinks-hero-m.webp) 68% 100%/max(100%,778px) auto no-repeat;background-color:#0E2024}body[data-mode=drinks] .hero .wrap{grid-template-columns:1fr}}
 /* Heaven Mule real photo */
 img[src*="heaven-mule"],img[src*="paloma-picante"]{object-fit:cover}
 .gl img[src*="heaven-mule"],.gl img[src*="paloma-picante"]{width:min(190px,100%);height:250px;border-radius:14px;box-shadow:0 24px 36px -22px rgba(0,0,0,.7)}
 .sq.dk .tileBox img[src*="heaven-mule"],.chip.pic.dk .cl img[src*="heaven-mule"],.sq.dk .tileBox img[src*="paloma-picante"],.chip.pic.dk .cl img[src*="paloma-picante"]{border-radius:10px}
 .ov .md .pic img#mdImg[src*="heaven-mule"],.ov .md .pic img#mdImg[src*="paloma-picante"]{width:100%!important;max-width:none!important;object-fit:cover!important;border-radius:18px!important}
+@media (max-width:900px){body[data-mode=drinks] .hero{padding-bottom:400px}body[data-mode=drinks] .hero .wrap{grid-template-columns:1fr}}
+/* drinks hero photo slider */
+.hSlides,.hDots{display:none}
+body[data-mode=drinks] .hSlides{display:block;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hSlide{position:absolute;inset:0;background:var(--img) var(--px) center/cover no-repeat;opacity:0;transform:scale(1.04);transition:opacity 1.3s ease,transform 7s ease-out}
+.hSlide.on{opacity:1;transform:scale(1)}
+body[data-mode=drinks] .hSlides::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,17,19,.88) 0%,rgba(6,17,19,.66) 34%,rgba(6,17,19,.12) 62%,rgba(6,17,19,0) 100%),linear-gradient(0deg,#0E2024 0%,rgba(14,32,36,0) 22%)}
+body[data-mode=drinks] .hDots{display:flex;gap:10px;position:absolute;z-index:3;right:80px;bottom:64px}
+.hDots button{width:34px;height:4px;border:0;padding:0;border-radius:4px;background:rgba(255,255,255,.35);cursor:pointer;transition:background .3s,width .3s}
+.hDots button.on{background:var(--gold);width:52px}
+.hDots button:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+@media (max-width:900px){
+  body[data-mode=drinks] .hSlides{top:auto;height:470px}
+  .hSlide{background:var(--imgm) var(--pm) center/cover no-repeat}
+  body[data-mode=drinks] .hSlides::after{background:linear-gradient(180deg,#0E2024 0%,rgba(14,32,36,.55) 30%,rgba(14,32,36,0) 62%),linear-gradient(0deg,#0E2024 0%,rgba(14,32,36,0) 12%)}
+  body[data-mode=drinks] .hDots{right:auto;left:50%;transform:translateX(-50%);bottom:30px}
+}
+@media (prefers-reduced-motion:reduce){.hSlide{transition:opacity .01ms;transform:none}}
+#ov:not(.open),#ov:not(.open) *{pointer-events:none!important}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -2030,6 +2048,8 @@ body[data-mode=drinks] .ov .md .nav svg,body[data-mode=drinks] .ov .md .nav svg 
       <div class="cap"><b id="heroCap">Fattoush Salad</b>Tap the plate to look closer</div>
     </div>
   </div>
+  <div class="hSlides" id="hSlides" aria-hidden="true"><div class="hSlide on" style="--img:url(img/drinks-hero.webp);--imgm:url(img/drinks-hero-m.webp);--px:62%;--pm:68%"></div><div class="hSlide" style="--img:url(img/drinks-hero2.webp);--imgm:url(img/drinks-hero2-m.webp);--px:50%;--pm:62%"></div></div>
+  <div class="hDots" id="hDots" role="tablist" aria-label="Banner photos"><button type="button" class="on" role="tab" aria-label="Photo 1"></button><button type="button" role="tab" aria-label="Photo 2"></button></div>
   <div class="scrollCue"><i></i>Scroll</div>
 </header>
 
@@ -2810,6 +2830,18 @@ renderChips();
     b.innerHTML=`<i>✦</i><span><small>Tonight's cocktail</small><b>${esc(d.n)}</b></span>`; b.onclick=()=>openDish(K,i);}
   const _am=applyMode; applyMode=function(m){_am(m); if(m==='drinks')chip()};
   if(document.body.dataset.mode==='drinks')chip();
+})();
+/* drinks hero slider */
+(()=>{
+  const sl=[...document.querySelectorAll('#hSlides .hSlide')], dots=[...document.querySelectorAll('#hDots button')], hero=document.getElementById('home');
+  let i=0,t=null,vis=true;
+  const go=n=>{i=(n+sl.length)%sl.length;sl.forEach((e,j)=>e.classList.toggle('on',j===i));dots.forEach((e,j)=>{e.classList.toggle('on',j===i);e.setAttribute('aria-selected',j===i)})};
+  const start=()=>{clearInterval(t);t=null;if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;t=setInterval(()=>{if(document.body.dataset.mode==='drinks'&&vis&&!document.hidden)go(i+1)},6000)};
+  dots.forEach((d,j)=>d.onclick=()=>{go(j);start()});
+  let sx=null;hero.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  hero.addEventListener('touchend',e=>{if(sx==null)return;const d=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(d)>50&&document.body.dataset.mode==='drinks'){go(i+(d<0?1:-1));start()}},{passive:true});
+  try{new IntersectionObserver(e=>{vis=e[0].isIntersecting},{threshold:.2}).observe(hero)}catch(e){}
+  go(0);start();
 })();
 if(location.hash==='#drinks') setMode('drinks',{instant:true});
 addEventListener('hashchange',()=>{if(location.hash==='#drinks')setMode('drinks',{scroll:true});});
