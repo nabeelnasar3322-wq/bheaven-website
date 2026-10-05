@@ -1800,7 +1800,8 @@ body[data-mode="drinks"] .heroFx{display:none}
 body[data-mode=drinks] .langSw{background:rgba(255,255,255,.08);color:#fff}
 @media (max-width:900px){.langSw{padding:8px 11px;font-size:.72rem;margin-inline-end:6px}}
 /* Arabic mode */
-html[dir=rtl] body{font-family:'Noto Kufi Arabic','Cairo','Segoe UI',Tahoma,system-ui,sans-serif}
+html[dir=rtl] body{font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif}
+html[dir=rtl] :is(h1,h2,h3,h4,p,b,strong,em,small,span,a,button,li,div,label):not(.logo):not(.logo *):not(.fWord):not(.fWord *){font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif!important}
 html[dir=rtl] *{letter-spacing:0!important}
 html[dir=rtl] .eyebrow,html[dir=rtl] .tonight,html[dir=rtl] .btn,html[dir=rtl] .navBook,html[dir=rtl] nav.top a,html[dir=rtl] .chip,html[dir=rtl] .modeSw button,html[dir=rtl] .scrollCue{text-transform:none!important}
 html[dir=rtl] .modeSw{direction:ltr}
@@ -3089,7 +3090,7 @@ const ATT=['aria-label','title','placeholder'];
 function attrs(root){(root.querySelectorAll?root.querySelectorAll('[aria-label],[title],[placeholder]'):[]).forEach(e=>ATT.forEach(a=>{const v=e.getAttribute(a);if(!v)return;const k='data-o-'+a;const o=e.hasAttribute(k)?e.getAttribute(k):v;const r=tr(o);if(r!=null){e.setAttribute(k,o);e.setAttribute(a,r)}}))}
 function restore(){busy=true;const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;const L=[];while(n=w.nextNode())L.push(n);L.forEach(n=>{if(orig.has(n)){n.nodeValue=orig.get(n);orig.delete(n)}});document.querySelectorAll('*').forEach(e=>ATT.forEach(a=>{const k='data-o-'+a;if(e.hasAttribute&&e.hasAttribute(k)){e.setAttribute(a,e.getAttribute(k));e.removeAttribute(k)}}));busy=false}
 function start(){busy=true;walk(document.body);attrs(document);busy=false;mo=new MutationObserver(ms=>{if(busy)return;busy=true;try{ms.forEach(m=>{if(m.type==='characterData'){if(m.target.parentElement&&!m.target.parentElement.closest(SKIP)){orig.delete(m.target);doNode(m.target)}}else m.addedNodes.forEach(x=>{if(x.nodeType===3){if(x.parentElement&&!x.parentElement.closest(SKIP))doNode(x)}else if(x.nodeType===1&&!x.closest(SKIP)){walk(x);attrs(x)}})})}finally{busy=false}});mo.observe(document.body,{childList:true,subtree:true,characterData:true})}
-function font(){if(document.getElementById('arFont'))return;const l=document.createElement('link');l.id='arFont';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap';document.head.appendChild(l)}
+function font(){if(document.getElementById('arFont'))return;const l=document.createElement('link');l.id='arFont';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap';document.head.appendChild(l)}
 const btn=document.getElementById('langSw');
 function set(ar,save){if(ar===on)return;on=ar;
   if(ar){font();document.documentElement.dir='rtl';document.documentElement.lang='ar';btn.textContent='EN';btn.setAttribute('aria-label','Switch to English');start()}
