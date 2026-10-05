@@ -2038,6 +2038,7 @@ body[data-mode=drinks] .bviz img{height:340px}
 .claPh em{font-style:normal;font-size:1rem;font-weight:700;color:#D6B46E;margin-top:4px}
 @media (max-width:1100px){.cla{grid-template-columns:1fr}.claPh{order:-1;min-height:420px}}
 @media (max-width:700px){.claGrid{grid-template-columns:1fr}.claPh{min-height:380px}}
+body[data-mode=drinks] .langSw{display:none!important}
 </style>
 </head>
 <body>
@@ -3343,6 +3344,8 @@ function set(ar,save){if(ar===on)return;on=ar;
   if(save){try{localStorage.setItem('bh-lang',ar?'ar':'en')}catch(e){}}
   window.dispatchEvent(new Event('resize'))}
 btn.addEventListener('click',()=>set(!on,true));
+/* drinks pages are English only: switch back and hide the toggle, restore Arabic on return to food */
+let _arBack=false;new MutationObserver(()=>{const dk=document.body.dataset.mode==='drinks';if(dk&&on){_arBack=true;set(false,false)}else if(!dk&&_arBack){_arBack=false;set(true,false)}}).observe(document.body,{attributes:true,attributeFilter:['data-mode']});
 try{if(localStorage.getItem('bh-lang')==='ar')setTimeout(()=>set(true,false),600)}catch(e){}
 })();
 </script>
