@@ -1793,6 +1793,7 @@ body[data-mode="drinks"] .heroFx{display:none}
 .pz,.pz *,.pz *::before,.pz *::after{animation-play-state:paused!important}
 #palms img.pz,#floaters img.pz{will-change:auto}
 </style>
+<style id="tight-titles">.sq p{margin:1px 0 0!important}.sq .meta{margin-top:12px!important}.wCard b{margin:2px 0 0!important}.wCard p{margin:0 0 10px!important;line-height:1.4!important}.plate .lbl{gap:1px!important}.gl b{margin-top:2px!important}.md .info h3,.ov .md .info h3{margin:2px 0 4px!important}.row .rn small{margin-top:0!important}.sideItem h3{margin:10px 0 6px!important}</style>
 </head>
 <body>
 
@@ -2221,9 +2222,7 @@ const catOf = k => CATS.find(c=>c.k===k)||DCATS.find(c=>c.k===k);
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const img = n => A[PH[n]] || A.p_empty;
 const HERO_IMG = 'img/9cc6bda19e75.webp';
-const MENU_PHOTOS = {"Seasonal Fruit Platter": "img/151be0e54c6c.webp", "Smoky Beef Brisket": "img/78a577574ed6.webp", "Golden Rings": "img/d85a5c081b6b.webp", "Luqma Beef Sliders": "img/3d3cbd34039b.webp", "Fire Chicken Wings": "img/1c44378c58af.webp", "Mediterranean Bruschetta": "img/5bec53ec4178.webp", "Spiced Shawarma Bites": "img/b9efe7c71179.webp", "The Social Platter": "img/8aee6da60326.webp", "Supreme Nachos": "img/f2f6c21a9b20.webp", "Oriental Mix Grill": "img/2057643cc57e.webp", "Coastal Mussels & Fries": "img/5c628057a6b3.webp", "Levant Trio of Dips": "img/028acfeffcba.webp", "Classic Tabbouleh Salad": "img/fe42e46e5adf.webp", "Fattoush Salad": "img/4e771f4c3ef7.webp", "Sumac Salmon Salad": "img/975d6eb66f99.webp", "Passion Kale & Quinoa Salad": "img/58af433d54bf.webp", "Signature House Caesar Salad": "img/0401ce0c7295.webp", "Charred Halloumi Salad": "img/534dae6f9124.webp", "Spicy Bresaola Royal Pizza": "img/a3e06aae7224.webp", "Garden Margherita": "img/2774410adbc2.webp", "Four Cheese Mushroom Pizza": "img/683fdc88d2cd.webp", "The Classic Burger": "img/2bdb2f80e7cd.webp", "Golden Crunch Chicken": "img/6602404668ac.webp", "Smokehouse Beef Ribs": "img/acbf1658ce14.webp", "Golden Milanese": "img/bc2c7297a41b.webp", "Truffle Woodland Risotto": "img/4e3a22f94884.webp", "Chermoula Grilled Jumbo Prawns": "img/d939cb64606c.webp", "Ribeye Al Sham": "img/e8f1d3ba4062.webp", "Umali": "img/e5430f04a1d0.webp", "Warm Choco Brownie": "img/723f9e063db0.webp", "Pistachio Affogato": "img/1414055ccd76.webp", "Burnt Cheesecake": "img/519a9e6dbc0c.webp",
- "Seabass a la Harra": "img/a84b76f7ce87.webp",
- "Green Curry Rice": "img/ffcd202d4703.webp"};
+const MENU_PHOTOS = {"Seasonal Fruit Platter": "img/151be0e54c6c.webp", "Smoky Beef Brisket": "img/78a577574ed6.webp", "Golden Rings": "img/d85a5c081b6b.webp", "Luqma Beef Sliders": "img/3d3cbd34039b.webp", "Fire Chicken Wings": "img/1c44378c58af.webp", "Mediterranean Bruschetta": "img/5bec53ec4178.webp", "Spiced Shawarma Bites": "img/b9efe7c71179.webp", "The Social Platter": "img/8aee6da60326.webp", "Supreme Nachos": "img/f2f6c21a9b20.webp", "Oriental Mix Grill": "img/2057643cc57e.webp", "Coastal Mussels & Fries": "img/5c628057a6b3.webp", "Levant Trio of Dips": "img/028acfeffcba.webp", "Classic Tabbouleh Salad": "img/fe42e46e5adf.webp", "Fattoush Salad": "img/4e771f4c3ef7.webp", "Sumac Salmon Salad": "img/975d6eb66f99.webp", "Passion Kale & Quinoa Salad": "img/58af433d54bf.webp", "Signature House Caesar Salad": "img/0401ce0c7295.webp", "Charred Halloumi Salad": "img/534dae6f9124.webp", "Spicy Bresaola Royal Pizza": "img/a3e06aae7224.webp", "Garden Margherita": "img/683fdc88d2cd.webp", "Four Cheese Mushroom Pizza": "img/2774410adbc2.webp", "The Classic Burger": "img/2bdb2f80e7cd.webp", "Golden Crunch Chicken": "img/6602404668ac.webp", "Smokehouse Beef Ribs": "img/8f61003e0bd9.webp", "Golden Milanese": "img/fb51254a0680.webp", "Truffle Woodland Risotto": "img/4e3a22f94884.webp", "Chermoula Grilled Jumbo Prawns": "img/d939cb64606c.webp", "Ribeye Al Sham": "img/acbf1658ce14.webp", "Umali": "img/e5430f04a1d0.webp", "Warm Choco Brownie": "img/723f9e063db0.webp", "Pistachio Affogato": "img/1414055ccd76.webp", "Burnt Cheesecake": "img/519a9e6dbc0c.webp", "Seabass a la Harra": "img/a84b76f7ce87.webp", "Green Curry Rice": "img/ffcd202d4703.webp"};
 const imgOf = d => MENU_PHOTOS[d.n] || d.img || A[PH[d.n]] || A.p_empty;
 const price = p => parseInt(String(p).replace(/[^0-9]/g,''))||0;
 const P = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/AED\s?/g,'<i class=\"aed\" role=\"img\" aria-label=\"AED\"></i>');
@@ -2470,7 +2469,7 @@ function applyAvoid(){
   function layout(){
     const stage=$('#chefStage'), mob=innerWidth<900, S=stage.getBoundingClientRect(), C=$('#chef').getBoundingClientRect();
     const W=S.width;
-    const big=mob?Math.min(W*0.4,175):Math.round(Math.max(180,Math.min(270,S.height*0.31))), sm=big*(mob?0.4:0.42);
+    const big=mob?Math.min(W*0.5,215):Math.round(Math.max(220,Math.min(340,S.height*0.39))), sm=big*(mob?0.4:0.42);
     const cx=mob?W/2:C.left-S.left+C.width*0.55;
     const Rx=mob?W/2-sm/2-6:Math.max(200,Math.min(W*0.4,cx-card.offsetWidth-big*0.35-12,W-cx-sm/2-8,480)), Ry=Rx*(mob?0.24:0.2);
     const cy=Math.min(C.top-S.top+C.height*(mob?0.66:0.68), S.height-big/2-Ry*0.2-(mob?60:10));
