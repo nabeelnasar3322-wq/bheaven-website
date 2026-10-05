@@ -1987,6 +1987,24 @@ img[src*="paloma-picante"]{object-position:50% 45%}img[src*="heaven-mule"]{objec
 .sigR.on b{color:#F7EFE0;font-weight:700}.sigR.on .n{color:#D6B46E}
 @media (max-width:900px){.sig{grid-template-columns:1fr;gap:28px}.sigFeat{min-height:460px}.sigCap{padding:110px 22px 24px}.sigR{padding:15px 14px}}
 
+/* B-Good Slider: tall photo cards */
+.slider{position:relative;margin-top:12px}
+.sliderTrack{display:flex;gap:22px;overflow-x:auto;scroll-behavior:smooth;padding:0 40px;scrollbar-width:none;-webkit-user-select:none;user-select:none}
+.sliderTrack::-webkit-scrollbar{display:none}
+.sliderCard{flex:0 0 300px;padding:0;border:none;border-radius:24px;overflow:hidden;background:linear-gradient(170deg,#1a3a3a,#0b1a1d);border:1px solid rgba(255,255,255,.1);cursor:pointer;text-align:left;color:#F7EFE0;font-family:'Montserrat',sans-serif;transition:opacity .3s,transform .3s;position:relative}
+.sliderCard:first-child{margin-left:0}
+.sliderImg{position:relative;height:180px;background:radial-gradient(circle at 50% 50%,rgba(214,180,110,.15),transparent 70%);display:grid;place-items:center;overflow:hidden}
+.sliderImg img{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 12px 16px rgba(0,0,0,.4))}
+.sliderText{padding:22px 24px;display:flex;flex-direction:column;gap:8px}
+.sliderNum{font-size:.72rem;letter-spacing:.2em;color:rgba(241,233,216,.45);font-weight:600}
+.sliderCard b{display:block;font-size:1rem;font-weight:700;color:#F7EFE0;line-height:1.2;margin-bottom:4px}
+.sliderCard em{font-style:normal;font-weight:700;font-size:.95rem;color:#D6B46E}
+.sliderNav{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:24px 40px 0;margin-top:12px}
+.sliderPrev,.sliderNext{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(241,233,216,.4);background:transparent;color:#F7EFE0;font-size:18px;cursor:pointer;display:grid;place-items:center;transition:background .25s,border-color .25s}
+.sliderNext{background:#D6B46E;color:#0E2024;border-color:#D6B46E;font-weight:700}
+.sliderProg{font-size:.72rem;letter-spacing:.2em;color:rgba(241,233,216,.5);font-weight:600;margin-left:8px}
+@media (max-width:900px){.slider{margin-top:8px}.sliderTrack{padding:0 20px;gap:18px}.sliderCard{flex:0 0 280px}.sliderNav{padding:18px 20px 0}.sliderPrev,.sliderNext{width:40px;height:40px;font-size:16px}}
+
 /* Drinks popup: dark */
 body[data-mode=drinks] .ov .md{background:linear-gradient(160deg,#16363C 0%,#0E2024 62%)!important;border:1px solid rgba(214,180,110,.22)!important;color:#F7EFE0!important;box-shadow:0 40px 90px -30px rgba(0,0,0,.8)!important}
 body[data-mode=drinks] .ov .md .x,body[data-mode=drinks] .ov .md .nav button,body[data-mode=drinks] .ov .md #mdPrev,body[data-mode=drinks] .ov .md #mdNext{background:rgba(255,255,255,.1)!important;color:#F1E9D8!important;box-shadow:none!important}
@@ -2349,7 +2367,7 @@ Object.entries(SOFT).forEach(([g,rows])=>rows.forEach(([n,pr])=>put("Coffee, tea
 const DCATS=[
  {k:"Signature cocktails",t:"Signature Cocktails",lay:"shelf",d:"Ten house creations, from milk-washed rum to clarified bourbon. Pick a name to preview it."},
  {k:"Clásico cocktails",t:"Clásico Cocktails",lay:"square",d:"The classics, reworked with a Mediterranean hand: olive oil-washed gin, cumin mango, walnut bourbon."},
- {k:"B-Good",t:"B-Good · Zero Proof",lay:"square",d:"All the flavour, none of the alcohol. Fresh coolers, coladas and lemonades."},
+ {k:"B-Good",t:"B-Good · Zero Proof",lay:"slider",d:"All the flavour, none of the alcohol. Fresh coolers, coladas and lemonades."},
  {k:"Wine & bubbles",t:"Wine & Bubbles",lay:"board",cols:["Glass","Bottle"],d:"A tight list across the Old and New World, poured by the glass or the bottle."},
  {k:"Beers",t:"Beers",lay:"board",cols:["AED",""],d:"Ice-cold bottles and pints on draught."},
  {k:"Spirits",t:"Spirits",lay:"board",cols:["Glass","Bottle"],d:"From Tito's to Macallan 18. Neat, on the rocks or with your mixer of choice."},
@@ -2578,10 +2596,15 @@ function claHTML(k){
   <p class="claNote">Prices in AED. Glass above, bottle below.</p></div>
   <figure class="claPh"><img src="${fd.img}" alt="${esc(fd.n)}" style="object-position:${fd.pos||'50% 40%'}"><figcaption><small>Cl\u00e1sico of the night</small><b>${esc(fd.n)}</b><span>${esc(fd.d||'')}</span><em>${P('AED '+fp[0])} glass \u00b7 ${fp[1]} bottle</em></figcaption></figure></div>`;
 }
+function sliderHTML(k){
+  return `<div class="slider"><div class="sliderTrack" data-k="${esc(k)}">${DM[k].map((d,i)=>`<button class="sliderCard" data-k="${esc(k)}" data-i="${i}"><div class="sliderImg"><img loading="lazy" decoding="async" src="${d.img}" alt="${esc(d.n)}" draggable="false"></div><div class="sliderText"><span class="sliderNum">${String(i+1).padStart(2,'0')}</span><b>${esc(d.n)}</b><em>${P(d.p)}</em></div></button>`).join('')}</div>
+  <div class="sliderNav"><button class="sliderPrev" aria-label="Previous">\u2190</button><button class="sliderNext" aria-label="Next">\u2192</button><span class="sliderProg" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="${DM[k].length}"></span></div></div>`;
+}
 let dn=0;
 $('#drinkRoot').innerHTML = DCATS.map((c,ci)=>{ dn++; let body='';
   if(c.lay==='shelf') body=shelfHTML(c.k);
   if(c.lay==='square') body=c.k==='Clásico cocktails'?claHTML(c.k):`<div class="squares">${DM[c.k].map((d,i)=>squareHTML(c.k,d,i)).join('')}</div>`;
+  if(c.lay==='slider') body=sliderHTML(c.k);
   if(c.lay==='board') body=boardHTML(c);
   return `<section class="cat" id="d-${slug(c.k)}" data-pr="d${dn}"><div class="wrap">
     <header class="ch rv"><span class="num">${String(ci+1).padStart(2,'0')}</span><div><span class="eyebrow">${DM[c.k].length} ${c.lay==='board'?'on the list':'drinks'}</span><h2>${c.t}</h2></div><p>${c.d}</p></header>
@@ -2609,6 +2632,15 @@ document.querySelectorAll('.shelf').forEach(sh=>{
   const step=()=>tr.querySelector('.gl').offsetWidth*2+60;
   sh.querySelector('.shPrev').onclick=()=>tr.scrollBy({left:-step(),behavior:'smooth'});
   sh.querySelector('.shNext').onclick=()=>tr.scrollBy({left:step(),behavior:'smooth'});
+});
+/* slider: B-Good tall photo cards */
+document.querySelectorAll('.slider').forEach(sl=>{
+  const tr=sl.querySelector('.sliderTrack'), prog=sl.querySelector('.sliderProg');
+  const upd=()=>{const maxScroll=tr.scrollWidth-tr.clientWidth; const curIdx=Math.round(tr.scrollLeft/(tr.clientWidth||1))+1; const totalIdx=tr.querySelectorAll('.sliderCard').length; prog.textContent=curIdx+' / '+totalIdx; prog.setAttribute('aria-valuenow',curIdx); prog.setAttribute('aria-valuemax',totalIdx);};
+  tr.addEventListener('scroll',upd,{passive:true}); setTimeout(upd,200); addEventListener('resize',upd);
+  sl.querySelector('.sliderPrev').onclick=()=>tr.scrollBy({left:-340,behavior:'smooth'});
+  sl.querySelector('.sliderNext').onclick=()=>tr.scrollBy({left:340,behavior:'smooth'});
+  tr.addEventListener('click',e=>{if(e.target.closest('.sliderCard')){const btn=e.target.closest('.sliderCard'); drinkFocus(btn.dataset.k,+btn.dataset.i);}});
 });
 /* glasses overlapping the band in drinks mode */
 $('#bandGlasses').innerHTML=[["Signature cocktails",2,'16%','-150px'],["Clásico cocktails",7,'29%','-116px']].map(([k,i,l,t])=>`<div style="position:absolute;left:${l};top:${t}"><button class="gl" data-k="${esc(k)}" data-i="${i}" style="flex:none;width:140px"><img loading="lazy" decoding="async" src="${DM[k][i].img}" alt="" style="height:200px"></button></div>`).join('');
