@@ -208,47 +208,447 @@ nav.top ul a{white-space:nowrap}
 @media (max-width:800px){.sideItem{grid-template-columns:1fr;gap:28px}.sideItem:nth-child(even) .ph{order:0}.side{gap:60px}}
 
 /* ============ CHEF + WHEEL ============ */
-/* ===== Arc Carousel Section ===== */
-.cpSec{position:relative;padding:110px 0 0;overflow:hidden}
-.cpStage{position:relative;height:880px;display:flex;align-items:center;justify-content:center}
-.cpHead{position:absolute;left:0;top:0;z-index:5;max-width:430px}
-.cpHead h2{font-size:clamp(2.4rem,4.6vw,3.8rem);margin:8px 0 14px}
-.cpHead .q{font-family:'Montserrat',sans-serif;font-style:italic;font-size:1.35rem;line-height:1.4;color:var(--teal-deep);margin:0}
+.chefSec{position:relative;padding:110px 0 0;overflow:hidden}
+.chefStage{position:relative;height:880px}
+.chefHead{position:absolute;left:0;top:0;z-index:5;max-width:430px}
+.chefHead h2{font-size:clamp(2.4rem,4.6vw,3.8rem);margin:8px 0 14px}
+.chefHead .q{font-family:'Montserrat',sans-serif;font-style:italic;font-size:1.35rem;line-height:1.4;color:var(--teal-deep);margin:0}
+.ledge{position:absolute;left:-40px;right:-40px;bottom:0;height:96px;background:var(--marble),linear-gradient(#F7F7F5,#E6E6E2);background-size:700px,auto;box-shadow:0 -1px 0 rgba(255,255,255,.9),inset 0 10px 18px -12px rgba(0,0,0,.18);z-index:1}
+.chef{position:absolute;right:16%;bottom:40px;width:64%;z-index:2;transform-origin:70% 100%;transition:transform .6s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+.chef img{width:100%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%);mask-image:linear-gradient(90deg,transparent 0,#000 9%)}@media (hover:hover){.chef:hover{transform:scale(1.02) rotate(-.6deg)}}
 
-.cpOrbit{position:absolute;width:800px;height:600px;pointer-events:none;filter:drop-shadow(0 0 60px rgba(95,227,223,0.15))}
-.cpGlow{position:absolute;inset:50%;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:radial-gradient(circle,rgba(95,227,223,0.3),transparent 70%);filter:blur(40px);animation:glowPulse 4s ease-in-out infinite}
-@keyframes glowPulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.bubble{position:absolute;right:4%;top:22%;z-index:6;max-width:270px;background:#fff;border-radius:22px 22px 22px 4px;padding:16px 18px;font-family:'Montserrat',sans-serif;font-size:1.2rem;font-style:italic;line-height:1.35;box-shadow:0 24px 40px -24px rgba(0,0,0,.4);transform:scale(0) translateY(20px);transform-origin:0 100%;transition:transform .45s cubic-bezier(.3,1.5,.5,1);pointer-events:none}
+.bubble.show{transform:none}
+.hint{position:absolute;right:42%;top:60%;z-index:6;display:flex;align-items:center;gap:8px;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;background:rgba(255,255,255,.85);padding:8px 12px 8px 8px;border-radius:999px;pointer-events:none;transition:opacity .4s}
+.hint i{width:12px;height:12px;border-radius:50%;background:var(--glow);box-shadow:0 0 0 0 rgba(95,227,223,.7);animation:ping 1.8s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 12px rgba(95,227,223,0)}100%{box-shadow:0 0 0 0 rgba(95,227,223,0)}}
+.wheel{position:absolute;inset:0;pointer-events:none}
+.wp{position:absolute;left:0;top:0;width:300px;aspect-ratio:1;margin:-150px 0 0 -150px;border-radius:50%;will-change:transform;pointer-events:auto}
+.wp img{width:100%;border-radius:50%;filter:drop-shadow(0 20px 20px rgba(0,0,0,.22));transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.wp::before{content:'';position:absolute;inset:-18%;border-radius:50%;background:radial-gradient(circle,rgba(95,227,223,.85) 30%,rgba(95,227,223,.35) 52%,transparent 70%);filter:blur(14px);opacity:0;transition:opacity .6s;z-index:-1}
+.wp.on::before{opacity:1}@media (hover:hover){.wp:hover img{transform:rotate(30deg)}}
 
-.cpPlate{position:absolute;width:140px;height:140px;border-radius:50%;cursor:pointer;pointer-events:auto;transition:all 0.6s cubic-bezier(0.2,0.8,0.2,1);display:grid;place-items:center;overflow:hidden;background:rgba(255,255,255,0.08);border:2px solid rgba(95,227,223,0.3)}
-.cpPlate img{width:120px;height:120px;border-radius:50%;object-fit:cover;filter:drop-shadow(0 10px 15px rgba(0,0,0,0.3));transition:transform 0.5s ease}
-.cpPlate:hover img{transform:scale(1.05)}
-.cpPlate.active{background:rgba(95,227,223,0.2);border-color:rgba(95,227,223,0.8);box-shadow:0 0 30px rgba(95,227,223,0.5)}
+.wInfo{position:absolute;z-index:5;left:0;top:210px;width:260px;display:none}
+.wCard{position:absolute;z-index:6;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-radius:18px;padding:16px 18px;box-shadow:0 24px 40px -26px rgba(0,0,0,.45);width:250px;transition:opacity .35s,transform .35s}
+.wCard .eyebrow{font-size:.6rem}
+.wCard b{display:block;font-family:'Montserrat',sans-serif;font-size:1.45rem;margin:4px 0 6px;line-height:1.1}
+.wCard p{margin:0 0 10px;font-size:.82rem;color:var(--muted);line-height:1.5}
+.wCard .r{display:flex;justify-content:space-between;align-items:center}
+.wCard .r em{font-style:normal;font-weight:600;letter-spacing:.12em;font-size:.78rem;color:var(--teal-d)}
+.wCard .r button{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);padding-bottom:2px}
+.wCard.fade{opacity:0;transform:translateY(8px)}
+.dots{position:absolute;z-index:6;display:flex;gap:8px;align-items:center}
+.dots button{width:8px;height:8px;border-radius:50%;background:rgba(31,42,51,.22);transition:.3s}
+.dots button.on{width:26px;border-radius:6px;background:var(--teal-d)}
+.arrows{position:absolute;z-index:6;display:flex;gap:10px}
+.arrows button{width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 10px 20px -10px rgba(0,0,0,.35);display:grid;place-items:center;transition:.25s}@media (hover:hover){.arrows button:hover{background:var(--teal-deep);color:#fff}}
 
-.cpCard{position:absolute;z-index:4;background:rgba(255,255,255,0.94);backdrop-filter:blur(10px);border-radius:18px;padding:20px 22px;box-shadow:0 24px 40px -26px rgba(0,0,0,0.5);width:280px;bottom:20px;right:20px;max-width:90%;transition:opacity 0.35s,transform 0.35s}
-.cpCard .eyebrow{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--muted)}
-.cpCard b{display:block;font-family:'Montserrat',sans-serif;font-size:1.5rem;margin:6px 0 8px;line-height:1.1;color:var(--ink)}
-.cpCard p{margin:0 0 12px;font-size:0.9rem;color:var(--muted);line-height:1.6}
-.cpCard .price{font-weight:600;font-size:1.1rem;color:var(--teal-deep)}
-.cpCard.fade{opacity:0;transform:translateY(8px)}
-
-.cpArrows{position:absolute;z-index:6;display:flex;gap:12px;bottom:30px;left:50%;transform:translateX(-50%)}
-.cpArrows button{width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid rgba(95,227,223,0.3);box-shadow:0 10px 25px -10px rgba(0,0,0,0.3);display:grid;place-items:center;cursor:pointer;transition:all 0.25s;color:var(--teal-deep)}
-.cpArrows button:hover{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep);transform:scale(1.05)}
-.cpArrows button:active{transform:scale(0.95)}
-.cpArrows svg{width:18px;height:18px;stroke-width:2}
-
-.cPick{position:absolute;bottom:40px;right:20px;z-index:7;width:60px;height:60px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;box-shadow:0 10px 25px rgba(212,175,55,0.3);display:grid;place-items:center;transition:all 0.3s;font-size:1.8rem}
-.cPick:hover{transform:scale(1.08);box-shadow:0 15px 35px rgba(212,175,55,0.5)}
-.cPick i{color:#000;transition:all 0.4s}
-
+.arrows svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 @media (max-width:900px){
-  .cpStage{height:auto;padding:80px 0;flex-direction:column}
-  .cpHead{position:relative;max-width:none;margin-bottom:40px}
-  .cpOrbit{width:100%;height:400px;max-width:500px}
-  .cpCard{position:relative;width:90%;max-width:320px;margin:20px auto;bottom:auto;right:auto}
-  .cpArrows{bottom:20px;flex-direction:row}
-  .cPick{position:relative;width:50px;height:50px;margin:20px auto 0;bottom:auto;right:auto;font-size:1.5rem}
+ .chef img{-webkit-mask-image:none;mask-image:none}
+ .chefStage{height:auto;display:flex;flex-direction:column}
+ .chefHead{position:relative;max-width:none}
+ .chefStage{padding-bottom:70px}
+ .chef{position:relative;right:auto;bottom:auto;width:112%;margin-left:-6%;margin-top:50px}
+ .ledge{height:60px}
+ .bubble{right:4%;top:auto;bottom:40%}
+ .hint{right:auto;left:6%;top:auto;bottom:12%}
+ .wCard{position:relative;left:auto!important;top:auto!important;transform:none!important;margin:6px auto 16px;width:min(320px,90%)}
+ .dots{position:relative;left:auto!important;top:auto!important;transform:none!important;justify-content:center;margin:0 auto 6px}
+ .arrows{display:none}
+ .chef{margin-top:0}
+ .bandPlates>div{top:-34px!important}
+ .bandPlates .plate{width:92px!important}
+ .bandPlates>div:first-child{left:2%!important}.bandPlates>div:last-child{left:30%!important}
+ .chips:not(.sticky){flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;margin:0 -20px;padding:4px 20px 10px}
+ .chips:not(.sticky)::-webkit-scrollbar{display:none}
+ .chips:not(.sticky) .chip{flex:0 0 auto}
 }
+
+/* ============ TEAL BAND (events) ============ */
+.band{position:relative;margin-top:0;padding:170px 0 130px;background:var(--marble),linear-gradient(160deg,#8CBEC2,#75ABB0);background-size:900px,auto;clip-path:polygon(0 60px,100% 0,100% calc(100% - 40px),0 100%);color:#fff;overflow:visible}
+.bandWrap{position:relative}
+.band .semi{position:absolute;left:-120px;top:48%;width:240px;height:240px;border-radius:50%;background:var(--cream);opacity:.95}
+.band .semi2{position:absolute;right:-60px;top:18%;width:120px;height:120px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5)}
+.bandPlates{position:relative;height:0;z-index:7}
+.bandPlates .plate{position:absolute;width:210px}
+.bandPlates .plate .lbl{display:none}
+.band .eyebrow{color:#fff;opacity:.85}
+.band h2{color:#fff;font-size:clamp(2.4rem,4.6vw,3.8rem);margin:10px 0 12px}
+.band .bsub{color:rgba(255,255,255,.85);max-width:460px;line-height:1.6;margin:0 0 50px}
+.evs{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1400px}
+.ev{position:relative;height:340px;cursor:pointer;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1)}@media (hover:hover){.ev:hover,.ev.flip{transform:rotateY(180deg)}}
+
+.ev .f,.ev .b{position:absolute;inset:0;border-radius:24px;padding:28px 26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column}
+.ev .f{background:var(--cream);color:var(--ink)}
+.ev .b{background:var(--teal-deep);color:#fff;transform:rotateY(180deg)}
+.ev .day{font-family:'Montserrat',sans-serif;font-size:4.4rem;line-height:.85;font-weight:600;color:var(--teal-d)}
+.ev .f .eyebrow{color:var(--gold);margin-top:2px}
+.ev h3{font-size:1.9rem;margin:8px 0 10px;color:inherit}
+.ev .f p{color:var(--muted);margin:0;line-height:1.55;font-size:.92rem}
+.ev .turn{margin-top:auto;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.ev .b .kv{display:grid;gap:14px;margin:auto 0}
+.ev .b .kv span{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;opacity:.65}
+.ev .b .kv b{font-family:'Montserrat',sans-serif;font-size:1.5rem;font-weight:600}
+.ev .b a{align-self:flex-start;background:#fff;color:var(--teal-deep);padding:12px 20px;border-radius:999px;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+@media (max-width:900px){.evs{grid-template-columns:1fr}.band{padding:150px 0 110px}.bandPlates .plate{width:130px}}
+
+/* ============ FOOTER ============ */
+footer{position:relative;padding:90px 0 36px}
+.fGrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+footer h4{margin:0 0 16px;font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--teal-d)}
+footer p,footer a{font-size:.92rem;line-height:1.9;color:var(--ink)}@media (hover:hover){footer a:hover{color:var(--teal-d)}}
+
+.fBig{font-family:'Montserrat',sans-serif;font-size:clamp(2rem,3.6vw,2.8rem);font-weight:600;line-height:1.1;margin:18px 0 22px}
+.fBottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-size:.74rem;color:var(--muted);letter-spacing:.06em}
+@media (max-width:900px){.fGrid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.fGrid{grid-template-columns:1fr}}
+
+/* ============ FLOATERS ============ */
+.wa{position:fixed;right:22px;bottom:22px;z-index:85;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 12px 26px -8px rgba(0,0,0,.4);transition:transform .25s}@media (hover:hover){.wa:hover{transform:scale(1.08)}}
+
+.wa svg{width:28px;height:28px;fill:#fff}
+.picksBtn{position:fixed;left:22px;bottom:22px;z-index:85;display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:12px 18px 12px 14px;border-radius:999px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 14px 28px -12px rgba(0,0,0,.5);transform:translateY(120px);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.3,1.4,.5,1),opacity .3s}
+.picksBtn.show{transform:none;opacity:1;pointer-events:auto}
+.picksBtn b{background:var(--glow);color:var(--ink);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:.72rem}
+.picksBtn.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.15)}}
+
+/* ============ MODAL ============ */
+.ov{position:fixed;inset:0;z-index:100;background:rgba(18,32,36,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .35s}
+.ov.open{opacity:1;pointer-events:auto}
+.md{position:relative;width:min(980px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:30px;background:var(--lattice),var(--marble),var(--bg);background-size:72px 124px,900px,auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;box-shadow:0 60px 120px -40px rgba(0,0,0,.6);transform:translateY(30px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.ov.open .md{transform:none}
+.md .pic{position:relative;display:grid;place-items:center;padding:50px 30px}
+.md .pic img.round{width:min(100%,400px);border-radius:50%;filter:drop-shadow(0 34px 34px rgba(0,0,0,.25))}
+.md .pic img.rect{width:min(100%,380px);aspect-ratio:4/5;object-fit:cover;border-radius:160px 160px 16px 16px;box-shadow:0 34px 50px -30px rgba(0,0,0,.5)}
+.md .pic img.in{animation:spinIn .9s cubic-bezier(.2,.8,.2,1)}
+@keyframes spinIn{from{transform:rotate(-120deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+.md .pic::before{content:'';position:absolute;width:70%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(95,227,223,.35),transparent 65%)}
+.md .info{padding:56px 48px 44px 20px;display:flex;flex-direction:column}
+.md .info h3{font-size:clamp(2rem,3.6vw,2.9rem);margin:10px 0 14px}
+.md .info p{color:var(--muted);line-height:1.7;margin:0 0 22px}
+.md .price{font-family:'Montserrat',sans-serif;font-size:2.2rem;font-weight:600;margin-bottom:22px}
+.md .alg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.md .alg span{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:5px 11px 5px 5px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid var(--line)}
+.md .alg span b{width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:.56rem}
+.md .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto}
+.md .heart{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);padding:13px 20px;border-radius:999px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;transition:.25s}
+.md .heart svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .3s}
+.md .heart.on{background:#C9544A;border-color:#C9544A;color:#fff}
+.md .heart.on svg{fill:#fff;transform:scale(1.2)}
+.md .x{position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.4rem;z-index:3;box-shadow:0 8px 16px -8px rgba(0,0,0,.3)}
+.md .nav{position:absolute;left:24px;bottom:24px;display:flex;gap:10px;z-index:3}
+.md .nav button{width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 8px 16px -8px rgba(0,0,0,.3);transition:.25s}@media (hover:hover){.md .nav button:hover{background:var(--teal-deep);color:#fff}}
+
+.md .nav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.md .cnt{font-size:.7rem;letter-spacing:.2em;color:var(--muted);margin-bottom:8px}
+@media (max-width:780px){.md{grid-template-columns:1fr}.md .pic{padding:40px 30px 10px}.md .pic img.round{width:min(70vw,300px)}.md .pic img.rect{width:min(64vw,260px)}.md .info{padding:10px 26px 90px}.md .nav{left:auto;right:24px}}
+
+/* picks drawer */
+.dr{position:fixed;left:0;top:0;bottom:0;width:min(400px,92vw);z-index:110;background:var(--marble),var(--bg);background-size:900px,auto;box-shadow:30px 0 60px -30px rgba(0,0,0,.4);transform:translateX(-105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding:30px 26px}
+.dr.open{transform:none}
+.dr h3{font-size:2rem;margin-bottom:6px}
+.dr .list{flex:1;overflow:auto;margin:20px -6px;padding:0 6px}
+.dr .it{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.dr .it img{width:56px;height:56px;border-radius:50%;object-fit:cover}
+.dr .it b{font-family:'Montserrat',sans-serif;font-size:1.15rem;display:block}
+.dr .it em{font-style:normal;font-size:.74rem;color:var(--teal-d);letter-spacing:.1em}
+.dr .it button{font-size:1.2rem;color:var(--muted);width:32px;height:32px}
+.dr .tot{display:flex;justify-content:space-between;font-family:'Montserrat',sans-serif;font-size:1.5rem;font-weight:600;margin-bottom:16px}
+.dr .x{position:absolute;right:18px;top:20px;font-size:1.6rem}
+.dr .empty{color:var(--muted);line-height:1.6}
+.dim{position:fixed;inset:0;z-index:105;background:rgba(18,32,36,.35);opacity:0;pointer-events:none;transition:opacity .35s}
+.dim.open{opacity:1;pointer-events:auto}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ===== polish pass ===== */
+html{scroll-behavior:smooth}
+section,header,footer,main{scroll-margin-top:70px}
+.out{opacity:.34!important}
+.prog{position:fixed;left:0;top:0;height:2px;width:100%;background:linear-gradient(90deg,var(--teal-d),var(--glow));transform-origin:0 50%;transform:scaleX(0);z-index:96;pointer-events:none}
+/* hero entrance */
+.heroCopy>*{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.ready .heroCopy>*{opacity:1;transform:none}
+.ready .heroCopy>*:nth-child(2){transition-delay:.08s}.ready .heroCopy>*:nth-child(3){transition-delay:.16s}.ready .heroCopy>*:nth-child(4){transition-delay:.26s}.ready .heroCopy>*:nth-child(5){transition-delay:.36s}.ready .heroCopy>*:nth-child(6){transition-delay:.46s}
+.heroPlate{opacity:0;scale:.84;rotate:-50deg;transition:opacity 1.2s ease .15s,scale 1.5s cubic-bezier(.2,.8,.2,1) .15s,rotate 1.8s cubic-bezier(.2,.8,.2,1) .15s}
+.ready .heroPlate{opacity:1;scale:1;rotate:0deg}
+.heroPlate .cap{opacity:0;translate:0 12px;transition:opacity .8s 1.2s,translate .8s cubic-bezier(.2,.8,.2,1) 1.2s,transform .3s}
+.ready .heroPlate .cap{opacity:1;translate:0 0}
+/* tonight pill */
+.tonight{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;background:rgba(255,255,255,.72);border:1px solid var(--line);font-size:.76rem;margin-bottom:22px;box-shadow:0 10px 20px -16px rgba(0,0,0,.4);transition:background .25s}@media (hover:hover){.tonight:hover{background:#fff}}
+
+.tonight i{width:8px;height:8px;border-radius:50%;background:#35A96B;box-shadow:0 0 0 0 rgba(53,169,107,.6);animation:ping2 2s infinite;flex:none}
+.tonight.closed i{background:#C9544A;animation:none}
+.tonight b{font-weight:600}
+@keyframes ping2{70%{box-shadow:0 0 0 8px rgba(53,169,107,0)}100%{box-shadow:0 0 0 0 rgba(53,169,107,0)}}
+/* item reveal */
+.pre{opacity:0;scale:.9;transition:opacity .9s ease var(--rd,0s),scale 1.2s cubic-bezier(.2,.8,.2,1) var(--rd,0s)!important}
+.pre .disc img,.pre .tileBox img,.pre .ph img{rotate:-15deg}
+.pre .ph img{rotate:0deg;scale:1.2}
+.disc img,.tileBox img{transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .5s,rotate 1.5s cubic-bezier(.2,.8,.2,1) var(--rd,0s)}
+.sideItem .ph img{transition:transform 1.2s cubic-bezier(.2,.8,.2,1),scale 1.6s cubic-bezier(.2,.8,.2,1)}
+.pre.in{opacity:1;scale:1}
+.pre.in .disc img,.pre.in .tileBox img{rotate:0deg}
+.pre.in .ph img{scale:1}
+.scatter .plate{translate:0 var(--py,0px)}
+.ch .num{transition:-webkit-text-stroke-color .6s}
+.ch h2{background:linear-gradient(90deg,var(--ink),var(--ink)) 0 100%/0 1.5px no-repeat;padding-bottom:6px;transition:background-size 1.2s cubic-bezier(.2,.8,.2,1) .3s}
+.ch.in h2{background-size:60px 1.5px}
+/* cursor */
+.cur{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1.5px solid rgba(31,42,51,.55);pointer-events:none;z-index:130;display:grid;place-items:center;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;font-weight:600;transition:width .4s cubic-bezier(.2,.8,.2,1),height .4s cubic-bezier(.2,.8,.2,1),margin .4s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s,opacity .3s;opacity:0;will-change:transform}
+.cur.on{opacity:1}
+.cur.big{width:84px;height:84px;margin:-42px 0 0 -42px;background:rgba(30,71,76,.92);border-color:transparent;backdrop-filter:blur(2px)}
+.cur span{opacity:0;transition:opacity .2s}.cur.big span{opacity:1;transition-delay:.1s}
+.cur.hide{opacity:0}
+@media (hover:none),(pointer:coarse){.cur{display:none}}
+/* modal fly */
+.flyImg{position:fixed;z-index:120;pointer-events:none;object-fit:cover;will-change:transform}
+.flyImg.round{border-radius:50%;filter:drop-shadow(0 30px 30px rgba(0,0,0,.25))}
+.flyImg.rect{border-radius:160px 160px 16px 16px}
+.ov.fly .md{transition:none;transform:none}
+/* event photo slot */
+.ev{height:430px}
+.ev .shot{position:relative;height:150px;margin:-10px -8px 18px;border-radius:18px 18px 90px 18px;overflow:hidden;background:var(--teal-deep);display:grid;place-items:center}
+.ev .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ev .shot svg{width:92px;height:92px;stroke:#E9D29C;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;transition:transform .8s cubic-bezier(.2,.8,.2,1)}@media (hover:hover){.ev:hover .shot svg{transform:scale(1.08) rotate(-4deg)}}
+
+.ev .shot .day{position:absolute;left:16px;bottom:10px;color:#fff;font-size:3rem;opacity:.95}
+.ev .shot::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(95,227,223,.25),transparent 60%)}
+.ev.v2 .shot{background:#2A2A3A}.ev.v3 .shot{background:#3A2A22}
+/* footer */
+.logo.fWord{width:100%;margin-top:70px;background:rgba(31,42,51,.06)}
+.openNow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;margin-top:6px}
+.openNow i{width:7px;height:7px;border-radius:50%;background:#35A96B}
+.openNow.closed i{background:#C9544A}
+.dirs{display:inline-block;margin-top:8px;font-size:.8rem!important;letter-spacing:.14em;text-transform:uppercase;border-bottom:1.5px solid var(--ink);line-height:1.6!important}
+@media (max-width:900px){.ev{height:420px}}
+
+/* ================= DRINKS MODE ================= */
+body{transition:color .6s}
+.modeFade{position:fixed;inset:0;z-index:140;pointer-events:none;opacity:0;transition:opacity .38s ease}
+.modeFade.on{opacity:1}
+.modeSw{position:relative;display:inline-flex;padding:5px;border-radius:999px;background:rgba(255,255,255,.6);border:1px solid var(--line);box-shadow:0 10px 24px -18px rgba(0,0,0,.4)}
+.modeSw button{position:relative;z-index:1;padding:10px 22px;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;border-radius:999px;transition:color .35s;color:var(--muted)}
+.modeSw button.on{color:#fff}
+.modeSw i{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:999px;background:var(--teal-deep);transition:transform .5s cubic-bezier(.3,1.3,.5,1),background .4s}
+.modeSw.isD i{transform:translateX(100%)}
+.heroSw{margin-top:26px}
+.tools .modeSw{display:flex;width:max-content;margin:0 auto 30px}
+#drinkRoot,.dOnly{display:none}
+body[data-mode=drinks] #drinkRoot{display:block}
+body[data-mode=drinks] .dOnly{display:block}
+body[data-mode=drinks] #menuRoot,body[data-mode=drinks] #story,body[data-mode=drinks] #bandPlates,body[data-mode=drinks] .fOnly{display:none!important}
+body[data-mode=drinks] .pr[data-m=f],body:not([data-mode=drinks]) .pr[data-m=d]{display:none}
+body[data-mode=drinks] .pr{filter:drop-shadow(0 10px 14px rgba(0,0,0,.35)) drop-shadow(0 0 10px rgba(159,209,208,.18))}
+.dnote{max-width:720px;margin:26px auto 0;text-align:center;color:var(--muted);font-size:.84rem;line-height:1.7}
+
+/* night marble theme */
+body[data-mode=drinks]{
+  --bg:#0E2024;--tile:#132B30;--ink:#F1E9D8;--muted:#9DB3B5;--teal:#5E9EA4;--teal-d:#8ED3D0;--teal-deep:#D6B46E;--gold:#D6B46E;--line:rgba(255,255,255,.1);--cream:#EADFCB;
+  --marble:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='f' x='0' y='0' width='1' height='1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.00333 .00778' numOctaves='6' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .75 0 0 0 0 .76 0 0 0 -3.4 2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.16'/%3E%3C/svg%3E");
+  --veins:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='1400' fill='none' stroke='%23D6B46E'%3E%3Cpath d='M-20 260C200 300 330 210 520 260S820 420 1010 380 1300 250 1440 300' stroke-opacity='.10' stroke-width='1.2'/%3E%3Cpath d='M-20 900C160 860 300 960 470 930S760 800 930 860 1220 1010 1440 960' stroke-opacity='.08'/%3E%3Cpath d='M300 -20C340 200 250 380 330 560S420 900 360 1120 420 1300 400 1420' stroke-opacity='.06'/%3E%3Cpath d='M1080 -20C1040 160 1130 330 1060 520S980 820 1050 1000' stroke-opacity='.06'/%3E%3C/svg%3E");
+  --lattice:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='124'%3E%3Cpath d='M36 0L72 62L36 124L0 62Z' fill='none' stroke='%23fff' stroke-opacity='.035'/%3E%3C/svg%3E");
+}
+body[data-mode=drinks] .btn{color:#10231F}@media (hover:hover){body[data-mode=drinks] .btn:hover{background:#E6C888}}
+
+body[data-mode=drinks] .btn.line{color:var(--ink);border-color:rgba(241,233,216,.6)}@media (hover:hover){body[data-mode=drinks] .btn.line:hover{background:var(--ink);color:#10231F}}
+
+body[data-mode=drinks] nav.top.solid{background:rgba(14,32,36,.86)}@media (hover:hover){body[data-mode=drinks] .navBook:hover{background:var(--ink);color:#10231F}}
+
+body[data-mode=drinks] .mnav{background:rgba(14,32,36,.97)}
+body[data-mode=drinks] .tonight{background:rgba(255,255,255,.07)}
+body[data-mode=drinks] .modeSw{background:rgba(255,255,255,.06)}
+body[data-mode=drinks] .modeSw button.on{color:#10231F}
+body[data-mode=drinks] .marq{background:rgba(255,255,255,.03)}
+body[data-mode=drinks] .chip{background:rgba(255,255,255,.05)}@media (hover:hover){body[data-mode=drinks] .chip:hover{background:rgba(255,255,255,.1)}}
+
+body[data-mode=drinks] .chip.on{background:var(--gold);color:#10231F}body[data-mode=drinks] .chip.on svg{stroke:#10231F}
+body[data-mode=drinks] .chips.sticky{background:rgba(14,32,36,.92)}
+body[data-mode=drinks] .ch .num{-webkit-text-stroke-color:rgba(214,180,110,.4)}
+body[data-mode=drinks] .sq .tileBox{background:var(--marble),radial-gradient(circle at 50% 30%,rgba(214,180,110,.12),transparent 60%),linear-gradient(160deg,#16333A,#0F2429);background-size:600px,auto,auto;border-color:rgba(255,255,255,.07)}
+body[data-mode=drinks] .sq .tileBox::before{background:radial-gradient(circle at 50% 45%,rgba(214,180,110,.3),transparent 62%)}
+body[data-mode=drinks] .sq .go{background:rgba(255,255,255,.12)}
+body[data-mode=drinks] .md{background:var(--lattice),var(--marble),#12292E;background-size:72px 124px,900px,auto}
+body[data-mode=drinks] .md .x,body[data-mode=drinks] .md .nav button{background:rgba(255,255,255,.1);color:var(--ink)}
+body[data-mode=drinks] .md .pic::before{background:radial-gradient(circle,rgba(214,180,110,.28),transparent 65%)}
+body[data-mode=drinks] .md .heart{border-color:rgba(241,233,216,.6)}
+body[data-mode=drinks] .dr{background:var(--marble),#12292E;background-size:900px,auto}
+body[data-mode=drinks] .picksBtn{background:var(--gold);color:#10231F}
+body[data-mode=drinks] .cur{border-color:rgba(241,233,216,.5)}
+body[data-mode=drinks] .cur.big{background:rgba(214,180,110,.95);color:#10231F}
+body[data-mode=drinks] .heroPlate .cap{background:rgba(18,41,46,.85);color:var(--muted)}
+body[data-mode=drinks] .heroPlate .spin{border-radius:0;filter:drop-shadow(0 40px 50px rgba(0,0,0,.45))}
+body[data-mode=drinks] .heroPlate .spin img{border-radius:0;width:auto;height:100%;margin:0 auto}
+body[data-mode=drinks] .heroPlate::before{content:'';position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,rgba(214,180,110,.28),rgba(142,211,208,.08) 50%,transparent 70%)}
+body[data-mode=drinks] .heroPlate .bowl{display:none}
+body[data-mode=drinks] .band{background:var(--marble),linear-gradient(160deg,#1F4C52,#15393E);background-size:900px,auto}
+body[data-mode=drinks] .ev .f{background:#EFE5D2}
+body[data-mode=drinks] .logo.fWord{background:rgba(214,180,110,.07)}
+body[data-mode=drinks] .prog{background:linear-gradient(90deg,var(--gold),var(--teal-d))}
+.md .pic img.glass{width:min(80%,300px);border-radius:0;filter:drop-shadow(0 30px 30px rgba(0,0,0,.4))}
+.flyImg.glass{border-radius:0}
+.md .alg:empty{display:none}
+
+/* shelf (signature cocktails) */
+.shelf{position:relative}
+.shTrack{display:flex;gap:30px;overflow-x:auto;scroll-snap-type:x mandatory;padding:40px 6px 30px;margin:0 -6px;scrollbar-width:none;cursor:grab}
+.shTrack::-webkit-scrollbar{display:none}
+.shTrack.drag{cursor:grabbing;scroll-snap-type:none}
+.gl{flex:0 0 200px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.gl .spot{position:absolute;top:-30px;left:50%;width:240px;height:300px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 20%,rgba(214,180,110,.34),transparent 62%);opacity:.35;transition:opacity .5s;pointer-events:none}
+.gl img{height:250px;width:auto;transition:transform .7s cubic-bezier(.2,.8,.2,1);transform-origin:50% 100%;-webkit-user-drag:none;user-select:none}@media (hover:hover){.gl:hover img,.gl:focus-visible img{transform:translateY(-16px) rotate(-4deg) scale(1.04)}}
+@media (hover:hover){.gl:hover .spot{opacity:1}}
+
+.gl .n{font-family:'Montserrat',sans-serif;font-size:.9rem;color:var(--gold);letter-spacing:.1em;margin-top:18px}
+.gl b{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:600;line-height:1.15;margin-top:4px}
+.gl em{font-style:normal;font-size:.74rem;letter-spacing:.16em;color:var(--teal-d);font-weight:600;margin-top:6px}
+.shelfBar{height:3px;margin:-124px 0 124px;background:linear-gradient(90deg,transparent,rgba(214,180,110,.7) 15%,rgba(214,180,110,.7) 85%,transparent);box-shadow:0 0 24px 4px rgba(214,180,110,.3);border-radius:3px;pointer-events:none}
+.shNav{display:flex;align-items:center;gap:14px;margin-top:10px}
+.shNav button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:.25s;color:var(--ink)}@media (hover:hover){.shNav button:hover{background:var(--gold);color:#10231F;border-color:transparent}}
+
+.shNav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.shProg{flex:1;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+.shProg i{display:block;height:100%;width:20%;background:var(--gold);border-radius:2px;transform-origin:0 50%}
+.shHint{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+/* drink squares */
+.sq.dk .tileBox img{width:auto;height:82%;border-radius:0;filter:drop-shadow(0 18px 18px rgba(0,0,0,.35))}@media (hover:hover){.sq.dk:hover .tileBox img{transform:translateY(-8px) rotate(-5deg) scale(1.05)}}
+
+.sq.dk p{-webkit-line-clamp:3}
+
+/* price board */
+.board .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
+.tab{padding:10px 18px;border-radius:999px;border:1px solid var(--line);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;transition:.25s;color:var(--muted)}
+.tab sup{font-size:.6rem;margin-left:4px;opacity:.7}@media (hover:hover){.tab:hover{color:var(--ink);border-color:var(--ink)}}
+
+.tab.on{background:var(--gold);border-color:transparent;color:#10231F}
+.bgrid{display:grid;grid-template-columns:1.35fr 1fr;gap:60px;align-items:start}
+.bhead{display:grid;grid-template-columns:44px 1fr 70px 80px;gap:14px;padding:0 10px 12px;border-bottom:1px solid var(--line);font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.bhead span:nth-child(1){grid-column:1/3}
+.bhead span:nth-child(n+2){text-align:right}
+.board.one .bhead span:nth-child(3),.board.one .row .c:last-child{display:none}
+.board.one .bhead,.board.one .row{grid-template-columns:44px 1fr 90px}
+.row{display:grid;grid-template-columns:44px 1fr 70px 80px;gap:14px;align-items:center;width:100%;text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);border-radius:10px;transition:background .25s,padding .35s;animation:rowIn .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--j,0)*35ms)}
+.row img{height:40px;width:auto;justify-self:center;transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+.row .rn b{display:block;font-family:'Montserrat',sans-serif;font-size:1.22rem;font-weight:600;line-height:1.15}
+.row .rn small{display:block;font-size:.76rem;color:var(--muted);margin-top:2px}
+.row .c{text-align:right;font-family:'Montserrat',sans-serif;font-size:1.2rem;font-weight:600;color:var(--gold);white-space:nowrap}@media (hover:hover){.row:hover,.row.act{background:rgba(255,255,255,.05);padding-left:16px}}
+@media (hover:hover){.row:hover img,.row.act img{transform:scale(1.2) rotate(-6deg)}}
+
+@keyframes rowIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.bviz{position:sticky;top:130px;height:460px;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:30px;background:var(--marble),radial-gradient(circle at 50% 35%,rgba(214,180,110,.22),transparent 60%),linear-gradient(160deg,#16333A,#0E2226);background-size:600px,auto,auto;border:1px solid rgba(255,255,255,.07)}
+.bviz img{height:270px;width:auto;margin-bottom:auto;margin-top:20px;filter:drop-shadow(0 26px 26px rgba(0,0,0,.45))}
+.bviz img.swap{animation:pour .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes pour{from{opacity:0;transform:translateY(24px) rotate(-8deg) scale(.94)}to{opacity:1;transform:none}}
+.bcap{text-align:center}
+.bcap b{display:block;font-family:'Montserrat',sans-serif;font-size:1.7rem;font-weight:600;margin:6px 0 6px;line-height:1.1}
+.bcap em{font-style:normal;color:var(--teal-d);font-size:.78rem;letter-spacing:.12em;font-weight:600}
+.dFoot{padding:10px 32px 90px;text-align:center;color:var(--muted);font-size:.8rem;line-height:1.8}
+@media (max-width:900px){.bgrid{grid-template-columns:1fr}.bviz{display:none}.board .tabs{flex-wrap:nowrap;overflow-x:auto;margin:0 -20px 24px;padding:0 20px;scrollbar-width:none}.board .tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 auto}.row,.bhead{grid-template-columns:34px 1fr 54px 64px;gap:10px}.board.one .row,.board.one .bhead{grid-template-columns:34px 1fr 64px}.row img{height:32px}.row .rn b{font-size:1.08rem}.gl{flex-basis:160px}.gl img{height:200px}.shelfBar{margin:-114px 0 114px}}
+
+/* ===== B-Heaven brand type: Gotham/Montserrat structure from the printed menus ===== */
+:root{--head:#5F8F9B}
+body[data-mode=drinks]{--head:#9FD1D0}
+body{font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;font-weight:400}
+h1,h2,h3{font-family:'Montserrat',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.06}
+.heroCopy h1{font-size:clamp(2.4rem,5vw,4.3rem);letter-spacing:0}
+.heroCopy h1 em{font-style:normal;font-weight:300;color:var(--head)}
+.heroCopy p{font-weight:300}
+.ch h2,.tools h2,.band h2,.chefHead h2,.sideItem h3{color:var(--head)}
+.band h2{color:#fff}
+.ch h2,.chefHead h2,.band h2{font-size:clamp(1.8rem,3.4vw,2.8rem)}
+.tools h2{font-size:clamp(2rem,4vw,3.2rem)}
+.ch .num,.sideItem .txt .n{font-weight:800;font-size:3.6rem}
+.ch p,.sq p,.md .info p,.plate .lbl small,.sideItem .txt p,.row .rn small,.dnote,.ev p,.bsub,.chefHead .q,.tools .sub,.wCard p,.dFoot{font-weight:300}
+.plate .lbl b,.sq .meta b,.gl b,.row .rn b,.bcap b,.wCard b,.dr .it b,.heroPlate .cap b{font-family:'Montserrat',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.05em;line-height:1.3}
+.plate .lbl b{font-size:.92rem}
+.sq .meta b{font-size:.86rem}
+.gl b{font-size:.86rem}
+.row .rn b{font-size:.86rem}
+.bcap b{font-size:1.1rem;font-weight:600}
+.wCard b{font-size:1rem}
+.dr .it b{font-size:.8rem}
+.heroPlate .cap b{font-size:.8rem;margin-bottom:2px}
+.sideItem h3{font-size:clamp(1.5rem,2.8vw,2.3rem);font-weight:700}
+.md .info h3{font-size:clamp(1.35rem,2.4vw,1.9rem);font-weight:700;color:var(--head)}
+.ev h3{font-size:1.1rem;font-weight:700}
+.ev .day{font-weight:800;font-size:2.4rem;text-transform:uppercase}
+.row .c,.md .price,.sideItem .price,.dr .tot{font-family:'Montserrat',sans-serif;font-weight:500}
+.row .c{font-size:.95rem}
+.md .price{font-size:1.5rem}
+.sideItem .price{font-size:1.5rem}
+.heroMeta b{font-family:'Montserrat',sans-serif;font-weight:600;font-size:1.35rem}
+.chefHead .q{font-style:italic;font-size:1.05rem;line-height:1.6}
+.bubble{font-family:'Montserrat',sans-serif;font-style:italic;font-weight:300;font-size:.98rem;line-height:1.5}
+.marq .track{font-family:'Montserrat',sans-serif;font-style:normal;font-weight:300;text-transform:uppercase;letter-spacing:.2em;font-size:1rem}
+.fBig{font-family:'Montserrat',sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(1.5rem,2.6vw,2.1rem)}
+.mnav a{font-family:'Montserrat',sans-serif;font-weight:600;text-transform:uppercase;font-size:1.3rem;letter-spacing:.08em}
+.gl .n{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:600}
+.dr h3{font-size:1.5rem}
+.plate .lbl em,.sq .meta em,.gl em,.bcap em,.wCard .r em{font-weight:600;letter-spacing:.14em}
+
+.pr-off{display:none!important}
+.pr.palm{z-index:1;pointer-events:none;filter:none!important}
+.hero .wrap,.tools .wrap,.cat>.wrap,.bandWrap,footer .wrap{position:relative;z-index:2}
+
+/* UAE Dirham symbol */
+.aed{display:inline-block;width:.92em;height:.8em;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92.71 80.98'%3E%3Cpath d='M63%2C75.06c-6.67%2C3.73-14.97%2C5.36-22.65%2C5.62-10.73.37-21.32.36-32.06.17%2C2.99-4.06%2C3.59-8.61%2C3.91-13.36l.03-14.96-5.71-.03c-1.61%2C0-3.07-.76-4.14-1.85C.53%2C48.24-.2%2C45.33.09%2C42.4c1.34%2C1.37%2C3.07%2C2.08%2C4.96%2C2.1l7.17.06v-8.31s-5.34-.03-5.34-.03c-1.66%2C0-3.35-.55-4.44-1.83C.45%2C32.06-.25%2C29%2C.08%2C26.08c1.23%2C1.32%2C2.88%2C2.08%2C4.68%2C2.09l7.47.05v-13.63c-.18-5.2-.76-10.27-3.94-14.59l29.91.09c4.69.01%2C9.15.57%2C13.7%2C1.57%2C10.09%2C2.23%2C18.82%2C7.65%2C23.6%2C16.94%2C1.57%2C3.07%2C2.5%2C6.22%2C3.31%2C9.6l7.32.03c1.57%2C0%2C2.97.7%2C4.07%2C1.73%2C1.93%2C2.41%2C2.73%2C5.39%2C2.37%2C8.35-1.25-1.28-2.84-2.01-4.6-2.03l-7.88-.08c.32%2C2.83.33%2C5.47%2C0%2C8.33h5.81c1.5%2C0%2C3.19.51%2C4.23%2C1.67%2C2.08%2C2.35%2C2.83%2C5.53%2C2.48%2C8.45-1.28-1.35-2.95-2.08-4.77-2.09l-9.02-.05c-.81%2C3.48-1.78%2C6.74-3.41%2C9.89-2.8%2C5.39-7.13%2C9.69-12.43%2C12.65ZM50.8%2C6.51c-2.78-1.16-5.52-1.82-8.53-2.28-6.05-.82-12.11-.78-18.14-.09l.08%2C24.09h41.31c-1.75-9.08-6.08-17.66-14.72-21.72ZM66.52%2C36.19l-42.31.02v8.38s42.32-.02%2C42.32-.02v-8.38ZM51.73%2C73.92c8.16-4.38%2C12.15-12.68%2C13.81-21.39H24.21s-.07%2C24.22-.07%2C24.22c5.69.61%2C11.4.69%2C17.11.03%2C3.68-.49%2C7.06-1.24%2C10.48-2.86Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92.71 80.98'%3E%3Cpath d='M63%2C75.06c-6.67%2C3.73-14.97%2C5.36-22.65%2C5.62-10.73.37-21.32.36-32.06.17%2C2.99-4.06%2C3.59-8.61%2C3.91-13.36l.03-14.96-5.71-.03c-1.61%2C0-3.07-.76-4.14-1.85C.53%2C48.24-.2%2C45.33.09%2C42.4c1.34%2C1.37%2C3.07%2C2.08%2C4.96%2C2.1l7.17.06v-8.31s-5.34-.03-5.34-.03c-1.66%2C0-3.35-.55-4.44-1.83C.45%2C32.06-.25%2C29%2C.08%2C26.08c1.23%2C1.32%2C2.88%2C2.08%2C4.68%2C2.09l7.47.05v-13.63c-.18-5.2-.76-10.27-3.94-14.59l29.91.09c4.69.01%2C9.15.57%2C13.7%2C1.57%2C10.09%2C2.23%2C18.82%2C7.65%2C23.6%2C16.94%2C1.57%2C3.07%2C2.5%2C6.22%2C3.31%2C9.6l7.32.03c1.57%2C0%2C2.97.7%2C4.07%2C1.73%2C1.93%2C2.41%2C2.73%2C5.39%2C2.37%2C8.35-1.25-1.28-2.84-2.01-4.6-2.03l-7.88-.08c.32%2C2.83.33%2C5.47%2C0%2C8.33h5.81c1.5%2C0%2C3.19.51%2C4.23%2C1.67%2C2.08%2C2.35%2C2.83%2C5.53%2C2.48%2C8.45-1.28-1.35-2.95-2.08-4.77-2.09l-9.02-.05c-.81%2C3.48-1.78%2C6.74-3.41%2C9.89-2.8%2C5.39-7.13%2C9.69-12.43%2C12.65ZM50.8%2C6.51c-2.78-1.16-5.52-1.82-8.53-2.28-6.05-.82-12.11-.78-18.14-.09l.08%2C24.09h41.31c-1.75-9.08-6.08-17.66-14.72-21.72ZM66.52%2C36.19l-42.31.02v8.38s42.32-.02%2C42.32-.02v-8.38ZM51.73%2C73.92c8.16-4.38%2C12.15-12.68%2C13.81-21.39H24.21s-.07%2C24.22-.07%2C24.22c5.69.61%2C11.4.69%2C17.11.03%2C3.68-.49%2C7.06-1.24%2C10.48-2.86Z'/%3E%3C/svg%3E") center/contain no-repeat;vertical-align:-.06em;margin-right:.22em;letter-spacing:0}
+
+.scatter.v2{grid-template-columns:repeat(6,1fr)}
+.scatter.v2 .plate{grid-column:span 2}
+.scatter.v2 .plate:nth-child(4){grid-column:2/span 2;transform:translateY(30px)}
+.scatter.v2 .plate:nth-child(5){grid-column:4/span 2;transform:translateY(110px)}
+.scatter.v2 .plate:nth-child(2){transform:translateY(80px)}
+@media (max-width:800px){.scatter.v2{grid-template-columns:repeat(2,1fr)}.scatter.v2 .plate,.scatter.v2 .plate:nth-child(4),.scatter.v2 .plate:nth-child(5){grid-column:auto}.scatter.v2 .plate:nth-child(5){grid-column:1/-1;justify-self:center;width:min(50%,300px)}}
+.scatter.v2{padding-bottom:190px}
+
+/* burgers: two photo squares, compact section */
+.squares.duo{gap:30px}
+.squares.duo .sq{flex:0 1 calc(46% - 15px);max-width:560px}
+.squares.duo .sq .tileBox{aspect-ratio:16/10}
+.squares.duo .sq .tileBox img{width:100%!important;height:100%!important;object-fit:cover!important;margin:0!important}
+.squares.duo .sq .meta{margin-top:18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.squares.duo .sq p{display:block;-webkit-line-clamp:unset;overflow:visible;margin-top:12px;font-size:.9rem;line-height:1.65}
+.sq.photo .tileBox img{width:100%;height:100%;object-fit:cover;border-radius:0;filter:none}@media (hover:hover){.sq.photo:hover .tileBox img{transform:scale(1.07)}}
+
+.sq.photo .tileBox::after{content:'';position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(transparent,rgba(0,0,0,.25));pointer-events:none}
+.sq.photo.pre .tileBox img{rotate:0deg;scale:1.15}
+.sq.photo.pre.in .tileBox img{scale:1}
+#cat-burgers{padding:80px 0 50px}
+#cat-burgers .ch{margin-bottom:44px}
+@media (max-width:1000px){.squares.duo .sq{flex:0 1 calc(50% - 15px)}}
+@media (max-width:700px){.squares.duo .sq{flex:0 0 100%;max-width:none}.squares.duo .sq .meta{flex-direction:row;align-items:baseline;gap:12px}}
+.chef{z-index:5}
+.bubble,.hint{z-index:30}
+.chefHead,.wCard,.dots,.arrows{z-index:30}
+@media (hover:none){.plate:active .disc img,.sq:active .tileBox img{transform:scale(.97)}.gl:active img{transform:translateY(-6px)}.row:active{background:rgba(127,127,127,.08)}}
+.ev.flip{transform:rotateY(180deg)}
+.row.act{background:rgba(255,255,255,.05);padding-left:16px}
+.row.act img{transform:scale(1.2) rotate(-6deg)}
+
+/* ---- full-length chef, plates orbit low around him ---- */
+@media (min-width:900px){
+ .chefSec{padding-top:40px}
+ .chefStage{height:clamp(600px,calc(100svh - 120px),860px)}
+ .chef{left:58%;right:auto;bottom:30px;top:auto;width:auto;height:calc(100% - 50px);aspect-ratio:754/1400;transform:translateX(-50%);transform-origin:50% 100%}
+ .chef img{width:auto;height:100%;-webkit-mask-image:none;mask-image:none}
+ @media (hover:hover){.chef:hover{transform:translateX(-50%) scale(1.012)}}
+ .hint{left:calc(58% + 190px);right:auto;top:24%}
+ .bubble{right:3%;top:12%}
+}
+.chef::after{content:'';position:absolute;left:14%;right:6%;bottom:-8px;height:28px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.32),rgba(0,0,0,.1) 60%,transparent);z-index:-1;pointer-events:none}
+@media (max-width:899px){
+ .chef{width:min(72%,330px);margin:10px auto 0;transform:none}
+ .chef img{width:100%;height:auto}
+}
+/* ---- scrolling fixes ---- */
+@media (hover:none),(pointer:coarse){.pr{pointer-events:none;touch-action:auto}}
+section,header,footer,main,#story{scroll-margin-top:130px}
+.wheel,.wp,.chef{touch-action:pan-y}
 
 /* ---- 4th event card: Happy Hours ---- */
 .evs{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
@@ -640,6 +1040,99 @@ nav.top ul{position:static;transform:none;margin:0 auto;padding:0 24px}
 @media (max-width:420px){nav.top .navSw button{padding:7px 12px;font-size:.6rem;letter-spacing:.14em}}
 /* Section numbers readable in drinks mode */
 body[data-mode=drinks] .ch .num,body[data-mode=drinks] .sideItem .num{-webkit-text-stroke-color:rgba(214,180,110,.95)!important;color:rgba(214,180,110,.14)!important}
+
+/* ============ CHEF'S PASS (arc carousel) ============ */
+.cpSec{--u:calc(min(100vw,1440px)/1440);--cx:calc(960*var(--u));--cy:calc(265*var(--u));--sx:310;--cpb:#5B87A3;--cpd:#4E7288;position:relative;padding:34px 0 30px;overflow:hidden}
+.cpStage{position:relative;width:100%;max-width:1440px;margin:0 auto;height:calc(700*var(--u))}
+.cpHead{position:absolute;z-index:6;left:calc(80*var(--u));top:calc(20*var(--u));width:calc(560*var(--u));min-width:330px}
+.cpHead .eyebrow{display:block;font-size:.68rem;letter-spacing:.34em;color:var(--cpd);margin-bottom:calc(22*var(--u))}
+.cpHead h2{font-size:clamp(2.6rem,4.7vw,4.3rem)!important;line-height:1!important;font-weight:700;text-transform:uppercase;color:var(--cpb);letter-spacing:-.005em;margin:0}
+.cpHead .q{font-family:'Montserrat',sans-serif;font-style:italic;font-weight:300;font-size:clamp(1.05rem,1.55vw,1.4rem);line-height:1.45;color:#6D7F8B;max-width:min(400px,100%);margin:calc(28*var(--u)) 0 calc(32*var(--u))}
+.cpPill{display:inline-flex;align-items:center;gap:16px;background:#fff;border:0;border-radius:999px;padding:9px 30px 9px 9px;cursor:pointer;box-shadow:0 14px 30px -18px rgba(30,71,76,.45),0 1px 0 rgba(255,255,255,.9) inset;text-align:left;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.cpPill:hover{transform:translateY(-2px);box-shadow:0 20px 36px -18px rgba(30,71,76,.55)}
+.cpPill:focus-visible{outline:2px solid var(--cpb);outline-offset:3px}
+.cpPill i{flex:0 0 auto;width:54px;height:54px;border-radius:50%;background:var(--teal-deep);color:var(--gold);display:grid;place-items:center;font-style:normal;font-size:1.15rem;line-height:1}
+.cpPill span{display:block}
+.cpPill small{display:block;font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.cpPill b{display:block;font-size:1.1rem;font-weight:600;color:var(--ink);line-height:1.15}
+
+.cpViz{position:absolute;inset:0;outline:0}
+.cpViz::before{content:'';position:absolute;left:var(--cx);top:var(--cy);width:calc(900*var(--u));height:calc(900*var(--u));transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(132,172,194,.26) 0,rgba(132,172,194,.10) 42%,transparent 68%);pointer-events:none}
+.cpArt{position:absolute;inset:0}
+.cpRing{position:absolute;left:var(--cx);top:var(--cy);width:calc(512*var(--u));height:calc(512*var(--u));transform:translate(-50%,-50%);border-radius:50%;border:1.5px dashed rgba(78,114,136,.42);pointer-events:none}
+.cpLeaf,.cpLemon{position:absolute;pointer-events:none;z-index:7;filter:drop-shadow(0 12px 12px rgba(30,60,50,.22))}
+.cpLeaf.l1{left:calc(668*var(--u));top:calc(85*var(--u));width:calc(130*var(--u));transform:translate(-50%,-50%) rotate(-28deg);animation:cpFloat 7s ease-in-out infinite}
+.cpLeaf.l2{left:calc(130*var(--u));top:calc(612*var(--u));width:calc(150*var(--u));transform:translate(-50%,-50%) rotate(34deg);animation:cpFloat 8s ease-in-out -2s infinite}
+.cpLemon{left:calc(1277*var(--u));top:calc(643*var(--u));width:calc(46*var(--u));transform:translate(-50%,-50%);animation:cpFloat 6s ease-in-out -1s infinite}
+@keyframes cpFloat{50%{translate:0 calc(-8*var(--u))}}
+
+.cpPlates{position:absolute;inset:0}
+.cpP{position:absolute;left:var(--cx);top:var(--cy);width:calc(500*var(--u));height:calc(500*var(--u));margin:calc(-250*var(--u)) 0 0 calc(-250*var(--u));padding:0;border:0;background:none;border-radius:50%;cursor:pointer;transition:transform .8s cubic-bezier(.22,1,.36,1),opacity .6s ease,filter .6s ease;will-change:transform}
+.cpP img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 calc(26*var(--u)) calc(30*var(--u)) rgba(28,58,76,.28));pointer-events:none;-webkit-user-drag:none}
+.cpP[data-s="0"]{z-index:5;transform:none}
+.cpP[data-s="-1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)*-1),calc(155*var(--u))) scale(.596);filter:saturate(.92)}
+.cpP[data-s="1"]{z-index:3;transform:translate(calc(var(--sx)*var(--u)),calc(155*var(--u))) scale(.596);filter:saturate(.92)}
+.cpP[data-s="xl"]{z-index:1;opacity:0;pointer-events:none;transform:translate(calc(var(--sx)*var(--u)*-1.35),calc(110*var(--u))) scale(.4)}
+.cpP[data-s="xr"]{z-index:1;opacity:0;pointer-events:none;transform:translate(calc(var(--sx)*var(--u)*1.35),calc(110*var(--u))) scale(.4)}
+.cpP[data-s="-1"]:hover,.cpP[data-s="1"]:hover{filter:saturate(1) brightness(1.03)}
+.cpP:focus-visible{outline:2px solid var(--cpb);outline-offset:4px}
+
+.cpCall{position:absolute;inset:0;pointer-events:none;transition:opacity .25s ease}
+.cpCi{position:absolute;left:calc((960 + var(--dx))*var(--u));top:calc((265 + var(--dy))*var(--u));z-index:6}
+.cpCi .dot{position:absolute;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#fff;border:2px solid var(--cpd);box-sizing:border-box}
+.cpCi .ln{position:absolute;left:0;top:0;height:1px;width:calc((270 - var(--dx))*var(--u));background:rgba(78,114,136,.55);transform-origin:left;animation:cpLn .7s cubic-bezier(.22,1,.36,1) both}
+.cpCi .lb{position:absolute;left:calc((282 - var(--dx))*var(--u));top:0;transform:translateY(-50%);width:calc(165*var(--u));font-size:clamp(.7rem,.95vw,.88rem);font-weight:700;color:var(--ink);line-height:1.2;animation:cpLb .6s .15s ease both}
+@keyframes cpLn{from{transform:scaleX(0)}}
+@keyframes cpLb{from{opacity:0;transform:translate(-8px,-50%)}}
+.cpCall.out,.cpInfo .out{opacity:0}
+
+.cpInfo{position:absolute;left:var(--cx);top:calc(var(--cy) + 255*var(--u));width:calc(608*var(--u));transform:translateX(-50%);text-align:center;z-index:6;min-height:calc(130*var(--u))}
+.cpInfoIn{width:calc(430*var(--u));min-width:250px;margin:0 auto;transition:opacity .25s ease,transform .25s ease}
+.cpInfoIn.out{opacity:0;transform:translateY(6px)}
+.cpKick{display:block;font-size:.66rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.cpName{display:block;font-family:'Montserrat',sans-serif;font-size:clamp(1.3rem,1.95vw,1.8rem);font-weight:700;color:var(--teal-deep);line-height:1.12;margin:calc(10*var(--u)) 0 calc(8*var(--u))}
+.cpDesc{margin:0 auto;font-size:clamp(.78rem,.98vw,.9rem);line-height:1.55;color:var(--muted);max-width:420px}
+.cpPrice{display:block;font-style:normal;font-weight:700;font-size:.95rem;letter-spacing:.06em;color:var(--teal-deep);margin-top:calc(12*var(--u))}
+.cpChips{display:none}
+.cpNav{position:absolute;top:calc(54*var(--u));width:max(44px,calc(52*var(--u)));height:max(44px,calc(52*var(--u)));border-radius:50%;border:0;background:#fff;color:var(--teal-deep);display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 24px -12px rgba(30,60,76,.4);transition:transform .25s,background .25s,color .25s;transform:translate(-50%,-50%)}
+.cpNav.prev{left:0}
+.cpNav.next{left:100%}
+.cpNav:hover{background:var(--teal-deep);color:#fff}
+.cpNav:active{transform:translate(-50%,-50%) scale(.94)}
+.cpNav:focus-visible{outline:2px solid var(--cpb);outline-offset:3px}
+.cpNav svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+@media (max-width:1099px){
+  .cpSec{--u:min(calc((100vw - 24px)/800),.86px);--cx:50%;--cy:calc(262*var(--u));--sx:250;padding:56px 0 54px}
+  .cpStage{height:auto;max-width:760px}
+  .cpHead{position:relative;left:auto;top:auto;width:auto;min-width:0;padding:0 24px;margin-bottom:calc(30*var(--u))}
+  .cpHead .eyebrow{margin-bottom:14px}
+  .cpHead .q{margin:18px 0 22px}
+  .cpViz{position:relative;inset:auto}
+  .cpArt{position:relative;inset:auto;height:calc(560*var(--u))}
+  .cpViz::before{top:calc(262*var(--u))}
+  .cpCall,.cpLeaf.l1,.cpLemon{display:none}
+  .cpLeaf.l2{display:none}
+  .cpInfo{position:relative;left:auto;top:auto;transform:none;width:auto;margin:6px 0 0;padding:0 70px;min-height:0}
+  .cpInfoIn{width:auto;min-width:0}
+  .cpNav{top:64px;width:46px;height:46px;transform:translateY(-50%)}
+  .cpNav.prev{left:16px}
+  .cpNav.next{left:auto;right:16px}
+  .cpNav:active{transform:translateY(-50%) scale(.94)}
+  .cpChips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+  .cpChips span{font-size:.72rem;font-weight:600;color:var(--cpd);background:rgba(255,255,255,.75);border:1px solid rgba(78,114,136,.28);border-radius:999px;padding:6px 12px}
+}
+@media (max-width:480px){
+  .cpHead h2{font-size:2.35rem!important}
+  .cpPill i{width:46px;height:46px}
+  .cpPill b{font-size:1rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .cpP,.cpInfoIn,.cpCall{transition:none}
+  .cpLeaf,.cpLemon,.cpCi .ln,.cpCi .lb{animation:none}
+}
+
+html[dir=rtl] .cpHead{text-align:left;align-items:flex-start}html[dir=rtl] .cpHead .cpPill{direction:rtl}
 </style>
 <style>
 /* Clean, equal-size, sharp, properly aligned food pictures */
@@ -1489,23 +1982,27 @@ html[dir=rtl] nav.top .navSw{margin:0 auto 0 12px}
 <main id="drinkRoot"></main>
 
 <section class="cpSec" id="story" data-pr="chef">
-  <div class="wrap">
-    <div class="cpStage">
-      <div class="cpHead">
-        <span class="eyebrow">Our story</span>
-        <h2>From the chef's pass</h2>
-        <p class="q">"Every plate starts with the Levant and ends with a view."</p>
-      </div>
-      <div class="cpOrbit">
-        <div class="cpGlow"></div>
+  <div class="cpStage" id="cpStage">
+    <div class="cpHead">
+      <span class="eyebrow" id="cpEyebrow">Our story</span>
+      <h2>From the chef's pass</h2>
+      <p class="q">“Every plate starts with the Levant and ends with a view.”</p>
+      <button class="cpPill" id="cpPill" type="button"></button>
+    </div>
+    <div class="cpViz" id="cpViz" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Chef's mains">
+      <div class="cpArt" id="cpArt">
+        <div class="cpRing"></div>
+        <img class="cpLeaf l1" id="cpL1" alt="" aria-hidden="true">
+        <img class="cpLeaf l2" id="cpL2" alt="" aria-hidden="true">
+        <img class="cpLemon" id="cpLem" alt="" aria-hidden="true">
         <div class="cpPlates" id="cpPlates"></div>
+        <div class="cpCall" id="cpCall"></div>
       </div>
-      <div class="cpCard" id="cpCard"></div>
-      <div class="cpArrows">
-        <button id="cpPrev" aria-label="Previous dish"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
-        <button id="cpNext" aria-label="Next dish"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+      <div class="cpInfo" aria-live="polite">
+        <button class="cpNav prev" id="cpPrev" type="button" aria-label="Previous dish"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="cpInfoIn" id="cpInfo"></div>
+        <button class="cpNav next" id="cpNext" type="button" aria-label="Next dish"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
-      <button class="cPick" id="cPick"></button>
     </div>
   </div>
 </section>
@@ -1849,7 +2346,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"
 const $ = s => document.querySelector(s);
 
 /* ---------- static images ---------- */
-$('#heroImg').src = HERO_IMG; $('#bowlImg').src = A.g_pesto; $('#chefImg').src = A.chef;
+$('#heroImg').src = HERO_IMG; $('#bowlImg').src = A.g_pesto;
 
 /* ---------- marquee ---------- */
 (()=>{const w=["Charcoal","Sumac","Za'atar","Citrus","Smoke","Fresh herbs","Pomegranate","Skyline views"];const h=w.map(x=>`<span>${x}</span>`).join('');$('#marq1').innerHTML=h+h+h+h;})();
@@ -2074,174 +2571,63 @@ function applyAvoid(){
   function f(t){if(!vis){last=t;requestAnimationFrame(f);return;}const dt=Math.min(50,t-last);last=t;const dk=document.body.dataset.mode==='drinks';r=0;bowl.style.transform=`translate(${mx*-26}px,${my*-26}px)`;requestAnimationFrame(f)}requestAnimationFrame(f);
 })();
 
-/* ---------- CHEF WHEEL (category with lay:"wheel") ---------- */
-/* ===== Arc Carousel Initialize ===== */
+/* ---------- CHEF'S PASS: arc carousel (category with lay:"wheel") ---------- */
 (()=>{
-  const WC = CATS.find(c => c.lay === 'wheel');
-  if (!WC) return;
-  
-  const k = WC.k, ds = M[k], N = ds.length;
-  const platesEl = document.getElementById('cpPlates');
-  const cardEl = document.getElementById('cpCard');
-  const stageEl = document.querySelector('.cpStage');
-  
-  let activeIdx = 0;
-  let autoTimer;
-  
-  // Arc positioning: dishes arranged in a circle
-  const positionDishes = () => {
-    const plates = platesEl.querySelectorAll('.cpPlate');
-    const angleStep = (Math.PI * 1.5) / Math.max(1, N - 1); // 270 degrees arc
-    const radius = 250;
-    const centerX = 400;
-    const centerY = 300;
-    
-    plates.forEach((plate, i) => {
-      const startAngle = Math.PI / 4; // Start from 45 degrees
-      const angle = startAngle + (i * angleStep);
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-      
-      plate.style.left = x + 'px';
-      plate.style.top = y + 'px';
-      plate.style.transform = `translate(-50%, -50%) scale(${i === activeIdx ? 1.1 : 0.85}) opacity(${i === activeIdx ? 1 : 0.6})`;
-      plate.style.zIndex = i === activeIdx ? 10 : (N - i);
-      
-      plate.classList.toggle('active', i === activeIdx);
-    });
+  const WC=CATS.find(c=>c.lay==='wheel'), k=WC.k, ds=M[k], N=ds.length;
+  const ING={
+    "Smokehouse Beef Ribs":["Slow-smoked beef short ribs","Truffle potato puree","Rich beef jus"],
+    "Golden Milanese":["Crispy breaded chicken","Rocket & cherry tomatoes","Shaved Parmesan"],
+    "Truffle Woodland Risotto":["Creamy Arborio rice","Wild shiitake mushrooms","Truffle oil"],
+    "Chermoula Grilled Jumbo Prawns":["Chargrilled jumbo prawns","Traditional chermoula","Lemon butter"],
+    "Seabass a la Harra":["Grilled seabass","Spicy harra","Cous cous & baby vegetables"],
+    "Ribeye Al Sham":["Grilled ribeye","Truffle potato puree","Seasonal vegetables"]
   };
-  
-  // Create plates
-  const createPlates = () => {
-    platesEl.innerHTML = '';
-    ds.forEach((d, i) => {
-      const plate = document.createElement('div');
-      plate.className = 'cpPlate';
-      plate.innerHTML = `<img src="${imgOf(d.k)}" alt="${d.n}" loading="lazy">`;
-      plate.onclick = () => selectDish(i);
-      platesEl.appendChild(plate);
-    });
-    positionDishes();
-  };
-  
-  // Update card display
-  const selectDish = (idx) => {
-    activeIdx = idx;
-    const d = ds[idx];
-    cardEl.classList.remove('fade');
-    void cardEl.offsetWidth; // Trigger reflow
-    cardEl.innerHTML = `
-      <span class="eyebrow">Our specialty</span>
-      <b>${esc(d.n)}</b>
-      <p>${d.desc || ''}</p>
-      <span class="price">${P(d.p)}</span>
-    `;
-    
-    positionDishes();
-    clearInterval(autoTimer);
-    autoTimer = setInterval(() => {
-      activeIdx = (activeIdx + 1) % N;
-      selectDish(activeIdx);
-    }, 5200);
-  };
-  
-  // Navigation
-  document.getElementById('cpPrev').onclick = () => {
-    activeIdx = (activeIdx - 1 + N) % N;
-    selectDish(activeIdx);
-  };
-  
-  document.getElementById('cpNext').onclick = () => {
-    activeIdx = (activeIdx + 1) % N;
-    selectDish(activeIdx);
-  };
-  
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (!stageEl.closest(document.body)) return;
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      activeIdx = (activeIdx - 1 + N) % N;
-      selectDish(activeIdx);
-    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      activeIdx = (activeIdx + 1) % N;
-      selectDish(activeIdx);
-    }
-  });
-  
-  // Pause auto on interaction
-  stageEl.addEventListener('pointerenter', () => clearInterval(autoTimer));
-  stageEl.addEventListener('pointerleave', () => {
-    clearInterval(autoTimer);
-    autoTimer = setInterval(() => {
-      activeIdx = (activeIdx + 1) % N;
-      selectDish(activeIdx);
-    }, 5200);
-  });
-  
-  // Initialize
-  createPlates();
-  selectDish(0);
-  
-  // Responsive adjust
-  window.addEventListener('resize', () => {
-    const isMobile = window.innerWidth < 900;
-    const orbit = document.querySelector('.cpOrbit');
-    if (isMobile) {
-      orbit.style.width = '100%';
-      orbit.style.height = '400px';
-    } else {
-      orbit.style.width = '800px';
-      orbit.style.height = '600px';
-    }
-    positionDishes();
-  });
+  const DOTS=[[61,-226],[180,-151],[232,-34]];
+  $('#cpEyebrow').textContent=String(CATS.indexOf(WC)+1).padStart(2,'0')+' — Our story · '+WC.t;
+  $('#cpL1').src=A.g_basil1; $('#cpL2').src=A.g_basil2; $('#cpLem').src=A.g_lemon;
+  const plates=$('#cpPlates'), info=$('#cpInfo'), call=$('#cpCall'), viz=$('#cpViz');
+  plates.innerHTML=ds.map((d,i)=>`<button type="button" class="cpP" data-i="${i}" aria-label="${esc(d.n)}"><img decoding="async" src="${imgOf(d)}" alt=""></button>`).join('');
+  const els=[...plates.children]; let act=0, auto=null, hover=false, vis=true;
+  const slotOf=i=>{let o=((i-act)%N+N)%N; if(o>N/2)o-=N; return o};
+  function paint(){els.forEach((el,i)=>{const o=slotOf(i);el.dataset.s=o===0?'0':o===-1?'-1':o===1?'1':(o<0?'xl':'xr');el.tabIndex=o===0?0:-1;el.setAttribute('aria-hidden',Math.abs(o)>1?'true':'false');if(o===0)el.setAttribute('aria-label',ds[i].n);else el.setAttribute('aria-label',ds[i].n)})}
+  function fill(){
+    const d=ds[act], ing=ING[d.n]||[];
+    info.innerHTML=`<span class="cpKick">${esc(WC.t)} · ${act+1}/${N}</span><b class="cpName">${esc(d.n)}</b><p class="cpDesc">${esc(d.d)}</p><em class="cpPrice">${P(d.p)}</em><div class="cpChips">${ing.map(t=>`<span>${esc(t)}</span>`).join('')}</div>`;
+    call.innerHTML=ing.slice(0,3).map((t,j)=>`<div class="cpCi" style="--dx:${DOTS[j][0]};--dy:${DOTS[j][1]}"><i class="dot"></i><s class="ln" style="animation-delay:${j*90}ms"></s><span class="lb">${esc(t)}</span></div>`).join('');
+  }
+  let ft=0;
+  function swap(){info.classList.add('out');call.classList.add('out');clearTimeout(ft);ft=setTimeout(()=>{fill();info.classList.remove('out');call.classList.remove('out')},230)}
+  function go(i,user){act=(i%N+N)%N;paint();swap();if(user)restart()}
+  function restart(){clearInterval(auto);auto=null;if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;auto=setInterval(()=>{if(!hover&&vis&&!document.hidden&&!document.getElementById('ov')?.classList.contains('open'))go(act+1)},5200)}
+  plates.addEventListener('click',e=>{const b=e.target.closest('.cpP');if(!b)return;const i=+b.dataset.i;if(i===act)openDish(k,i,b.querySelector('img'));else go(i,true)});
+  $('#cpPrev').onclick=()=>go(act-1,true); $('#cpNext').onclick=()=>go(act+1,true);
+  viz.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();go(act-1,true)}else if(e.key==='ArrowRight'){e.preventDefault();go(act+1,true)}});
+  viz.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hover=true});
+  viz.addEventListener('pointerleave',()=>{hover=false});
+  let sx=null,sy=0;
+  viz.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  viz.addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;if(Math.abs(dx)>42&&Math.abs(dx)>Math.abs(dy)*1.4)go(act+(dx<0?1:-1),true)},{passive:true});
+  try{new IntersectionObserver(es=>{vis=es[0].isIntersecting},{threshold:.25}).observe($('#story'))}catch(e){}
+  paint(); fill(); restart();
+
+  /* today's special: opens that dish */
+  const PK={0:["From the gardens","Fattoush Salad"],1:["Sharers","Oriental Mix Grill"],2:["Chef's mains","Seabass a la Harra"],3:["From the gardens","Passion Kale & Quinoa Salad"],4:["Bar bites","Golden Rings"],5:["Chef's mains","Ribeye Al Sham"],6:["Bar bites","Spiced Shawarma Bites"]};
+  const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const n=new Date(), day=new Date(n.getTime()+n.getTimezoneOffset()*6e4+4*36e5).getDay(), [pk,pn]=PK[day];
+  const pill=$('#cpPill');
+  pill.innerHTML=`<i>✦</i><span><small>Chef's pick · ${DN[day]}</small><b>See today's special</b></span>`;
+  pill.onclick=()=>{const i=M[pk].findIndex(x=>x.n===pn);if(i>-1)openDish(pk,i)};
 })();
-
-
-/* ---------- CHEF interaction ---------- */
-(()=>{const lines=["“Every plate starts with the Levant and ends with a view.”","Charcoal, smoke and fresh herbs. That's the whole secret.","Hungry yet? Let's get you a table.","Save room for the Umali. You'll thank me."];
-  let li=0,tm; const chef=$('#chef'),bub=$('#bubble'),hint=$('#hint');
-  function say(){bub.textContent=lines[li%lines.length];li++;bub.classList.remove('show');void bub.offsetWidth;bub.classList.add('show');hint.style.opacity=0;clearTimeout(tm);tm=setTimeout(()=>bub.classList.remove('show'),3800);
-    chef.animate([{transform:'scale(1) rotate(0)'},{transform:'scale(1.04) rotate(-1.5deg)'},{transform:'scale(1) rotate(0)'}],{duration:600,easing:'cubic-bezier(.3,1.4,.5,1)'});
-    confetti();}
-  chef.addEventListener('click',say); chef.addEventListener('keydown',e=>{if(e.key==='Enter')say()});
-  const stage=$('#chefStage'); stage.addEventListener('pointermove',e=>{if(innerWidth<900)return;const b=stage.getBoundingClientRect();const mx=(e.clientX-b.left)/b.width-.5;chef.style.translate=`${mx*-18}px 0`;});
-  function confetti(){const b=chef.getBoundingClientRect(),s=stage.getBoundingClientRect();const pool=['g_basil1','g_basil2','g_tomato','g_basil3','g_tomA','g_lemon','g_tomC'];
-    for(let j=0;j<9;j++){const el=document.createElement('img');el.src=A[pool[j%pool.length]];el.style.cssText=`position:absolute;width:${26+Math.random()*22}px;left:${b.left-s.left+b.width*0.45}px;top:${b.top-s.top+b.height*0.3}px;z-index:7;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.2))`;stage.appendChild(el);
-      const ang=-Math.PI/2+(Math.random()-.5)*2.4, sp=160+Math.random()*180;
-      el.animate([{transform:'translate(0,0) rotate(0) scale(.4)',opacity:1},{transform:`translate(${Math.cos(ang)*sp}px,${Math.sin(ang)*sp}px) rotate(${Math.random()*540-270}deg) scale(1)`,opacity:1,offset:.6},{transform:`translate(${Math.cos(ang)*sp*1.2}px,${Math.sin(ang)*sp+220}px) rotate(${Math.random()*720}deg) scale(.9)`,opacity:0}],{duration:1500+Math.random()*500,easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish=()=>el.remove();}}
-})();
-
-
-/* ---------- Chef's pick of the day ---------- */
-(()=>{const PK={0:["From the gardens","Fattoush Salad","Sunday reset. A fresh fattoush with extra sumac."],1:["Sharers","Oriental Mix Grill","Monday means mix grill. Lamb chops, tawook and kofta off the charcoal."],2:["Chef's mains","Seabass a la Harra","The seabass came in fresh this morning. I'm doing it a la harra."],3:["From the gardens","Passion Kale & Quinoa Salad","Something light today. My kale and quinoa with passion fruit."],4:["Bar bites","Golden Rings","Ladies night! Start with the Golden Rings, trust me."],5:["Chef's mains","Ribeye Al Sham","Jazz and a ribeye. That's Friday sorted."],6:["Bar bites","Spiced Shawarma Bites","Layali tonight. Shawarma bites for the table, habibi."]};
- const n=new Date(),dd=new Date(n.getTime()+n.getTimezoneOffset()*6e4+4*36e5),day=dd.getDay(),[k,name,line]=PK[day];const d=M[k].find(x=>x.n===name),i=M[k].indexOf(d);
- const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
- const st=$('#chefStage'),clo=$('#clo');$('#cloDish').src=img(name);$('#cloDish').alt=name;$('#cloCap').innerHTML=`<small>Chef's pick · ${DN[day]}</small><b>${esc(name)} · ${P(d.p)}</b>`;
- const pill=()=>{const on=st.classList.contains('pk');$('#cPick').innerHTML=`<i>${on?'↺':'✦'}</i><span><small>${on?'Back to the grill':"Chef's pick · "+DN[day]}</small><b>${on?'Show the chef again':"See today's special"}</b></span>`};
- $('#cPick').onclick=()=>{st.classList.toggle('pk');clo.classList.remove('up');pill();if(st.classList.contains('pk')){const bb=$('#bubble');bb.textContent='“'+line+'”';bb.classList.add('show');clearTimeout(window.__pkT);window.__pkT=setTimeout(()=>bb.classList.remove('show'),4200)}};pill();
- if(!matchMedia('(hover:hover)').matches)$('#hint2').textContent='Tap the plate';
- const hot=$('#cloHot');hot.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')clo.classList.add('up')});clo.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')clo.classList.remove('up')});
- const od=e=>{e.stopPropagation();openDish(k,i,$('#cloDish'))};$('#cloDish').addEventListener('click',od);$('#cloCap').addEventListener('click',od);
- $('#chef').addEventListener('click',e=>{if(!st.classList.contains('pk')){e.stopImmediatePropagation();$('#cPick').click();return}e.stopImmediatePropagation();if(clo.classList.contains('up'))openDish(k,i);else clo.classList.add('up')},true);
- const place=()=>{const bt=$('#cPick'),h=document.querySelector('.chefHead');if(h&&bt.parentElement!==h)h.appendChild(bt);bt.style.left='';bt.style.top=''};setInterval(place,1200);addEventListener('resize',place);setTimeout(place,300);setTimeout(place,1500);
- const bub=$('#bubble');let first=true;$('#chef').addEventListener('click',()=>{if(first){first=false;setTimeout(()=>{bub.textContent='“'+line+'”'},0)}})})();
 
 /* ---------- Cocktail matchmaker ---------- */
-
-/* bubble sits above the chef's hat on phones */
-
-/* wheel: caption + arrows follow the front plate */
-(()=>{const st=$('#chefStage'),cap=$('#wCap'),L=$('#wL'),R=$('#wR');let last='';
- L.onclick=()=>$('#wPrev').click();R.onclick=()=>$('#wNext').click();cap.onclick=()=>{const on=document.querySelector('#wheel .wp.on');on&&on.click()};
- let WV=true;try{new IntersectionObserver(e=>{WV=e[0].isIntersecting},{rootMargin:'250px 0px'}).observe($('#wheel'))}catch(e){}
- function f(){if(!WV)return requestAnimationFrame(f);const on=document.querySelector('#wheel .wp.on');if(!on)return requestAnimationFrame(f);const r=on.getBoundingClientRect(),s=st.getBoundingClientRect();
-  const k=on.dataset.wk,i=+on.dataset.wi;const key=k+i;if(key!==last&&M[k]&&M[k][i]){last=key;cap.innerHTML=`<b>${esc(M[k][i].n)}</b><em>${P(M[k][i].p)}</em>`}
-  const cx=r.left-s.left+r.width/2,by=r.bottom-s.top;cap.style.left=cx+'px';cap.style.top=(by+10)+'px';
-  const gap=innerWidth<900?8:22,cy=r.top-s.top+r.height/2-23;L.style.left=Math.max(4,r.left-s.left-46-gap)+'px';R.style.left=Math.min(s.width-50,r.right-s.left+gap)+'px';L.style.top=cy+'px';R.style.top=cy+'px';requestAnimationFrame(f)}
- requestAnimationFrame(f)})();
+(()=>{const Q=[["Sweet or bitter?",["Sweet","Soft, fruity, rounded"],["Bitter","Dry, bold, grown-up"]],["Fruity or spiced?",["Fruity","Citrus and tropical"],["Spiced","Warm, smoky, herbal"]],["Strong or light?",["Strong","Spirit-forward, slow sip"],["Light","Long, fresh, easy"]]];
+ const R={SFS:["Signature cocktails","Casa del Coco"],SFL:["Signature cocktails","Tropic Pisco"],SSS:["Signature cocktails","Heaven's Harvest"],SSL:["Signature cocktails","Heaven Mule"],BFS:["Clásico cocktails","Mediterranean Negroni"],BFL:["Clásico cocktails","All Citrus Gimlet"],BSS:["Clásico cocktails","Boulevardier"],BSL:["Signature cocktails","Highball Citrico"]};
+ let a=[];const box=$('#cmQ');
+ function step(){if(a.length<3){const q=Q[a.length];box.innerHTML=`<div class="cmProg">${Q.map((_,i)=>`<i class="${i<=a.length?'on':''}"></i>`).join('')}</div><span class="eyebrow">Question ${a.length+1} of 3</span><h3>${q[0]}</h3><div class="cmAns">${[q[1],q[2]].map(o=>`<button data-v="${o[0][0]}">${o[0]}<small>${o[1]}</small></button>`).join('')}</div>`;return}
+  const[k,n]=R[a.join('')],d=DM[k].find(x=>x.n===n),i=DM[k].indexOf(d);
+  box.innerHTML=`<div class="cmRes"><img loading="lazy" decoding="async" src="${d.img}" alt="${esc(n)}" data-open><div><small>Your B-Heaven match</small><h3>${esc(n)}</h3><p>${esc((d.d||'').split('. ')[0].replace(/\.$/,''))}.</p><div class="row"><span>${P(d.p.split('|')[0].trim()+(/^AED/.test(d.p)?'':''))}</span><a class="btn" href="${WA+encodeURIComponent("Hi B-Heaven, save me a "+n+" tonight! I'd like to book a table.")}" target="_blank" rel="noopener">Book a table</a><button class="cmAgain">Try again</button></div></div></div>`;
+  box.querySelector('[data-open]').onclick=()=>openDish(k,i)}
+ box.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.classList.contains('cmAgain')){a=[];step();return}if(b.dataset.v){a.push(b.dataset.v);step()}};step()})();
 
 /* section number matches the title's height */
 (()=>{const f=()=>document.querySelectorAll('.ch').forEach(c=>{const n=c.querySelector('.num'),h=c.querySelector('h2');if(n&&h&&h.offsetHeight)n.style.setProperty('font-size',Math.round(h.offsetHeight*1.32)+'px','important')});addEventListener('resize',f);setTimeout(f,300);setTimeout(f,1500);document.addEventListener('click',()=>setTimeout(f,400))})();
@@ -2348,7 +2734,6 @@ const PR=[
  ['s4','g_basil2',5,70,50,1],['s4','g_carrot',88,120,82,.9],['s4','g_tomB',94,760,46,1,1],
  ['s5','g_basil1',4,160,54,1,1],['s5','g_tomC',93,520,46,1.1,1],['s5','g_lemon',50,40,52,.7,1],
  ['s6','g_tomA',3,60,48,1],['s6','g_basil3',95,300,50,1],['s6','g_avo',88,40,86,.9,1],
- ['chef','g_basil3',3,30,56,1],['chef','g_lemon',42,40,58,.9,1],['chef','g_tomB',56,20,50,.8,1],
  ['band','g_lemon',88,120,68,1,0,'f'],['band','ice',88,120,72,1,0,'d'],['band','g_basil2',8,90,48,1,1],
  ['foot','g_tomato',90,20,50,1,0,'f'],['foot','g_basil1',70,10,40,.8,1],
  ['hero','palm',-3,60,230,.35,1,'d'],['hero','palm',84,560,200,.4,1,'d'],['hero','ice',86,120,70,1,0,'d'],['tools','ice2',92,80,64,1,0,'d'],['tools','palm',-2,300,160,.4,1,'d'],
@@ -2737,7 +3122,7 @@ addEventListener('load',()=>idle(()=>{
 /* ===== English / Arabic ===== */
 (()=>{
 const AR={"Home": "الرئيسية", "Menu": "القائمة", "Drinks": "المشروبات", "Our Story": "قصتنا", "Events": "الفعاليات", "Contact Us": "تواصل معنا", "Food": "الطعام", "Book a table": "احجز طاولة", "Follow on Instagram": "تابعنا على إنستغرام", "Follow on Facebook": "تابعنا على فيسبوك", "Opens today": "يفتح اليوم", "at 9 AM": "الساعة 9 صباحاً", "Rooftop · Al Jaddaf · Dubai": "على السطح · الجداف · دبي", "Modern Levant plates from a charcoal kitchen, served on the rooftop of Barceló Al Jaddaf with the skyline for company.": "أطباق شامية عصرية من مطبخ الفحم، تُقدَّم على سطح برشلو الجداف وأفق المدينة يرافقكم.", "Explore the menu": "استعرض القائمة", "Book on WhatsApp": "احجز عبر واتساب", "dishes": "طبقاً", "nights a week": "ليالٍ أسبوعياً", "open daily": "يومياً", "Tap the plate to look closer": "اضغط على الطبق لتراه عن قرب", "Scroll": "مرّر", "Charcoal": "فحم", "Sumac": "سماق", "Za'atar": "زعتر", "Citrus": "حمضيات", "Smoke": "تدخين", "Fresh herbs": "أعشاب طازجة", "Pomegranate": "رمان", "Skyline views": "إطلالات على الأفق", "Seven chapters, thirty-three plates. Tap any dish to see it up close, save it to your picks, and send them to us when you book.": "سبعة فصول وثلاثة وثلاثون طبقاً. اضغط على أي طبق لرؤيته عن قرب، واحفظه في اختياراتك، وأرسلها إلينا عند الحجز.", "Bar Bites": "أطباق خفيفة", "6 dishes": "6 أطباق", "Sharers": "أطباق للمشاركة", "4 dishes": "4 أطباق", "Chef's Mains": "أطباق الشيف الرئيسية", "From the Gardens": "من الحدائق", "7 dishes": "7 أطباق", "Signature Burgers": "برغر مميز", "2 dishes": "طبقان", "Stone Oven Favourites": "مفضلات فرن الحجر", "3 dishes": "3 أطباق", "Sweet Finish": "ختام حلو", "5 dishes": "5 أطباق", "*All prices are in Dirhams & inclusive of 10% service charge, 7% municipality fee and 5% VAT. Alcoholic beverages are served to guests aged 21 and over.": "*جميع الأسعار بالدرهم وتشمل رسوم الخدمة 10% ورسوم البلدية 7% وضريبة القيمة المضافة 5%. تُقدَّم المشروبات الكحولية للضيوف من عمر 21 عاماً فأكثر.", "Avoiding something? Tap to filter": "تتجنب شيئاً؟ اضغط للتصفية", "Gluten": "الغلوتين", "Dairy": "الألبان", "Nuts": "المكسرات", "Shellfish": "المحار والقشريات", "Egg": "البيض", "Sesame": "السمسم", "Mustard": "الخردل", "Fish": "السمك", "Celery": "الكرفس", "Peanuts": "الفول السوداني", "Soya": "الصويا", "Sulphites": "الكبريتيت", "Vegetarian": "نباتي", "Bar": "أطباق", "Bites": "خفيفة", "Small plates, big flavours. Vibrant bites to start your B-Heaven evening.": "أطباق صغيرة ونكهات كبيرة. لقيمات نابضة بالحياة لتبدأ بها أمسيتك في بي-هيفن.", "Slow-cooked hickory brisket glazed with BBQ sauce, served with mustard slaw.": "صدر بقر مطهو ببطء على خشب الهيكوري ومغطى بصلصة الباربكيو، يُقدَّم مع سلطة الملفوف بالخردل.", "Tender chicken shawarma wrapped in flat bread with garlic sauce, pickles and crispy fries.": "شاورما دجاج طرية ملفوفة بالخبز مع صلصة الثوم والمخلل والبطاطا المقرمشة.", "Tomatoes, olives and feta cheese spread on grilled sourdough with basil, cucumber and oregano.": "طماطم وزيتون وجبنة فيتا على خبز العجين المخمّر المشوي مع الريحان والخيار والأوريجانو.", "Two Angus beef sliders with smoked cheddar, pickles and burger sauce.": "شريحتا برغر أنغوس صغيرتان مع جبنة شيدر مدخنة ومخلل وصلصة البرغر.", "Chef’s pick": "اختيار الشيف", "Lightly fried squid finished with herbs, spring onion, chili and sea salt.": "حبار مقلي بخفة مع الأعشاب والبصل الأخضر والفلفل الحار وملح البحر.", "Crispy wings tossed with BBQ glaze, sesame and chives.": "أجنحة مقرمشة مغطاة بصلصة الباربكيو مع السمسم والثوم المعمر.", "Generous platters made for the middle of the table and good company.": "أطباق سخية تُوضع في وسط الطاولة وتليق بالصحبة الطيبة.", "Chicken wings, loaded fries, crispy squid and padron peppers.": "أجنحة دجاج وبطاطا محمّلة وحبار مقرمش وفلفل بادرون.", "Black beans, smoked cheddar, sour cream, pickled jalapeño, avocado, tomatillo salsa and house chilli beef.": "فاصولياء سوداء وجبنة شيدر مدخنة وكريمة حامضة وهالبينو مخلل وأفوكادو وصلصة التوماتيلو ولحم بقري بالفلفل على طريقة المطعم.", "Grilled lamb chops, chicken shish tawook, beef kebab and lamb kofta with grilled vegetables, garlic sauce, tahini and warm Arabic bread.": "ريش لحم ضأن مشوية وشيش طاووق دجاج وكباب لحم وكفتة ضأن مع خضار مشوية وصلصة الثوم والطحينة والخبز العربي الساخن.", "Choice of garlic butter herbs, creamy sauce or oriental harra sauce.": "اختر بين زبدة الثوم والأعشاب أو الصلصة الكريمية أو صلصة الحارة الشرقية.", "Chef's pick · Monday": "اختيار الشيف · الاثنين", "See today's special": "اكتشف طبق اليوم", "View dish": "عرض الطبق", "Hover the plate": "مرّر فوق الطبق", "Tap the chef for today's special": "اضغط على الشيف لطبق اليوم", "“Every plate starts with the Levant and ends with a view.”": "«كل طبق يبدأ من بلاد الشام وينتهي بإطلالة.»", "Slow-smoked beef short ribs with creamy truffle potato puree, seasonal vegetables and rich beef jus.": "أضلاع بقر قصيرة مدخّنة ببطء مع هريس البطاطا الكريمي بالكمأة وخضار الموسم ومرق اللحم الغني.", "From": "من", "chef's": "مطبخ", "pass": "الشيف", "Gardens": "الحدائق", "Bright salads and Levantine dips built on garden produce and sharp dressings.": "سلطات منعشة ومقبلات شامية مبنية على منتجات الحدائق وصلصات منعشة.", "Hummus, muhammara and beetroot mutabal served with crispy sumac bread.": "حمص ومحمّرة ومتبّل الشمندر يُقدَّم مع خبز السماق المقرمش.", "Fresh parsley, tomatoes, mint and bulgur tossed with lemon and olive oil. Add grilled shrimp AED 49.": "بقدونس طازج وطماطم ونعناع وبرغل مع الليمون وزيت الزيتون. أضف روبيان مشوي 49 درهماً.", "Fresh vegetables, herbs and crispy pita tossed in tangy sumac dressing.": "خضار وأعشاب طازجة وخبز بيتا مقرمش مع صلصة السماق المنعشة.", "Grilled salmon, fresh jarjeer, avocado, cherry tomatoes, cucumber, capers and lemon sumac dressing.": "سلمون مشوي وجرجير طازج وأفوكادو وطماطم كرزية وخيار وكبر وصلصة الليمون والسماق.", "Red and white quinoa, kale, mango, cashews, pomegranate and passion fruit dressing.": "كينوا حمراء وبيضاء وكيل ومانجو وكاجو ورمان وصلصة فاكهة الباشن.", "Baby gem lettuce, garlic-herb croutons, shaved Parmesan and Caesar dressing. Shrimp 69 / Chicken 59.": "خس بيبي جيم وخبز محمّص بالثوم والأعشاب وبارميزان مبشور وصلصة سيزر. روبيان 69 / دجاج 59.", "Grilled halloumi, mixed leaves, cherry tomatoes, cucumber, olives and lemon oregano dressing.": "جبنة حلوم مشوية وأوراق خضراء مشكلة وطماطم كرزية وخيار وزيتون وصلصة الليمون والأوريجانو.", "Signature": "برغر", "Burgers": "مميز", "Stacked, juicy and served on toasted brioche. Comfort food, elevated.": "مرصوص وعصيري ويُقدَّم على خبز بريوش محمّص. طعام مريح بنكهة راقية.", "Angus beef patties, smoked cheddar cheese, crisp beef bacon, house pickles, guacamole and signature burger sauce.": "قرصان من لحم أنغوس وجبنة شيدر مدخنة ولحم بقري مقدّد مقرمش ومخلل المطعم وغواكامولي وصلصة البرغر الخاصة.", "Crispy buttermilk chicken breast, house slaw, pickles and spicy mayo on a toasted brioche bun.": "صدر دجاج مقرمش بالزبدة المخفوقة مع سلطة الملفوف والمخلل والمايونيز الحار على خبز بريوش محمّص.", "Stone": "مفضلات", "Oven": "فرن", "Favourites": "الحجر", "Handcrafted pizzas baked in our stone oven with the finest ingredients.": "بيتزا مصنوعة يدوياً ومخبوزة في فرن الحجر لدينا من أجود المكونات.", "Tomato sauce, mozzarella, bresaola beef, truffle, peppers and fresh herbs.": "صلصة الطماطم وموزاريلا ولحم بريزاولا وكمأة وفلفل وأعشاب طازجة.", "Buffalo mozzarella, vine tomatoes, basil and olive oil.": "موزاريلا الجاموس وطماطم العنقود والريحان وزيت الزيتون.", "Sautéed wild mushrooms, mozzarella, Parmesan, smoked cheddar, gorgonzola cheese and fresh basil.": "فطر بري مقلي مع موزاريلا وبارميزان وشيدر مدخن وجبنة غورغونزولا وريحان طازج.", "Sweet": "ختام", "Finish": "حلو", "A sweet close to the evening, from warm Umali to burnt cheesecake.": "ختام حلو للأمسية، من أم علي الدافئة إلى تشيز كيك المحروق.", "Baked puff pastry, served with vanilla ice cream and nuts.": "عجينة مورّقة مخبوزة تُقدَّم مع آيس كريم الفانيلا والمكسرات.", "Rich brownie with vanilla ice cream and chocolate sauce.": "براوني غني مع آيس كريم الفانيلا وصلصة الشوكولاتة.", "Vanilla ice cream topped with freshly brewed espresso.": "آيس كريم الفانيلا مغطى بإسبريسو طازج.", "Served with salted caramel sorbet.": "يُقدَّم مع سوربيه الكراميل المملح.", "A selection of seasonal fruit.": "تشكيلة من فاكهة الموسم.", "Cocktail matchmaker": "اختر كوكتيلك", "Find": "اعثر", "your": "على", "cocktail": "كوكتيلك", "Three quick questions and our bar picks the cocktail made for you.": "ثلاثة أسئلة سريعة ويختار لك البار الكوكتيل المناسب.", "Question 1 of 3": "السؤال 1 من 3", "Sweet or bitter?": "حلو أم مرّ؟", "Soft, fruity, rounded": "ناعم وفاكهي ومتوازن", "Bitter": "مرّ", "Dry, bold, grown-up": "جاف وجريء وناضج", "10 drinks": "10 مشروبات", "Cocktails": "كوكتيلات", "Ten house creations, from milk-washed rum to clarified bourbon. Swipe the shelf and tap a glass for its story.": "عشرة إبداعات خاصة، من الروم المصفّى بالحليب إلى البوربون الرائق. مرّر الرف واضغط على كأس لتعرف قصته.", "Drag · tap a glass": "اسحب · اضغط على كأس", "Clásico": "كلاسيك", "The classics, reworked with a Mediterranean hand: olive oil-washed gin, cumin mango, walnut bourbon.": "الكلاسيكيات بلمسة متوسطية: جين مغسول بزيت الزيتون ومانجو بالكمون وبوربون بالجوز.", "Olive oil-washed gin · Sweet vermouth · Campari": "جين مغسول بزيت الزيتون · فيرموث حلو · كامباري", "Walnut infused bourbon whiskey · Bitters · Wild honey": "ويسكي بوربون منقوع بالجوز · بيترز · عسل بري", "Chili tequila · Lime juice · Sweet and savory syrup · Grapefruit soda": "تكيلا بالفلفل الحار · عصير الليمون الأخضر · شراب حلو ومالح · صودا الجريب فروت", "Tequila · Cumin infused mango · Cointreau · Fresh lime juice": "تكيلا · مانجو منقوعة بالكمون · كوانترو · عصير ليمون أخضر طازج", "Bourbon whiskey · Sweet vermouth · Campari · Black peppercorn & cardamom bitters": "ويسكي بوربون · فيرموث حلو · كامباري · بيترز الفلفل الأسود والهيل", "Gin · Black tea syrup · Orange bitters · Tonics": "جين · شراب الشاي الأسود · بيترز البرتقال · تونك", "Gin · All citrus · Chili tincture · Chili oil": "جين · كل الحمضيات · خلاصة الفلفل الحار · زيت الفلفل الحار", "Vodka · Espresso · Kahlua · Vanilla · Foamee": "فودكا · إسبريسو · كالوا · فانيلا · رغوة", "Red or white wine · Seasonal fruits · Brandy · Wild honey": "نبيذ أحمر أو أبيض · فواكه الموسم · براندي · عسل بري", "Gin or vodka · Dry vermouth · Mediterranean homemade cordial": "جين أو فودكا · فيرموث جاف · شراب متوسطي منزلي", "7 drinks": "7 مشروبات", "B-Good": "بي-غود", "Zero": "صفر", "Proof": "كحول", "All the flavour, none of the alcohol. Fresh coolers, coladas and lemonades.": "كل النكهة بلا كحول. مشروبات منعشة وكولادا وليمونادا.", "21 on the list": "21 في القائمة", "Wine": "النبيذ", "Bubbles": "فقاعات", "A tight list across the Old and New World, poured by the glass or the bottle.": "قائمة منتقاة من العالمين القديم والجديد، بالكأس أو بالزجاجة.", "White": "أبيض", "Rosé": "روزيه", "Red": "أحمر", "Sparkling": "فوّار", "Champagne": "شمبانيا", "Glass": "كأس", "Bottle": "زجاجة", "45 glass · 220 bottle": "45 للكأس · 220 للزجاجة", "8 on the list": "8 في القائمة", "Beers": "البيرة", "Ice-cold bottles and pints on draught.": "زجاجات مثلجة وبيرة مضغوطة.", "Bottles": "زجاجات", "Draught": "مضغوطة", "Netherlands": "هولندا", "United States": "الولايات المتحدة", "Barcelona": "برشلونة", "Mexico": "المكسيك", "61 on the list": "61 في القائمة", "Spirits": "المشروبات الروحية", "From Tito's to Macallan 18. Neat, on the rocks or with your mixer of choice.": "من تيتوس إلى ماكالان 18. صافياً أو مع الثلج أو مع المزيج الذي تفضله.", "Tequila & Mezcal": "تكيلا ومزكال", "Single Malt": "سنغل مولت", "Blended": "مخلوط", "Irish & Bourbon": "آيرش وبوربون", "Cognac": "كونياك", "Rum": "روم", "Gin": "جين", "Vodka": "فودكا", "65 glass · 750 bottle": "65 للكأس · 750 للزجاجة", "24 on the list": "24 في القائمة", "Coffee,": "قهوة", "Tea": "وشاي", "Soft": "ومشروبات", "Espresso to Avantcha tea, fresh juices and soft drinks.": "من الإسبريسو إلى شاي أفانتشا، وعصائر طازجة ومشروبات غازية.", "Coffee & Tea": "القهوة والشاي", "Juices": "العصائر", "Soft Beverages": "المشروبات الغازية", "*All prices are in Dirhams & inclusive of 10% service charge, 7% municipality fee and 5% VAT.": "*جميع الأسعار بالدرهم وتشمل رسوم الخدمة 10% ورسوم البلدية 7% وضريبة القيمة المضافة 5%.", "Alcoholic beverages are served to guests aged 21 and over. Please drink responsibly.": "تُقدَّم المشروبات الكحولية للضيوف من عمر 21 عاماً فأكثر. يرجى الاستمتاع بمسؤولية.", "Crispy breaded chicken breast topped with fresh rocket, cherry tomatoes, shaved Parmesan and tomato ragout.": "صدر دجاج مقرمش مغطى بالجرجير الطازج والطماطم الكرزية والبارميزان المبشور وراغو الطماطم.", "A": "", "taste": "نكهة", "above": "فوق", "the": "", "city": "المدينة", "The": "", "See": "نراكم", "you": "", "rooftop.": "السطح.", "Chargrilled jumbo prawns marinated in traditional chermoula, served with rocca salad and lemon butter.": "روبيان جامبو مشوي على الفحم متبّل بالشرمولة التقليدية، يُقدَّم مع سلطة الجرجير وزبدة الليمون.", "Grilled seabass with spicy harra, fragrant cous cous and baby vegetables.": "سمك قاروص مشوي مع صلصة الحارة الحارة وكسكسي عطري وخضار صغيرة.", "Grilled ribeye beef steak with truffle potato puree and seasonal vegetables.": "ستيك ريب آي مشوي مع هريس البطاطا بالكمأة وخضار الموسم.", "Creamy Arborio rice with wild shiitake mushrooms, Parmesan, fresh herbs and a drizzle of truffle oil.": "أرز أربوريو كريمي مع فطر الشيتاكي البري والبارميزان وأعشاب طازجة وقطرات من زيت الكمأة.", "Signature plates from the pass: charcoal, spice and slow-cooked craft.": "أطباق مميزة من مطبخ الشيف: فحم وتوابل وطهي بطيء متقن.", "What guests say": "ماذا يقول ضيوفنا", "Loved": "محبوب", "on": "على", "Google": "غوغل", "from 271 Google reviews": "من 271 تقييماً على غوغل", "Local Guide": "مرشد محلي", "Google review": "تقييم غوغل", "Read all reviews": "اقرأ كل التقييمات", "Leave a review": "اترك تقييماً", "Reviews shown as written by guests on Google.": "التقييمات معروضة كما كتبها الضيوف على غوغل.", "Weekly nights": "ليالي الأسبوع", "Something": "شيء", "every": "مميز", "weekend": "كل أسبوع", "Hover or tap a card to turn it over, then book your spot straight on WhatsApp.": "مرّر أو اضغط على البطاقة لقلبها، ثم احجز مكانك مباشرة عبر واتساب.", "Thu": "الخميس", "Ladies night": "ليلة السيدات", "Velvet Thursdays": "خميس المخمل", "Music, mocktails and the skyline to start the weekend.": "موسيقى وموكتيلات وأفق المدينة لتبدأ عطلة نهاية الأسبوع.", "↻ Turn over": "↻ اقلب البطاقة", "When": "الموعد", "7 PM – midnight": "7 مساءً – منتصف الليل", "Price": "السعر", "89 per lady": "89 للسيدة", "Book Thursday": "احجز الخميس", "Fri": "الجمعة", "Live music": "موسيقى حية", "Jazz Fridays with Anetta": "جمعة الجاز مع أنيتا", "Live jazz on the rooftop as the city lights come on.": "جاز حي على السطح مع إضاءة أنوار المدينة.", "9 PM – midnight": "9 مساءً – منتصف الليل", "Ladies": "السيدات", "99 · Gents": "99 · السادة", "Book Friday": "احجز الجمعة", "Sat": "السبت", "Arabic night": "ليلة عربية", "Layali Night with Nouha Issa": "ليالي مع نوهى عيسى", "Classic Arabic songs, shisha and late-night plates.": "أغانٍ عربية كلاسيكية وشيشة وأطباق السهرة.", "9 PM – 1 AM": "9 مساءً – 1 صباحاً", "Good to know": "من المفيد معرفته", "Book ahead": "احجز مسبقاً", "Book Saturday": "احجز السبت", "Daily": "يومياً", "Sunset happy hour": "ساعة السعادة عند الغروب", "B-Heaven Happy Hours": "ساعات سعادة بي-هيفن", "Sunset prices on spirits, cocktails, wine and beer as the skyline turns gold.": "أسعار الغروب على المشروبات الروحية والكوكتيلات والنبيذ والبيرة بينما يتحول الأفق إلى الذهبي.", "Everyday, sunset – 8 PM": "يومياً، من الغروب حتى 8 مساءً", "Drinks from": "المشروبات من", "Book happy hour": "احجز ساعة السعادة", "Private events": "فعاليات خاصة", "Your night, our rooftop.": "ليلتك، على سطحنا.", "Birthdays, engagements, corporate nights or a full skyline buyout — we'll shape the menu, music and seating around your guest list.": "أعياد ميلاد وخطوبة وأمسيات شركات أو حجز كامل للمكان — نصمّم القائمة والموسيقى والجلسات حول قائمة ضيوفك.", "Semi-private lounges & full venue buyouts": "صالات شبه خاصة وحجز المكان بالكامل", "Custom set menus & drink packages": "قوائم مخصصة وباقات مشروبات", "Live DJ, jazz or your own entertainment": "دي جي حي أو جاز أو ترفيهك الخاص", "Enquire on WhatsApp": "استفسر عبر واتساب", "Email us": "راسلنا", "Birthdays & celebrations": "أعياد الميلاد والاحتفالات", "Cake, decor and a table with a view": "كعكة وديكور وطاولة بإطلالة", "Corporate nights": "أمسيات الشركات", "Team dinners, launches & client hosting": "عشاء فرق وإطلاقات واستضافة عملاء", "Proposals & anniversaries": "طلبات الزواج والذكرى السنوية", "Sunset timing, quiet corner on request": "توقيت الغروب وزاوية هادئة عند الطلب", "Find us": "موقعنا", "Barceló Al Jaddaf": "برشلو الجداف", "Dubai": "دبي", "Get directions": "احصل على الاتجاهات", "Hours": "ساعات العمل", "Open daily": "مفتوح يومياً", "9 AM – 2 AM": "9 صباحاً – 2 صباحاً", "Smart casual": "أنيق غير رسمي", "Closed · opens 9 AM": "مغلق · يفتح 9 صباحاً", "Contact": "التواصل", "Modern Levant · Rooftop Dubai": "مطبخ شامي عصري · سطح دبي", "My picks": "اختياراتي", "Add to picks": "أضف إلى اختياراتي", "Ask on WhatsApp": "اسأل عبر واتساب", "Saved for your visit": "محفوظ لزيارتك", "Nothing saved yet. Open any dish and tap “Add to picks”.": "لا شيء محفوظ بعد. افتح أي طبق واضغط «أضف إلى اختياراتي».", "Estimated": "الإجمالي التقديري", "Send picks & book": "أرسل الاختيارات واحجز", "Menu type": "نوع القائمة", "Open menu": "افتح القائمة", "Close": "إغلاق", "Previous": "السابق", "Next": "التالي", "Say hi to the chef": "قل مرحباً للشيف", "Previous dish": "الطبق السابق", "Next dish": "الطبق التالي", "Previous review": "التقييم السابق", "Next review": "التقييم التالي", "Dish details": "تفاصيل الطبق", "Open now": "مفتوح الآن", "until 2 AM": "حتى 2 صباحاً", "Tonight": "الليلة", "Opens today at 9 AM": "يفتح اليوم الساعة 9 صباحاً", "Open now · until 2 AM": "مفتوح الآن · حتى 2 صباحاً", "Pint · Barcelona": "باينت · برشلونة", "From pineapple fields kissed by the tropical sun to coconuts gathered by the sea, this milk-washed rum cocktail transforms familiar island flavors into a crystal-clear, silky-smooth experience.": "من حقول الأناناس التي قبّلتها الشمس الاستوائية إلى جوز الهند المقطوف قرب البحر، يحوّل هذا الكوكتيل المصفّى بالحليب نكهات الجزر المألوفة إلى تجربة صافية كالبلّور ناعمة كالحرير.", "Inspired by the glow of a tropical sunset, pineapple is gently toasted to deepen its sweetness before being blended with golden honey into a vibrant shrub. Lifted by Tito's vodka, the result is a sophisticated balance of bright acidity, subtle smoke, and effortless elegance.": "مستوحى من توهّج غروب استوائي، يُحمَّص الأناناس برفق ليعمّق حلاوته ثم يُمزج مع العسل الذهبي في شراب نابض بالحياة. وبفودكا تيتوس يبلغ توازناً راقياً بين الحموضة المنعشة والدخان الخفيف والأناقة العفوية.", "A journey of contrasts unfolds with every sip: vibrant lime awakens the palate, spiced ginger adds warmth and complexity, while aromatic bitters weave the elements into perfect harmony.": "رحلة من التناقضات تتكشف مع كل رشفة: الليمون الأخضر النابض يوقظ الحواس، والزنجبيل المتبّل يضيف الدفء والعمق، فيما ينسج البيترز العطري العناصر في انسجام تام.", "A journey through citrus orchards and spice markets, where fresh citrus awakens the palate, tequila provides depth, and a delicate chili warmth lingers beneath a refreshing sparkle.": "رحلة بين بساتين الحمضيات وأسواق التوابل، حيث تنعش الحمضيات الطازجة الحواس، وتمنح التكيلا العمق، ويبقى دفء الفلفل الحار الرقيق تحت فوران منعش.", "A study in balance and texture, where the bright botanicals of Bombay gin meet the earthy intrigue of mushroom brine. Refined, polished, and effortlessly complex.": "دراسة في التوازن والقوام، حيث تلتقي أعشاب جين بومباي المنعشة مع غموض ماء الفطر الترابي. راقٍ ومصقول ومعقّد بسلاسة.", "A journey through layers of flavor unfolds with every sip: earthy beetroot grounds the palate, honey adds gentle warmth, and botanical gin brings brightness, all carried by the graceful touch of sweet vermouth.": "رحلة عبر طبقات النكهة مع كل رشفة: الشمندر الترابي يرسّخ المذاق، والعسل يضيف دفئاً لطيفاً، والجين العشبي يمنح الانتعاش، وكلها بلمسة رشيقة من الفيرموث الحلو.", "A rich blend of whiskey, crisp apple, warm cinnamon, and golden honey. Smooth, spiced, and gently sweet, with a comforting warmth and a soft, lingering finish.": "مزيج غني من الويسكي والتفاح المقرمش والقرفة الدافئة والعسل الذهبي. ناعم ومتبّل وحلو بلطف، بدفء مريح ونهاية رقيقة تدوم.", "Crafted with precision and patience, this clarified bourbon creation reveals a smoother side of whiskey: bright, elegant, and beautifully balanced from the first sip to the last.": "صُنع بدقة وصبر، ويكشف هذا البوربون الرائق وجهاً أنعم للويسكي: منعش وأنيق ومتوازن بجمال من أول رشفة إلى آخرها.", "A vibrant blend of pisco, tropical fruit, and fresh citrus, balanced with a silky foam finish. Bright, juicy, and refreshing with a smooth, tangy sweetness and a tropical twist.": "مزيج نابض من البيسكو والفواكه الاستوائية والحمضيات الطازجة، متوازن بلمسة رغوة حريرية. منعش وعصيري بحلاوة ناعمة لاذعة ولمسة استوائية.", "Ruby-red drink combining juicy sweet cherries with zesty lemon for a crisp, tangy kick. Light herbal or floral notes add a smooth Mediterranean touch, creating a refreshing, well-balanced sip that's both fruity and slightly tart.": "مشروب أحمر ياقوتي يجمع الكرز الحلو العصيري مع الليمون المنعش لنكهة مقرمشة لاذعة. نفحات عشبية أو زهرية خفيفة تضيف لمسة متوسطية ناعمة، لرشفة منعشة ومتوازنة فاكهية وحامضة قليلاً."};
-Object.assign(AR,{"· until 2 AM": "· حتى الثانية صباحاً", "SUL": "كبريتيت", "Fattoush Salad": "سلطة فتوش", "Smoky Beef Brisket": "صدر لحم بقري مدخّن", "Spiced Shawarma Bites": "لقيمات شاورما متبّلة", "Mediterranean Bruschetta": "بروشيتا متوسطية", "Luqma Beef Sliders": "سلايدرز لحم لقمة", "Golden Rings": "حلقات ذهبية", "Fire Chicken Wings": "أجنحة دجاج حارة", "The Social Platter": "طبق السوشال", "Supreme Nachos": "ناتشوز سوبريم", "Oriental Mix Grill": "مشاوي مشكّلة شرقية", "Oriental Mix Grill ·": "مشاوي مشكّلة شرقية ·", "Coastal Mussels & Fries": "بلح البحر مع البطاطس", "Smokehouse Beef Ribs": "ضلوع لحم بقري مدخّنة", "Levant Trio of Dips": "ثلاثية مقبلات الشام", "Classic Tabbouleh Salad": "سلطة تبولة كلاسيكية", "Sumac Salmon Salad": "سلطة سلمون بالسماق", "Passion Kale & Quinoa Salad": "سلطة الكالي والكينوا بالباشن فروت", "Signature House Caesar Salad": "سلطة سيزر الخاصة", "Charred Halloumi Salad": "سلطة حلوم مشوي", "The Classic Burger": "البرغر الكلاسيكي", "Golden Crunch Chicken": "دجاج مقرمش ذهبي", "Spicy Bresaola Royal Pizza": "بيتزا برزاولا رويال الحارة", "Garden Margherita": "مارغريتا الحديقة", "Four Cheese Mushroom Pizza": "بيتزا الفطر بالأجبان الأربعة", "Umali": "أم علي", "Warm Choco Brownie": "براوني الشوكولاتة الدافئ", "Pistachio Affogato": "أفوغاتو الفستق", "Burnt Cheesecake": "تشيز كيك محروق", "Seasonal Fruit Platter": "طبق فواكه الموسم", "Golden Milanese": "ميلانيزي ذهبي", "Ribeye Al Sham": "ريب آي الشام", "Ribeye Al Sham ·": "ريب آي الشام ·", "Heaven Mule": "هيفن موول", "Farmers Nectar": "رحيق المزارعين", "Bee Apple And Cinnamon": "نحلة وتفاح وقرفة", "All Citrus Lemonade": "ليموناضة الحمضيات", "Pineapple Mint Cooler": "مبرّد الأناناس والنعناع", "Lemon Iced Tea": "شاي مثلج بالليمون", "Americano Coffee": "قهوة أمريكانو", "Cappuccino": "كابتشينو", "Espresso": "إسبريسو", "Double Espresso": "إسبريسو مزدوج", "Café Latte": "كافيه لاتيه", "Cortado": "كورتادو", "Avantcha Tea": "شاي أفانتشا", "Sauvignon Blanc · Valle Central, Chile": "سوفينيون بلان · الوادي المركزي، تشيلي", "Albariño · Rías Baixas, Spain": "ألبارينيو · ريّاس بايشاس، إسبانيا", "Chardonnay · Mendoza, Argentina": "شاردونيه · مندوزا، الأرجنتين", "Sauvignon Blanc · Marlborough, New Zealand": "سوفينيون بلان · مارلبورو، نيوزيلندا", "Pinot Grigio delle Venezie · Tuscany, Italy": "بينو غريجيو دلي فينيتسيه · توسكانا، إيطاليا", "Pinot Grigio · South Australia": "بينو غريجيو · جنوب أستراليا"});
+Object.assign(AR,{"Slow-smoked beef short ribs": "ريب لحم بقري مدخن ببطء", "Truffle potato puree": "هريس بطاطس بالكمأة", "Rich beef jus": "صلصة اللحم الغنية", "Crispy breaded chicken": "دجاج مقرمش مبهّر", "Rocket & cherry tomatoes": "جرجير وطماطم كرزية", "Shaved Parmesan": "جبنة بارميزان مبشورة", "Creamy Arborio rice": "أرز أربوريو كريمي", "Wild shiitake mushrooms": "فطر شيتاكي بري", "Truffle oil": "زيت الكمأة", "Chargrilled jumbo prawns": "روبيان جامبو مشوي على الفحم", "Traditional chermoula": "شرمولة تقليدية", "Lemon butter": "زبدة الليمون", "Grilled seabass": "سمك قاروص مشوي", "Spicy harra": "حرّة حارة", "Cous cous & baby vegetables": "كسكس وخضار صغيرة", "Grilled ribeye": "ريب آي مشوي", "Seasonal vegetables": "خضار موسمية", "See today's special": "اطلب طبق اليوم", "From the chef's pass": "من ركن الشيف", "· until 2 AM": "· حتى الثانية صباحاً", "SUL": "كبريتيت", "Fattoush Salad": "سلطة فتوش", "Smoky Beef Brisket": "صدر لحم بقري مدخّن", "Spiced Shawarma Bites": "لقيمات شاورما متبّلة", "Mediterranean Bruschetta": "بروشيتا متوسطية", "Luqma Beef Sliders": "سلايدرز لحم لقمة", "Golden Rings": "حلقات ذهبية", "Fire Chicken Wings": "أجنحة دجاج حارة", "The Social Platter": "طبق السوشال", "Supreme Nachos": "ناتشوز سوبريم", "Oriental Mix Grill": "مشاوي مشكّلة شرقية", "Oriental Mix Grill ·": "مشاوي مشكّلة شرقية ·", "Coastal Mussels & Fries": "بلح البحر مع البطاطس", "Smokehouse Beef Ribs": "ضلوع لحم بقري مدخّنة", "Levant Trio of Dips": "ثلاثية مقبلات الشام", "Classic Tabbouleh Salad": "سلطة تبولة كلاسيكية", "Sumac Salmon Salad": "سلطة سلمون بالسماق", "Passion Kale & Quinoa Salad": "سلطة الكالي والكينوا بالباشن فروت", "Signature House Caesar Salad": "سلطة سيزر الخاصة", "Charred Halloumi Salad": "سلطة حلوم مشوي", "The Classic Burger": "البرغر الكلاسيكي", "Golden Crunch Chicken": "دجاج مقرمش ذهبي", "Spicy Bresaola Royal Pizza": "بيتزا برزاولا رويال الحارة", "Garden Margherita": "مارغريتا الحديقة", "Four Cheese Mushroom Pizza": "بيتزا الفطر بالأجبان الأربعة", "Umali": "أم علي", "Warm Choco Brownie": "براوني الشوكولاتة الدافئ", "Pistachio Affogato": "أفوغاتو الفستق", "Burnt Cheesecake": "تشيز كيك محروق", "Seasonal Fruit Platter": "طبق فواكه الموسم", "Golden Milanese": "ميلانيزي ذهبي", "Ribeye Al Sham": "ريب آي الشام", "Ribeye Al Sham ·": "ريب آي الشام ·", "Heaven Mule": "هيفن موول", "Farmers Nectar": "رحيق المزارعين", "Bee Apple And Cinnamon": "نحلة وتفاح وقرفة", "All Citrus Lemonade": "ليموناضة الحمضيات", "Pineapple Mint Cooler": "مبرّد الأناناس والنعناع", "Lemon Iced Tea": "شاي مثلج بالليمون", "Americano Coffee": "قهوة أمريكانو", "Cappuccino": "كابتشينو", "Espresso": "إسبريسو", "Double Espresso": "إسبريسو مزدوج", "Café Latte": "كافيه لاتيه", "Cortado": "كورتادو", "Avantcha Tea": "شاي أفانتشا", "Sauvignon Blanc · Valle Central, Chile": "سوفينيون بلان · الوادي المركزي، تشيلي", "Albariño · Rías Baixas, Spain": "ألبارينيو · ريّاس بايشاس، إسبانيا", "Chardonnay · Mendoza, Argentina": "شاردونيه · مندوزا، الأرجنتين", "Sauvignon Blanc · Marlborough, New Zealand": "سوفينيون بلان · مارلبورو، نيوزيلندا", "Pinot Grigio delle Venezie · Tuscany, Italy": "بينو غريجيو دلي فينيتسيه · توسكانا، إيطاليا", "Pinot Grigio · South Australia": "بينو غريجيو · جنوب أستراليا"});
 const ALK={Gluten:'الغلوتين',Dairy:'الألبان',Nuts:'المكسرات',Shellfish:'القشريات',Egg:'البيض',Sesame:'السمسم',Mustard:'الخردل',Fish:'السمك',Celery:'الكرفس',Peanuts:'الفول السوداني',Soya:'الصويا',Sulphites:'الكبريتيت',Vegetarian:'نباتي'};
 const REL=(n,u)=>{const m={day:['يوم','يومين','أيام'],week:['أسبوع','أسبوعين','أسابيع'],month:['شهر','شهرين','أشهر'],hour:['ساعة','ساعتين','ساعات'],year:['سنة','سنتين','سنوات']}[u];if(!m)return null;return n===1?m[0]:n===2?m[1]:n+' '+m[2]};
 const HM=x=>x.replace(/(\d+)h/,'$1 س').replace(/(\d+)m/,'$1 د');
