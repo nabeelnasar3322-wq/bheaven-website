@@ -2926,15 +2926,18 @@ document.querySelectorAll('.ev').forEach(ev=>{ev.addEventListener('click',e=>{if
 const nav=$('#top'), sticky=$('#chipsSticky');
 const prog=$('#prog');
 let _sq=0,_sh=0,_nh=0,_sol=null;
-function _calc(){_sh=document.documentElement.scrollHeight-innerHeight;_nh=nav.offsetHeight}
+let _mt=0,_mb=0,_stTop=-1,_shown=null,_pg=-1;
+function _calc(){_sh=document.documentElement.scrollHeight-innerHeight;_nh=nav.offsetHeight;
+  const dk=document.body.dataset.mode==='drinks',r=(dk?$('#drinkRoot'):$('#menuRoot')).getBoundingClientRect();_mt=r.top+scrollY;_mb=r.bottom+scrollY;_stTop=-1;if(typeof _onScroll==='function')onScroll()}
 function _onScroll(){_sq=0;const y=scrollY,sol=y>40;
-  if(sol!==_sol){_sol=sol;nav.classList.toggle('solid',sol);_nh=nav.offsetHeight}
-  const dk=document.body.dataset.mode==='drinks'; const m=(dk?$('#drinkRoot'):$('#menuRoot')).getBoundingClientRect(); sticky.classList.toggle('show',m.top<120&&m.bottom>300);
-  sticky.style.top=_nh+'px';
-  prog.style.transform=`scaleX(${_sh>0?y/_sh:0})`;
+  if(sol!==_sol){_sol=sol;nav.classList.toggle('solid',sol);_nh=nav.offsetHeight;_stTop=-1}
+  const show=(_mt-y)<120&&(_mb-y)>300; if(show!==_shown){_shown=show;sticky.classList.toggle('show',show)}
+  if(_stTop!==_nh){_stTop=_nh;sticky.style.top=_nh+'px'}
+  const p=_sh>0?y/_sh:0; if(p!==_pg){_pg=p;prog.style.transform=`scaleX(${p})`}
 }
 function onScroll(){if(!_sq)_sq=requestAnimationFrame(_onScroll)}
 _calc();addEventListener('resize',_calc);addEventListener('load',_calc);try{new ResizeObserver(_calc).observe(document.body)}catch(e){}
+try{new MutationObserver(()=>setTimeout(_calc,450)).observe(document.body,{attributes:true,attributeFilter:['data-mode']})}catch(e){}
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
 const navMap=[['home','#home'],['menu','#menu'],['story','#story'],['events','#events'],['contact','#contact']];
 const nio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let id=en.target.id; if(id.startsWith('cat-')||id.startsWith('d-')||id==='menuRoot'||id==='drinkRoot'||id==='menu')id=document.body.dataset.mode==='drinks'?'drinks':'menu'; document.querySelectorAll('nav.top ul a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));}}),{rootMargin:'-50% 0px -50% 0px'});
@@ -2980,7 +2983,7 @@ const CUR=(()=>{if(!matchMedia('(hover:hover) and (pointer:fine)').matches)retur
   document.addEventListener('pointerleave',()=>c.classList.remove('on'));
   return st;})();
 /* parallax targets */
-let PX=[]; function measurePX(){PX=[...document.querySelectorAll('.scatter .plate')].map((el,i)=>{el.style.setProperty('--py','0px');const b=el.getBoundingClientRect();return {el,y:b.top+scrollY+b.height/2,sp:[.07,.13,.05,.11,.06,.1][i%6]*(innerWidth<800?.4:1),last:null};});}
+let PX=[]; function measurePX(){PX=[...document.querySelectorAll('.scatter .plate')].map((el,i)=>{el.style.translate='0 5px';const _ok=/5px/.test(getComputedStyle(el).translate);el.style.translate='0 0px';if(!_ok)return null;const b=el.getBoundingClientRect();return {el,y:b.top+scrollY+b.height/2,sp:[.07,.13,.05,.11,.06,.1][i%6]*(innerWidth<800?.4:1),last:null};}).filter(Boolean);}
 setTimeout(measurePX,400); addEventListener('resize',()=>{clearTimeout(window._px);window._px=setTimeout(()=>{measurePX();wake()},250)});
 $('#burger').onclick=()=>$('#mnav').classList.add('open'); $('#mnavX').onclick=()=>$('#mnav').classList.remove('open');
 $('#mnav').addEventListener('click',e=>{if(e.target.tagName==='A')$('#mnav').classList.remove('open')});
@@ -3101,7 +3104,7 @@ function loop(t){_raf=0;T=t/1000; const vt=scrollY-300, vb=scrollY+innerHeight+3
   if(CUR){const ex=CUR.x-CUR.cx,ey=CUR.y-CUR.cy;if(Math.abs(ex)>.05||Math.abs(ey)>.05){CUR.cx+=ex*0.2;CUR.cy+=ey*0.2;CUR.c.style.transform=`translate(${CUR.cx}px,${CUR.cy}px)`;busy=true;}}
   if(scrollY!==_lsy){_lsy=scrollY;busy=true;}
   const vc=scrollY+innerHeight/2;
-  for(const q of PX){if(q.y<vt||q.y>vb)continue; const v=Math.max(-70,Math.min(70,(vc-q.y)*q.sp)); const r=Math.round(v*10)/10; if(r!==q.last){q.el.style.setProperty('--py',r+'px');q.last=r;}}
+  for(const q of PX){if(q.y<vt||q.y>vb)continue; const v=Math.max(-70,Math.min(70,(vc-q.y)*q.sp)); const r=Math.round(v*10)/10; if(r!==q.last){q.el.style.translate='0 '+r+'px';q.last=r;}}
   items.forEach(it=>{ if(!it.on||(!it.drag&&(it.cy+it.ry<vt||it.cy+it.ry>vb))) return; busy=true;
     if(!it.drag){
       // thrown momentum becomes the new rest position
