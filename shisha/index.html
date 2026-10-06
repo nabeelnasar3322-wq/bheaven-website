@@ -30,7 +30,19 @@ radial-gradient(900px 600px at 8% -5%,rgba(214,150,70,.16),transparent 62%),
 radial-gradient(800px 700px at 100% 35%,rgba(48,118,132,.17),transparent 65%),
 radial-gradient(900px 600px at 0% 100%,rgba(120,70,40,.14),transparent 65%),
 linear-gradient(180deg,#14110F 0%,#0E0C0B 45%,#0A0A0A 100%)}
-body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.07;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:600px 600px}
+.smoke{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.smoke i{position:absolute;left:-25%;width:150%;bottom:-35%;height:100%;background-size:800px 800px;opacity:0;will-change:transform,opacity;-webkit-mask-image:radial-gradient(closest-side,#000 25%,transparent 100%);mask-image:radial-gradient(closest-side,#000 25%,transparent 100%);animation:rise 34s ease-in-out infinite}
+.smoke i:nth-child(1){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 .016' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.72 0 0 0 0 0.42 0 0 0 2.4 -.95'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23n)'/%3E%3C/svg%3E")}
+.smoke i:nth-child(2){left:-5%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .014' numOctaves='4' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.62 0 0 0 0 0.82 0 0 0 0 0.86 0 0 0 2.4 -.95'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23n)'/%3E%3C/svg%3E");animation-duration:42s;animation-delay:-14s;height:90%}
+.smoke i:nth-child(3){left:-40%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.01 .02' numOctaves='4' seed='15' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.9 0 0 0 0 0.92 0 0 0 2.4 -.95'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23n)'/%3E%3C/svg%3E");animation-duration:50s;animation-delay:-28s;height:80%}
+@keyframes rise{0%{opacity:0;transform:translate3d(-3%,12%,0) scale(1)}18%{opacity:.55}60%{opacity:.4}100%{opacity:0;transform:translate3d(6%,-34%,0) scale(1.22)}}
+.ph{position:relative}
+.ph::after{content:'';position:absolute;left:-30%;right:-30%;top:-25%;height:75%;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='4' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.88 0 0 0 0 0.84 0 0 0 2.6 -1.05'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23n)'/%3E%3C/svg%3E");background-size:700px 700px;opacity:0;-webkit-mask-image:linear-gradient(180deg,transparent,#000 40%,transparent);mask-image:linear-gradient(180deg,transparent,#000 40%,transparent);will-change:transform,opacity;animation:wisp 11s ease-in-out infinite}
+.card:nth-child(2n) .ph::after{animation-delay:-4s;animation-duration:13s}
+.card:nth-child(3n) .ph::after{animation-delay:-7s}
+@keyframes wisp{0%{opacity:0;transform:translate3d(-4%,24%,0)}30%{opacity:.45}70%{opacity:.3}100%{opacity:0;transform:translate3d(5%,-18%,0)}}
+@media (max-width:760px){.smoke i:nth-child(3){display:none}}
+@media (prefers-reduced-motion:reduce){.smoke i,.ph::after{animation:none!important}.smoke i:nth-child(1){opacity:.25}.ph::after{opacity:0}}
 .ph{box-shadow:0 0 0 1px rgba(255,255,255,.07),0 40px 70px -40px rgba(0,0,0,.9)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(18px,4vw,44px);max-width:1180px;margin:0 auto}
 .brand{text-decoration:none;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:#fff}
@@ -73,6 +85,7 @@ h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 </style>
 </head>
 <body>
+<div class="smoke" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="nav"><a class="brand" href="/menu/">B-Heaven</a><nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav></div>
 <div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shishas</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
 <main class="cards">
