@@ -6,84 +6,88 @@
 <title>Shisha · B-Heaven by Barceló</title>
 <meta name="description" content="Shisha menu at B-Heaven by Barceló, Al Jaddaf, Dubai — single flavours, mixes, specials and Nova cocktails.">
 <link rel="canonical" href="https://bheavendubai.com/shisha/">
-<meta name="theme-color" content="#0B1A1D">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Shisha · B-Heaven by Barceló">
 <meta property="og:description" content="Single flavours, mixes, specials and Nova cocktails on the rooftop at Barceló Al Jaddaf, Dubai.">
 <meta property="og:url" content="https://bheavendubai.com/shisha/">
 <meta property="og:image" content="https://bheavendubai.com/og-image.jpg">
+<meta name="theme-color" content="#0E0C0B">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth;background:#0B1A1D}
-body{font-family:'Montserrat',sans-serif;background:#0B1A1D;color:#F1E9D8;min-height:100vh;-webkit-font-smoothing:antialiased}
-.bg{position:fixed;inset:0;z-index:0;background:#0B1A1D url(/menu/img/shisha-hero.webp) center 40%/cover no-repeat;opacity:0;transform:scale(1.05);transition:opacity 1.1s ease,transform 1.8s cubic-bezier(.22,1,.36,1)}
-.bg.ok{opacity:1;transform:none}
-.bgShade{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,rgba(9,22,25,.55) 0%,rgba(9,22,25,.8) 35%,rgba(9,22,25,.93) 100%)}
-header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px clamp(18px,4vw,44px);background:linear-gradient(180deg,rgba(9,22,25,.85),rgba(9,22,25,0))}
-.brand{color:#fff;text-decoration:none;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600}
-nav{display:flex;gap:clamp(14px,3vw,30px)}
-nav a{color:#F1E9D8;text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;opacity:.8;padding:6px 0;border-bottom:1px solid transparent;transition:opacity .3s,border-color .3s}
-nav a:hover,nav a.on{opacity:1;border-color:#D6B46E}
-main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:clamp(110px,18vh,170px) clamp(20px,5vw,34px) 70px}
-.hero{padding-bottom:20px}
-.ey{display:block;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:#D6B46E;font-weight:600;margin-bottom:12px}
-h1{font-size:clamp(2.6rem,9vw,5rem);color:#fff;font-weight:600;line-height:1}
-.lede{margin-top:16px;color:#C5D2D1;font-size:.95rem;line-height:1.7;font-weight:300;max-width:520px}
-.rv{opacity:0;transform:translate3d(0,18px,0);transition:opacity .8s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+:root{--bg:#0E0C0B;--ink:#F1E9D8;--mut:#B9C9C8;--acc:#D6B46E;--line:rgba(255,255,255,.14);--ph:#091318}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{position:relative;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+html{background:#0E0C0B}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+radial-gradient(900px 600px at 8% -5%,rgba(214,150,70,.16),transparent 62%),
+radial-gradient(800px 700px at 100% 35%,rgba(48,118,132,.17),transparent 65%),
+radial-gradient(900px 600px at 0% 100%,rgba(120,70,40,.14),transparent 65%),
+linear-gradient(180deg,#14110F 0%,#0E0C0B 45%,#0A0A0A 100%)}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.07;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:600px 600px}
+.ph{box-shadow:0 0 0 1px rgba(255,255,255,.07),0 40px 70px -40px rgba(0,0,0,.9)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(18px,4vw,44px);max-width:1180px;margin:0 auto}
+.brand{text-decoration:none;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:#fff}
+.nav nav{display:flex;gap:clamp(14px,3vw,28px)}
+.nav nav a{text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;opacity:.8;padding:6px 0;border-bottom:1px solid transparent;transition:opacity .3s,border-color .3s}
+.nav nav a:hover,.nav nav a.on{opacity:1;border-color:var(--acc)}
+.ey{display:block;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--acc);font-weight:600;margin-bottom:12px}
+h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
+.lede{margin-top:16px;color:var(--mut);font-size:.95rem;line-height:1.7;font-weight:300;max-width:500px}
+.intro{max-width:1180px;margin:0 auto;padding:clamp(20px,6vh,60px) clamp(20px,5vw,44px) 20px}
+.ph{background:var(--ph);overflow:hidden;border-radius:24px}
+.ph img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
+.ph img.ok{opacity:1}
+.rv{opacity:0;transform:translate3d(0,22px,0);transition:opacity .8s ease,transform .9s cubic-bezier(.22,1,.36,1)}
 .rv.in{opacity:1;transform:none}
-.shSec{padding:28px 0;border-top:1px solid rgba(255,255,255,.16)}
-.shHd{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:8px}
-.shHd h4{font-size:.9rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#fff}
-.shHd b{font-size:1.3rem;font-weight:600;color:#D6B46E;white-space:nowrap}
-.shSub{margin-bottom:16px;color:#C5D2D1;font-size:.9rem;line-height:1.6;font-weight:300}
+.hd{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:8px}
+.hd h2{font-size:clamp(1.1rem,3vw,1.5rem);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.hd b{font-size:1.3rem;font-weight:600;color:var(--acc);white-space:nowrap}
+.sub{color:var(--mut);font-size:.9rem;line-height:1.6;font-weight:300;margin-bottom:16px}
 .shChips{display:flex;flex-wrap:wrap;gap:8px}
-.shChips span{padding:7px 14px;border-radius:999px;border:1px solid rgba(214,180,110,.4);font-size:.82rem;color:#F1E9D8;background:rgba(9,22,25,.45)}
-.shGrid{display:grid;grid-template-columns:1fr 1fr;gap:4px 38px}
-.shGrid div{padding:13px 0;border-bottom:1px solid rgba(255,255,255,.08)}
-.shGrid strong{display:block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;font-weight:600;margin-bottom:5px}
-.shGrid p{color:#D2DCDB;font-size:.86rem;line-height:1.55;font-weight:300}
-.shNote{margin-top:10px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#9DB3B5;font-size:.78rem;line-height:1.7;font-weight:300}
-.shCta{display:block;width:max-content;max-width:100%;margin:22px auto 0;padding:14px 28px;border-radius:999px;background:#D6B46E;color:#10231F;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;text-align:center;text-decoration:none;transition:transform .3s cubic-bezier(.22,1,.36,1),background .3s}
-@media (hover:hover){.shCta:hover{transform:translateY(-2px);background:#E6C888}}
-.back{display:block;margin:34px auto 0;text-align:center;color:#C5D2D1;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
-.back:hover{color:#fff}
-a:focus-visible{outline:2px solid #D6B46E;outline-offset:3px}
-@media (max-width:640px){.shGrid{grid-template-columns:1fr}.brand{font-size:.68rem;letter-spacing:.18em}nav a{font-size:.64rem;letter-spacing:.14em}header{padding:14px 18px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bg,.rv{transition:none!important;transform:none!important;opacity:1!important}}
+.shChips span{padding:7px 14px;border-radius:999px;border:1px solid rgba(214,180,110,.4);font-size:.82rem;background:rgba(255,255,255,.03)}
+.lst{list-style:none}
+.lst li{padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.lst li:first-child{border-top:1px solid rgba(255,255,255,.1)}
+.lst strong{display:block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;font-weight:600;margin-bottom:5px}
+.lst p{color:#CBD6D5;font-size:.86rem;line-height:1.55;font-weight:300}
+.foot{max-width:760px;margin:0 auto;padding:10px clamp(20px,5vw,34px) 70px}
+.shNote{margin-top:10px;padding-top:20px;border-top:1px solid var(--line);text-align:center;color:#9DB3B5;font-size:.78rem;line-height:1.7;font-weight:300}
+.shCta{display:block;width:max-content;max-width:100%;margin:22px auto 0;padding:14px 28px;border-radius:999px;background:var(--acc);color:#10231F;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+@media (hover:hover){.shCta:hover{transform:translateY(-2px)}}
+.back{display:block;margin:30px auto 0;text-align:center;color:var(--mut);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.ph img,.pn{transition:none!important;transform:none!important;opacity:1!important}}
+
+.cards{max-width:1180px;margin:0 auto;padding:10px clamp(20px,5vw,44px) 30px;display:grid;gap:clamp(36px,7vw,90px)}
+.card{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,5vw,70px);align-items:center}
+.card:nth-child(even) .ph{order:2}
+.card .ph{aspect-ratio:4/5;max-height:80vh;width:100%;max-width:480px;justify-self:center}
+.no{display:block;font-size:.72rem;letter-spacing:.3em;color:var(--acc);font-weight:600;margin-bottom:12px}
+@media (max-width:760px){.card{grid-template-columns:1fr}.card:nth-child(even) .ph{order:0}.card .ph{max-width:340px}}
 </style>
 </head>
 <body>
-<div class="bg" id="bg"></div><div class="bgShade"></div>
-<header>
-  <a class="brand" href="/menu/">B-Heaven</a>
-  <nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav>
-</header>
-<main>
-  <div class="hero rv"><span class="ey">B-Heaven by Barceló</span><h1>Shishas</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — pick a single flavour, blend your own, or go for one of our signatures.</p></div>
-
-      <section class="shSec rv"><div class="shHd"><h4>Single shisha</h4><b>AED 65</b></div><p class="shSub">Single flavours, with mint or without.</p><div class="shChips"><span>Double apple</span><span>Grape mint</span><span>Grape-berry</span><span>Grape</span><span>Lemon</span><span>Orange</span><span>Grapefruit</span><span>Fresh mist</span><span>Blueberry</span><span>Watermelon</span><span>Sweet melon</span><span>Pineapple</span><span>Gum</span><span>Bubble gum</span><span>Gum mastic</span><span>Strawberry</span><span>Mint</span><span>Coconut</span><span>Kiwi</span><span>Vanilla cherry</span><span>Peach</span><span>Mango</span><span>Gum cinnamon</span><span>Rose</span><span>Chocolate coffee</span><span>Energy drink</span><span>Banana</span></div></section>
-      <section class="shSec rv"><div class="shHd"><h4>Mix flavours</h4><b>AED 109</b></div><p class="shSub" style="margin:0">Blend of 2–3 flavours.</p></section>
-      <section class="shSec rv"><div class="shHd"><h4>Specials</h4><b>AED 139</b></div><div class="shGrid"><div><strong>Mi Amor</strong><p>Crazy tropical mix of juicy pineapple, ripe banana, and refreshing mint</p></div><div><strong>Lady Killer</strong><p>Iced, minty tropical mango and sweet peach</p></div><div><strong>Love 66</strong><p>The golden recipe of all times in hookah with passion fruits, honeydew melon, watermelon, mint</p></div><div><strong>Marbella</strong><p>A delicious mix of cherry, caramel and chocolate</p></div><div><strong>Hawaii</strong><p>Juicy pineapple and sweet mango with mint</p></div><div><strong>Sky Fall</strong><p>Taste of sweet berries with refreshing lime</p></div><div><strong>Istanbul Night</strong><p>The mix of blueberries, raspberries, and currants</p></div></div></section>
-      <section class="shSec rv"><div class="shHd"><h4>Nova cocktails</h4><b>AED 159</b></div><div class="shGrid"><div><strong>Melon Honey</strong><p>Natural sweet melon taste with extra sweetness</p></div><div><strong>Tutti Frutti</strong><p>Mix of tropical fruits, topped with little bit of freshness</p></div><div><strong>Ice Baby</strong><p>Bright grapefruit meets wild berry sorbet, light, refreshing, and perfect for summer</p></div><div><strong>Strawberry Jam</strong><p>Strawberry jam with hint of berry flavour</p></div><div><strong>Lemon Shock</strong><p>Taste of ultra sour lemon</p></div><div><strong>Belgium Waffles</strong><p>Soft sponge cake with cinnamon, creamy soufflé and caramel topping</p></div><div><strong>Peach Killer</strong><p>A luxurious and full-bodied taste of sweet and delicate peach pulp</p></div><div><strong>Mango Tango</strong><p>Sweet mango with tropical passion fruit</p></div><div><strong>Pinkman</strong><p>A unique blend of pink grapefruit, strawberry, and raspberry — destined to be a favorite</p></div><div><strong>Cherry Garden</strong><p>Bold and tart natural cherries, sweet and sour, a flavor that easily becomes a favorite</p></div></div></section>
-      <p class="shNote rv">All prices are in Dirhams &amp; inclusive of 10% service charge, 7% municipality fee and 5% VAT.</p>
-      <a class="shCta rv" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table" target="_blank" rel="noopener">Book on WhatsApp</a>
-    
-  <a class="back" href="/menu/">← Back to menu</a>
+<div class="nav"><a class="brand" href="/menu/">B-Heaven</a><nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav></div>
+<div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shishas</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
+<main class="cards">
+<article class="card"><div class="ph rv"><img src="/menu/img/shisha-1.webp" alt="Amber cube hookah" width="720" height="900" decoding="async"></div><div class="rv"><span class="no">01</span><div class="hd"><h2>Single shisha</h2><b>AED 65</b></div><p class="sub">Single flavours, with mint or without.</p><div class="shChips"><span>Double apple</span><span>Grape mint</span><span>Grape-berry</span><span>Grape</span><span>Lemon</span><span>Orange</span><span>Grapefruit</span><span>Fresh mist</span><span>Blueberry</span><span>Watermelon</span><span>Sweet melon</span><span>Pineapple</span><span>Gum</span><span>Bubble gum</span><span>Gum mastic</span><span>Strawberry</span><span>Mint</span><span>Coconut</span><span>Kiwi</span><span>Vanilla cherry</span><span>Peach</span><span>Mango</span><span>Gum cinnamon</span><span>Rose</span><span>Chocolate coffee</span><span>Energy drink</span><span>Banana</span></div></div></article>
+<article class="card"><div class="ph rv"><img src="/menu/img/shisha-2.webp" alt="Carbon fibre hookah" width="720" height="900" decoding="async"></div><div class="rv"><span class="no">02</span><div class="hd"><h2>Mix flavours</h2><b>AED 109</b></div><p class="sub">Blend of 2–3 flavours — make it your own.</p></div></article>
+<article class="card"><div class="ph rv"><img src="/menu/img/shisha-3.webp" alt="Hookah with wooden stem and lemon-mint base" width="720" height="900" decoding="async" loading="lazy"></div><div class="rv"><span class="no">03</span><div class="hd"><h2>Specials</h2><b>AED 139</b></div><p class="sub">Our signature blends.</p><ul class="lst"><li><strong>Mi Amor</strong><p>Crazy tropical mix of juicy pineapple, ripe banana, and refreshing mint</p></li><li><strong>Lady Killer</strong><p>Iced, minty tropical mango and sweet peach</p></li><li><strong>Love 66</strong><p>The golden recipe of all times in hookah with passion fruits, honeydew melon, watermelon, mint</p></li><li><strong>Marbella</strong><p>A delicious mix of cherry, caramel and chocolate</p></li><li><strong>Hawaii</strong><p>Juicy pineapple and sweet mango with mint</p></li><li><strong>Sky Fall</strong><p>Taste of sweet berries with refreshing lime</p></li><li><strong>Istanbul Night</strong><p>The mix of blueberries, raspberries, and currants</p></li></ul></div></article>
+<article class="card"><div class="ph rv"><img src="/menu/img/shisha-4.webp" alt="Silver hookah with blue crystal base" width="720" height="900" decoding="async" loading="lazy"></div><div class="rv"><span class="no">04</span><div class="hd"><h2>Nova cocktails · I</h2><b>AED 159</b></div><p class="sub">Cocktail-style blends, part one.</p><ul class="lst"><li><strong>Melon Honey</strong><p>Natural sweet melon taste with extra sweetness</p></li><li><strong>Tutti Frutti</strong><p>Mix of tropical fruits, topped with little bit of freshness</p></li><li><strong>Ice Baby</strong><p>Bright grapefruit meets wild berry sorbet, light, refreshing, and perfect for summer</p></li><li><strong>Strawberry Jam</strong><p>Strawberry jam with hint of berry flavour</p></li><li><strong>Lemon Shock</strong><p>Taste of ultra sour lemon</p></li></ul></div></article>
+<article class="card"><div class="ph rv"><img src="/menu/img/shisha-5.webp" alt="Black hookah with smoke" width="720" height="900" decoding="async" loading="lazy"></div><div class="rv"><span class="no">05</span><div class="hd"><h2>Nova cocktails · II</h2><b>AED 159</b></div><p class="sub">Cocktail-style blends, part two.</p><ul class="lst"><li><strong>Belgium Waffles</strong><p>Soft sponge cake with cinnamon, creamy soufflé and caramel topping</p></li><li><strong>Peach Killer</strong><p>A luxurious and full-bodied taste of sweet and delicate peach pulp</p></li><li><strong>Mango Tango</strong><p>Sweet mango with tropical passion fruit</p></li><li><strong>Pinkman</strong><p>A unique blend of pink grapefruit, strawberry, and raspberry — destined to be a favorite</p></li><li><strong>Cherry Garden</strong><p>Bold and tart natural cherries, sweet and sour, a flavor that easily becomes a favorite</p></li></ul></div></article>
 </main>
+<div class="foot rv"><p class="shNote">All prices are in Dirhams &amp; inclusive of 10% service charge, 7% municipality fee and 5% VAT.</p><a class="shCta" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table" target="_blank" rel="noopener">Book on WhatsApp</a><a class="back" href="/menu/">← Back to menu</a></div>
 <script>
 (function(){
-var bg=document.getElementById('bg'),im=new Image();
-im.onload=im.onerror=function(){requestAnimationFrame(function(){bg.classList.add('ok')})};im.src='/menu/img/shisha-hero.webp';
+[].forEach.call(document.querySelectorAll('.ph img'),function(i){function ok(){i.classList.add('ok')}if(i.complete)ok();else i.addEventListener('load',ok)});
 var els=[].slice.call(document.querySelectorAll('.rv'));
-if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
-var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.05});
-els.forEach(function(e){io.observe(e)});
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -6% 0px',threshold:.05});els.forEach(function(e){io.observe(e)})}else els.forEach(function(e){e.classList.add('in')});
 })();
 </script>
 </body>
