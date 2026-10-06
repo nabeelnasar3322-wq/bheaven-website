@@ -413,7 +413,7 @@ section,header,footer,main{scroll-margin-top:70px}
 .pre.in{opacity:1;scale:1}
 .pre.in .disc img,.pre.in .tileBox img{rotate:0deg}
 .pre.in .ph img{scale:1}
-.scatter .plate{translate:0 var(--py,0px)}
+.scatter .plate{translate:0 var(--py,0px);will-change:translate;backface-visibility:hidden}
 .ch .num{transition:-webkit-text-stroke-color .6s}
 .ch h2{background:linear-gradient(90deg,var(--ink),var(--ink)) 0 100%/0 1.5px no-repeat;padding-bottom:6px;transition:background-size 1.2s cubic-bezier(.2,.8,.2,1) .3s}
 .ch.in h2{background-size:60px 1.5px}
