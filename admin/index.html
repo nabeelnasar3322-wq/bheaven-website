@@ -80,6 +80,15 @@ svg.chart{width:100%;height:auto;display:block}
 svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
 .legend{display:flex;gap:16px;font-size:.76rem;color:var(--muted);margin-top:8px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+.ph{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.ph .thumb{width:72px;height:72px;border-radius:10px;border:1px solid var(--line);background:repeating-conic-gradient(#2a3540 0 25%,#1c262f 0 50%) 0 0/14px 14px;display:grid;place-items:center;overflow:hidden;flex:none}
+.ph .thumb img{max-width:100%;max-height:100%;object-fit:contain}
+.ph .thumb em{font-style:normal;font-size:.62rem;color:var(--muted);text-align:center;padding:4px}
+.ph .acts{display:flex;gap:8px;flex-wrap:wrap}
+.ph .msg{flex-basis:100%;font-size:.78rem;color:var(--muted);margin:0}
+.ph .msg.bad{color:#ff8a80}
+.ph input[type=file]{display:none}
 @media (max-width:620px){.dish{grid-template-columns:1fr}}
 </style>
 </head>
@@ -107,7 +116,7 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
   </div>
 
   <section id="paneMenu" role="tabpanel" aria-labelledby="tabMenu">
-    <p class="note">Edit descriptions, prices, allergens and the Spanish text for every food dish. Saving publishes to the live menu automatically, usually within a minute. Dish names, order and photos are locked here so nothing breaks; ask to change those.</p>
+    <p class="note">Edit descriptions, prices, allergens and the Spanish text for every food dish. Saving publishes to the live menu automatically, usually within a minute. Photos must be cutouts with a transparent background; each photo publishes on its own with the Publish photo button. Dish names and order are locked so nothing breaks.</p>
     <div id="menuList"><p class="empty">Loading menu…</p></div>
   </section>
 
@@ -125,7 +134,7 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
 'use strict';
 var $=function(s){return document.querySelector(s)};
 var AL={C:'Celery',G:'Gluten',D:'Dairy',S:'Shellfish',N:'Nuts',F:'Fish',E:'Egg',M:'Mustard',P:'Peanuts',SE:'Sesame',SO:'Soya',SUL:'Sulphites',V:'Vegetarian'};
-var state={base:null,menu:null,es:null,esBase:null,sha:null,days:14};
+var state={photos:{},base:null,menu:null,es:null,esBase:null,sha:null,days:14};
 
 function api(path,opt){
   opt=opt||{};opt.credentials='same-origin';
@@ -159,7 +168,7 @@ $('#tabStats').addEventListener('click',function(){setTab('stats')});
 function clone(o){return JSON.parse(JSON.stringify(o))}
 function loadMenu(){
   api('/api/menu').then(function(j){
-    state.base=clone(j.menu);state.menu=clone(j.menu);state.es=clone(j.spanish);state.esBase=clone(j.spanish);state.sha=j.sha;
+    state.base=clone(j.menu);state.menu=clone(j.menu);state.es=clone(j.spanish);state.esBase=clone(j.spanish);state.sha=j.sha;state.photos=j.photos||{};
     renderMenu();updateBar();
   }).catch(function(err){
     if(err.status===401)return sessionExpired();
@@ -175,10 +184,83 @@ function renderMenu(){
     root.appendChild(sec);
   });
 }
+
+/* ---------- photo upload (transparent cutouts only) ---------- */
+function readImage(file){
+  return new Promise(function(res,rej){
+    var u=URL.createObjectURL(file),im=new Image();
+    im.onload=function(){URL.revokeObjectURL(u);res(im)};
+    im.onerror=function(){URL.revokeObjectURL(u);rej(new Error('Could not read that image'))};
+    im.src=u;
+  });
+}
+function prepPhoto(file){
+  return readImage(file).then(function(im){
+    var w=im.naturalWidth,h=im.naturalHeight;
+    if(w<200||h<200)throw new Error('Image is too small (at least 200 px)');
+    var s=Math.min(1,1040/w,720/h),W=Math.round(w*s),H=Math.round(h*s);
+    var c=document.createElement('canvas');c.width=W;c.height=H;
+    var x=c.getContext('2d',{willReadFrequently:true});x.clearRect(0,0,W,H);x.drawImage(im,0,0,W,H);
+    // the outer edge must be see-through, otherwise it is a photo with a background
+    var d=x.getImageData(0,0,W,H).data,edge=0,solid=0;
+    function chk(px,py){edge++;if(d[(py*W+px)*4+3]>20)solid++}
+    for(var i=0;i<W;i++){chk(i,0);chk(i,H-1)}
+    for(var j=0;j<H;j++){chk(0,j);chk(W-1,j)}
+    if(solid/edge>0.03)throw new Error('This image has a background. Please upload a cutout with a transparent background (PNG or WebP).');
+    var q=[0.86,0.78,0.7,0.6];
+    function enc(k){return new Promise(function(res){c.toBlob(res,'image/webp',q[k])}).then(function(b){
+      if(!b||b.type!=='image/webp')throw new Error('This browser cannot create WebP images. Try Chrome or Safari 16+.');
+      if(b.size>280*1024&&k<q.length-1)return enc(k+1);
+      if(b.size>300*1024)throw new Error('Image is still too large after resizing');
+      return b;
+    })}
+    return enc(0).then(function(b){return{blob:b,w:W,h:H}});
+  });
+}
+function blobB64(b){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(String(r.result))};r.onerror=function(){rej(new Error('Read failed'))};r.readAsDataURL(b)})}
+function photoBlock(name){
+  var wrap=el('div',{class:'ph'}),thumb=el('div',{class:'thumb'}),acts=el('div',{class:'acts'}),msg=el('p',{class:'msg'});
+  var cur=state.photos[name];
+  function showCurrent(){thumb.replaceChildren();if(cur){var im=el('img',{alt:name+' photo',src:'/menu/'+cur+'?v='+Date.now(),loading:'lazy'});thumb.appendChild(im)}else thumb.appendChild(el('em',{text:'No photo'}))}
+  showCurrent();
+  var file=el('input',{type:'file',accept:'image/png,image/webp,image/*','aria-label':'Choose a new photo for '+name});
+  var pick=el('button',{type:'button',class:'btn',text:'Change photo'});
+  var pub=el('button',{type:'button',class:'btn primary hide',text:'Publish photo'});
+  var cancel=el('button',{type:'button',class:'btn hide',text:'Cancel'});
+  var pending=null,url=null;
+  function reset(){if(url){URL.revokeObjectURL(url);url=null}pending=null;pub.classList.add('hide');cancel.classList.add('hide');pick.classList.remove('hide');showCurrent()}
+  pick.addEventListener('click',function(){file.click()});
+  file.addEventListener('change',function(){
+    var f=file.files&&file.files[0];file.value='';if(!f)return;
+    msg.className='msg';msg.textContent='Checking image…';
+    prepPhoto(f).then(function(p){
+      pending=p;url=URL.createObjectURL(p.blob);thumb.replaceChildren(el('img',{alt:'New photo preview',src:url}));
+      msg.textContent='New photo ready ('+p.w+'×'+p.h+', '+Math.round(p.blob.size/1024)+' KB). Check it, then publish.';
+      pub.classList.remove('hide');cancel.classList.remove('hide');pick.classList.add('hide');
+    }).catch(function(err){msg.className='msg bad';msg.textContent=err.message});
+  });
+  cancel.addEventListener('click',function(){msg.textContent='';reset()});
+  pub.addEventListener('click',function(){
+    if(!pending)return;pub.disabled=true;pub.textContent='Publishing…';
+    blobB64(pending.blob).then(function(b64){return api('/api/photo',{method:'POST',body:{name:name,image:b64}})}).then(function(r){
+      state.photos[name]=r.photo;cur=r.photo;if(r.sha)state.sha=r.sha;
+      msg.className='msg';msg.textContent='Published. The live menu shows it in about a minute.';reset();
+      toast('Photo published for '+name+'.',5000);
+    }).catch(function(err){
+      if(err.status===401)return sessionExpired();
+      msg.className='msg bad';msg.textContent=err.message;
+    }).then(function(){pub.disabled=false;pub.textContent='Publish photo'});
+  });
+  [pick,pub,cancel].forEach(function(b){acts.appendChild(b)});
+  var right=el('div',{},[acts,msg]);
+  [thumb,right,file].forEach(function(n){wrap.appendChild(n)});
+  return wrap;
+}
 function dishCard(cat,i,d){
   var id='d'+Math.random().toString(36).slice(2,8);
   var card=el('div',{class:'dish'});
   var left=el('div',{},[el('div',{class:'nm'},[document.createTextNode(d.n),el('small',{text:'name locked'})])]);
+  left.appendChild(photoBlock(d.n));
   var priceWrap=el('div',{},[el('label',{class:'lbl',for:id+'p',text:'Price'})]);
   var pr=el('div',{class:'price'},[el('span',{text:'AED'})]);
   var pin=el('input',{id:id+'p',type:'number',inputmode:'numeric',min:'0',max:'9999',step:'1'});pin.value=priceNum(d.p);

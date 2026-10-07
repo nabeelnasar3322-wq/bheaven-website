@@ -5,6 +5,7 @@ const { isAuthed, body, send, readMenuFile, gh, MENU_FILE } = require('./_lib');
 
 const RE_M = /^const M = (\{.*\});$/m;
 const RE_ES = /^const ES=(\{.*\});$/m;
+const RE_PH = /^const MENU_PHOTOS = (\{.*\});$/m;
 const ALLERGENS = ['C', 'G', 'D', 'S', 'N', 'F', 'E', 'M', 'P', 'SE', 'SO', 'SUL', 'V'];
 const ser = (o) => JSON.stringify(o).replace(/<\//g, '<\\/');
 
@@ -23,7 +24,8 @@ module.exports = async (req, res) => {
       const { menu, es } = parse(text);
       const spanish = {};
       Object.values(menu).forEach((ds) => ds.forEach((d) => { if (es[d.d]) spanish[d.d] = es[d.d]; }));
-      return send(res, 200, { menu, spanish, sha, allergens: ALLERGENS });
+      const ph = text.match(RE_PH);
+      return send(res, 200, { menu, spanish, sha, allergens: ALLERGENS, photos: ph ? JSON.parse(ph[1]) : {} });
     }
     if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
 
