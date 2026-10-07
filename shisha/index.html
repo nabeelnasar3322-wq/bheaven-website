@@ -75,6 +75,7 @@ html[dir=rtl] .ey,html[dir=rtl] .no,html[dir=rtl] .hd h2,html[dir=rtl] .nav nav 
 html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.35}
 html[dir=rtl] .lede,html[dir=rtl] .sub,html[dir=rtl] .lst p,html[dir=rtl] .shNote{line-height:1.9}
 html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl] .lede{overflow-wrap:anywhere}
+@media (max-width:380px){.nav nav a{letter-spacing:.1em;font-size:.66rem}.nav nav{gap:12px!important}}
 @media (max-width:560px){.nav{display:grid;grid-template-columns:1fr auto;grid-template-rows:72px auto;align-items:center;row-gap:0;padding-top:0;padding-bottom:6px}.nav.solid{grid-template-rows:62px auto;padding-top:0;padding-bottom:6px}.logo{width:clamp(100px,29.7vw,148px)}.navR{display:contents}.langSw{grid-column:2;grid-row:1;padding:7px 11px;font-size:.68rem}.nav nav{grid-column:1/-1;grid-row:2;gap:18px;flex-wrap:wrap;padding-bottom:4px}.intro{padding-top:calc(124px + clamp(20px,6vh,60px))}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.ph img,.pn{transition:none!important;transform:none!important;opacity:1!important}}
 
@@ -91,7 +92,7 @@ html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl]
 </style>
 </head>
 <body>
-<div class="nav"><a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a><div class="navR"><nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav><button class="langSw" id="langSw" type="button" aria-label="Switch language">عربي</button></div></div>
+<div class="nav"><a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a><div class="navR"><nav><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a><a href="/menu/#events">Business Lunch</a></nav><button class="langSw" id="langSw" type="button" aria-label="Switch language">عربي</button></div></div>
 <div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shishas</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
 <main class="cards">
 <article class="card"><div class="ph"><img src="/menu/img/shisha-1.webp" alt="Amber cube hookah" width="720" height="900" decoding="async"></div><div class="rv"><span class="no">01</span><div class="hd"><h2>Single shisha</h2><b>AED 65</b></div><p class="sub">Single flavours, with mint or without.</p><div class="shChips"><span>Double apple</span><span>Grape mint</span><span>Grape-berry</span><span>Grape</span><span>Lemon</span><span>Orange</span><span>Grapefruit</span><span>Fresh mist</span><span>Blueberry</span><span>Watermelon</span><span>Sweet melon</span><span>Pineapple</span><span>Gum</span><span>Bubble gum</span><span>Gum mastic</span><span>Strawberry</span><span>Mint</span><span>Coconut</span><span>Kiwi</span><span>Vanilla cherry</span><span>Peach</span><span>Mango</span><span>Gum cinnamon</span><span>Rose</span><span>Chocolate coffee</span><span>Energy drink</span><span>Banana</span></div></div></article>
@@ -112,7 +113,7 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en
 <script>
 (function(){
 var AR={
-"Menu":"القائمة","Drinks":"المشروبات","Shisha":"الشيشة",
+"Food":"الطعام","Business Lunch":"غداء الأعمال","Drinks":"المشروبات","Shisha":"الشيشة",
 "B-Heaven by Barceló":"بي-هيفن من برشلو","Shishas":"الشيشة",
 "Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.":"شيشة على السطح في برشلو الجداف — خمس شيشات وخمس طرق للاستمتاع بها.",
 "Single shisha":"شيشة بنكهة واحدة","AED 65":"65 درهم","Single flavours, with mint or without.":"نكهة واحدة، مع النعناع أو بدونه.",
