@@ -2173,6 +2173,11 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 <style id="herox">
 .heroMeta{display:none!important}
 @media (min-width:901px){.heroBtns{display:flex;flex-direction:column;align-items:stretch;gap:14px;width:max-content;max-width:100%;margin-top:34px}.heroBtns .btn{justify-content:center}}
+
+/* event cards with photos */
+.ev .shot.has-img svg{display:none}
+.ev .shot.has-img::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(10,16,18,.7),rgba(10,16,18,0) 55%);pointer-events:none}
+.ev .shot.has-img .day{z-index:2;text-shadow:0 2px 12px rgba(0,0,0,.45)}
 </style>
 </head>
 <body>
@@ -2290,7 +2295,7 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
     <p class="bsub">Hover or tap a card to turn it over, then book your spot straight on WhatsApp.</p>
     <div class="evs">
       <article class="ev" tabindex="0">
-        <div class="f"><div class="shot"><svg viewBox="0 0 100 100"><path d="M24 22h52c0 16-12 26-26 26S24 38 24 22z"/><path d="M28 30c6 6 14 8 22 8"/><path d="M50 48v28M36 82h28"/><circle cx="62" cy="26" r="4"/><path d="M78 12l2-6M84 18l6-2M74 8l-1-5"/></svg><span class="day">Thu</span></div><span class="eyebrow">Ladies night</span><h3>Velvet Thursdays</h3><p>Music, mocktails and the skyline to start the weekend.</p><span class="turn">↻ Turn over</span></div>
+        <div class="f"><div class="shot has-img"><img src="/menu/img/ev-velvet.webp" width="720" height="540" loading="lazy" decoding="async" alt="" style="object-position:50% 22%"><svg viewBox="0 0 100 100"><path d="M24 22h52c0 16-12 26-26 26S24 38 24 22z"/><path d="M28 30c6 6 14 8 22 8"/><path d="M50 48v28M36 82h28"/><circle cx="62" cy="26" r="4"/><path d="M78 12l2-6M84 18l6-2M74 8l-1-5"/></svg><span class="day">Thu</span></div><span class="eyebrow">Ladies night</span><h3>Velvet Thursdays</h3><p>Music, mocktails and the skyline to start the weekend.</p><span class="turn">↻ Turn over</span></div>
         <div class="b"><div class="kv"><div><span>When</span><b>7 PM – midnight</b></div><div><span>Price</span><b><i class="aed" role="img" aria-label="AED"></i>89 per lady</b></div></div><a href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20for%20Velvet%20Thursdays" target="_blank" rel="noopener">Book Thursday</a></div>
       </article>
       <article class="ev v2" tabindex="0">
@@ -2298,7 +2303,7 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
         <div class="b"><div class="kv"><div><span>When</span><b>9 PM – midnight</b></div><div><span>Price</span><b>Ladies <i class="aed" role="img" aria-label="AED"></i>99 · Gents <i class="aed" role="img" aria-label="AED"></i>149</b></div></div><a href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20for%20Jazz%20Fridays%20with%20Anetta" target="_blank" rel="noopener">Book Friday</a></div>
       </article>
       <article class="ev v3" tabindex="0">
-        <div class="f"><div class="shot"><svg viewBox="0 0 100 100"><path d="M50 8v8"/><path d="M40 16h20l6 10H34z"/><path d="M34 26c-4 14-4 34 0 48h32c4-14 4-34 0-48"/><path d="M42 26c-2 14-2 34 0 48M58 26c2 14 2 34 0 48M50 26v48"/><path d="M36 74h28l-4 8H40z"/><path d="M84 18a12 12 0 1 1-10-12 9 9 0 1 0 10 12z"/></svg><span class="day">Sat</span></div><span class="eyebrow">Arabic night</span><h3>Layali Night with Nouha Issa</h3><p>Classic Arabic songs, shisha and late-night plates.</p><span class="turn">↻ Turn over</span></div>
+        <div class="f"><div class="shot has-img"><img src="/menu/img/ev-layali-night.webp" width="720" height="540" loading="lazy" decoding="async" alt="" style="object-position:50% 35%"><svg viewBox="0 0 100 100"><path d="M50 8v8"/><path d="M40 16h20l6 10H34z"/><path d="M34 26c-4 14-4 34 0 48h32c4-14 4-34 0-48"/><path d="M42 26c-2 14-2 34 0 48M58 26c2 14 2 34 0 48M50 26v48"/><path d="M36 74h28l-4 8H40z"/><path d="M84 18a12 12 0 1 1-10-12 9 9 0 1 0 10 12z"/></svg><span class="day">Sat</span></div><span class="eyebrow">Arabic night</span><h3>Layali Night with Nouha Issa</h3><p>Classic Arabic songs, shisha and late-night plates.</p><span class="turn">↻ Turn over</span></div>
         <div class="b"><div class="kv"><div><span>When</span><b>9 PM – 1 AM</b></div><div><span>Good to know</span><b>Book ahead</b></div></div><a href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20for%20Layali%20Night" target="_blank" rel="noopener">Book Saturday</a></div>
       </article>
       <article class="ev v4" tabindex="0">
