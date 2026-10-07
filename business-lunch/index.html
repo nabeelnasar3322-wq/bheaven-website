@@ -2192,15 +2192,17 @@ nav.top ul a.on::after{transform:scaleX(1)!important}
 @media (max-width:900px){.hero.bl{padding:112px 0 20px}.hero.bl .wrap{grid-template-columns:1fr}.blPhoto{justify-self:center;max-height:420px;aspect-ratio:4/3}.blBand{grid-template-columns:1fr}.blBand img{min-height:260px;max-height:320px}}
 </style>
 <style>
-.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;padding-bottom:30px}
-.dcard{background:var(--tile);border:1px solid var(--line);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 18px 36px -26px rgba(30,71,76,.45);transition:transform .3s,box-shadow .3s}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:100px 22px;padding:84px 0 30px}
+.dcard{position:relative;background:var(--tile);border:1px solid var(--line);border-radius:24px;padding:118px 26px 26px;text-align:left;display:flex;flex-direction:column;gap:10px;box-shadow:0 18px 36px -26px rgba(30,71,76,.45);transition:transform .3s,box-shadow .3s}
 @media (hover:hover){.dcard:hover{transform:translateY(-4px);box-shadow:0 26px 44px -24px rgba(30,71,76,.5)}}
-.dpic{height:240px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 50%,rgba(128,180,185,.32) 0,rgba(128,180,185,.32) 108px,transparent 109px)}
-.dpic img{width:210px;height:210px;object-fit:contain;max-width:100%;filter:drop-shadow(0 18px 18px rgba(30,71,76,.3))}
-.dcard h3{font-size:1.05rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1.25}
+.dpic{position:absolute;top:-84px;left:50%;transform:translateX(-50%);width:200px;height:200px;pointer-events:none}
+.dpic img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(30,71,76,.3))}
+.dpic img.wide{width:100%;height:100%}
+.dfav{position:absolute;top:18px;right:18px;background:none;border:0;padding:4px;font-size:1.25rem;line-height:1;color:var(--teal-d);cursor:pointer}
+.dfav[aria-pressed="true"]{color:#c0392b}
+.dcard h3{font-size:1.05rem;font-weight:600;line-height:1.25}
 .dcard p{margin:0;font-size:.86rem;line-height:1.6;color:var(--muted);flex-grow:1}
-.dcard em{font-style:normal;font-size:.7rem;letter-spacing:.18em;font-weight:600;color:var(--teal-d)}
-.dpic img.wide{width:min(100%,280px);height:auto;max-height:200px}
+.dcard em{font-style:normal;font-size:.7rem;letter-spacing:.18em;font-weight:600;color:var(--teal-d);text-transform:uppercase}
 @media (max-width:600px){.dgrid{grid-template-columns:1fr}.prices{justify-content:center}.prices div{flex:1 1 130px;padding:14px 18px}.prices b{font-size:1.6rem}}
 </style>
 </head>
@@ -2290,7 +2292,7 @@ const D={
       ])};
 const SEC=[['starters','01','Starters','Included in your set.','starters',1],['mains','02',"Chef's Mains",'Included in your set.','mains',2],['sweet','03','Sweet Finish','Included in your 3 course set.','sweets',0]];
 const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-document.getElementById('root').innerHTML=SEC.map(([id,no,t,sub,k,v])=>`<section class="cat" id="${id}"><div class="wrap"><header class="ch rv"><span class="num">${no}</span><div><span class="eyebrow">${D[k].length} dishes</span><h2>${t}</h2></div><p>${sub}</p></header><div class="dgrid">${D[k].map(d=>`<article class="dcard rv"><div class="dpic"><img loading="lazy" decoding="async" src="${d.p}" alt="${esc(d.n)}" onload="if(this.naturalWidth>this.naturalHeight*1.2)this.classList.add('wide')"></div><h3>${esc(d.n)}</h3><p>${esc(d.d)}</p><em>${esc(d.a)}</em></article>`).join('')}</div></div></section>`).join('');
+document.getElementById('root').innerHTML=SEC.map(([id,no,t,sub,k,v])=>`<section class="cat" id="${id}"><div class="wrap"><header class="ch rv"><span class="num">${no}</span><div><span class="eyebrow">${D[k].length} dishes</span><h2>${t}</h2></div><p>${sub}</p></header><div class="dgrid">${D[k].map(d=>`<article class="dcard rv"><div class="dpic"><img loading="lazy" decoding="async" src="${d.p}" alt="${esc(d.n)}" onload="if(this.naturalWidth>this.naturalHeight*1.2)this.classList.add('wide')"></div><button class="dfav" type="button" aria-label="Save ${esc(d.n)}" aria-pressed="false" onclick="this.setAttribute('aria-pressed',this.getAttribute('aria-pressed')==='true'?'false':'true')">&#9825;</button><h3>${esc(d.n)}</h3><p>${esc(d.d)}</p><em>${esc(d.a)}</em></article>`).join('')}</div></div></section>`).join('');
 requestAnimationFrame(()=>document.body.classList.add('ready'));
 const nav=document.getElementById('top');const on=()=>nav.classList.toggle('solid',scrollY>40);on();addEventListener('scroll',on,{passive:true});
 document.getElementById('burger').onclick=()=>document.getElementById('mnav').classList.add('open');document.getElementById('mnavX').onclick=()=>document.getElementById('mnav').classList.remove('open');
