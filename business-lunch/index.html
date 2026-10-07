@@ -57,7 +57,7 @@ nav.top ul a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:
 .mnav .x{position:absolute;top:22px;right:24px;font-size:2rem}
 nav.top ul a{white-space:nowrap}
 @media (max-width:1240px){nav.top ul{gap:28px}}
-@media (max-width:1100px){nav.top ul,.navBook{display:none}.burger{display:flex}}
+@media (max-width:900px){nav.top ul,.navBook{display:none}.burger{display:flex}}
 @media (max-width:900px){nav.top{padding:16px 20px}nav.top.solid{padding:12px 20px}}
 
 /* ============ PRODUCE (interactive garnish) ============ */
@@ -1035,11 +1035,12 @@ body[data-mode=drinks] .socB{background:rgba(255,255,255,.06);border-color:rgba(
 
 /* Food / Drinks switch in the top bar */
 nav.top .navSw{margin:0 16px 0 0;padding:4px;flex:none}
+nav.top .navBook{white-space:nowrap}
 nav.top .navSw button{padding:8px 16px;font-size:.66rem}
 nav.top .navSw i{top:4px;bottom:4px;left:4px;width:calc(50% - 4px)}
 nav.top ul{position:static;transform:none;margin:0 auto;padding:0 24px}
 @media (max-width:1439px){nav.top ul{gap:26px}nav.top ul a{letter-spacing:.16em}}
-@media (max-width:1300px){nav.top ul,nav.top .navBook{display:none}nav.top .burger{display:flex}nav.top .navSw{margin:0 12px 0 auto}}
+@media (max-width:900px){nav.top ul,nav.top .navBook{display:none}nav.top .burger{display:flex}nav.top .navSw{margin:0 12px 0 auto}}
 @media (max-width:420px){nav.top .navSw button{padding:7px 12px;font-size:.6rem;letter-spacing:.14em}}
 /* Section numbers readable in drinks mode */
 body[data-mode=drinks] .ch .num,body[data-mode=drinks] .sideItem .num{-webkit-text-stroke-color:rgba(214,180,110,.95)!important;color:rgba(214,180,110,.14)!important}
