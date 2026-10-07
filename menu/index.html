@@ -2613,6 +2613,7 @@ function glassSVG(v){
 Object.entries(DM).forEach(([k,list])=>list.forEach(d=>{d.img=glassSVG(d.spec); d.dk=1;}));
 (DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).img='img/heaven-mule.webp?v=2'; (DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).photo=1;(DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).pos='50% 72%';
 Object.values(DM).forEach(l=>l.forEach(d=>{if(d.n==='Paloma Picante'){d.img='img/paloma-picante.webp?v=2';d.photo=1;d.pos='50% 36%'}}));
+Object.values(DM).forEach(l=>l.forEach(d=>{if(d.n==='Casa del Coco'){d.img='img/casa-del-coco.webp?v=1';d.photo=1;d.pos='50% 50%'}}));
 
 const DATA = Object.assign({}, M, DM);
 const AL = {C:"Celery",G:"Gluten",D:"Dairy",S:"Shellfish",N:"Nuts",F:"Fish",E:"Egg",M:"Mustard",P:"Peanuts",SE:"Sesame",SO:"Soya",SUL:"Sulphites",V:"Vegetarian"};
