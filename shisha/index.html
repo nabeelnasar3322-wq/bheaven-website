@@ -61,6 +61,19 @@ h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 .shCta{display:block;width:max-content;max-width:100%;margin:22px auto 0;padding:14px 28px;border-radius:999px;background:var(--acc);color:#10231F;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:transform .3s cubic-bezier(.22,1,.36,1)}
 @media (hover:hover){.shCta:hover{transform:translateY(-2px)}}
 .back{display:block;margin:30px auto 0;text-align:center;color:var(--mut);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+.navR{display:flex;align-items:center;gap:clamp(12px,2.4vw,22px)}
+.langSw{font:600 .72rem/1 'Montserrat',system-ui,sans-serif;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:var(--ink);cursor:pointer;transition:border-color .3s,background-color .3s}
+@media (hover:hover){.langSw:hover{border-color:var(--acc)}}
+.langSw:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+html[dir=rtl] body{font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif}
+html[dir=rtl] :is(h1,h2,h3,p,b,strong,span,a,button,li,div){font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif}
+html[dir=rtl] *:not(.lst strong){letter-spacing:0!important}
+html[dir=rtl] .ey,html[dir=rtl] .no,html[dir=rtl] .hd h2,html[dir=rtl] .nav nav a,html[dir=rtl] .brand,html[dir=rtl] .shCta,html[dir=rtl] .back{text-transform:none}
+html[dir=rtl] h1,html[dir=rtl] .hd h2{line-height:1.35}
+html[dir=rtl] .lede,html[dir=rtl] .sub,html[dir=rtl] .lst p,html[dir=rtl] .shNote{line-height:1.9}
+html[dir=rtl] .lst strong{font-family:'Montserrat',system-ui,sans-serif}
+html[dir=rtl] .langSw{font-family:'Montserrat',system-ui,sans-serif}
+@media (max-width:520px){.langSw{padding:7px 11px;font-size:.68rem}.nav{gap:10px}.navR{gap:10px}.nav nav{gap:12px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.ph img,.pn{transition:none!important;transform:none!important;opacity:1!important}}
 
 .cards{max-width:1180px;margin:0 auto;padding:10px clamp(20px,5vw,44px) 30px;display:grid;gap:clamp(36px,7vw,90px)}
@@ -76,7 +89,7 @@ h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 </style>
 </head>
 <body>
-<div class="nav"><a class="brand" href="/menu/">B-Heaven</a><nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav></div>
+<div class="nav"><a class="brand" href="/menu/">B-Heaven</a><div class="navR"><nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav><button class="langSw" id="langSw" type="button" aria-label="Switch language">عربي</button></div></div>
 <div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shishas</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
 <main class="cards">
 <article class="card"><div class="ph"><img src="/menu/img/shisha-1.webp" alt="Amber cube hookah" width="720" height="900" decoding="async"></div><div class="rv"><span class="no">01</span><div class="hd"><h2>Single shisha</h2><b>AED 65</b></div><p class="sub">Single flavours, with mint or without.</p><div class="shChips"><span>Double apple</span><span>Grape mint</span><span>Grape-berry</span><span>Grape</span><span>Lemon</span><span>Orange</span><span>Grapefruit</span><span>Fresh mist</span><span>Blueberry</span><span>Watermelon</span><span>Sweet melon</span><span>Pineapple</span><span>Gum</span><span>Bubble gum</span><span>Gum mastic</span><span>Strawberry</span><span>Mint</span><span>Coconut</span><span>Kiwi</span><span>Vanilla cherry</span><span>Peach</span><span>Mango</span><span>Gum cinnamon</span><span>Rose</span><span>Chocolate coffee</span><span>Energy drink</span><span>Banana</span></div></div></article>
@@ -91,6 +104,61 @@ h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 [].forEach.call(document.querySelectorAll('.ph img'),function(i){function ok(){i.classList.add('ok')}if(i.complete)ok();else i.addEventListener('load',ok)});
 var els=[].slice.call(document.querySelectorAll('.rv'));
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -6% 0px',threshold:.05});els.forEach(function(e){io.observe(e)})}else els.forEach(function(e){e.classList.add('in')});
+})();
+</script>
+<script>
+(function(){
+var AR={
+"B-Heaven":"بي-هيفن","Menu":"القائمة","Drinks":"المشروبات","Shisha":"الشيشة",
+"B-Heaven by Barceló":"بي-هيفن من برشلو","Shishas":"الشيشة",
+"Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.":"شيشة على السطح في برشلو الجداف — خمس شيشات وخمس طرق للاستمتاع بها.",
+"Single shisha":"شيشة بنكهة واحدة","AED 65":"65 درهم","Single flavours, with mint or without.":"نكهة واحدة، مع النعناع أو بدونه.",
+"Double apple":"تفاحتين","Grape mint":"عنب بالنعناع","Grape-berry":"عنب وتوت","Grape":"عنب","Lemon":"ليمون","Orange":"برتقال","Grapefruit":"جريب فروت","Fresh mist":"فريش ميست","Blueberry":"توت أزرق","Watermelon":"بطيخ","Sweet melon":"شمام","Pineapple":"أناناس","Gum":"علكة","Bubble gum":"علكة البالون","Gum mastic":"علكة المستكة","Strawberry":"فراولة","Mint":"نعناع","Coconut":"جوز الهند","Kiwi":"كيوي","Vanilla cherry":"كرز بالفانيليا","Peach":"خوخ","Mango":"مانجو","Gum cinnamon":"علكة بالقرفة","Rose":"ورد","Chocolate coffee":"قهوة بالشوكولاتة","Energy drink":"مشروب الطاقة","Banana":"موز",
+"Mix flavours":"مزيج النكهات","AED 109":"109 درهم","Blend of 2–3 flavours — make it your own.":"مزيج من 2–3 نكهات — اصنع مزيجك الخاص.",
+"Specials":"الخلطات المميزة","AED 139":"139 درهم","Our signature blends.":"خلطاتنا الخاصة.",
+"Crazy tropical mix of juicy pineapple, ripe banana, and refreshing mint":"مزيج استوائي مجنون من الأناناس العصيري والموز الناضج والنعناع المنعش",
+"Iced, minty tropical mango and sweet peach":"مانجو استوائي مثلّج بالنعناع مع الخوخ الحلو",
+"The golden recipe of all times in hookah with passion fruits, honeydew melon, watermelon, mint":"الوصفة الذهبية الخالدة في عالم الشيشة: باشن فروت وشمام وبطيخ ونعناع",
+"A delicious mix of cherry, caramel and chocolate":"مزيج لذيذ من الكرز والكراميل والشوكولاتة",
+"Juicy pineapple and sweet mango with mint":"أناناس عصيري ومانجو حلو مع النعناع",
+"Taste of sweet berries with refreshing lime":"نكهة التوت الحلو مع الليمون الأخضر المنعش",
+"The mix of blueberries, raspberries, and currants":"مزيج من التوت الأزرق وتوت العليق والكشمش",
+"Nova cocktails · I":"نوفا كوكتيلز · 1","Nova cocktails · II":"نوفا كوكتيلز · 2","AED 159":"159 درهم",
+"Cocktail-style blends, part one.":"خلطات على طراز الكوكتيل، الجزء الأول.","Cocktail-style blends, part two.":"خلطات على طراز الكوكتيل، الجزء الثاني.",
+"Natural sweet melon taste with extra sweetness":"طعم الشمام الطبيعي الحلو مع حلاوة إضافية",
+"Mix of tropical fruits, topped with little bit of freshness":"مزيج من الفواكه الاستوائية مع لمسة من الانتعاش",
+"Bright grapefruit meets wild berry sorbet, light, refreshing, and perfect for summer":"جريب فروت نابض بالحيوية يلتقي بسوربيه التوت البري، خفيف ومنعش ومثالي للصيف",
+"Strawberry jam with hint of berry flavour":"مربى الفراولة مع لمسة من نكهة التوت",
+"Taste of ultra sour lemon":"طعم الليمون شديد الحموضة",
+"Soft sponge cake with cinnamon, creamy soufflé and caramel topping":"كيكة إسفنجية طرية بالقرفة مع سوفليه كريمي وطبقة كراميل",
+"A luxurious and full-bodied taste of sweet and delicate peach pulp":"طعم فاخر وغني من لب الخوخ الحلو والرقيق",
+"Sweet mango with tropical passion fruit":"مانجو حلو مع باشن فروت استوائي",
+"A unique blend of pink grapefruit, strawberry, and raspberry — destined to be a favorite":"مزيج فريد من الجريب فروت الوردي والفراولة وتوت العليق — مكتوب له أن يصبح المفضل لديك",
+"Bold and tart natural cherries, sweet and sour, a flavor that easily becomes a favorite":"كرز طبيعي جريء وحامض، حلو وحامض، نكهة تصبح مفضلة بسهولة",
+"All prices are in Dirhams & inclusive of 10% service charge, 7% municipality fee and 5% VAT.":"جميع الأسعار بالدرهم وتشمل رسوم الخدمة 10% ورسوم البلدية 7% وضريبة القيمة المضافة 5%.",
+"Book on WhatsApp":"احجز عبر واتساب","← Back to menu":"→ العودة إلى القائمة",
+"Shisha · B-Heaven by Barceló":"الشيشة · بي-هيفن من برشلو",
+"Amber cube hookah":"شيشة بقاعدة كهرمانية مكعبة","Carbon fibre hookah":"شيشة من ألياف الكربون","Hookah with wooden stem and lemon-mint base":"شيشة بساق خشبية وقاعدة بالليمون والنعناع","Silver hookah with blue crystal base":"شيشة فضية بقاعدة كريستال زرقاء","Black hookah with smoke":"شيشة سوداء يتصاعد منها الدخان"
+};
+var btn=document.getElementById('langSw'),orig=new WeakMap(),on=false,title0=document.title;
+function key(t){return t.replace(/\s+/g,' ').trim()}
+function walk(fn){var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){var p=n.parentElement;return p&&!p.closest('script,style,button')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}}),n,L=[];while(n=w.nextNode())L.push(n);L.forEach(fn)}
+function font(){if(document.getElementById('arFont'))return;var l=document.createElement('link');l.id='arFont';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap';document.head.appendChild(l)}
+function apply(){
+  walk(function(n){var o=orig.has(n)?orig.get(n):n.nodeValue,r=AR[key(o)];if(r==null)return;if(!orig.has(n))orig.set(n,o);var lead=(o.match(/^\s*/)||[''])[0],trail=(o.match(/\s*$/)||[''])[0];n.nodeValue=lead+r+trail});
+  [].forEach.call(document.querySelectorAll('img[alt]'),function(i){var a=i.getAttribute('alt'),k=i.getAttribute('data-o-alt')||a;if(AR[k]){i.setAttribute('data-o-alt',k);i.setAttribute('alt',AR[k])}});
+  document.title=AR[title0]||title0}
+function restore(){
+  walk(function(n){if(orig.has(n)){n.nodeValue=orig.get(n);orig.delete(n)}});
+  [].forEach.call(document.querySelectorAll('img[data-o-alt]'),function(i){i.setAttribute('alt',i.getAttribute('data-o-alt'));i.removeAttribute('data-o-alt')});
+  document.title=title0}
+function set(ar,save){
+  if(ar===on)return;on=ar;
+  if(ar){font();document.documentElement.dir='rtl';document.documentElement.lang='ar';btn.textContent='EN';btn.setAttribute('aria-label','Switch to English');apply()}
+  else{restore();document.documentElement.dir='ltr';document.documentElement.lang='en';btn.textContent='عربي';btn.setAttribute('aria-label','التبديل إلى العربية')}
+  if(save){try{localStorage.setItem('bh-lang',ar?'ar':'en')}catch(e){}}}
+btn.addEventListener('click',function(){set(!on,true)});
+try{if(localStorage.getItem('bh-lang')==='ar')set(true,false)}catch(e){}
 })();
 </script>
 </body>
