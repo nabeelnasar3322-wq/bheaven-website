@@ -89,6 +89,26 @@ html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl]
 .card.tall .ph img{position:absolute;inset:0;object-position:center 50%}
 @media (max-width:760px){.card.tall .ph{align-self:auto;aspect-ratio:740/1100;min-height:0;max-width:420px}}
 
+
+/* animated buttons */
+.shCta,.langSw,.back{position:relative;overflow:hidden;isolation:isolate}
+.shCta{background-image:linear-gradient(135deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 55%);box-shadow:0 14px 28px -14px rgba(214,180,110,.65),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s cubic-bezier(.22,1,.36,1)}
+.shCta::before{content:'';position:absolute;top:-10%;left:-80%;width:42%;height:120%;z-index:-1;pointer-events:none;background:linear-gradient(105deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-22deg);animation:btnShine 6.5s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes btnShine{0%,62%{left:-80%}100%{left:140%}}
+.langSw::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--acc);border-radius:inherit;transform:scaleX(0);transform-origin:left center;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+html[dir=rtl] .langSw::before{transform-origin:right center}
+.langSw{transition:transform .45s cubic-bezier(.22,1,.36,1),color .3s,border-color .3s,box-shadow .45s}
+.back{transition:color .3s,letter-spacing .3s}
+.back::after{content:'';display:block;height:1px;width:0;margin:8px auto 0;background:var(--acc);transition:width .5s cubic-bezier(.22,1,.36,1)}
+@media (hover:hover){
+.shCta:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 22px 38px -14px rgba(214,180,110,.75),0 0 0 4px rgba(214,180,110,.2),inset 0 1px 0 rgba(255,255,255,.45)}
+.shCta:hover::before{animation-duration:1.2s}
+.langSw:hover{transform:translateY(-2px);color:#10231F;border-color:var(--acc);box-shadow:0 12px 24px -12px rgba(214,180,110,.6)}
+.langSw:hover::before{transform:scaleX(1)}
+.back:hover{color:var(--ink)}.back:hover::after{width:70px}
+}
+.shCta:active,.langSw:active{transform:translateY(0) scale(.96);transition-duration:.12s}
+@media (prefers-reduced-motion:reduce){.shCta::before{animation:none}}
 </style>
 </head>
 <body>
