@@ -17,6 +17,24 @@
       ]
     },
     {
+      "source": "/menu/img/business-lunch/:file",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/menu/img/:file(business-lunch-[a-z]+\\.jpg)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
       "source": "/menu/img/:file(shisha-[a-z0-9]+\\.webp)",
       "headers": [
         {
