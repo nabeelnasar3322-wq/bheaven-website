@@ -1193,6 +1193,11 @@ img[src*="heaven-mule"],img[src*="paloma-picante"]{object-fit:cover}
 .sq.dk .tileBox img[src*="heaven-mule"],.chip.pic.dk .cl img[src*="heaven-mule"],.sq.dk .tileBox img[src*="paloma-picante"],.chip.pic.dk .cl img[src*="paloma-picante"]{border-radius:10px}
 .ov .md .pic img#mdImg[src*="heaven-mule"],.ov .md .pic img#mdImg[src*="paloma-picante"]{width:100%!important;max-width:none!important;object-fit:cover!important;border-radius:18px!important}
 @media (max-width:900px){body[data-mode=drinks] .hero{padding-bottom:400px}body[data-mode=drinks] .hero .wrap{grid-template-columns:1fr}}
+/* drink photos (Casa del Coco, Pine Honey, Highball Citrico, B-Positive) */
+img[src*="casa-del-coco"],img[src*="pine-honey"],img[src*="highball-citrico"],img[src*="b-positive"]{object-fit:cover}
+.gl img[src*="casa-del-coco"],.gl img[src*="pine-honey"],.gl img[src*="highball-citrico"],.gl img[src*="b-positive"]{width:min(190px,100%);height:250px;border-radius:14px;box-shadow:0 24px 36px -22px rgba(0,0,0,.7)}
+.sq.dk .tileBox img[src*="casa-del-coco"],.chip.pic.dk .cl img[src*="casa-del-coco"],.sq.dk .tileBox img[src*="pine-honey"],.chip.pic.dk .cl img[src*="pine-honey"],.sq.dk .tileBox img[src*="highball-citrico"],.chip.pic.dk .cl img[src*="highball-citrico"],.sq.dk .tileBox img[src*="b-positive"],.chip.pic.dk .cl img[src*="b-positive"]{border-radius:10px}
+.ov .md .pic img#mdImg[src*="casa-del-coco"],.ov .md .pic img#mdImg[src*="pine-honey"],.ov .md .pic img#mdImg[src*="highball-citrico"],.ov .md .pic img#mdImg[src*="b-positive"]{width:100%!important;max-width:none!important;object-fit:cover!important;border-radius:18px!important}
 /* drinks hero photo slider */
 .hSlides,.hDots{display:none}
 body[data-mode=drinks] .hSlides{display:block;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
@@ -2613,7 +2618,9 @@ function glassSVG(v){
 Object.entries(DM).forEach(([k,list])=>list.forEach(d=>{d.img=glassSVG(d.spec); d.dk=1;}));
 (DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).img='img/heaven-mule.webp?v=2'; (DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).photo=1;(DM['Signature cocktails'].find(d=>d.n==='Heaven Mule')||{}).pos='50% 72%';
 Object.values(DM).forEach(l=>l.forEach(d=>{if(d.n==='Paloma Picante'){d.img='img/paloma-picante.webp?v=2';d.photo=1;d.pos='50% 36%'}}));
-Object.values(DM).forEach(l=>l.forEach(d=>{if(d.n==='Casa del Coco'){d.img='img/casa-del-coco.webp?v=1';d.photo=1;d.pos='50% 50%'}}));
+/* real drink photos */
+const DRINK_PHOTOS={'Casa del Coco':'casa-del-coco','Its Pine Honey':'pine-honey','Highball Citrico':'highball-citrico','B-Positive':'b-positive'};
+Object.values(DM).forEach(l=>l.forEach(d=>{const f=DRINK_PHOTOS[d.n]; if(f){d.img='img/'+f+'.webp?v=2';d.photo=1;d.pos='50% 50%'}}));
 
 const DATA = Object.assign({}, M, DM);
 const AL = {C:"Celery",G:"Gluten",D:"Dairy",S:"Shellfish",N:"Nuts",F:"Fish",E:"Egg",M:"Mustard",P:"Peanuts",SE:"Sesame",SO:"Soya",SUL:"Sulphites",V:"Vegetarian"};
