@@ -13,6 +13,7 @@
 <meta property="og:image" content="https://bheavendubai.com/og-image.jpg">
 <meta name="theme-color" content="#0E0C0B">
 <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preload" as="image" href="/menu/img/shisha-bg.webp" fetchpriority="low">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -20,16 +21,15 @@
 :root{--bg:#0E0C0B;--ink:#F1E9D8;--mut:#B9C9C8;--acc:#D6B46E;--line:rgba(255,255,255,.14);--ph:#091318}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;overflow-x:clip}
-body{position:relative;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{position:relative;font-family:'Montserrat',sans-serif;background:transparent;color:var(--ink);-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 a{color:inherit}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 
 html{background:#0E0C0B}
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:
-radial-gradient(900px 600px at 8% -5%,rgba(214,150,70,.16),transparent 62%),
-radial-gradient(800px 700px at 100% 35%,rgba(48,118,132,.17),transparent 65%),
-radial-gradient(900px 600px at 0% 100%,rgba(120,70,40,.14),transparent 65%),
-linear-gradient(180deg,#14110F 0%,#0E0C0B 45%,#0A0A0A 100%)}
+linear-gradient(180deg,rgba(12,10,9,.74) 0%,rgba(12,10,9,.82) 40%,rgba(10,9,8,.92) 100%),
+url(/menu/img/shisha-bg.webp) center 35%/cover no-repeat,
+#0E0C0B}
 .ph{position:relative}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(18px,4vw,44px);max-width:1180px;margin:0 auto}
 .brand{text-decoration:none;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:#fff}
@@ -41,7 +41,7 @@ h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 .lede{margin-top:16px;color:var(--mut);font-size:.95rem;line-height:1.7;font-weight:300;max-width:500px}
 .intro{max-width:1180px;margin:0 auto;padding:clamp(20px,6vh,60px) clamp(20px,5vw,44px) 20px}
 .ph{background:none;border-radius:0}
-.ph img{width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .9s ease}
+.ph img{width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .9s ease;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-composite:intersect}
 .ph img.ok{opacity:1}
 .rv{opacity:0;transform:translate3d(0,22px,0);transition:opacity .8s ease,transform .9s cubic-bezier(.22,1,.36,1)}
 .rv.in{opacity:1;transform:none}
