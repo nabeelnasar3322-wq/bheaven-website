@@ -31,15 +31,18 @@ linear-gradient(180deg,rgba(12,10,9,.74) 0%,rgba(12,10,9,.82) 40%,rgba(10,9,8,.9
 url(/menu/img/shisha-bg.webp) center 35%/cover no-repeat,
 #0E0C0B}
 .ph{position:relative}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(18px,4vw,44px);max-width:1180px;margin:0 auto}
-.brand{text-decoration:none;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:#fff}
+.nav{position:fixed;inset:0 0 auto;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 40px;transition:background .3s,padding .3s,box-shadow .3s}
+.nav.solid{background:rgba(14,12,11,.94);padding:14px 40px;box-shadow:0 1px 0 rgba(255,255,255,.14)}
+.logo{display:block;flex:none;width:168px;aspect-ratio:900/238;background:url(/menu/img/e00746565e35.webp) center/contain no-repeat}
+@media (max-width:899px){.logo{width:148px}}
+@media (max-width:900px){.nav{padding:16px 20px}.nav.solid{padding:12px 20px}}
 .nav nav{display:flex;gap:clamp(14px,3vw,28px)}
 .nav nav a{text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;opacity:.8;padding:6px 0;border-bottom:1px solid transparent;transition:opacity .3s,border-color .3s}
 .nav nav a:hover,.nav nav a.on{opacity:1;border-color:var(--acc)}
 .ey{display:block;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--acc);font-weight:600;margin-bottom:12px}
 h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 .lede{margin-top:16px;color:var(--mut);font-size:.95rem;line-height:1.7;font-weight:300;max-width:500px}
-.intro{max-width:1180px;margin:0 auto;padding:clamp(20px,6vh,60px) clamp(20px,5vw,44px) 20px}
+.intro{max-width:1180px;margin:0 auto;padding:calc(96px + clamp(20px,6vh,60px)) clamp(20px,5vw,44px) 20px}
 .ph{background:none;border-radius:0}
 .ph img{width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:0;transition:opacity .9s ease;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-composite:intersect}
 .ph img.ok{opacity:1}
@@ -66,14 +69,13 @@ h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 @media (hover:hover){.langSw:hover{border-color:var(--acc)}}
 .langSw:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 html[dir=rtl] body{font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif}
-html[dir=rtl] :is(h1,h2,h3,p,b,strong,span,a,button,li,div){font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif}
-html[dir=rtl] *:not(.lst strong){letter-spacing:0!important}
-html[dir=rtl] .ey,html[dir=rtl] .no,html[dir=rtl] .hd h2,html[dir=rtl] .nav nav a,html[dir=rtl] .brand,html[dir=rtl] .shCta,html[dir=rtl] .back{text-transform:none}
-html[dir=rtl] h1,html[dir=rtl] .hd h2{line-height:1.35}
+html[dir=rtl] :is(h1,h2,h3,h4,p,b,strong,em,small,span,a,button,li,div,label):not(.logo){font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif!important}
+html[dir=rtl] *{letter-spacing:0!important}
+html[dir=rtl] .ey,html[dir=rtl] .no,html[dir=rtl] .hd h2,html[dir=rtl] .nav nav a,html[dir=rtl] .shCta,html[dir=rtl] .back,html[dir=rtl] .lst strong{text-transform:none!important}
+html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.35}
 html[dir=rtl] .lede,html[dir=rtl] .sub,html[dir=rtl] .lst p,html[dir=rtl] .shNote{line-height:1.9}
-html[dir=rtl] .lst strong{font-family:'Montserrat',system-ui,sans-serif}
-html[dir=rtl] .langSw{font-family:'Montserrat',system-ui,sans-serif}
-@media (max-width:520px){.langSw{padding:7px 11px;font-size:.68rem}.nav{gap:10px}.navR{gap:10px}.nav nav{gap:12px}}
+html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl] .lede{overflow-wrap:anywhere}
+@media (max-width:560px){.nav{display:grid;grid-template-columns:1fr auto;grid-template-rows:72px auto;align-items:center;row-gap:0;padding-top:0;padding-bottom:6px}.nav.solid{grid-template-rows:62px auto;padding-top:0;padding-bottom:6px}.logo{width:clamp(100px,29.7vw,148px)}.navR{display:contents}.langSw{grid-column:2;grid-row:1;padding:7px 11px;font-size:.68rem}.nav nav{grid-column:1/-1;grid-row:2;gap:18px;flex-wrap:wrap;padding-bottom:4px}.intro{padding-top:calc(124px + clamp(20px,6vh,60px))}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.ph img,.pn{transition:none!important;transform:none!important;opacity:1!important}}
 
 .cards{max-width:1180px;margin:0 auto;padding:10px clamp(20px,5vw,44px) 30px;display:grid;gap:clamp(36px,7vw,90px)}
@@ -89,7 +91,7 @@ html[dir=rtl] .langSw{font-family:'Montserrat',system-ui,sans-serif}
 </style>
 </head>
 <body>
-<div class="nav"><a class="brand" href="/menu/">B-Heaven</a><div class="navR"><nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav><button class="langSw" id="langSw" type="button" aria-label="Switch language">عربي</button></div></div>
+<div class="nav"><a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a><div class="navR"><nav><a href="/menu/">Menu</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a></nav><button class="langSw" id="langSw" type="button" aria-label="Switch language">عربي</button></div></div>
 <div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shishas</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
 <main class="cards">
 <article class="card"><div class="ph"><img src="/menu/img/shisha-1.webp" alt="Amber cube hookah" width="720" height="900" decoding="async"></div><div class="rv"><span class="no">01</span><div class="hd"><h2>Single shisha</h2><b>AED 65</b></div><p class="sub">Single flavours, with mint or without.</p><div class="shChips"><span>Double apple</span><span>Grape mint</span><span>Grape-berry</span><span>Grape</span><span>Lemon</span><span>Orange</span><span>Grapefruit</span><span>Fresh mist</span><span>Blueberry</span><span>Watermelon</span><span>Sweet melon</span><span>Pineapple</span><span>Gum</span><span>Bubble gum</span><span>Gum mastic</span><span>Strawberry</span><span>Mint</span><span>Coconut</span><span>Kiwi</span><span>Vanilla cherry</span><span>Peach</span><span>Mango</span><span>Gum cinnamon</span><span>Rose</span><span>Chocolate coffee</span><span>Energy drink</span><span>Banana</span></div></div></article>
@@ -101,6 +103,7 @@ html[dir=rtl] .langSw{font-family:'Montserrat',system-ui,sans-serif}
 <div class="foot rv"><p class="shNote">All prices are in Dirhams &amp; inclusive of 10% service charge, 7% municipality fee and 5% VAT.</p><a class="shCta" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table" target="_blank" rel="noopener">Book on WhatsApp</a><a class="back" href="/menu/">← Back to menu</a></div>
 <script>
 (function(){
+var nv=document.querySelector('.nav');function sol(){nv.classList.toggle('solid',(window.scrollY||0)>24)}addEventListener('scroll',sol,{passive:true});sol();
 [].forEach.call(document.querySelectorAll('.ph img'),function(i){function ok(){i.classList.add('ok')}if(i.complete)ok();else i.addEventListener('load',ok)});
 var els=[].slice.call(document.querySelectorAll('.rv'));
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -6% 0px',threshold:.05});els.forEach(function(e){io.observe(e)})}else els.forEach(function(e){e.classList.add('in')});
@@ -109,7 +112,7 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en
 <script>
 (function(){
 var AR={
-"B-Heaven":"بي-هيفن","Menu":"القائمة","Drinks":"المشروبات","Shisha":"الشيشة",
+"Menu":"القائمة","Drinks":"المشروبات","Shisha":"الشيشة",
 "B-Heaven by Barceló":"بي-هيفن من برشلو","Shishas":"الشيشة",
 "Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.":"شيشة على السطح في برشلو الجداف — خمس شيشات وخمس طرق للاستمتاع بها.",
 "Single shisha":"شيشة بنكهة واحدة","AED 65":"65 درهم","Single flavours, with mint or without.":"نكهة واحدة، مع النعناع أو بدونه.",
