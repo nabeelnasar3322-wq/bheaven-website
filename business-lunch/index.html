@@ -2166,9 +2166,9 @@ nav.top ul a.on::after{transform:scaleX(1)!important}
 .hero.bl .heroCopy{max-width:560px}
 .hero.bl h1{font-size:clamp(2.6rem,5.1vw,4.7rem);text-transform:uppercase;text-wrap:balance}
 .hero.bl h1 em{font-style:normal;font-weight:800;color:var(--teal-d)}
-.hero.bl .wrap{max-width:1400px;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:clamp(24px,3vw,48px)}
-.blPhoto{position:relative;justify-self:end;width:100%;max-width:820px;aspect-ratio:5/4;border-radius:28px;overflow:hidden;box-shadow:0 40px 70px -30px rgba(30,71,76,.55)}
-.blPhoto img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
+.hero.bl .wrap{max-width:1400px;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:clamp(24px,3vw,48px);align-items:stretch}
+.blPhoto{position:relative;justify-self:end;align-self:stretch;width:100%;max-width:820px;min-height:420px;border-radius:28px;overflow:hidden;box-shadow:0 40px 70px -30px rgba(30,71,76,.55)}
+.blPhoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
 .prices{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
 .prices div{background:var(--tile);border:1px solid var(--line);border-radius:18px;padding:16px 26px;display:flex;flex-direction:column;gap:4px;box-shadow:0 14px 30px -20px rgba(30,71,76,.4)}
 .prices div.dk{background:var(--teal-deep);border-color:transparent;color:#fff}
