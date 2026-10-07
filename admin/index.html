@@ -289,6 +289,7 @@ function loadStats(){
     g.appendChild(bars('Most added to picks',top(t.pick_add,10)));
     g.appendChild(bars('Sections viewed',top(t.cat_view,10)));
     var lm=top(t.lang,5);g.appendChild(bars('Language chosen',lm,function(c){return LANGN[c]||c}));
+    g.appendChild(bars('Visits by page',top(t.page,5)));
     var vm=top(t.visit,5);g.appendChild(bars('Visits by page language',vm,function(c){return LANGN[c]||c}));
     g.appendChild(bars('Food vs drinks switches',top(t.mode,2),function(c){return c==='drinks'?'Switched to drinks':'Switched to food'}));
     wrap.appendChild(g);

@@ -3616,7 +3616,7 @@ try{const sv=localStorage.getItem('bh-lang');if(sv==='ar'||sv==='es')setTimeout(
     document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flush()});
     addEventListener('pagehide',flush);
 
-    if(!sessionStorage.getItem('bh_v')){sessionStorage.setItem('bh_v','1');track('visit',document.documentElement.lang||'en');}
+    if(!sessionStorage.getItem('bh_v')){sessionStorage.setItem('bh_v','1');track('visit',document.documentElement.lang||'en');track('page','Menu');}
 
     /* dish opens (food and drinks) */
     var _od=window.openDish;

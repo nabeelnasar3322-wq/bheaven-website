@@ -2317,4 +2317,6 @@ box.querySelectorAll('[data-l]').forEach(i=>i.addEventListener('click',e=>{e.sto
 document.addEventListener('click',e=>{if(!box.contains(e.target))closeBox()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBox()});
 try{const sv=localStorage.getItem('bh-lang');if(sv==='ar'||sv==='es')setLang(sv,false)}catch(e){}
 </script>
+<script>/* anonymous page-view counter (no cookies) */
+(function(){try{var n='Business Lunch',k='bh_p_'+n;if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');var s=sessionStorage.getItem('bh_sid');if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('bh_sid',s)}var p=JSON.stringify({s:s,e:[{t:'page',l:n}]});if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([p],{type:'application/json'}))))fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:p,keepalive:true}).catch(function(){});}catch(e){}})();</script>
 </body></html>
