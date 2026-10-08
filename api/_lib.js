@@ -19,6 +19,8 @@ function safeEq(a, b) {
 }
 
 function makeSession() {
+  // Never sign a session with an empty key: that would let anyone forge an admin cookie.
+  if (!process.env.ADMIN_SECRET) throw new Error('Admin is not configured');
   const payload = b64u(JSON.stringify({ exp: Date.now() + SESSION_HOURS * 3600e3 }));
   return payload + '.' + sign(payload);
 }
@@ -83,9 +85,55 @@ async function kvPipeline(cmds) {
   return (await r.json()).map((x) => x.result);
 }
 
+// ---- Rate limiting (per visitor, counted in KV; falls back to this server's memory if KV is down) ----
+const mem = new Map();
+function clientIp(req) {
+  const h = req.headers || {};
+  return String(h['x-real-ip'] || String(h['x-forwarded-for'] || '').split(',')[0] || 'unknown').trim().slice(0, 64) || 'unknown';
+}
+function rlKey(req, name) {
+  return `bh:rl:${name}:` + crypto.createHash('sha256').update(clientIp(req)).digest('hex').slice(0, 16);
+}
+function memHit(key, windowSec) {
+  const now = Date.now();
+  let e = mem.get(key);
+  if (!e || e.until <= now) e = { n: 0, until: now + windowSec * 1000 };
+  e.n += 1;
+  mem.set(key, e);
+  if (mem.size > 5000) for (const [k, v] of mem) if (v.until <= now) mem.delete(k);
+  return e.n;
+}
+function memCount(key) {
+  const e = mem.get(key);
+  return e && e.until > Date.now() ? e.n : 0;
+}
+// Count one event for this visitor; returns how many happened in the window (including this one).
+async function rateHit(req, name, windowSec, opts = {}) {
+  const key = rlKey(req, name);
+  if (opts.local) return memHit(key, windowSec);
+  try {
+    const [n] = await kvPipeline([['INCR', key]]);
+    if (Number(n) === 1) await kvPipeline([['EXPIRE', key, windowSec]]);
+    return Number(n);
+  } catch (e) { return memHit(key, windowSec); }
+}
+// How many events this visitor already has in the window (does not count a new one).
+async function rateCount(req, name) {
+  const key = rlKey(req, name);
+  try {
+    const [n] = await kvPipeline([['GET', key]]);
+    return Math.max(Number(n) || 0, memCount(key));
+  } catch (e) { return memCount(key); }
+}
+async function rateReset(req, name) {
+  const key = rlKey(req, name);
+  mem.delete(key);
+  try { await kvPipeline([['DEL', key]]); } catch (e) { /* ignore */ }
+}
+
 // Dubai calendar day, YYYY-MM-DD
 function dubaiDay(offsetDays = 0) {
   return new Date(Date.now() + 4 * 3600e3 + offsetDays * 86400e3).toISOString().slice(0, 10);
 }
 
-module.exports = { isAuthed, makeSession, sessionCookie, safeEq, body, send, readMenuFile, gh, MENU_FILE, kvPipeline, dubaiDay };
+module.exports = { isAuthed, makeSession, sessionCookie, safeEq, body, send, readMenuFile, gh, MENU_FILE, kvPipeline, dubaiDay, rateHit, rateCount, rateReset };

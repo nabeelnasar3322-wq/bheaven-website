@@ -1,7 +1,7 @@
 // Public endpoint used by the installed app: get the public key, subscribe or unsubscribe a phone.
 // Subscriptions live in Vercel KV (hash bh:push). Nothing personal is stored: just the browser's push address.
 const crypto = require('crypto');
-const { body, send, kvPipeline } = require('./_lib');
+const { body, send, kvPipeline, rateHit } = require('./_lib');
 const { configured, ENDPOINT_OK, fromB64u } = require('./_push');
 
 const LANGS = { en: 1, es: 1, ar: 1 };
@@ -15,6 +15,11 @@ module.exports = async (req, res) => {
     if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
     if (!configured()) return send(res, 503, { error: 'Notifications are not set up yet' });
     const b = body(req);
+
+    // Public endpoint: stop one visitor from flooding it (generous for real phones).
+    if (b.action === 'subscribe' || b.action === 'unsubscribe') {
+      if ((await rateHit(req, 'push', 3600, { local: true })) > 30) return send(res, 429, { error: 'Too many requests. Try again later.' });
+    }
 
     if (b.action === 'unsubscribe') {
       if (typeof b.endpoint !== 'string' || b.endpoint.length > 600) return send(res, 400, { error: 'Bad request' });
