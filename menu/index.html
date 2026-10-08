@@ -2236,6 +2236,13 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 @media (max-width:1100px) and (min-width:701px){#events .ev{height:380px!important}}
 @media (max-width:700px){#events .ev{height:420px!important}}
 </style>
+<style id="smooth-reveal">
+/* lighter dish reveal: opacity only, short, no per-image rotate/scale */
+.pre{scale:1!important;transition:opacity .4s ease calc(var(--rd,0s)/3)!important}
+.pre .disc img,.pre .tileBox img,.pre .ph img,.sq.photo.pre .tileBox img,.pre.in .disc img,.pre.in .tileBox img,.pre.in .ph img{rotate:0deg!important;scale:1!important;transition:none!important}
+.plate.pre .lbl,.sq.pre .meta,.plate.pre.in .lbl,.sq.pre.in .meta{translate:none!important;opacity:1!important;transition:none!important}
+.pre.nt{transition:none!important}
+</style>
 </head>
 <body>
 
@@ -3084,7 +3091,10 @@ const nio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let
 }catch(e){}})();
 /* staggered reveal for every dish */
 document.querySelectorAll('#menuRoot .scatter, #menuRoot .squares, #menuRoot .side, #drinkRoot .squares, #drinkRoot .shTrack').forEach(g=>[...g.children].forEach((el,i)=>{el.classList.add('pre');el.style.setProperty('--rd',(i%4)*0.09+'s');}));
-const pio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const el=en.target;el.classList.add('in');pio.unobserve(el);setTimeout(()=>{el.classList.remove('pre','in');el.style.removeProperty('--rd')},1900);}}),{rootMargin:'0px 0px 10% 0px'});
+/* dish reveal: a light fade; skipped (instant) when scrolling fast or when many dishes arrive at once, so scrolling never stalls */
+let _sy=scrollY,_st=performance.now(),_sv=0;
+addEventListener('scroll',()=>{const t=performance.now(),y=scrollY;_sv=Math.abs(y-_sy)/Math.max(1,t-_st);_sy=y;_st=t},{passive:true});
+const pio=new IntersectionObserver(es=>{let n=0;es.forEach(en=>{if(en.isIntersecting){const el=en.target,fast=_sv>1.2||++n>6;if(fast)el.classList.add('nt');el.classList.add('in');pio.unobserve(el);setTimeout(()=>{el.classList.remove('pre','in','nt');el.style.removeProperty('--rd')},fast?250:1000);}})},{rootMargin:'0px 0px 10% 0px'});
 document.querySelectorAll('.pre').forEach(el=>pio.observe(el));
 /* soft cursor */
 const CUR=(()=>{if(!matchMedia('(hover:hover) and (pointer:fine)').matches)return null;const c=document.createElement('div');c.className='cur';c.innerHTML='<span></span>';document.body.appendChild(c);
