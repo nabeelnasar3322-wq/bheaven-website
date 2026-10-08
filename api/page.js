@@ -11,11 +11,11 @@ const PAGES = { menu: ['ar', 'es'], 'business-lunch': ['ar', 'es'], shisha: ['ar
 const T = {
   menu: {
     ar: {
-      title: 'B-Heaven by Barceló — مطعم شامي عصري على السطح في دبي',
+      title: 'B-Heaven by Barceló | مطعم شامي على السطح في الجداف، دبي',
       desc: 'بي-هيفن من برشلونة — مطعم شامي عصري على سطح برشلونة الجداف في دبي. مأكولات شامية حديثة من مطبخ الفحم، كوكتيلات مميزة وإطلالات على أفق المدينة.',
     },
     es: {
-      title: 'B-Heaven by Barceló — Restaurante levantino en la azotea, Dubái',
+      title: 'B-Heaven by Barceló | Restaurante levantino en la azotea, Al Jaddaf, Dubái',
       desc: 'B-Heaven by Barceló — restaurante levantino en la azotea del Barceló Al Jaddaf, Dubái. Cocina levantina moderna de una cocina a la brasa, cócteles de autor y vistas al skyline.',
     },
   },

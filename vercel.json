@@ -3,7 +3,7 @@
     {
       "source": "/",
       "destination": "/menu/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/ar",
