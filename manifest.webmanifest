@@ -1,0 +1,25 @@
+{
+  "id": "/menu/",
+  "name": "B-Heaven by Barceló",
+  "short_name": "B-Heaven",
+  "description": "Rooftop Levantine dining at Barceló Al Jaddaf, Dubai. Menu, drinks, shisha and bookings.",
+  "lang": "en",
+  "start_url": "/menu/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1E474C",
+  "background_color": "#ECECE9",
+  "categories": ["food", "lifestyle"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Food menu", "short_name": "Food", "url": "/menu/?source=app#menu", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Drinks", "short_name": "Drinks", "url": "/menu/?source=app#drinks", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Shisha", "short_name": "Shisha", "url": "/shisha/?source=app", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Business lunch", "short_name": "Lunch", "url": "/business-lunch/?source=app", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
