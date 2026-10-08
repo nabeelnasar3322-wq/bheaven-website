@@ -54,7 +54,7 @@ function transform(html, page, lang) {
   out = out.replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${desc}$2`);
   out = out.replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`);
   out = out.replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`);
-  out = out.replace(/(<meta property="og:site_name"[^>]*>)/, `$1<meta property="og:locale" content="${LOCALE[lang]}">`);
+  out = out.replace(/(<meta property="og:type"[^>]*>)/, `$1<meta property="og:locale" content="${LOCALE[lang]}">`);
   // structured data: point at this language's URL
   out = out.replace(new RegExp(`"url":"${ORIGIN}/${page}/"`), `"url":"${url}","inLanguage":"${lang}"`);
 
