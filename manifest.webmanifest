@@ -17,9 +17,9 @@
     { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
+    { "name": "Book a table", "short_name": "Book", "url": "/menu/?source=app&book=1", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
     { "name": "Food menu", "short_name": "Food", "url": "/menu/?source=app#menu", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
     { "name": "Drinks", "short_name": "Drinks", "url": "/menu/?source=app#drinks", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Shisha", "short_name": "Shisha", "url": "/shisha/?source=app", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Business lunch", "short_name": "Lunch", "url": "/business-lunch/?source=app", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+    { "name": "Shisha", "short_name": "Shisha", "url": "/shisha/?source=app", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }
