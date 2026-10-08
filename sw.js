@@ -12,7 +12,7 @@ const KEEP = [PAGES, IMAGES, STATIC];
 const MAX_IMAGES = 220;
 const NETWORK_TIMEOUT = 3500;
 
-const PRECACHE = ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png', '/manifest.webmanifest', '/pwa.js', '/booking.js'];
+const PRECACHE = ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png', '/manifest.webmanifest', '/pwa.js', '/booking.js', '/offers.js'];
 // The main pages are stored on install, so the menu opens offline even if the guest only saw one page.
 const PRECACHE_PAGES = ['/menu/', '/shisha/', '/business-lunch/'];
 const PAGE_PATH = /^\/(?:(?:ar|es)\/)?(?:menu|shisha|business-lunch)\/?$/;
@@ -134,7 +134,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // the app scripts: served from cache, refreshed in the background (so the booking form works offline-to-WhatsApp-ready)
-  if (url.pathname === '/pwa.js' || url.pathname === '/booking.js') {
+  if (url.pathname === '/pwa.js' || url.pathname === '/booking.js' || url.pathname === '/offers.js') {
     event.respondWith(staleWhileRevalidate(request, STATIC, event));
     return;
   }
@@ -150,4 +150,35 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(staleWhileRevalidate(request, IMAGES, event));
     return;
   }
+});
+
+// ---- push notifications (sent from /admin) ----
+self.addEventListener('push', (e) => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) { d = { body: e.data ? e.data.text() : '' }; }
+  const title = d.title || 'B-Heaven by Barceló';
+  e.waitUntil(self.registration.showNotification(title, {
+    body: d.body || '',
+    icon: '/icons/icon-192.png',
+    badge: '/icons/icon-192.png',
+    tag: d.tag || 'bh',
+    data: { url: typeof d.url === 'string' && d.url.charAt(0) === '/' && d.url.charAt(1) !== '/' ? d.url : '/menu/?source=app' },
+    dir: 'auto',
+  }));
+});
+
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const target = new URL((e.notification.data && e.notification.data.url) || '/menu/?source=app', self.location.origin).href;
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+    for (const c of list) {
+      if (new URL(c.url).origin === self.location.origin && 'navigate' in c) return c.navigate(target).then((w) => w && w.focus());
+    }
+    return self.clients.openWindow(target);
+  }));
+});
+
+// the phone rotated the push address: tell the app to subscribe again next time it opens
+self.addEventListener('pushsubscriptionchange', (e) => {
+  e.waitUntil(self.clients.matchAll({ includeUncontrolled: true }).then((list) => list.forEach((c) => c.postMessage({ type: 'push-resubscribe' }))));
 });

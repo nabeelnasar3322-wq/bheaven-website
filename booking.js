@@ -8,9 +8,9 @@
   var WA = 'https://api.whatsapp.com/send/?phone=' + PHONE + '&text=';
 
   var T = {
-    en: { title: 'Book a table', sub: 'We confirm on WhatsApp.', name: 'Your name', date: 'Date', time: 'Time', guests: 'Guests', note: 'Occasion or request (optional)', send: 'Send on WhatsApp', close: 'Close', more: 'For groups of more than 12, please call', pick: 'Select', less: 'Fewer guests', plus: 'More guests', ev: 'Event' },
-    es: { title: 'Reservar mesa', sub: 'Confirmamos por WhatsApp.', name: 'Tu nombre', date: 'Fecha', time: 'Hora', guests: 'Personas', note: 'Ocasión o petición (opcional)', send: 'Enviar por WhatsApp', close: 'Cerrar', more: 'Para grupos de más de 12, por favor llama', pick: 'Elegir', less: 'Menos personas', plus: 'Más personas', ev: 'Evento' },
-    ar: { title: 'احجز طاولة', sub: 'نؤكد الحجز عبر واتساب.', name: 'اسمك', date: 'التاريخ', time: 'الوقت', guests: 'عدد الضيوف', note: 'مناسبة أو طلب (اختياري)', send: 'أرسل عبر واتساب', close: 'إغلاق', more: 'للمجموعات الأكثر من 12 شخصًا، يرجى الاتصال', pick: 'اختر', less: 'ضيوف أقل', plus: 'ضيوف أكثر', ev: 'الفعالية' }
+    en: { title: 'Book a table', sub: 'We confirm on WhatsApp.', name: 'Your name', date: 'Date', time: 'Time', guests: 'Guests', note: 'Occasion or request (optional)', send: 'Send on WhatsApp', close: 'Close', more: 'For groups of more than 12, please call', pick: 'Select', less: 'Fewer guests', plus: 'More guests', ev: 'Event', offer: 'Offer' },
+    es: { title: 'Reservar mesa', sub: 'Confirmamos por WhatsApp.', name: 'Tu nombre', date: 'Fecha', time: 'Hora', guests: 'Personas', note: 'Ocasión o petición (opcional)', send: 'Enviar por WhatsApp', close: 'Cerrar', more: 'Para grupos de más de 12, por favor llama', pick: 'Elegir', less: 'Menos personas', plus: 'Más personas', ev: 'Evento', offer: 'Oferta' },
+    ar: { title: 'احجز طاولة', sub: 'نؤكد الحجز عبر واتساب.', name: 'اسمك', date: 'التاريخ', time: 'الوقت', guests: 'عدد الضيوف', note: 'مناسبة أو طلب (اختياري)', send: 'أرسل عبر واتساب', close: 'إغلاق', more: 'للمجموعات الأكثر من 12 شخصًا، يرجى الاتصال', pick: 'اختر', less: 'ضيوف أقل', plus: 'ضيوف أكثر', ev: 'الفعالية', offer: 'العرض' }
   };
   function lang() {
     var l = (document.documentElement.lang || '').slice(0, 2);
@@ -86,7 +86,7 @@
     root.setAttribute('aria-labelledby', 'bhBookT');
     lastFocus = document.activeElement;
 
-    var ctxHtml = ctx.kind === 'event' ? '<span class="ctx"></span>' : (ctx.kind === 'lunch' ? '<span class="ctx"></span>' : '');
+    var ctxHtml = ctx.kind === 'table' ? '' : '<span class="ctx"></span>';
     root.innerHTML =
       '<div class="sh"><div class="hd"><h2 id="bhBookT"></h2><p class="sub"></p>' + ctxHtml +
       '<button type="button" class="x" aria-label=""></button></div>' +
@@ -103,7 +103,7 @@
     var q = function (s) { return root.querySelector(s); };
     q('#bhBookT').textContent = t.title;
     q('.sub').textContent = t.sub;
-    var cx = q('.ctx'); if (cx) cx.textContent = ctx.kind === 'event' ? t.ev + ': ' + ctx.label : ctx.label;
+    var cx = q('.ctx'); if (cx) cx.textContent = ctx.kind === 'event' ? t.ev + ': ' + ctx.label : (ctx.kind === 'offer' ? t.offer + ': ' + ctx.label : ctx.label);
     q('.x').setAttribute('aria-label', t.close);
     q('label[for=bhN]').textContent = t.name;
     q('label[for=bhD]').textContent = t.date;
@@ -161,7 +161,7 @@
       if (bad) { bad.focus(); return; }
       var d = new Date(dateEl.value + 'T12:00:00');
       var dateTxt = isNaN(d) ? dateEl.value : d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
-      var what = ctx.kind === 'event' ? 'a table for ' + ctx.label : (ctx.kind === 'lunch' ? 'a business lunch table' : 'a table');
+      var what = ctx.kind === 'event' ? 'a table for ' + ctx.label : (ctx.kind === 'offer' ? 'a table for the offer "' + ctx.label + '"' : (ctx.kind === 'lunch' ? 'a business lunch table' : 'a table'));
       var msg = "Hi B-Heaven, I'd like to book " + what + '.\n' +
         'Name: ' + nameEl.value.trim() + '\n' +
         'Date: ' + dateTxt + '\n' +
@@ -188,6 +188,8 @@
     e.preventDefault();
     open(ctx);
   }, true);
+
+  window.__bhBooking = { open: function (c) { open(c || { kind: 'table', label: '' }); } };
 
   // home-screen shortcut "Book a table" lands here with ?book=1
   if (/[?&]book=1\b/.test(location.search)) open({ kind: 'table', label: '' });

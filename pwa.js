@@ -30,10 +30,12 @@
     // running as the installed app: add the in-app table request form, no install prompt needed
     var bk = function () {
       idle(function () {
-        var s = document.createElement('script');
-        s.src = '/booking.js';
-        s.async = true;
-        document.head.appendChild(s);
+        ['/booking.js', '/offers.js'].forEach(function (src) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.async = false; // booking first: the offers list opens its form
+          document.head.appendChild(s);
+        });
       });
     };
     if (document.readyState === 'complete') bk(); else addEventListener('load', bk, { once: true });

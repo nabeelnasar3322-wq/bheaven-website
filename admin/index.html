@@ -89,6 +89,24 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
 .ph .msg{flex-basis:100%;font-size:.78rem;color:var(--muted);margin:0}
 .ph .msg.bad{color:#ff8a80}
 .ph input[type=file]{display:none}
+/* offers + alerts */
+.ocard{background:var(--tile);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ocard.off{opacity:.62}
+.ocard .full{grid-column:1/-1}
+.ocard .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ocard .status{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ocard .status.live{color:var(--ok)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn.danger{color:var(--danger)}
+.tog[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rowbar{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 26px}
+.sel{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:11px 12px;font-size:.92rem}
+.compose{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.compose .full{grid-column:1/-1}
+.compose[hidden]{display:none}
+.stat{font-size:.88rem;margin:0 0 14px}
+.stat b{font-size:1.4rem}
+@media (max-width:700px){.ocard,.compose{grid-template-columns:1fr}}
 @media (max-width:620px){.dish{grid-template-columns:1fr}}
 </style>
 </head>
@@ -112,12 +130,36 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
   </header>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="tabMenu" aria-selected="true" aria-controls="paneMenu">Menu</button>
+    <button class="tab" role="tab" id="tabOffers" aria-selected="false" aria-controls="paneOffers">Offers &amp; alerts</button>
     <button class="tab" role="tab" id="tabStats" aria-selected="false" aria-controls="paneStats">Analytics</button>
   </div>
 
   <section id="paneMenu" role="tabpanel" aria-labelledby="tabMenu">
     <p class="note">Edit descriptions, prices, allergens and the Spanish text for every food dish. Saving publishes to the live menu automatically, usually within a minute. Photos must be cutouts with a transparent background; each photo publishes on its own with the Publish photo button. Dish names and order are locked so nothing breaks.</p>
     <div id="menuList"><p class="empty">Loading menu…</p></div>
+  </section>
+
+  <section id="paneOffers" role="tabpanel" aria-labelledby="tabOffers" class="hide">
+    <p class="note">Offers appear inside the B-Heaven app (menu &rarr; Offers). They go live within a minute of saving, and switch off by themselves after the end date. Spanish and Arabic are optional; guests who pick those languages see English when they are empty.</p>
+    <div id="offersList"><p class="empty">Loading offers…</p></div>
+    <div class="rowbar"><button class="btn" id="addOffer" type="button">+ Add offer</button><button class="btn primary" id="saveOffers" type="button" disabled>Save offers</button></div>
+
+    <div class="panel" id="alertsPanel">
+      <h3>Send a notification</h3>
+      <p class="stat" id="alertStat">Loading…</p>
+      <div class="compose" id="compose" hidden>
+        <div><label class="lbl" for="nTe">Title (English)</label><input class="field" id="nTe" maxlength="60"></div>
+        <div><label class="lbl" for="nTs">Title (Spanish)</label><input class="field" id="nTs" maxlength="60"></div>
+        <div><label class="lbl" for="nTa">Title (Arabic)</label><input class="field" id="nTa" maxlength="60" dir="auto"></div>
+        <div><label class="lbl" for="nBe">Message (English)</label><textarea class="field" id="nBe" maxlength="180"></textarea></div>
+        <div><label class="lbl" for="nBs">Message (Spanish)</label><textarea class="field" id="nBs" maxlength="180"></textarea></div>
+        <div><label class="lbl" for="nBa">Message (Arabic)</label><textarea class="field" id="nBa" maxlength="180" dir="auto"></textarea></div>
+        <div class="full"><label class="lbl" for="nUrl">Opens</label>
+          <select class="sel" id="nUrl"><option value="/menu/?source=app&amp;offers=1">The offers list</option><option value="/menu/?source=app">The menu</option><option value="/menu/?source=app&amp;book=1">The booking form</option><option value="/menu/?source=app#events">Events</option></select></div>
+        <div class="full acts"><button class="btn primary" id="sendPush" type="button">Send to everyone</button></div>
+      </div>
+      <p class="note" style="margin:14px 0 0">Only phones that installed the app and tapped &ldquo;Get offer alerts&rdquo; receive notifications. Send sparingly: guests turn alerts off if they get too many.</p>
+    </div>
   </section>
 
   <section id="paneStats" role="tabpanel" aria-labelledby="tabStats" class="hide">
@@ -156,12 +198,13 @@ function sessionExpired(){show(false);$('#loginErr').textContent='Your session e
 
 /* ---------- tabs ---------- */
 function setTab(which){
-  var m=which==='menu';
-  $('#tabMenu').setAttribute('aria-selected',m);$('#tabStats').setAttribute('aria-selected',!m);
-  $('#paneMenu').classList.toggle('hide',!m);$('#paneStats').classList.toggle('hide',m);
-  updateBar();if(!m)loadStats();
+  var m=which==='menu',o=which==='offers',st=which==='stats';
+  $('#tabMenu').setAttribute('aria-selected',m);$('#tabOffers').setAttribute('aria-selected',o);$('#tabStats').setAttribute('aria-selected',st);
+  $('#paneMenu').classList.toggle('hide',!m);$('#paneOffers').classList.toggle('hide',!o);$('#paneStats').classList.toggle('hide',!st);
+  updateBar();if(st)loadStats();if(o)loadOffers();
 }
 $('#tabMenu').addEventListener('click',function(){setTab('menu')});
+$('#tabOffers').addEventListener('click',function(){setTab('offers')});
 $('#tabStats').addEventListener('click',function(){setTab('stats')});
 
 /* ---------- menu editor ---------- */
@@ -318,6 +361,105 @@ $('#save').addEventListener('click',function(){
   }).then(function(){b.disabled=false;b.textContent='Save & publish'});
 });
 window.addEventListener('beforeunload',function(e){if(state.menu&&countDirty()){e.preventDefault();e.returnValue=''}});
+
+/* ---------- offers & alerts ---------- */
+var off={list:null,base:''};
+function newOffer(){return{id:'',title:{en:'',es:'',ar:''},text:{en:'',es:'',ar:''},start:'',end:'',active:true}}
+function offerDirty(){return off.list&&JSON.stringify(off.list)!==off.base}
+function today(){var d=new Date(Date.now()+4*3600e3);return d.toISOString().slice(0,10)}
+function offerStatus(o){
+  if(!o.active)return['Switched off',false];
+  var t=today();
+  if(o.start&&o.start>t)return['Starts '+o.start,false];
+  if(o.end&&o.end<t)return['Ended '+o.end,false];
+  return['Live in the app',true];
+}
+function loadOffers(){
+  if(off.list){loadAlerts();return}
+  api('/api/offers?all=1').then(function(j){
+    off.list=j.offers||[];off.base=JSON.stringify(off.list);renderOffers();
+  }).catch(function(err){
+    if(err.status===401)return sessionExpired();
+    var msg=/Storage/.test(err.message)?'Storage is not connected yet. Add the Upstash Redis (Vercel KV) integration to the project and redeploy.':'Could not load offers: '+err.message;
+    $('#offersList').replaceChildren(el('p',{class:'empty',text:msg}));
+  });
+  loadAlerts();
+}
+function field(label,id,node,cls){return el('div',{class:cls||''},[el('label',{class:'lbl',for:id,text:label}),node])}
+function offerCard(o,idx){
+  var uid='o'+Math.random().toString(36).slice(2,8);
+  var card=el('div',{class:'ocard'+(o.active?'':' off')});
+  var st=el('span',{class:'status'});
+  function paint(){var s=offerStatus(o);st.textContent=s[0];st.className='status'+(s[1]?' live':'');card.classList.toggle('off',!s[1]);$('#saveOffers').disabled=!offerDirty()}
+  var act=el('button',{type:'button',class:'btn tog','aria-pressed':String(o.active),text:'Active'});
+  act.addEventListener('click',function(){o.active=!o.active;act.setAttribute('aria-pressed',String(o.active));paint()});
+  var del=el('button',{type:'button',class:'btn danger',text:'Remove'});
+  del.addEventListener('click',function(){if(!confirm('Remove this offer?'))return;off.list.splice(off.list.indexOf(o),1);renderOffers()});
+  var send=el('button',{type:'button',class:'btn',text:'Send as notification'});
+  send.addEventListener('click',function(){
+    if(!o.title.en.trim()||!o.text.en.trim()){toast('Add an English title and description first.');return}
+    var cut=function(t){t=(t||'').trim();return t.length>180?t.slice(0,177).trimEnd()+'…':t};
+    $('#nTe').value=o.title.en;$('#nTs').value=o.title.es;$('#nTa').value=o.title.ar;
+    $('#nBe').value=cut(o.text.en);$('#nBs').value=cut(o.text.es);$('#nBa').value=cut(o.text.ar);
+    $('#nUrl').value='/menu/?source=app&offers=1';
+    $('#alertsPanel').scrollIntoView({behavior:'smooth',block:'start'});toast('Message filled in below. Check it, then press Send.');
+  });
+  card.appendChild(el('div',{class:'hd full'},[el('div',{class:'acts'},[act,st]),el('div',{class:'acts'},[send,del])]));
+  [['en','English'],['es','Spanish'],['ar','Arabic']].forEach(function(l){
+    var i=el('input',{class:'field',id:uid+'t'+l[0],maxlength:'70'});if(l[0]==='ar')i.setAttribute('dir','auto');i.value=o.title[l[0]]||'';
+    i.addEventListener('input',function(){o.title[l[0]]=i.value;paint()});
+    card.appendChild(field('Title ('+l[1]+')',uid+'t'+l[0],i));
+  });
+  [['en','English'],['es','Spanish'],['ar','Arabic']].forEach(function(l){
+    var t=el('textarea',{class:'field',id:uid+'d'+l[0],maxlength:'400'});if(l[0]==='ar')t.setAttribute('dir','auto');t.value=o.text[l[0]]||'';
+    t.addEventListener('input',function(){o.text[l[0]]=t.value;paint()});
+    card.appendChild(field('Description ('+l[1]+')',uid+'d'+l[0],t));
+  });
+  [['start','Starts (optional)'],['end','Ends (optional)']].forEach(function(f){
+    var d=el('input',{class:'field',type:'date',id:uid+f[0]});d.value=o[f[0]]||'';
+    d.addEventListener('input',function(){o[f[0]]=d.value;paint()});
+    card.appendChild(field(f[1],uid+f[0],d));
+  });
+  paint();return card;
+}
+function renderOffers(){
+  var root=$('#offersList');root.replaceChildren();
+  if(!off.list.length)root.appendChild(el('p',{class:'empty',text:'No offers yet. Press “Add offer” to create the first one.'}));
+  off.list.forEach(function(o,i){root.appendChild(offerCard(o,i))});
+  $('#saveOffers').disabled=!offerDirty();
+}
+$('#addOffer').addEventListener('click',function(){if(!off.list)return;off.list.unshift(newOffer());renderOffers();var f=document.querySelector('#offersList .ocard input');if(f)f.focus()});
+$('#saveOffers').addEventListener('click',function(){
+  var b=$('#saveOffers');b.disabled=true;b.textContent='Saving…';
+  api('/api/offers',{method:'POST',body:{offers:off.list}}).then(function(r){
+    off.list=r.offers;off.base=JSON.stringify(off.list);renderOffers();toast('Saved. The app shows the changes within a minute.',5000);
+  }).catch(function(err){
+    if(err.status===401)return sessionExpired();toast(err.message,6000);$('#saveOffers').disabled=false;
+  }).then(function(){b.textContent='Save offers'});
+});
+function loadAlerts(){
+  api('/api/push-send').then(function(j){
+    var stat=$('#alertStat');
+    if(!j.enabled){stat.textContent='Notifications are not switched on yet. They need the two VAPID keys added to the project settings.';$('#compose').hidden=true;return}
+    var l=j.byLang||{};
+    stat.replaceChildren(el('b',{text:String(j.total)}),document.createTextNode(' phone'+(j.total===1?' has':'s have')+' offer alerts on'+(j.total?' (English '+(l.en||0)+', Spanish '+(l.es||0)+', Arabic '+(l.ar||0)+')':'')+'.'+(j.last?' Last sent: “'+j.last.title+'”, '+new Date(j.last.t).toLocaleString()+'.':'')));
+    $('#compose').hidden=false;
+  }).catch(function(err){
+    if(err.status===401)return sessionExpired();
+    $('#alertStat').textContent=/Storage/.test(err.message)?'Storage is not connected yet.':'Could not load: '+err.message;
+  });
+}
+$('#sendPush').addEventListener('click',function(){
+  var title={en:$('#nTe').value,es:$('#nTs').value,ar:$('#nTa').value},body={en:$('#nBe').value,es:$('#nBs').value,ar:$('#nBa').value};
+  if(!title.en.trim()||!body.en.trim()){toast('Please write a title and a message in English.');return}
+  if(!confirm('Send this notification to every phone with alerts on?\n\n'+title.en+'\n'+body.en))return;
+  var b=$('#sendPush');b.disabled=true;b.textContent='Sending…';
+  api('/api/push-send',{method:'POST',body:{title:title,body:body,url:$('#nUrl').value}}).then(function(r){
+    toast('Sent to '+r.sent+' phone'+(r.sent===1?'':'s')+(r.failed?' ('+r.failed+' could not be reached)':'')+'.',7000);
+    ['nTe','nTs','nTa','nBe','nBs','nBa'].forEach(function(id){$('#'+id).value=''});loadAlerts();
+  }).catch(function(err){if(err.status===401)return sessionExpired();toast(err.message,6000)}).then(function(){b.disabled=false;b.textContent='Send to everyone'});
+});
+window.addEventListener('beforeunload',function(e){if(offerDirty()){e.preventDefault();e.returnValue=''}});
 
 /* ---------- analytics ---------- */
 [7,14,30,90].forEach(function(d){
