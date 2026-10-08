@@ -26,7 +26,19 @@
     if (document.readyState === 'complete') reg(); else addEventListener('load', reg, { once: true });
   }
 
-  if (standalone) return; // already running as an app: no install prompt needed
+  if (standalone) {
+    // running as the installed app: add the in-app table request form, no install prompt needed
+    var bk = function () {
+      idle(function () {
+        var s = document.createElement('script');
+        s.src = '/booking.js';
+        s.async = true;
+        document.head.appendChild(s);
+      });
+    };
+    if (document.readyState === 'complete') bk(); else addEventListener('load', bk, { once: true });
+    return;
+  }
 
   var T = {
     en: { install: 'Install the app', ios: 'Tap Share, then “Add to Home Screen”.' },

@@ -12,7 +12,7 @@ const KEEP = [PAGES, IMAGES, STATIC];
 const MAX_IMAGES = 220;
 const NETWORK_TIMEOUT = 3500;
 
-const PRECACHE = ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png', '/manifest.webmanifest'];
+const PRECACHE = ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png', '/manifest.webmanifest', '/pwa.js', '/booking.js'];
 // The main pages are stored on install, so the menu opens offline even if the guest only saw one page.
 const PRECACHE_PAGES = ['/menu/', '/shisha/', '/business-lunch/'];
 const PAGE_PATH = /^\/(?:(?:ar|es)\/)?(?:menu|shisha|business-lunch)\/?$/;
@@ -130,6 +130,12 @@ self.addEventListener('fetch', (event) => {
   // pages
   if (request.mode === 'navigate') {
     event.respondWith(pageStrategy(request, event));
+    return;
+  }
+
+  // the app scripts: served from cache, refreshed in the background (so the booking form works offline-to-WhatsApp-ready)
+  if (url.pathname === '/pwa.js' || url.pathname === '/booking.js') {
+    event.respondWith(staleWhileRevalidate(request, STATIC, event));
     return;
   }
 
