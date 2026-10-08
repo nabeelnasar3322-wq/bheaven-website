@@ -6,6 +6,10 @@
 <title>B-Heaven by Barceló</title>
 <meta name="description" content="B-Heaven by Barceló — rooftop Levantine restaurant at Barceló Al Jaddaf, Dubai. Modern Levant cuisine from a charcoal kitchen, signature cocktails and skyline views.">
 <link rel="canonical" href="https://bheavendubai.com/menu/">
+<link rel="alternate" hreflang="en" href="https://bheavendubai.com/menu/">
+<link rel="alternate" hreflang="ar" href="https://bheavendubai.com/ar/menu/">
+<link rel="alternate" hreflang="es" href="https://bheavendubai.com/es/menu/">
+<link rel="alternate" hreflang="x-default" href="https://bheavendubai.com/menu/">
 <meta name="theme-color" content="#1E474C">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -3630,13 +3634,14 @@ function font(){if(document.getElementById('arFont'))return;const l=document.cre
 const btn=document.getElementById('langSw'),box=document.getElementById('langBox');
 const LBL={en:'EN',es:'ES',ar:'عربي'},HTMLLANG={en:'en',es:'es',ar:'ar'};
 function paint(){btn.textContent=LBL[LANG];box.querySelectorAll('[data-l]').forEach(i=>{const a=i.dataset.l===LANG;i.classList.toggle('on',a);i.setAttribute('aria-checked',a)})}
+function bhUrl(l){try{var m=location.pathname.match(/^\/(?:(?:ar|es)\/)?(menu|business-lunch|shisha)\/?$/);if(m&&history.replaceState){var p=(l==='en'?'/':'/'+l+'/')+m[1]+'/';if(p!==location.pathname)history.replaceState(null,'',p+location.search+location.hash)}}catch(e){}}
 function set(lang,save){if(lang===LANG)return;
   if(LANG!=='en'){if(mo){mo.disconnect();mo=null}restore()}
   LANG=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.documentElement.lang=HTMLLANG[lang];
   if(lang==='ar')font();
   if(lang!=='en')start();
   paint();
-  if(save){try{localStorage.setItem('bh-lang',lang)}catch(e){}}
+  if(save){try{localStorage.setItem('bh-lang',lang)}catch(e){}bhUrl(lang)}
   window.dispatchEvent(new Event('resize'))}
 function closeBox(){box.classList.remove('open');btn.setAttribute('aria-expanded','false')}
 btn.addEventListener('click',e=>{e.stopPropagation();const o=box.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
@@ -3645,7 +3650,7 @@ document.addEventListener('click',e=>{if(!box.contains(e.target))closeBox()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBox()});
 /* Arabic is food-only: in drinks mode fall back to English, restore on return. Spanish works in both. */
 let _arBack=false;new MutationObserver(()=>{const dk=document.body.dataset.mode==='drinks';if(dk&&LANG==='ar'){_arBack=true;set('en',false)}else if(!dk&&_arBack){_arBack=false;set('ar',false)}}).observe(document.body,{attributes:true,attributeFilter:['data-mode']});
-try{const sv=localStorage.getItem('bh-lang');if(sv==='ar'||sv==='es')setTimeout(()=>set(sv,false),600)}catch(e){}
+try{const sv=window.__BH_LANG||localStorage.getItem('bh-lang');if(sv==='ar'||sv==='es')setTimeout(()=>set(sv,false),600)}catch(e){}
 })();
 </script>
 

@@ -6,6 +6,9 @@
 <title>Shisha · B-Heaven by Barceló</title>
 <meta name="description" content="Shisha menu at B-Heaven by Barceló, Al Jaddaf, Dubai — single flavours, mixes, specials and Nova cocktails.">
 <link rel="canonical" href="https://bheavendubai.com/shisha/">
+<link rel="alternate" hreflang="en" href="https://bheavendubai.com/shisha/">
+<link rel="alternate" hreflang="ar" href="https://bheavendubai.com/ar/shisha/">
+<link rel="alternate" hreflang="x-default" href="https://bheavendubai.com/shisha/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Shisha · B-Heaven by Barceló">
 <meta property="og:description" content="Single flavours, mixes, specials and Nova cocktails on the rooftop at Barceló Al Jaddaf, Dubai.">
@@ -220,19 +223,20 @@ function restore(){
   walk(function(n){if(orig.has(n)){n.nodeValue=orig.get(n);orig.delete(n)}});
   [].forEach.call(document.querySelectorAll('img[data-o-alt]'),function(i){i.setAttribute('alt',i.getAttribute('data-o-alt'));i.removeAttribute('data-o-alt')});
   document.title=title0}
+function bhUrl(l){try{var m=location.pathname.match(/^\/(?:(?:ar|es)\/)?(menu|business-lunch|shisha)\/?$/);if(m&&history.replaceState){var p=(l==='en'?'/':'/'+l+'/')+m[1]+'/';if(p!==location.pathname)history.replaceState(null,'',p+location.search+location.hash)}}catch(e){}}
 function set(ar,save){
   if(ar===on)return;on=ar;
   if(ar){font();document.documentElement.dir='rtl';document.documentElement.lang='ar';apply()}
   else{restore();document.documentElement.dir='ltr';document.documentElement.lang='en'}
   paint();
-  if(save){try{localStorage.setItem('bh-lang',ar?'ar':'en')}catch(e){}}}
+  if(save){try{localStorage.setItem('bh-lang',ar?'ar':'en')}catch(e){}bhUrl(ar?'ar':'en')}}
 function paint(){btn.textContent=on?'عربي':'EN';[].forEach.call(box.querySelectorAll('[data-l]'),function(i){var a=(i.getAttribute('data-l')==='ar')===on;i.classList.toggle('on',a);i.setAttribute('aria-checked',a)})}
 function closeBox(){box.classList.remove('open');btn.setAttribute('aria-expanded','false')}
 btn.addEventListener('click',function(e){e.stopPropagation();var o=box.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
 [].forEach.call(box.querySelectorAll('[data-l]'),function(i){i.addEventListener('click',function(e){e.stopPropagation();set(i.getAttribute('data-l')==='ar',true);closeBox()})});
 document.addEventListener('click',function(e){if(!box.contains(e.target))closeBox()});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBox()});
-try{if(localStorage.getItem('bh-lang')==='ar')set(true,false)}catch(e){}
+try{if((window.__BH_LANG||localStorage.getItem('bh-lang'))==='ar')set(true,false)}catch(e){}
 })();
 </script>
 <script>/* anonymous page-view counter (no cookies) */

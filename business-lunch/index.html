@@ -6,6 +6,10 @@
 <title>Business Lunch · B-Heaven by Barceló</title>
 <meta name="description" content="Set business lunch at B-Heaven by Barceló, Al Jaddaf, Dubai. Monday to Friday, 12.30 – 3.30 pm. 2 courses AED 89, 3 courses AED 105.">
 <link rel="canonical" href="https://bheavendubai.com/business-lunch/">
+<link rel="alternate" hreflang="en" href="https://bheavendubai.com/business-lunch/">
+<link rel="alternate" hreflang="ar" href="https://bheavendubai.com/ar/business-lunch/">
+<link rel="alternate" hreflang="es" href="https://bheavendubai.com/es/business-lunch/">
+<link rel="alternate" hreflang="x-default" href="https://bheavendubai.com/business-lunch/">
 <meta property="og:type" content="website"><meta property="og:title" content="Business Lunch · B-Heaven by Barceló"><meta property="og:description" content="2 courses AED 89 · 3 courses AED 105 · Monday to Friday, 12.30 – 3.30 pm on the rooftop at Barceló Al Jaddaf."><meta property="og:url" content="https://bheavendubai.com/business-lunch/"><meta property="og:image" content="https://bheavendubai.com/menu/img/business-lunch-hero.jpg">
 <meta name="theme-color" content="#ECECE9">
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -2317,12 +2321,13 @@ function applyLang(l){
   const h=document.querySelector('.hero h1');if(h){if(!h.dataset.o)h.dataset.o=h.innerHTML;h.innerHTML=(l!=='en'&&T.H1)?T.H1:h.dataset.o}
 }
 const box=document.getElementById('langBox'),btn=document.getElementById('langSw');
-function setLang(l,save){LANG=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';document.documentElement.lang=HL[l];if(l==='ar')loadFont();applyLang(l);btn.textContent=LB[l];box.querySelectorAll('[data-l]').forEach(i=>{const a=i.dataset.l===l;i.classList.toggle('on',a);i.setAttribute('aria-checked',a)});if(save){try{localStorage.setItem('bh-lang',l)}catch(e){}}}
+function bhUrl(l){try{var m=location.pathname.match(/^\/(?:(?:ar|es)\/)?(menu|business-lunch|shisha)\/?$/);if(m&&history.replaceState){var p=(l==='en'?'/':'/'+l+'/')+m[1]+'/';if(p!==location.pathname)history.replaceState(null,'',p+location.search+location.hash)}}catch(e){}}
+function setLang(l,save){LANG=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';document.documentElement.lang=HL[l];if(l==='ar')loadFont();applyLang(l);btn.textContent=LB[l];box.querySelectorAll('[data-l]').forEach(i=>{const a=i.dataset.l===l;i.classList.toggle('on',a);i.setAttribute('aria-checked',a)});if(save){try{localStorage.setItem('bh-lang',l)}catch(e){}bhUrl(l)}}
 function closeBox(){box.classList.remove('open');btn.setAttribute('aria-expanded','false')}
 btn.addEventListener('click',e=>{e.stopPropagation();const o=box.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
 box.querySelectorAll('[data-l]').forEach(i=>i.addEventListener('click',e=>{e.stopPropagation();setLang(i.dataset.l,true);closeBox()}));
 document.addEventListener('click',e=>{if(!box.contains(e.target))closeBox()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBox()});
-try{const sv=localStorage.getItem('bh-lang');if(sv==='ar'||sv==='es')setLang(sv,false)}catch(e){}
+try{const sv=window.__BH_LANG||localStorage.getItem('bh-lang');if(sv==='ar'||sv==='es')setLang(sv,false)}catch(e){}
 </script>
 <script>/* anonymous page-view counter (no cookies) */
 (function(){try{var n='Business Lunch',k='bh_p_'+n;if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');var s=sessionStorage.getItem('bh_sid');if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('bh_sid',s)}var p=JSON.stringify({s:s,e:[{t:'page',l:n}]});if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([p],{type:'application/json'}))))fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:p,keepalive:true}).catch(function(){});}catch(e){}})();</script>

@@ -4,6 +4,26 @@
       "source": "/",
       "destination": "/menu/",
       "permanent": false
+    },
+    {
+      "source": "/ar",
+      "destination": "/ar/menu/",
+      "permanent": false
+    },
+    {
+      "source": "/ar/",
+      "destination": "/ar/menu/",
+      "permanent": false
+    },
+    {
+      "source": "/es",
+      "destination": "/es/menu/",
+      "permanent": false
+    },
+    {
+      "source": "/es/",
+      "destination": "/es/menu/",
+      "permanent": false
     }
   ],
   "headers": [
@@ -64,6 +84,16 @@
           "value": "noindex"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:lang(ar|es)/:page(menu|business-lunch|shisha)",
+      "destination": "/api/page?lang=:lang&page=:page"
+    },
+    {
+      "source": "/:lang(ar|es)/:page(menu|business-lunch|shisha)/",
+      "destination": "/api/page?lang=:lang&page=:page"
     }
   ]
 }
