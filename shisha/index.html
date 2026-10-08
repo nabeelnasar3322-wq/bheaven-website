@@ -36,9 +36,11 @@ url(/menu/img/shisha-bg.webp) center 35%/cover no-repeat,
 .logo{display:block;flex:none;width:168px;aspect-ratio:900/238;background:url(/menu/img/e00746565e35.webp) center/contain no-repeat}
 @media (max-width:899px){.logo{width:148px}}
 @media (max-width:900px){.nav{padding:16px 20px}.nav.solid{padding:12px 20px}}
-.nav nav{display:flex;gap:clamp(14px,3vw,28px)}
+.nav nav{display:flex;gap:44px;margin:0 auto;padding:0 24px}
 .nav nav a{text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;opacity:.8;padding:6px 0;border-bottom:1px solid transparent;transition:opacity .3s,border-color .3s}
 .nav nav a:hover,.nav nav a.on{opacity:1;border-color:var(--acc)}
+.nav nav a{white-space:nowrap}
+@media (max-width:1439px){.nav nav{gap:26px}.nav nav a{letter-spacing:.16em}}
 .ey{display:block;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--acc);font-weight:600;margin-bottom:12px}
 h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 .lede{margin-top:16px;color:var(--mut);font-size:.95rem;line-height:1.7;font-weight:300;max-width:500px}
@@ -75,8 +77,7 @@ html[dir=rtl] .ey,html[dir=rtl] .no,html[dir=rtl] .hd h2,html[dir=rtl] .nav nav 
 html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.35}
 html[dir=rtl] .lede,html[dir=rtl] .sub,html[dir=rtl] .lst p,html[dir=rtl] .shNote{line-height:1.9}
 html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl] .lede{overflow-wrap:anywhere}
-@media (max-width:380px){.nav nav a{letter-spacing:.1em;font-size:.66rem}.nav nav{gap:12px!important}}
-@media (max-width:560px){.nav{display:grid;grid-template-columns:1fr auto;grid-template-rows:72px auto;align-items:center;row-gap:0;padding-top:0;padding-bottom:6px}.nav.solid{grid-template-rows:62px auto;padding-top:0;padding-bottom:6px}.logo{width:clamp(100px,29.7vw,148px)}.navR{display:contents}.langSw{grid-column:2;grid-row:1;padding:7px 11px;font-size:.68rem}.nav nav{grid-column:1/-1;grid-row:2;gap:18px;flex-wrap:wrap;padding-bottom:4px}.intro{padding-top:calc(124px + clamp(20px,6vh,60px))}}
+@media (max-width:560px){.logo{width:clamp(100px,29.7vw,148px)}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.ph img,.pn{transition:none!important;transform:none!important;opacity:1!important}}
 
 .cards{max-width:1180px;margin:0 auto;padding:10px clamp(20px,5vw,44px) 30px;display:grid;gap:clamp(36px,7vw,90px)}
@@ -111,10 +112,50 @@ html[dir=rtl] .langSw::before{transform-origin:right center}
 @media (prefers-reduced-motion:reduce){.shCta::before{animation:none}}
 .aed{display:inline-block;width:.92em;height:.8em;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92.71 80.98'%3E%3Cpath d='M63%2C75.06c-6.67%2C3.73-14.97%2C5.36-22.65%2C5.62-10.73.37-21.32.36-32.06.17%2C2.99-4.06%2C3.59-8.61%2C3.91-13.36l.03-14.96-5.71-.03c-1.61%2C0-3.07-.76-4.14-1.85C.53%2C48.24-.2%2C45.33.09%2C42.4c1.34%2C1.37%2C3.07%2C2.08%2C4.96%2C2.1l7.17.06v-8.31s-5.34-.03-5.34-.03c-1.66%2C0-3.35-.55-4.44-1.83C.45%2C32.06-.25%2C29%2C.08%2C26.08c1.23%2C1.32%2C2.88%2C2.08%2C4.68%2C2.09l7.47.05v-13.63c-.18-5.2-.76-10.27-3.94-14.59l29.91.09c4.69.01%2C9.15.57%2C13.7%2C1.57%2C10.09%2C2.23%2C18.82%2C7.65%2C23.6%2C16.94%2C1.57%2C3.07%2C2.5%2C6.22%2C3.31%2C9.6l7.32.03c1.57%2C0%2C2.97.7%2C4.07%2C1.73%2C1.93%2C2.41%2C2.73%2C5.39%2C2.37%2C8.35-1.25-1.28-2.84-2.01-4.6-2.03l-7.88-.08c.32%2C2.83.33%2C5.47%2C0%2C8.33h5.81c1.5%2C0%2C3.19.51%2C4.23%2C1.67%2C2.08%2C2.35%2C2.83%2C5.53%2C2.48%2C8.45-1.28-1.35-2.95-2.08-4.77-2.09l-9.02-.05c-.81%2C3.48-1.78%2C6.74-3.41%2C9.89-2.8%2C5.39-7.13%2C9.69-12.43%2C12.65ZM50.8%2C6.51c-2.78-1.16-5.52-1.82-8.53-2.28-6.05-.82-12.11-.78-18.14-.09l.08%2C24.09h41.31c-1.75-9.08-6.08-17.66-14.72-21.72ZM66.52%2C36.19l-42.31.02v8.38s42.32-.02%2C42.32-.02v-8.38ZM51.73%2C73.92c8.16-4.38%2C12.15-12.68%2C13.81-21.39H24.21s-.07%2C24.22-.07%2C24.22c5.69.61%2C11.4.69%2C17.11.03%2C3.68-.49%2C7.06-1.24%2C10.48-2.86Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92.71 80.98'%3E%3Cpath d='M63%2C75.06c-6.67%2C3.73-14.97%2C5.36-22.65%2C5.62-10.73.37-21.32.36-32.06.17%2C2.99-4.06%2C3.59-8.61%2C3.91-13.36l.03-14.96-5.71-.03c-1.61%2C0-3.07-.76-4.14-1.85C.53%2C48.24-.2%2C45.33.09%2C42.4c1.34%2C1.37%2C3.07%2C2.08%2C4.96%2C2.1l7.17.06v-8.31s-5.34-.03-5.34-.03c-1.66%2C0-3.35-.55-4.44-1.83C.45%2C32.06-.25%2C29%2C.08%2C26.08c1.23%2C1.32%2C2.88%2C2.08%2C4.68%2C2.09l7.47.05v-13.63c-.18-5.2-.76-10.27-3.94-14.59l29.91.09c4.69.01%2C9.15.57%2C13.7%2C1.57%2C10.09%2C2.23%2C18.82%2C7.65%2C23.6%2C16.94%2C1.57%2C3.07%2C2.5%2C6.22%2C3.31%2C9.6l7.32.03c1.57%2C0%2C2.97.7%2C4.07%2C1.73%2C1.93%2C2.41%2C2.73%2C5.39%2C2.37%2C8.35-1.25-1.28-2.84-2.01-4.6-2.03l-7.88-.08c.32%2C2.83.33%2C5.47%2C0%2C8.33h5.81c1.5%2C0%2C3.19.51%2C4.23%2C1.67%2C2.08%2C2.35%2C2.83%2C5.53%2C2.48%2C8.45-1.28-1.35-2.95-2.08-4.77-2.09l-9.02-.05c-.81%2C3.48-1.78%2C6.74-3.41%2C9.89-2.8%2C5.39-7.13%2C9.69-12.43%2C12.65ZM50.8%2C6.51c-2.78-1.16-5.52-1.82-8.53-2.28-6.05-.82-12.11-.78-18.14-.09l.08%2C24.09h41.31c-1.75-9.08-6.08-17.66-14.72-21.72ZM66.52%2C36.19l-42.31.02v8.38s42.32-.02%2C42.32-.02v-8.38ZM51.73%2C73.92c8.16-4.38%2C12.15-12.68%2C13.81-21.39H24.21s-.07%2C24.22-.07%2C24.22c5.69.61%2C11.4.69%2C17.11.03%2C3.68-.49%2C7.06-1.24%2C10.48-2.86Z'/%3E%3C/svg%3E") center/contain no-repeat;vertical-align:-.06em;margin-right:.22em;letter-spacing:0}
 html[dir=rtl] .aed{margin-right:0;margin-left:.22em}
+
+/* nav: same structure as the menu page (centred links, language dropdown, burger on small screens) */
+.langBox{position:relative;flex:none}
+.langBox .langSw{margin:0;display:inline-flex;align-items:center;gap:8px}
+.langSw::after{content:'';width:5px;height:5px;border:solid currentColor;border-width:0 1.6px 1.6px 0;transform:rotate(45deg) translateY(-2px);transition:transform .3s}
+.langBox.open .langSw::after{transform:rotate(225deg) translate(-1px,1px)}
+.langMenu{position:absolute;top:calc(100% + 12px);inset-inline-end:0;min-width:160px;padding:6px;border-radius:18px;background:rgba(16,18,19,.98);box-shadow:0 22px 44px -18px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.1);opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);transform-origin:top right;transition:opacity .25s,transform .35s cubic-bezier(.22,1,.36,1),visibility .25s;z-index:100}
+html[dir=rtl] .langMenu{transform-origin:top left}
+.langBox.open .langMenu{opacity:1;visibility:visible;transform:none}
+.langMenu button{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:11px 14px;border:0;border-radius:12px;background:none;font:600 .8rem/1 'Montserrat',system-ui,sans-serif;color:var(--ink);text-align:start;cursor:pointer;transition:background-color .2s}
+.langMenu button::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--acc);transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.langMenu button.on::after{transform:scale(1)}
+@media (hover:hover){.langMenu button:hover{background:rgba(255,255,255,.08)}}
+.burger{display:none;align-items:center;justify-content:center;flex:none;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--ink);background:rgba(255,255,255,.06);color:var(--ink);position:relative;overflow:hidden;isolation:isolate;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s}
+.burger::before{content:'';position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--ink);transform:scale(0);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.burger i{display:block;position:relative;width:14px;height:2px;border-radius:2px;background:var(--ink);margin-inline-start:-8px;transition:width .4s cubic-bezier(.22,1,.36,1),background-color .3s}
+.burger i::before,.burger i::after{content:'';position:absolute;left:0;height:2px;border-radius:2px;background:var(--ink);transition:width .4s cubic-bezier(.22,1,.36,1),background-color .3s}
+.burger i::before{top:-7px;width:22px}.burger i::after{top:7px;width:18px}
+@media (hover:hover){.burger:hover{transform:scale(1.06);box-shadow:0 12px 22px -12px rgba(214,180,110,.6)}.burger:hover::before{transform:scale(1)}.burger:hover i,.burger:hover i::before,.burger:hover i::after{background:#10231F}.burger:hover i{width:22px;margin-inline-start:0}.burger:hover i::after{width:22px}}
+.burger:active{transform:scale(.92)}
+html[dir=rtl] .burger i{margin-inline-start:-8px}
+html[dir=rtl] .burger:hover i{margin-inline-start:0}
+@media (max-width:1300px){.nav nav{display:none}.burger{display:flex}}
+.mnav{position:fixed;inset:0;z-index:90;background:rgba(14,12,11,.97);display:none;flex-direction:column;align-items:center;justify-content:center;gap:26px}
+.mnav a{font-family:'Montserrat',sans-serif;font-weight:600;text-transform:uppercase;font-size:1.3rem;letter-spacing:.08em;text-decoration:none;color:var(--ink)}
+.mnav a.on{color:var(--acc)}
+.mnav .x{position:absolute;top:22px;right:24px;width:48px;height:48px;border-radius:50%;border:1.5px solid var(--ink);background:none;color:var(--ink);display:grid;place-items:center;font-size:1.6rem;line-height:1;padding:0 0 3px;cursor:pointer;transition:transform .5s cubic-bezier(.22,1,.36,1),background-color .3s,color .3s}
+html[dir=rtl] .mnav .x{right:auto;left:24px}
+html[dir=rtl] .mnav a{text-transform:none}
+@media (hover:hover){.mnav .x:hover{transform:rotate(90deg);background:var(--ink);color:#10231F}}
+.mnav .x:active{transform:rotate(90deg) scale(.9)}
+.mnav.open{display:flex;animation:mnavFade .35s ease both}
+.mnav.open>a,.mnav.open>.x{animation:mnavIn .6s cubic-bezier(.22,1,.36,1) both}
+.mnav.open>.x{animation-name:mnavSpin}
+.mnav.open>*:nth-child(3){animation-delay:.05s}.mnav.open>*:nth-child(4){animation-delay:.1s}.mnav.open>*:nth-child(5){animation-delay:.15s}.mnav.open>*:nth-child(6){animation-delay:.2s}.mnav.open>*:nth-child(7){animation-delay:.25s}
+@keyframes mnavFade{from{opacity:0}to{opacity:1}}
+@keyframes mnavIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes mnavSpin{from{opacity:0;transform:rotate(-90deg) scale(.6)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mnav.open,.mnav.open>*{animation:none!important}}
 </style>
 </head>
 <body>
-<div class="nav"><a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a><div class="navR"><nav><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a><a href="/business-lunch/">Business Lunch</a></nav><button class="langSw" id="langSw" type="button" aria-label="Switch language">عربي</button></div></div>
+<div class="nav"><a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a><nav><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a></nav><div class="navR"><div class="langBox" id="langBox"><button class="langSw" id="langSw" type="button" aria-label="Switch language" aria-haspopup="true" aria-expanded="false">EN</button><div class="langMenu" role="menu"><button type="button" role="menuitemradio" data-l="en" class="on" aria-checked="true">English</button><button type="button" role="menuitemradio" data-l="ar" aria-checked="false">العربية</button></div></div><button class="burger" id="burger" type="button" aria-label="Open menu"><i></i></button></div></div>
+<div class="mnav" id="mnav"><button class="x" id="mnavX" type="button" aria-label="Close">×</button><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a></div>
 <div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shishas</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
 <main class="cards">
 <article class="card"><div class="ph"><img src="/menu/img/shisha-1.webp" alt="Amber cube hookah" width="720" height="900" decoding="async"></div><div class="rv"><span class="no">01</span><div class="hd"><h2>Single shisha</h2><b><i class="aed" role="img" aria-label="AED"></i>65</b></div><p class="sub">Single flavours, with mint or without.</p><div class="shChips"><span>Double apple</span><span>Grape mint</span><span>Grape-berry</span><span>Grape</span><span>Lemon</span><span>Orange</span><span>Grapefruit</span><span>Fresh mist</span><span>Blueberry</span><span>Watermelon</span><span>Sweet melon</span><span>Pineapple</span><span>Gum</span><span>Bubble gum</span><span>Gum mastic</span><span>Strawberry</span><span>Mint</span><span>Coconut</span><span>Kiwi</span><span>Vanilla cherry</span><span>Peach</span><span>Mango</span><span>Gum cinnamon</span><span>Rose</span><span>Chocolate coffee</span><span>Energy drink</span><span>Banana</span></div></div></article>
@@ -127,6 +168,7 @@ html[dir=rtl] .aed{margin-right:0;margin-left:.22em}
 <script>
 (function(){
 var nv=document.querySelector('.nav');function sol(){nv.classList.toggle('solid',(window.scrollY||0)>24)}addEventListener('scroll',sol,{passive:true});sol();
+var mn=document.getElementById('mnav');document.getElementById('burger').addEventListener('click',function(){mn.classList.add('open')});document.getElementById('mnavX').addEventListener('click',function(){mn.classList.remove('open')});mn.addEventListener('click',function(e){if(e.target.tagName==='A')mn.classList.remove('open')});addEventListener('keydown',function(e){if(e.key==='Escape')mn.classList.remove('open')});
 [].forEach.call(document.querySelectorAll('.ph img'),function(i){function ok(){i.classList.add('ok')}if(i.complete)ok();else i.addEventListener('load',ok)});
 var els=[].slice.call(document.querySelectorAll('.rv'));
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -6% 0px',threshold:.05});els.forEach(function(e){io.observe(e)})}else els.forEach(function(e){e.classList.add('in')});
@@ -135,7 +177,7 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en
 <script>
 (function(){
 var AR={
-"Food":"الطعام","Business Lunch":"غداء الأعمال","Drinks":"المشروبات","Shisha":"الشيشة",
+"Food":"الطعام","Business Lunch":"غداء الأعمال","Drinks":"المشروبات","Shisha":"الشيشة","Events":"الفعاليات","Contact Us":"تواصل معنا",
 "B-Heaven by Barceló":"بي-هيفن من برشلو","Shishas":"الشيشة",
 "Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.":"شيشة على السطح في برشلو الجداف — خمس شيشات وخمس طرق للاستمتاع بها.",
 "Single shisha":"شيشة بنكهة واحدة","AED 65":"65 درهم","Single flavours, with mint or without.":"نكهة واحدة، مع النعناع أو بدونه.",
@@ -166,7 +208,7 @@ var AR={
 "Shisha · B-Heaven by Barceló":"الشيشة · بي-هيفن من برشلو",
 "Amber cube hookah":"شيشة بقاعدة كهرمانية مكعبة","Carbon fibre hookah":"شيشة من ألياف الكربون","Hookah with wooden stem and lemon-mint base":"شيشة بساق خشبية وقاعدة بالليمون والنعناع","Silver hookah with blue crystal base":"شيشة فضية بقاعدة كريستال زرقاء","Black hookah with smoke":"شيشة سوداء يتصاعد منها الدخان"
 };
-var btn=document.getElementById('langSw'),orig=new WeakMap(),on=false,title0=document.title;
+var btn=document.getElementById('langSw'),box=document.getElementById('langBox'),orig=new WeakMap(),on=false,title0=document.title;
 function key(t){return t.replace(/\s+/g,' ').trim()}
 function walk(fn){var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){var p=n.parentElement;return p&&!p.closest('script,style,button')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}}),n,L=[];while(n=w.nextNode())L.push(n);L.forEach(fn)}
 function font(){if(document.getElementById('arFont'))return;var l=document.createElement('link');l.id='arFont';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap';document.head.appendChild(l)}
@@ -180,10 +222,16 @@ function restore(){
   document.title=title0}
 function set(ar,save){
   if(ar===on)return;on=ar;
-  if(ar){font();document.documentElement.dir='rtl';document.documentElement.lang='ar';btn.textContent='EN';btn.setAttribute('aria-label','Switch to English');apply()}
-  else{restore();document.documentElement.dir='ltr';document.documentElement.lang='en';btn.textContent='عربي';btn.setAttribute('aria-label','التبديل إلى العربية')}
+  if(ar){font();document.documentElement.dir='rtl';document.documentElement.lang='ar';apply()}
+  else{restore();document.documentElement.dir='ltr';document.documentElement.lang='en'}
+  paint();
   if(save){try{localStorage.setItem('bh-lang',ar?'ar':'en')}catch(e){}}}
-btn.addEventListener('click',function(){set(!on,true)});
+function paint(){btn.textContent=on?'عربي':'EN';[].forEach.call(box.querySelectorAll('[data-l]'),function(i){var a=(i.getAttribute('data-l')==='ar')===on;i.classList.toggle('on',a);i.setAttribute('aria-checked',a)})}
+function closeBox(){box.classList.remove('open');btn.setAttribute('aria-expanded','false')}
+btn.addEventListener('click',function(e){e.stopPropagation();var o=box.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
+[].forEach.call(box.querySelectorAll('[data-l]'),function(i){i.addEventListener('click',function(e){e.stopPropagation();set(i.getAttribute('data-l')==='ar',true);closeBox()})});
+document.addEventListener('click',function(e){if(!box.contains(e.target))closeBox()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBox()});
 try{if(localStorage.getItem('bh-lang')==='ar')set(true,false)}catch(e){}
 })();
 </script>
