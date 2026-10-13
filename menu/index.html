@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B-Heaven by Barceló | Rooftop Levantine Restaurant, Al Jaddaf, Dubai</title>
 <meta name="description" content="Rooftop Levantine restaurant at Barceló Al Jaddaf, Dubai. Modern Levant cuisine from a charcoal kitchen, signature cocktails and skyline views.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <link rel="canonical" href="https://bheavendubai.com/menu/">
 <link rel="alternate" hreflang="en" href="https://bheavendubai.com/menu/">
 <link rel="alternate" hreflang="ar" href="https://bheavendubai.com/ar/menu/">
@@ -3068,6 +3069,17 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
 (()=>{const els=document.querySelectorAll('.rvw,.peWrap');const on=e=>e.classList.add('lz');
   if(!('IntersectionObserver' in window)){els.forEach(on);return}
   const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){on(en.target);io.unobserve(en.target)}}),{rootMargin:'900px 0px'});els.forEach(e=>io.observe(e))})();
+/* full menu as structured data, built from the live menu data so admin edits flow through */
+(()=>{const run=()=>{try{
+  const el=document.querySelector('script[type="application/ld+json"]');if(!el)return;const o=JSON.parse(el.textContent);
+  const offers=p=>{p=String(p||'');const g=p.match(/(\d+(?:\.\d+)?)\s*glass\D+(\d+(?:\.\d+)?)\s*bottle/i);
+    if(g)return[{"@type":"Offer","name":"Glass","price":g[1],"priceCurrency":"AED"},{"@type":"Offer","name":"Bottle","price":g[2],"priceCurrency":"AED"}];
+    const n=p.match(/(\d+(?:\.\d+)?)/);return n?{"@type":"Offer","price":n[1],"priceCurrency":"AED"}:undefined};
+  const sec=(cats,src)=>cats.filter(c=>src[c.k]&&src[c.k].length).map(c=>{const x={"@type":"MenuSection","name":c.t};if(c.d)x.description=c.d;
+    x.hasMenuItem=src[c.k].filter(d=>d&&d.n).map(d=>{const it={"@type":"MenuItem","name":d.n};if(d.d)it.description=d.d;const f=offers(d.p);if(f)it.offers=f;return it});return x});
+  o.hasMenu={"@type":"Menu","name":"B-Heaven food and drinks menu","url":o.url,"hasMenuSection":sec(CATS,M).concat(sec(DCATS,DM))};
+  el.textContent=JSON.stringify(o)}catch(e){}};
+  try{(window.requestIdleCallback||(f=>setTimeout(f,800)))(run,{timeout:2000})}catch(e){}})();
 const navMap=[['home','#home'],['menu','#menu'],['story','#story'],['events','#events'],['contact','#contact']];
 const nio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let id=en.target.id; if(id.startsWith('cat-')||id.startsWith('d-')||id==='menuRoot'||id==='drinkRoot'||id==='menu')id=document.body.dataset.mode==='drinks'?'drinks':'menu'; document.querySelectorAll('nav.top ul a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));}}),{rootMargin:'-50% 0px -50% 0px'});
 ['home','menu','menuRoot','drinkRoot','story','events','contact'].forEach(id=>{const el=document.getElementById(id); if(el) nio.observe(el);});
