@@ -1,6 +1,6 @@
 const { isAuthed, send, kvPipeline, dubaiDay } = require('./_lib');
 
-const TYPES = ['dish_open', 'pick_add', 'picks_send', 'cat_view', 'lang', 'mode', 'visit'];
+const TYPES = ['dish_open', 'pick_add', 'picks_send', 'cat_view', 'lang', 'mode', 'visit', 'page', 'book', 'source'];
 
 module.exports = async (req, res) => {
   if (!isAuthed(req)) return send(res, 401, { error: 'Sign in required' });

@@ -653,6 +653,7 @@ window.addEventListener('beforeunload',function(e){if(offerDirty()){e.preventDef
   b.addEventListener('click',function(){state.days=d;document.querySelectorAll('#range .btn').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');loadStats()});
   $('#range').appendChild(b);
 });
+function tapSum(o,pre){return Object.keys(o||{}).reduce(function(a,k){return k.indexOf(pre)===0?a+o[k]:a},0)}
 function sum(o){return Object.keys(o||{}).reduce(function(a,k){return a+o[k]},0)}
 function top(o,n){return Object.keys(o||{}).map(function(k){return[k,o[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,n)}
 function bars(title,pairs,fmt){
@@ -689,12 +690,14 @@ function loadStats(){
     var visitors=daily.reduce(function(a,d){return a+d.visitors},0);
     var wrap=el('div');
     var k=el('div',{class:'kpis'});
-    [['Visitors',visitors],['Dish opens',sum(t.dish_open)],['Dishes added to picks',sum(t.pick_add)],['Picks sent to book',sum(t.picks_send)]].forEach(function(x){k.appendChild(el('div',{class:'kpi'},[el('b',{text:x[1].toLocaleString()}),el('span',{text:x[0]})]))});
+    [['Visitors',visitors],['Book taps',tapSum(t.book,'Book')],['Call taps',tapSum(t.book,'Call')],['Dish opens',sum(t.dish_open)],['Dishes added to picks',sum(t.pick_add)],['Picks sent to book',sum(t.picks_send)]].forEach(function(x){k.appendChild(el('div',{class:'kpi'},[el('b',{text:x[1].toLocaleString()}),el('span',{text:x[0]})]))});
     wrap.appendChild(k);
     var cp=el('div',{class:'panel'},[el('h3',{text:'Per day'})]);cp.appendChild(dailyChart(daily));
     cp.appendChild(el('div',{class:'legend'},[el('span',{},[el('i',{style:'background:#B08D57'}),document.createTextNode('Visitors')]),el('span',{},[el('i',{style:'background:#1E6F6C'}),document.createTextNode('Dish opens')])]));
     wrap.appendChild(cp);
     var g=el('div',{class:'grid2'});
+    g.appendChild(bars('Book and call taps',top(t.book,6)));
+    g.appendChild(bars('Where visitors come from',top(t.source,8)));
     g.appendChild(bars('Most opened dishes',top(t.dish_open,10)));
     g.appendChild(bars('Most added to picks',top(t.pick_add,10)));
     g.appendChild(bars('Sections viewed',top(t.cat_view,10)));
