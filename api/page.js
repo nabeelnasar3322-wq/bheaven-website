@@ -61,6 +61,13 @@ function transform(html, page, lang) {
   // tell the page script which language this URL is for (runs before the page script)
   out = out.replace('<head>', `<head>\n<script>window.__BH_LANG='${lang}'</script>`);
 
+  // Arabic: start fetching the Arabic font stylesheet with the HTML (preload only, so it never blocks
+  // the first paint). The page script requests the same URL later and gets it from cache.
+  if (lang === 'ar') {
+    const weights = page === 'business-lunch' ? '400;500;600;700;800' : '300;400;500;600;700;800';
+    out = out.replace('<head>', `<head>\n<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@${weights}&display=swap">`);
+  }
+
   // the page lives one level deeper now, so relative image paths need a root
   out = out.replace(/(["'(`])img\//g, '$1/menu/img/');
   // the menu page's idle image preloader scans its own script text for image paths
