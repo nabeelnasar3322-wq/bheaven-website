@@ -2774,13 +2774,13 @@ function fillBoard(bd,g){
   const k=bd.dataset.bk, list=DM[k];
   bd.querySelector('.bhead span').textContent=g;
   bd.querySelector('.rows').innerHTML=list.map((d,i)=>[d,i]).filter(([d])=>d.grp===g).map(([d,i],j)=>`<button class="row" data-k="${esc(k)}" data-i="${i}" style="--j:${j}"><img loading="lazy" decoding="async" src="${d.img}" alt=""><span class="rn"><b>${esc(d.n)}</b>${d.d&&d.d!==g?`<small>${esc(d.d)}</small>`:''}</span><span class="c">${d.c1==null?'—':esc(d.c1)}</span><span class="c">${d.c2==null?'—':esc(d.c2)}</span></button>`).join('');
-  const first=bd.querySelector('.row'); if(first) viz(bd,first);
+  const first=bd.querySelector('.row'); if(first) viz(bd,first,true);
 }
-function viz(bd,row){
+function viz(bd,row,init){
   const d=DM[bd.dataset.bk][+row.dataset.i], v=bd.querySelector('.bviz'); if(!v) return;
   bd.querySelectorAll('.row.act').forEach(r=>r.classList.remove('act')); row.classList.add('act');
   const im=v.querySelector('img'); if(im.dataset.src===d.img) return;
-  im.dataset.src=d.img; im.src=d.img; im.classList.remove('swap'); void im.offsetWidth; im.classList.add('swap');
+  im.dataset.src=d.img; im.src=d.img; if(!init){im.classList.remove('swap'); void im.offsetWidth; im.classList.add('swap')}
   v.querySelector('.eyebrow').textContent=d.grp||''; v.querySelector('b').textContent=d.n; v.querySelector('em').innerHTML=P(d.p);
 }
 const CLA_SP={"Mediterranean Negroni":"Gin","Old Fashioned de Nuez":"Bourbon","Paloma Picante":"Tequila","Margarita al Comino":"Tequila","Boulevardier":"Bourbon","G & T":"Gin","All Citrus Gimlet":"Gin","Espresso Martini":"Vodka","Midnight in Spain Sangria":"Wine","Mediterranean Martini":"Gin / Vodka"};
@@ -3048,7 +3048,7 @@ function _onScroll(){_sq=0;const y=scrollY,sol=y>40;
   const p=_sh>0?y/_sh:0; if(p!==_pg){_pg=p;prog.style.transform=`scaleX(${p})`}
 }
 function onScroll(){if(!_sq)_sq=requestAnimationFrame(_onScroll)}
-_calc();addEventListener('resize',_calc);addEventListener('load',_calc);try{new ResizeObserver(_calc).observe(document.body)}catch(e){}
+_calc();addEventListener('resize',_calc);addEventListener('load',_calc);try{let _rt=0;new ResizeObserver(()=>{clearTimeout(_rt);_rt=setTimeout(_calc,150)}).observe(document.body)}catch(e){}
 try{new MutationObserver(()=>setTimeout(_calc,450)).observe(document.body,{attributes:true,attributeFilter:['data-mode']})}catch(e){}
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
 const navMap=[['home','#home'],['menu','#menu'],['story','#story'],['events','#events'],['contact','#contact']];
