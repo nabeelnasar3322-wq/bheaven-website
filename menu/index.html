@@ -2592,6 +2592,13 @@ Object.entries(WINE).forEach(([g,rows])=>rows.forEach(([n,s,c1,c2])=>put("Wine &
 Object.entries(BEER).forEach(([g,rows])=>rows.forEach(([n,s,pr,v])=>put("Beers",{n,d:s,p:"AED "+pr,t:[],grp:g,c1:pr},v||{g:'pint',a:'#F2C04A',b:'#D9901C',foam:1,bub:1})));
 Object.entries(SPIRITS).forEach(([g,rows])=>rows.forEach(([n,c1,c2])=>put("Spirits",{n,d:g,p:gb(c1,c2),t:[],grp:g,c1,c2},SPIRIT_V[g])));
 Object.entries(SOFT).forEach(([g,rows])=>rows.forEach(([n,pr])=>put("Coffee, tea & soft",{n,d:g,p:"AED "+pr,t:[],grp:g,c1:pr},SOFT_V[n])));
+/* drinks edited in the admin dashboard (api/drinks.js rewrites the next line only): edit/add/del keyed "Category|Group|Name" */
+const DOV = {"edit":{},"add":[],"del":[]};
+const GPRE={"Rocks glass - amber":{g:'rocks',a:'#D98A3A',b:'#8E4A16',gar:'peel',ice:9},"Rocks glass - red":{g:'rocks',a:'#E2452A',b:'#9E1C12',gar:'peel',ice:9},"Rocks glass - clear":{g:'rocks',a:'#EEF2F2',b:'#DCE4E4',gar:'lime',ice:9},"Highball - citrus":{g:'highball',a:'#F7E7A1',b:'#E9C85A',gar:'lemon',ice:3,bub:1},"Highball - orange":{g:'highball',a:'#FBC66A',b:'#F08E2E',gar:'orange',ice:2},"Highball - mint":{g:'highball',a:'#DFF2B2',b:'#9ACB5A',gar:'mint',ice:3,bub:1},"Coupe - gold":{g:'coupe',a:'#F2C25C',b:'#D98E24',gar:'pine'},"Martini glass":{g:'martini',a:'#EDEBD6',b:'#CFCBA6',gar:'olive'},"Wine glass - white":{g:'wine',a:'#F4E7A6',b:'#E2C766'},"Wine glass - rose":{g:'wine',a:'#F7B8B0',b:'#E88A86'},"Wine glass - red":{g:'wine',a:'#8E1230',b:'#4A0616'},"Flute - sparkling":{g:'flute',a:'#F6E9B0',b:'#E8D27A',bub:1},"Beer bottle":{g:'bottle',a:'#1F6B3A',b:'#E9F1E4',cap:'#C8102E'},"Beer pint":{g:'pint',a:'#F2C04A',b:'#D9901C',foam:1,bub:1},"Snifter - brandy":{g:'snifter',a:'#C9782E',b:'#7E3A10'},"Coffee cup":{g:'cup',a:'#3A2014'},"Soft can":{g:'can',a:'#1D3F94',b:'#E32934'},"Water bottle":{g:'water',a:'#DDEBF0',b:'#1E4E8C'}};
+(()=>{const kf=(k,d)=>k+"|"+(d.grp||"")+"|"+d.n;
+ Object.keys(DM).forEach(k=>{DM[k]=DM[k].filter(d=>DOV.del.indexOf(kf(k,d))<0);DM[k].forEach(d=>{const o=DOV.edit[kf(k,d)];if(o)Object.assign(d,o)})});
+ DOV.add.forEach(a=>{if(!DM[a.k])return;const it={n:a.n,d:a.d||"",p:a.p,t:[]};if(a.grp)it.grp=a.grp;if(a.c1!=null)it.c1=a.c1;if(a.c2!=null)it.c2=a.c2;it.spec=GPRE[a.glass]||GPRE["Rocks glass - amber"];DM[a.k].push(it)});
+})();
 const DCATS=[
  {k:"Signature cocktails",t:"Signature Cocktails",lay:"shelf",d:"Ten house creations, from milk-washed rum to clarified bourbon. Pick a name to preview it."},
  {k:"Clásico cocktails",t:"Clásico Cocktails",lay:"square",d:"The classics, reworked with a Mediterranean hand: olive oil-washed gin, cumin mango, walnut bourbon."},
@@ -2875,7 +2882,7 @@ document.querySelectorAll('.slider').forEach(sl=>{
   tr.addEventListener('click',e=>{if(e.target.closest('.sliderCard')){const btn=e.target.closest('.sliderCard'); drinkFocus(btn.dataset.k,+btn.dataset.i);}});
 });
 /* glasses overlapping the band in drinks mode */
-$('#bandGlasses').innerHTML=[["Signature cocktails",2,'16%','-150px'],["Clásico cocktails",7,'29%','-116px']].map(([k,i,l,t])=>`<div style="position:absolute;left:${l};top:${t}"><button class="gl" data-k="${esc(k)}" data-i="${i}" aria-label="${esc(DM[k][i].n)}" style="flex:none;width:140px"><img loading="lazy" decoding="async" src="${DM[k][i].img}" alt="" style="height:200px"></button></div>`).join('');
+$('#bandGlasses').innerHTML=[["Signature cocktails",2,'16%','-150px'],["Clásico cocktails",7,'29%','-116px']].map(([k,i0,l,t])=>{const i=Math.max(0,Math.min(i0,DM[k].length-1));return `<div style="position:absolute;left:${l};top:${t}"><button class="gl" data-k="${esc(k)}" data-i="${i}" aria-label="${esc(DM[k][i].n)}" style="flex:none;width:140px"><img loading="lazy" decoding="async" src="${DM[k][i].img}" alt="" style="height:200px"></button></div>`}).join('');
 
 /* ================= MODE SWITCH ================= */
 const FOOD_TXT={h1:'A taste <em>above</em> the city',p:'Modern Levant plates from a charcoal kitchen, served on the rooftop of Barceló Al Jaddaf with the skyline for company.',meta:'<div><b>33</b>dishes</div><div><b>3</b>nights a week</div><div><b>9–2</b>open daily</div>',cap:'Fattoush Salad',capS:'Tap the plate to look closer',k:'From the gardens',i:2,title:'The Menu',sub:'Seven chapters, thirty-three plates. Tap any dish to see it up close, save it to your picks, and send them to us when you book.',marq:["Charcoal","Sumac","Za'atar","Citrus","Smoke","Fresh herbs","Pomegranate","Skyline views"]};
@@ -2895,7 +2902,7 @@ function applyMode(m){
   document.body.dataset.mode=m; const T=m==='drinks'?DRINK_TXT:FOOD_TXT;
   document.querySelectorAll('.modeSw').forEach(sw=>{sw.classList.toggle('isD',m==='drinks');sw.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));});
   $('.heroCopy h1').innerHTML=T.h1; $('.heroCopy p').textContent=T.p; $('#heroMeta').innerHTML=T.meta;
-  $('#heroImg').src=m==='drinks'?DM[T.k][T.i].img:HERO_IMG; const hp=$('#heroPlate'); hp.dataset.k=T.k; hp.dataset.i=T.i;
+  const Ti=m==='drinks'?Math.max(0,Math.min(T.i,DM[T.k].length-1)):T.i; $('#heroImg').src=m==='drinks'?DM[T.k][Ti].img:HERO_IMG; const hp=$('#heroPlate'); hp.dataset.k=T.k; hp.dataset.i=Ti;
   $('#heroCap').textContent=T.cap; $('#heroCap').nextSibling.textContent=T.capS;
   $('#toolsTitle').textContent=T.title; $('#toolsSub').textContent=T.sub;
   const h=T.marq.map(x=>`<span>${x}</span>`).join(''); $('#marq1').innerHTML=h+h+h+h;

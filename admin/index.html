@@ -108,6 +108,17 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
 .stat b{font-size:1.4rem}
 @media (max-width:700px){.ocard,.compose{grid-template-columns:1fr}}
 @media (max-width:620px){.dish{grid-template-columns:1fr}}
+.dr .dish{grid-template-columns:minmax(0,1fr) 150px}
+.dr .dish.gone{opacity:.45}
+.dr .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dr .nm em{font-style:normal;font-size:.68rem;color:var(--teal);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.dr .add{background:var(--tile);border:1px dashed var(--line);border-radius:14px;padding:16px;margin-bottom:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dr .add .full,.dr .dish .full{grid-column:1/-1}
+.dr .addbtn{width:100%;margin:2px 0 0}
+.dr .rm{justify-self:end;align-self:start}
+.tabs{overflow-x:auto;scrollbar-width:none}
+.tab{white-space:nowrap}
+@media(max-width:560px){.dr .dish,.dr .add{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -129,7 +140,8 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
     <button class="btn" id="logout">Sign out</button>
   </header>
   <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="tabMenu" aria-selected="true" aria-controls="paneMenu">Menu</button>
+    <button class="tab" role="tab" id="tabMenu" aria-selected="true" aria-controls="paneMenu">Food</button>
+    <button class="tab" role="tab" id="tabDrinks" aria-selected="false" aria-controls="paneDrinks">Drinks</button>
     <button class="tab" role="tab" id="tabOffers" aria-selected="false" aria-controls="paneOffers">Offers &amp; alerts</button>
     <button class="tab" role="tab" id="tabStats" aria-selected="false" aria-controls="paneStats">Analytics</button>
   </div>
@@ -137,6 +149,11 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
   <section id="paneMenu" role="tabpanel" aria-labelledby="tabMenu">
     <p class="note">Edit descriptions, prices, allergens and the Spanish text for every food dish. Saving publishes to the live menu automatically, usually within a minute. Photos must be cutouts with a transparent background; each photo publishes on its own with the Publish photo button. Dish names and order are locked so nothing breaks.</p>
     <div id="menuList"><p class="empty">Loading menu…</p></div>
+  </section>
+
+  <section id="paneDrinks" role="tabpanel" aria-labelledby="tabDrinks" class="hide">
+    <p class="note">Change prices and descriptions, add new drinks or remove old ones. Cocktail descriptions can have Spanish text too. Saving publishes to the live menu automatically, usually within a minute. Names are locked once a drink exists, so to rename one, remove it and add it again.</p>
+    <div id="drinksList"><p class="empty">Loading drinks…</p></div>
   </section>
 
   <section id="paneOffers" role="tabpanel" aria-labelledby="tabOffers" class="hide">
@@ -168,6 +185,7 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
   </section>
 </main>
 
+<div class="savebar hide" id="dSaveBar"><span id="dSaveCount"></span><button class="btn" id="dDiscard">Discard</button><button class="btn primary" id="dSave">Save &amp; publish</button></div>
 <div class="savebar hide" id="saveBar"><span id="saveCount"></span><button class="btn" id="discard">Discard</button><button class="btn primary" id="save">Save &amp; publish</button></div>
 <div class="toast hide" id="toast" role="status"></div>
 
@@ -190,22 +208,29 @@ function toast(msg,ms){var t=$('#toast');t.textContent=msg;t.classList.remove('h
 function show(authed){$('#loginView').classList.toggle('hide',authed);$('#appView').classList.toggle('hide',!authed);if(!authed)$('#saveBar').classList.add('hide')}
 $('#loginForm').addEventListener('submit',function(e){
   e.preventDefault();$('#loginErr').textContent='';$('#loginBtn').disabled=true;
-  api('/api/login',{method:'POST',body:{password:$('#pw').value}}).then(function(){$('#pw').value='';show(true);loadMenu()})
+  api('/api/login',{method:'POST',body:{password:$('#pw').value}}).then(function(){$('#pw').value='';show(true);afterAuth()})
    .catch(function(err){$('#loginErr').textContent=err.message}).then(function(){$('#loginBtn').disabled=false});
 });
 $('#logout').addEventListener('click',function(){api('/api/login',{method:'DELETE'}).then(function(){show(false)})});
 function sessionExpired(){show(false);$('#loginErr').textContent='Your session ended. Please sign in again.'}
 
 /* ---------- tabs ---------- */
+var TABS={menu:['tabMenu','paneMenu'],drinks:['tabDrinks','paneDrinks'],offers:['tabOffers','paneOffers'],stats:['tabStats','paneStats']};
 function setTab(which){
-  var m=which==='menu',o=which==='offers',st=which==='stats';
-  $('#tabMenu').setAttribute('aria-selected',m);$('#tabOffers').setAttribute('aria-selected',o);$('#tabStats').setAttribute('aria-selected',st);
-  $('#paneMenu').classList.toggle('hide',!m);$('#paneOffers').classList.toggle('hide',!o);$('#paneStats').classList.toggle('hide',!st);
-  updateBar();if(st)loadStats();if(o)loadOffers();
+  if(!TABS[which])which='menu';
+  Object.keys(TABS).forEach(function(k){var on=k===which;$('#'+TABS[k][0]).setAttribute('aria-selected',on);$('#'+TABS[k][1]).classList.toggle('hide',!on)});
+  try{localStorage.setItem('bhTab',which)}catch(e){}
+  try{history.replaceState(null,'','#'+(which==='menu'?'food':which))}catch(e){}
+  updateBar();updateDBar();if(which==='stats')loadStats();if(which==='offers')loadOffers();if(which==='drinks')loadDrinks();
 }
-$('#tabMenu').addEventListener('click',function(){setTab('menu')});
-$('#tabOffers').addEventListener('click',function(){setTab('offers')});
-$('#tabStats').addEventListener('click',function(){setTab('stats')});
+function initialTab(){
+  var h=(location.hash||'').slice(1).toLowerCase();if(h==='food')h='menu';
+  if(TABS[h])return h;
+  try{var t=localStorage.getItem('bhTab');if(TABS[t])return t}catch(e){}
+  return 'menu';
+}
+Object.keys(TABS).forEach(function(k){$('#'+TABS[k][0]).addEventListener('click',function(){setTab(k)})});
+window.addEventListener('hashchange',function(){if(!$('#appView').classList.contains('hide')){var h=(location.hash||'').slice(1).toLowerCase();if(h==='food')h='menu';if(TABS[h])setTab(h)}});
 
 /* ---------- menu editor ---------- */
 function clone(o){return JSON.parse(JSON.stringify(o))}
@@ -361,6 +386,167 @@ $('#save').addEventListener('click',function(){
   }).then(function(){b.disabled=false;b.textContent='Save & publish'});
 });
 window.addEventListener('beforeunload',function(e){if(state.menu&&countDirty()){e.preventDefault();e.returnValue=''}});
+
+/* ---------- drinks editor ---------- */
+var dr={items:null,base:'',cats:null,groups:null,glass:null,spanish:null,esBase:null,sha:null,dov:null};
+function dSnap(){return JSON.stringify([dr.items,dr.spanish])}
+function dDirty(){return dr.items&&dSnap()!==dr.base}
+function updateDBar(){
+  var on=$('#tabDrinks').getAttribute('aria-selected')==='true'&&dDirty();
+  $('#dSaveBar').classList.toggle('hide',!on);
+  if(dr.items){var n=0;dr.items.forEach(function(i){if(i.removed||i.isNew||i.c1!==i._c1||i.c2!==i._c2||i.d!==i._d)n++});$('#dSaveCount').textContent=n?(n+' drink'+(n===1?'':'s')+' changed'):'Description text changed'}
+}
+function loadDrinks(){
+  if(dr.items&&dDirty())return;
+  api('/api/drinks').then(function(j){
+    j.items.forEach(function(i){i._c1=i.c1;i._c2=i.c2;i._d=i.d});
+    dr.items=j.items;dr.cats=j.cats;dr.groups=j.groups;dr.glass=j.glass;dr.spanish=j.spanish;dr.esBase=JSON.stringify(j.spanish);dr.sha=j.sha;dr.dov=j.dov;
+    dr.base=dSnap();renderDrinks();updateDBar();
+  }).catch(function(err){
+    if(err.status===401)return sessionExpired();
+    $('#drinksList').replaceChildren(el('p',{class:'empty',text:'Could not load the drinks: '+err.message}));
+  });
+}
+function numField(id,label,val,onchange,ph){
+  var w=el('div',{},[el('label',{class:'lbl',for:id,text:label})]);
+  var pr=el('div',{class:'price'},[el('span',{text:'AED'})]);
+  var inp=el('input',{id:id,type:'text',inputmode:'numeric',maxlength:'10'});if(ph)inp.setAttribute('placeholder',ph);inp.value=val==null?'':String(val);
+  inp.addEventListener('input',function(){onchange(inp.value.trim())});pr.appendChild(inp);w.appendChild(pr);return w;
+}
+// convert what was typed into the value type the API expects
+function toNum(s){return /^\d{1,5}$/.test(s)?+s:(s===''?null:NaN)}
+function priceFields(m,rec,id,after){
+  var labs=m.labels||['Glass','Bottle'],out=[];
+  if(m.kind==='pair'||m.kind==='board'){
+    var pair=el('div',{class:'pair'});
+    pair.appendChild(numField(id+'a',labs[0],rec.c1,function(v){rec.c1=toNum(v);after()},m.kind==='board'?'—':''));
+    pair.appendChild(numField(id+'b',labs[1],rec.c2,function(v){rec.c2=toNum(v);after()},m.kind==='board'?'—':''));
+    return pair;
+  }
+  var isText=m.kind==='beer'||m.kind==='soft';
+  return numField(id+'a','Price',rec.c1,function(v){rec.c1=isText?v:toNum(v);after()},m.kind==='beer'?'45 or 40 | 55':'');
+}
+function drinkCard(it){
+  var m=dr.cats[it.k],id='x'+Math.random().toString(36).slice(2,8);
+  var card=el('div',{class:'dish'+(it.removed?' gone':'')});
+  var nm=el('div',{class:'nm'},[document.createTextNode(it.n)]);
+  if(it.grp)nm.appendChild(el('small',{text:it.grp}));
+  if(it.added||it.isNew)nm.appendChild(el('em',{text:'new'}));
+  var left=el('div',{},[nm]);
+  var right=el('div',{});
+  function paint(){card.classList.toggle('dirty',!!(it.removed||it.isNew||it.c1!==it._c1||it.c2!==it._c2||it.d!==it._d))}
+  function after(){paint();updateDBar()}
+  right.appendChild(priceFields(m,it,id,after));
+  card.appendChild(left);card.appendChild(right);
+  if(m.desc){
+    var dw=el('div',{class:'full'},[el('label',{class:'lbl',for:id+'d',text:'Description (English)'})]);
+    var ta=el('textarea',{class:'field',id:id+'d',maxlength:'420'});ta.value=it.d;
+    ta.addEventListener('input',function(){
+      var old=it.d;it.d=ta.value;
+      if(m.es&&old!==it.d&&Object.prototype.hasOwnProperty.call(dr.spanish,old)){dr.spanish[it.d]=dr.spanish[old];delete dr.spanish[old];if(es)es.value=dr.spanish[it.d]||''}
+      after();
+    });dw.appendChild(ta);card.appendChild(dw);
+    if(m.es){
+      var ew=el('div',{class:'full'},[el('label',{class:'lbl',for:id+'e',text:'Spanish (shown when a guest picks ES)'})]);
+      var es=el('textarea',{class:'field',id:id+'e',maxlength:'600',placeholder:'Leave empty to show the English text'});es.value=dr.spanish[it.d]||'';
+      es.addEventListener('input',function(){if(es.value.trim())dr.spanish[it.d]=es.value;else delete dr.spanish[it.d];after()});
+      ew.appendChild(es);card.appendChild(ew);
+    }
+  }
+  var acts=el('div',{class:'full acts'});
+  if(it.canDelete!==false){
+    var rm=el('button',{type:'button',class:'btn danger',text:it.removed?'Undo remove':'Remove drink'});
+    rm.addEventListener('click',function(){
+      if(it.isNew){dr.items.splice(dr.items.indexOf(it),1);renderDrinks();updateDBar();return}
+      it.removed=!it.removed;renderDrinks();updateDBar();
+    });acts.appendChild(rm);
+  }else acts.appendChild(el('span',{class:'note',text:'Featured on the page, so it cannot be removed.'}));
+  card.appendChild(acts);paint();
+  return card;
+}
+function addForm(k){
+  var m=dr.cats[k],id='n'+Math.random().toString(36).slice(2,8),groups=dr.groups[k]||[];
+  var box=el('div',{class:'add hide'}),rec={k:k,grp:groups[0]||'',n:'',d:'',c1:null,c2:null,glass:dr.glass[0]};
+  var nw=el('div',{},[el('label',{class:'lbl',for:id+'n',text:'Name'})]);
+  var ni=el('input',{class:'field',id:id+'n',maxlength:'60',placeholder:'e.g. Garden Spritz'});ni.addEventListener('input',function(){rec.n=ni.value.trim()});nw.appendChild(ni);box.appendChild(nw);
+  if(groups.length){
+    var sw=el('div',{},[el('label',{class:'lbl',for:id+'g',text:'Group'})]);
+    var gs=el('select',{class:'sel',id:id+'g'});groups.forEach(function(g){gs.appendChild(el('option',{value:g,text:g}))});
+    gs.addEventListener('change',function(){rec.grp=gs.value});sw.appendChild(gs);box.appendChild(sw);
+  }
+  var gw=el('div',{},[el('label',{class:'lbl',for:id+'s',text:'Glass picture'})]);
+  var gl=el('select',{class:'sel',id:id+'s'});dr.glass.forEach(function(g){gl.appendChild(el('option',{value:g,text:g}))});
+  gl.addEventListener('change',function(){rec.glass=gl.value});gw.appendChild(gl);box.appendChild(gw);
+  box.appendChild(priceFields(m,rec,id,function(){}));
+  if(m.desc){
+    var dw=el('div',{class:'full'},[el('label',{class:'lbl',for:id+'d',text:'Description (English)'})]);
+    var ta=el('textarea',{class:'field',id:id+'d',maxlength:'420'});ta.addEventListener('input',function(){rec.d=ta.value});dw.appendChild(ta);box.appendChild(dw);
+    if(m.es){
+      var ew=el('div',{class:'full'},[el('label',{class:'lbl',for:id+'e',text:'Spanish (optional)'})]);
+      var es=el('textarea',{class:'field',id:id+'e',maxlength:'600'});es.addEventListener('input',function(){rec._es=es.value});ew.appendChild(es);box.appendChild(ew);
+    }
+  }
+  var acts=el('div',{class:'full acts'}),ok=el('button',{type:'button',class:'btn primary',text:'Add to list'}),no=el('button',{type:'button',class:'btn',text:'Cancel'});
+  var err=el('p',{class:'warn hide'});
+  ok.addEventListener('click',function(){
+    var bad='';
+    if(rec.n.length<2)bad='Enter a name.';
+    else if(dr.items.some(function(i){return i.k===k&&i.grp===rec.grp&&i.n.toLowerCase()===rec.n.toLowerCase()&&!i.removed}))bad='That drink is already in this list.';
+    else if(m.kind==='pair'&&(!(rec.c1>0)||!(rec.c2>0)))bad='Enter both prices.';
+    else if(m.kind==='board'&&!(rec.c1>0)&&!(rec.c2>0))bad='Enter a glass and/or bottle price.';
+    else if((m.kind==='single'||m.kind==='soft')&&!(+rec.c1>0))bad='Enter a price.';
+    else if(m.kind==='beer'&&!/^\d{1,4}( \| \d{1,4})?$/.test(String(rec.c1||'')))bad='Price like 45, or 40 | 55.';
+    if(bad){err.textContent=bad;err.classList.remove('hide');return}
+    var it={key:k+'|'+rec.grp+'|'+rec.n,k:k,grp:rec.grp,n:rec.n,d:m.desc?rec.d.trim():rec.grp,c1:rec.c1,c2:rec.c2,glass:rec.glass,isNew:true,canDelete:true,_c1:null,_c2:null,_d:''};
+    if(m.es&&rec._es&&rec._es.trim())dr.spanish[it.d]=rec._es.trim();
+    // keep new drinks next to their category, after the existing ones
+    var last=-1;dr.items.forEach(function(x,ix){if(x.k===k)last=ix});dr.items.splice(last+1,0,it);
+    renderDrinks();updateDBar();toast('Added. Press Save & publish to make it live.');
+  });
+  no.addEventListener('click',function(){box.classList.add('hide');btn.classList.remove('hide')});
+  acts.appendChild(ok);acts.appendChild(no);acts.appendChild(err);box.appendChild(acts);
+  var btn=el('button',{type:'button',class:'btn addbtn',text:'+ Add a drink to '+k});
+  btn.addEventListener('click',function(){box.classList.remove('hide');btn.classList.add('hide');ni.focus()});
+  return [btn,box];
+}
+function renderDrinks(){
+  var root=$('#drinksList');root.replaceChildren();root.className='dr';
+  Object.keys(dr.cats).forEach(function(k){
+    var sec=el('section',{class:'cat'},[el('h2',{text:k})]);
+    var lastGrp=null;
+    dr.items.filter(function(i){return i.k===k}).forEach(function(it){
+      if(dr.groups[k]&&dr.groups[k].length&&it.grp!==lastGrp){lastGrp=it.grp;sec.appendChild(el('p',{class:'lbl',style:'margin:14px 0 8px',text:it.grp}))}
+      sec.appendChild(drinkCard(it));
+    });
+    addForm(k).forEach(function(n){sec.appendChild(n)});
+    root.appendChild(sec);
+  });
+}
+$('#dDiscard').addEventListener('click',function(){dr.items=null;loadDrinks()});
+$('#dSave').addEventListener('click',function(){
+  var b=$('#dSave');
+  var dov={edit:{},add:[],del:[].concat(dr.dov.del||[])};
+  var bad='';
+  dr.items.forEach(function(it){
+    var m=dr.cats[it.k];
+    if(it.isNew||it.added){
+      if(it.removed)return;
+      dov.add.push({k:it.k,grp:it.grp,n:it.n,glass:it.glass,d:it.d,c1:it.c1,c2:it.c2});
+    }else if(it.removed){dov.del.push(it.key)}
+    else{dov.edit[it.key]={c1:it.c1,c2:it.c2,d:m.desc?it.d:undefined}}
+    if(Number.isNaN(it.c1)||Number.isNaN(it.c2))bad=it.n+': prices must be whole numbers.';
+  });
+  if(bad)return toast(bad,6000);
+  b.disabled=true;b.textContent='Publishing…';
+  api('/api/drinks',{method:'POST',body:{dov:dov,spanish:dr.spanish,sha:dr.sha}}).then(function(r){
+    toast(r.unchanged?'Nothing to publish.':'Published. The live menu updates in about a minute.',5000);
+    dr.items=null;return loadDrinks();
+  }).catch(function(err){
+    if(err.status===401)return sessionExpired();
+    toast(err.message,7000);if(err.status===409){dr.items=null;loadDrinks()}
+  }).then(function(){b.disabled=false;b.textContent='Save & publish'});
+});
+window.addEventListener('beforeunload',function(e){if(dDirty()){e.preventDefault();e.returnValue=''}});
 
 /* ---------- offers & alerts ---------- */
 var off={list:null,base:''};
@@ -527,7 +713,8 @@ function loadStats(){
 }
 
 /* ---------- boot ---------- */
-api('/api/login').then(function(r){show(!!r.authed);if(r.authed)loadMenu()}).catch(function(){show(false)});
+function afterAuth(){loadMenu();setTab(initialTab())}
+api('/api/login').then(function(r){show(!!r.authed);if(r.authed)afterAuth()}).catch(function(){show(false)});
 })();
 </script>
 </body>
