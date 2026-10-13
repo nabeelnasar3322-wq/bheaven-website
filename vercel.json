@@ -3,6 +3,12 @@
   "outputDirectory": ".",
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "bheaven-website.vercel.app" }],
+      "destination": "https://bheavendubai.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/",
       "destination": "/menu/",
       "permanent": true
