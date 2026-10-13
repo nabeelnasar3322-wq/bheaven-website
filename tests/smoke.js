@@ -23,7 +23,13 @@ const ok = (c, msg) => { if (!c) { fails++; console.log('  FAIL  ' + msg); } els
     ok(desc.length > 80 && desc.length <= 175, p + ' description length ' + desc.length);
     ok(new RegExp('rel="canonical" href="https://bheavendubai.com' + p + '"').test(html), p + ' canonical is correct');
     ok(html.includes('G-5EP0X5NXPJ'), p + ' has the Google tag');
-    if (p !== '/shisha/') ok(html.includes('id="menu-text"'), p + ' has the plain-text menu');
+    if (p !== '/shisha/') {
+      ok(html.includes('id="menu-text"'), p + ' has the plain-text menu');
+      for (const l of ['es', 'ar']) {
+        let f = ''; try { f = fs.readFileSync(path.join(__dirname, '..', p, 'seo-' + l + '.html'), 'utf8'); } catch (_) {}
+        ok(f.includes('lang="' + l + '"') && f.includes('<li>') && f.endsWith('<!--SEO-MENU-END-->'), p + ' has the ' + l + ' plain-text menu');
+      }
+    }
     for (const m of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
       try { JSON.parse(m[1]); } catch (e) { ok(false, p + ' a JSON-LD block is invalid'); }
     }

@@ -39,7 +39,7 @@ const T = {
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
-function transform(html, page, lang) {
+function transform(html, page, lang, frag) {
   const t = T[page][lang];
   const url = `${ORIGIN}/${lang}/${page}/`;
   const title = esc(t.title), desc = esc(t.desc);
@@ -66,6 +66,12 @@ function transform(html, page, lang) {
   if (lang === 'ar') {
     const weights = page === 'business-lunch' ? '400;500;600;700;800' : '300;400;500;600;700;800';
     out = out.replace('<head>', `<head>\n<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@${weights}&display=swap">`);
+  }
+
+  // crawler text: swap the English plain-text menu for this language's version (built by scripts/seo-i18n.js)
+  if (frag && frag.startsWith('<!--SEO-MENU-START-->') && frag.endsWith('<!--SEO-MENU-END-->')) {
+    const a = out.indexOf('<!--SEO-MENU-START-->'), b = out.indexOf('<!--SEO-MENU-END-->');
+    if (a > -1 && b > a) out = out.slice(0, a) + frag + out.slice(b + '<!--SEO-MENU-END-->'.length);
   }
 
   // the page lives one level deeper now, so relative image paths need a root
@@ -96,7 +102,13 @@ module.exports = async (req, res) => {
     let r = await fetch(`https://${host}/${page}/`, { headers: { 'x-bh-i18n': '1' } });
     if (!r.ok) r = await fetch(`${ORIGIN}/${page}/`);
     if (!r.ok) throw new Error('source page ' + r.status);
-    const html = transform(await r.text(), page, lang);
+    // translated plain-text menu; if it is missing the English one stays, so this can never break the page
+    let frag = '';
+    try {
+      const fr = await fetch(`https://${host}/${page}/seo-${lang}.html`, { headers: { 'x-bh-i18n': '1' } });
+      if (fr.ok) frag = await fr.text();
+    } catch (_) {}
+    const html = transform(await r.text(), page, lang, frag);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');

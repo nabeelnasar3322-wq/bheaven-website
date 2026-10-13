@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node scripts/seo-menu.js",
+  "buildCommand": "node scripts/seo-menu.js && node scripts/seo-i18n.js",
   "outputDirectory": ".",
   "redirects": [
     {
@@ -100,6 +100,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/:page(menu|business-lunch)/:file(seo-es|seo-ar).html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
         }
       ]
     },
