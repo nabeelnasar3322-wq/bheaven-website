@@ -140,7 +140,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // hashed, immutable dish photos
-  if (/^\/menu\/img\/[0-9a-f]{12}\.webp$/.test(url.pathname)) {
+  if (/^\/menu\/img\/(t\/)?[0-9a-f]{12}\.webp$/.test(url.pathname)) {
     event.respondWith(cacheFirst(request, IMAGES, MAX_IMAGES).catch(() => Response.error()));
     return;
   }

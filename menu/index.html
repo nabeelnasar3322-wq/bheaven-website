@@ -2791,7 +2791,7 @@ function claHTML(k){
   return `<div class="cla"><div class="claL"><div class="claGrid">${L.map((d,i)=>{const [g,b]=pr(d), sp=CLA_SP[d.n]||'';
     return `<div class="claC" data-k="${esc(k)}" data-i="${i}"><div class="claT"><span class="claSp" data-sp="${esc(sp.split(' ')[0].toLowerCase())}">${esc(sp)}</span><span class="claN">${String(i+1).padStart(2,'0')}</span></div><b>${esc(d.n)}</b><p>${esc(d.d||'')}</p><div class="claP"><span>${P('AED '+g)}</span>${b?`<span>${b}</span>`:''}</div></div>`}).join('')}</div>
   <p class="claNote">Prices in AED. Glass above, bottle below.</p></div>
-  <figure class="claPh"><img src="${fd.img}" alt="${esc(fd.n)}" style="object-position:${fd.pos||'50% 40%'}"><figcaption><small>Cl\u00e1sico of the night</small><b>${esc(fd.n)}</b><span>${esc(fd.d||'')}</span><em>${P('AED '+fp[0])} glass \u00b7 ${fp[1]} bottle</em></figcaption></figure></div>`;
+  <figure class="claPh"><img loading="lazy" decoding="async" src="${fd.img}" alt="${esc(fd.n)}" style="object-position:${fd.pos||'50% 40%'}"><figcaption><small>Cl\u00e1sico of the night</small><b>${esc(fd.n)}</b><span>${esc(fd.d||'')}</span><em>${P('AED '+fp[0])} glass \u00b7 ${fp[1]} bottle</em></figcaption></figure></div>`;
 }
 function sliderHTML(k){
   return `<div class="slider"><div class="sliderTrack" data-k="${esc(k)}">${DM[k].map((d,i)=>`<button class="sliderCard" data-k="${esc(k)}" data-i="${i}"><div class="sliderImg"><img loading="lazy" decoding="async" src="${d.img}" alt="${esc(d.n)}" draggable="false"></div><div class="sliderText"><span class="sliderNum">${String(i+1).padStart(2,'0')}</span><b>${esc(d.n)}</b><em>${P(d.p)}</em></div></button>`).join('')}</div>
@@ -2850,7 +2850,7 @@ function renderChips(){
   const dk=document.body.dataset.mode==='drinks', cats=dk?DCATS:CATS, icons=dk?DICON:ICON, pre=dk?'d-':'cat-';
   const h=cats.map(c=>`<a class="chip" href="#${(!dk&&c.lay==='wheel')?'story':pre+slug(c.k)}" data-c="${slug(c.k)}"><svg viewBox="0 0 24 24">${icons[c.k]||''}</svg><span>${c.t}</span></a>`).join('');
   const pic=cats.map(c=>{const arr=(dk?DM:M)[c.k]||[];const th=arr.slice(0,3).map(d=>dk?d.img:imgOf(d));
-    return `<a class="chip pic${dk?' dk':''}" href="#${(!dk&&c.lay==='wheel')?'story':pre+slug(c.k)}" data-c="${slug(c.k)}"><div class="cl">${th.map((s,i)=>`<img class="t${i}" src="${s}" alt="" draggable="false">`).join('')}</div><b>${c.t}</b><em>${arr.length} ${dk?'drinks':'dishes'}</em></a>`}).join('');
+    return `<a class="chip pic${dk?' dk':''}" href="#${(!dk&&c.lay==='wheel')?'story':pre+slug(c.k)}" data-c="${slug(c.k)}"><div class="cl">${th.map((s,i)=>`<img class="t${i}" src="${String(s).replace(/(img\/)([0-9a-f]{12}\.webp)$/,'$1t/$2')}" data-f="${s}" alt="" draggable="false" decoding="async" onerror="this.onerror=null;this.src=this.dataset.f">`).join('')}</div><b>${c.t}</b><em>${arr.length} ${dk?'drinks':'dishes'}</em></a>`}).join('');
   $('#chips').innerHTML=pic; $('#chipsSticky').innerHTML=h;
   if(chipIO) chipIO.disconnect();
   chipIO=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const id=en.target.id==='story'?slug(CATS.find(c=>c.lay==='wheel').k):en.target.id.replace(/^(cat-|d-)/,'');document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.c===id));}}),{rootMargin:'-45% 0px -50% 0px'});
@@ -2990,7 +2990,7 @@ function applyAvoid(){
   $('#cpEyebrow').textContent=String(CATS.indexOf(WC)+1).padStart(2,'0')+' — Our story · '+WC.t;
   $('#cpL1').src=A.g_basil1; $('#cpL2').src=A.g_basil2; $('#cpLem').src=A.g_lemon;
   const plates=$('#cpPlates'), info=$('#cpInfo'), call=$('#cpCall'), viz=$('#cpViz');
-  plates.innerHTML=ds.map((d,i)=>`<button type="button" class="cpP" data-i="${i}" aria-label="${esc(d.n)}"><img decoding="async" src="${imgOf(d)}" alt=""></button>`).join('');
+  plates.innerHTML=ds.map((d,i)=>`<button type="button" class="cpP" data-i="${i}" aria-label="${esc(d.n)}"><img loading="lazy" decoding="async" src="${imgOf(d)}" alt=""></button>`).join('');
   const els=[...plates.children]; let act=0, auto=null, hover=false, vis=true;
   const slotOf=i=>{let o=((i-act)%N+N)%N; if(o>N/2)o-=N; return o};
   function paint(){els.forEach((el,i)=>{const o=slotOf(i);el.dataset.s=o===0?'0':o===-1?'-1':o===1?'1':(o<0?'xl':'xr');el.tabIndex=o===0?0:-1;el.setAttribute('aria-hidden',Math.abs(o)>1?'true':'false');if(o===0)el.setAttribute('aria-label',ds[i].n);else el.setAttribute('aria-label',ds[i].n)})}
@@ -3563,6 +3563,7 @@ document.querySelectorAll('.hero,.marq').forEach(watch);
 ['palms','floaters'].forEach(id=>{const r=document.getElementById(id);if(!r)return;[...r.children].forEach(watch);new MutationObserver(m=>m.forEach(x=>x.addedNodes.forEach(watch))).observe(r,{childList:true})});
 const idle=window.requestIdleCallback||(f=>setTimeout(f,300));
 addEventListener('load',()=>idle(()=>{
+ const cn=navigator.connection;if(cn&&(cn.saveData||/^(slow-2g|2g|3g)$/.test(cn.effectiveType||'')))return;
  const urls=[...new Set((([...document.scripts].map(t=>t.textContent).join('\n')).match(/img\/[0-9a-f]{12}\.webp/g))||[])];
  let i=0;const next=()=>{if(i>=urls.length)return;const batch=urls.slice(i,i+3);i+=3;let n=batch.length;batch.forEach(u=>{const m=new Image();m.onload=m.onerror=()=>{if(--n===0)idle(next)};m.src=u})};
  next();
