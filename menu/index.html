@@ -2143,7 +2143,7 @@ body.mdOpen #floaters img,body.mdOpen .heroFx *,body.mdOpen #palms img,body.mdOp
 .btn,.navBook,.langSw,.ev .b a{position:relative;overflow:hidden;isolation:isolate;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s cubic-bezier(.22,1,.36,1),background-color .35s,color .35s,border-color .35s!important}
 .btn:not(.line),.ev .b a{background-image:linear-gradient(135deg,rgba(255,255,255,.2) 0%,rgba(255,255,255,0) 55%)}
 .btn:not(.line)::before,.ev .b a::before{content:'';position:absolute;top:-10%;left:-80%;width:42%;height:120%;z-index:-1;pointer-events:none;background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.55) 50%,transparent 100%);transform:skewX(-22deg);animation:btnShine 6.5s cubic-bezier(.4,0,.2,1) infinite}
-@keyframes btnShine{0%,62%{left:-80%}100%{left:140%}}
+@keyframes btnShine{0%,62%{transform:translateX(0) skewX(-22deg)}100%{transform:translateX(524%) skewX(-22deg)}}
 .btn.line::before,.navBook::before,.langSw::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--ink);border-radius:inherit;transform:scaleX(0);transform-origin:left center;transition:transform .5s cubic-bezier(.22,1,.36,1)}
 html[dir=rtl] .btn.line::before,html[dir=rtl] .navBook::before,html[dir=rtl] .langSw::before{transform-origin:right center}
 .btn:not(.line){box-shadow:0 12px 24px -12px rgba(30,71,76,.6),inset 0 1px 0 rgba(255,255,255,.22)}
@@ -2270,6 +2270,16 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 .pre.nt{transition:none!important}
 </style>
 <script src="/pwa.js" defer></script>
+<style id="smooth">
+/* scrolling: closed overlay is fully hidden (no full-screen blur layer), cheaper blurs on cards */
+.ov{visibility:hidden;transition:opacity .45s cubic-bezier(.22,1,.36,1),visibility 0s linear .45s!important}
+.ov.open{visibility:visible;transition:opacity .45s cubic-bezier(.22,1,.36,1),visibility 0s!important}
+.heroPlate .cap,.wCard{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.rvw .rvCard{-webkit-backdrop-filter:blur(6px)!important;backdrop-filter:blur(6px)!important}
+.peCard{-webkit-backdrop-filter:blur(6px)!important;backdrop-filter:blur(6px)!important}
+#events .ev .f.ph>.evChip{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:rgba(255,255,255,.22)!important}
+.heroOff .hero,.heroOff .hero *,.heroOff .hero::before,.heroOff .hero::after,.heroOff .hero *::before,.heroOff .hero *::after{animation-play-state:paused!important}
+</style>
 </head>
 <body>
 
@@ -3080,6 +3090,8 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
 (()=>{const els=document.querySelectorAll('.rvw,.peWrap');const on=e=>e.classList.add('lz');
   if(!('IntersectionObserver' in window)){els.forEach(on);return}
   const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){on(en.target);io.unobserve(en.target)}}),{rootMargin:'900px 0px'});els.forEach(e=>io.observe(e))})();
+/* pause the hero's looping animations once it has scrolled out of view */
+(()=>{const h=document.getElementById('home');if(!h||!('IntersectionObserver' in window))return;new IntersectionObserver(es=>es.forEach(en=>document.body.classList.toggle('heroOff',!en.isIntersecting)),{rootMargin:'120px 0px'}).observe(h)})();
 /* full menu as structured data, built from the live menu data so admin edits flow through */
 (()=>{const run=()=>{try{
   const el=document.querySelector('script[type="application/ld+json"]');if(!el)return;const o=JSON.parse(el.textContent);
@@ -3271,7 +3283,7 @@ items.forEach(it=>{let sx,sy,ox,oy,lx,ly,lt,moved;
   const up=()=>{if(!it.drag)return;it.drag=false;it.el.style.zIndex='';if(!moved){it.vr+=26;it.pop=1;}};
   it.el.addEventListener('pointerup',up);it.el.addEventListener('pointercancel',up);
 });
-let T=0,_raf=0,_lsy=-1;
+let T=0,_raf=0,_lsy=-1,_scT=0,_fk=0;addEventListener('scroll',()=>{_scT=performance.now()},{passive:true});
 function wake(){if(!_raf&&!document.hidden)_raf=requestAnimationFrame(loop)}
 function loop(t){_raf=0;T=t/1000; const vt=scrollY-300, vb=scrollY+innerHeight+300; let busy=false;
   if(document.hidden)return;
@@ -3279,7 +3291,8 @@ function loop(t){_raf=0;T=t/1000; const vt=scrollY-300, vb=scrollY+innerHeight+3
   if(scrollY!==_lsy){_lsy=scrollY;busy=true;}
   const vc=scrollY+innerHeight/2;
   for(const q of PX){if(q.y<vt||q.y>vb)continue; const v=Math.max(-70,Math.min(70,(vc-q.y)*q.sp)); const r=Math.round(v*10)/10; if(r!==q.last){q.el.style.translate='0 '+r+'px';q.last=r;}}
-  items.forEach(it=>{ if(!it.on||(!it.drag&&(it.cy+it.ry<vt||it.cy+it.ry>vb))) return; busy=true;
+  const _skip=(t-_scT)<150&&((_fk^=1)===1);
+  items.forEach(it=>{ if(!it.on||(!it.drag&&(it.cy+it.ry<vt||it.cy+it.ry>vb))) return; busy=true; if(_skip&&!it.drag)return;
     if(!it.drag){
       // thrown momentum becomes the new rest position
       it.rx+=it.vx;it.ry+=it.vy;it.vx*=0.92;it.vy*=0.92;
