@@ -1528,7 +1528,8 @@ body[data-mode=drinks] .chip.pic b{color:#F3EBDD}body[data-mode=drinks] .chip.pi
 .squares:not(.zz) .sq:not(.zz) .tileBox:not(.zz)::before,.squares:not(.zz) .sq .tileBox::after{display:none!important}
 </style>
 <style id="round14">
-.rvw .wrap{max-width:1040px!important;padding:18px 26px!important;background:linear-gradient(180deg,rgba(10,26,30,.55),rgba(10,26,30,.35) 45%,rgba(10,26,30,.7)),url("img/529b201a4a22.webp") center 66%/cover no-repeat!important}
+.rvw .wrap{max-width:1040px!important;padding:18px 26px!important;background:linear-gradient(180deg,rgba(10,26,30,.55),rgba(10,26,30,.35) 45%,rgba(10,26,30,.7))!important}
+.rvw.lz .wrap{background:linear-gradient(180deg,rgba(10,26,30,.55),rgba(10,26,30,.35) 45%,rgba(10,26,30,.7)),url("img/529b201a4a22.webp") center 66%/cover no-repeat!important}
 .rvw .rvCard q{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .rvw .rvCard{padding:12px 14px!important;gap:3px!important;min-height:0!important}
 .rvw .rvCard .qm{display:none!important}
@@ -1565,7 +1566,8 @@ body[data-mode=drinks] .chip.pic b{color:#F3EBDD}body[data-mode=drinks] .chip.pi
 @media (max-width:760px){.md .nav button{top:min(34vw,200px)!important;width:40px!important;height:40px!important}.md .nav #mdPrev{left:8px}.md .nav #mdNext{right:8px}}
 </style>
 <style id="round17">
-.peWrap{background:linear-gradient(100deg,rgba(14,38,42,.92) 0%,rgba(14,38,42,.78) 45%,rgba(14,38,42,.35) 100%),url("img/42a106076bca.webp") center/cover no-repeat!important}
+.peWrap{background:linear-gradient(100deg,rgba(14,38,42,.92) 0%,rgba(14,38,42,.78) 45%,rgba(14,38,42,.35) 100%)!important}
+.peWrap.lz{background:linear-gradient(100deg,rgba(14,38,42,.92) 0%,rgba(14,38,42,.78) 45%,rgba(14,38,42,.35) 100%),url("img/42a106076bca.webp") center/cover no-repeat!important}
 .peWrap::after{display:none!important}
 .peCard{background:rgba(10,28,31,.45)!important;-webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important}
 .ch{grid-template-columns:auto 1fr!important;column-gap:22px!important;row-gap:4px!important;align-items:start!important}
@@ -2287,7 +2289,7 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
     </div>
     <div class="heroPlate" id="heroPlate" data-k="From the gardens" data-i="2" role="button" tabindex="0" aria-label="View dish">
       <div class="spin" id="heroSpin"><img id="heroImg" alt="Signature salad" src="img/9cc6bda19e75.webp" fetchpriority="high" decoding="async"></div>
-      <div class="bowl" id="heroBowl"><img id="bowlImg" alt=""></div>
+      <div class="bowl" id="heroBowl"><img id="bowlImg" loading="lazy" alt=""></div>
       <div class="cap"><b id="heroCap">Fattoush Salad</b>Tap the plate to look closer</div>
     </div>
   </div>
@@ -2746,7 +2748,7 @@ $('#bandPlates').innerHTML = `<div style="position:absolute;left:16%;top:-120px"
 /* ================= DRINKS RENDER ================= */
 function sigHTML(k){
   const L=DM[k], f=Math.max(0,L.findIndex(d=>d.n==='Heaven Mule'));
-  return `<div class="sig"><button class="sigFeat" data-k="${esc(k)}" data-i="${f}" aria-label="Open featured cocktail"><span class="sigImg"><img alt="" draggable="false" decoding="async"></span><span class="sigCap"><small class="sigTag"></small><span class="sigHd"><b class="sigName"></b><em class="sigPrice"></em></span><span class="sigDesc"></span></span></button>
+  return `<div class="sig"><button class="sigFeat" data-k="${esc(k)}" data-i="${f}" aria-label="Open featured cocktail"><span class="sigImg"><img alt="" draggable="false" loading="lazy" decoding="async"></span><span class="sigCap"><small class="sigTag"></small><span class="sigHd"><b class="sigName"></b><em class="sigPrice"></em></span><span class="sigDesc"></span></span></button>
   <div class="sigList">${L.map((d,i)=>`<button class="sigR${i===f?' on':''}" data-k="${esc(k)}" data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><b>${esc(d.n)}</b><em>${P(d.p)}</em></button>`).join('')}</div></div>`;
 }
 function sigSet(root,i){
@@ -2850,7 +2852,7 @@ function renderChips(){
   const dk=document.body.dataset.mode==='drinks', cats=dk?DCATS:CATS, icons=dk?DICON:ICON, pre=dk?'d-':'cat-';
   const h=cats.map(c=>`<a class="chip" href="#${(!dk&&c.lay==='wheel')?'story':pre+slug(c.k)}" data-c="${slug(c.k)}"><svg viewBox="0 0 24 24">${icons[c.k]||''}</svg><span>${c.t}</span></a>`).join('');
   const pic=cats.map(c=>{const arr=(dk?DM:M)[c.k]||[];const th=arr.slice(0,3).map(d=>dk?d.img:imgOf(d));
-    return `<a class="chip pic${dk?' dk':''}" href="#${(!dk&&c.lay==='wheel')?'story':pre+slug(c.k)}" data-c="${slug(c.k)}"><div class="cl">${th.map((s,i)=>`<img class="t${i}" src="${String(s).replace(/(img\/)([0-9a-f]{12}\.webp)$/,'$1t/$2')}" data-f="${s}" alt="" draggable="false" decoding="async" onerror="this.onerror=null;this.src=this.dataset.f">`).join('')}</div><b>${c.t}</b><em>${arr.length} ${dk?'drinks':'dishes'}</em></a>`}).join('');
+    return `<a class="chip pic${dk?' dk':''}" href="#${(!dk&&c.lay==='wheel')?'story':pre+slug(c.k)}" data-c="${slug(c.k)}"><div class="cl">${th.map((s,i)=>`<img class="t${i}" src="${String(s).replace(/(img\/)([0-9a-f]{12}\.webp)$/,'$1t/$2')}" data-f="${s}" alt="" draggable="false" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=this.dataset.f">`).join('')}</div><b>${c.t}</b><em>${arr.length} ${dk?'drinks':'dishes'}</em></a>`}).join('');
   $('#chips').innerHTML=pic; $('#chipsSticky').innerHTML=h;
   if(chipIO) chipIO.disconnect();
   chipIO=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const id=en.target.id==='story'?slug(CATS.find(c=>c.lay==='wheel').k):en.target.id.replace(/^(cat-|d-)/,'');document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.c===id));}}),{rootMargin:'-45% 0px -50% 0px'});
@@ -3051,6 +3053,10 @@ function onScroll(){if(!_sq)_sq=requestAnimationFrame(_onScroll)}
 _calc();addEventListener('resize',_calc);addEventListener('load',_calc);try{let _rt=0;new ResizeObserver(()=>{clearTimeout(_rt);_rt=setTimeout(_calc,150)}).observe(document.body)}catch(e){}
 try{new MutationObserver(()=>setTimeout(_calc,450)).observe(document.body,{attributes:true,attributeFilter:['data-mode']})}catch(e){}
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
+/* load the heavy section backgrounds only when they are about to be seen */
+(()=>{const els=document.querySelectorAll('.rvw,.peWrap');const on=e=>e.classList.add('lz');
+  if(!('IntersectionObserver' in window)){els.forEach(on);return}
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){on(en.target);io.unobserve(en.target)}}),{rootMargin:'900px 0px'});els.forEach(e=>io.observe(e))})();
 const navMap=[['home','#home'],['menu','#menu'],['story','#story'],['events','#events'],['contact','#contact']];
 const nio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let id=en.target.id; if(id.startsWith('cat-')||id.startsWith('d-')||id==='menuRoot'||id==='drinkRoot'||id==='menu')id=document.body.dataset.mode==='drinks'?'drinks':'menu'; document.querySelectorAll('nav.top ul a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));}}),{rootMargin:'-50% 0px -50% 0px'});
 ['home','menu','menuRoot','drinkRoot','story','events','contact'].forEach(id=>{const el=document.getElementById(id); if(el) nio.observe(el);});
