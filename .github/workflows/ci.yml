@@ -1,0 +1,27 @@
+# Runs the smoke test on every push and pull request. A red cross on GitHub = something is broken.
+name: Smoke test
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install browser test tool (not added to the website)
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: Build step used on Vercel (plain-text menus)
+        run: node scripts/seo-menu.js
+      - name: Start a local copy of the site
+        run: |
+          python3 -m http.server 8080 &
+          sleep 2
+      - name: Run the smoke test
+        run: node tests/smoke.js http://localhost:8080

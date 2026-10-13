@@ -1,0 +1,29 @@
+# Checks the live site every 30 minutes. If a page is down or looks wrong, this run fails
+# and GitHub emails the repository owner.
+name: Uptime check
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check the live pages
+        run: |
+          fail=0
+          check() {
+            url="$1"; needle="$2"
+            for i in 1 2 3; do
+              body=$(curl -fsSL --max-time 25 -A "bheaven-uptime-check" "$url" 2>/dev/null) && echo "$body" | grep -q "$needle" && { echo "ok   $url"; return 0; }
+              sleep 10
+            done
+            echo "FAIL $url"; fail=1
+          }
+          check "https://bheavendubai.com/menu/" "B-Heaven by Barcel"
+          check "https://bheavendubai.com/business-lunch/" "Business Lunch"
+          check "https://bheavendubai.com/shisha/" "Shisha"
+          check "https://bheavendubai.com/es/menu/" "B-Heaven by Barcel"
+          check "https://bheavendubai.com/ar/menu/" "B-Heaven by Barcel"
+          exit $fail
