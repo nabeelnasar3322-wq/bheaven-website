@@ -15,8 +15,8 @@ const T = {
       desc: 'بي-هيفن من برشلونة — مطعم شامي عصري على سطح برشلونة الجداف في دبي. مأكولات شامية حديثة من مطبخ الفحم، كوكتيلات مميزة وإطلالات على أفق المدينة.',
     },
     es: {
-      title: 'B-Heaven by Barceló | Restaurante levantino en la azotea, Al Jaddaf, Dubái',
-      desc: 'B-Heaven by Barceló — restaurante levantino en la azotea del Barceló Al Jaddaf, Dubái. Cocina levantina moderna de una cocina a la brasa, cócteles de autor y vistas al skyline.',
+      title: 'B-Heaven by Barceló | Restaurante en azotea, Al Jaddaf, Dubái',
+      desc: 'B-Heaven by Barceló: restaurante levantino en la azotea del Barceló Al Jaddaf, Dubái. Cocina a la brasa, cócteles de autor y vistas al skyline.',
     },
   },
   'business-lunch': {
@@ -90,7 +90,9 @@ module.exports = async (req, res) => {
     return res.end('Not found');
   }
   try {
-    const host = req.headers['x-forwarded-host'] || req.headers.host || 'bheavendubai.com';
+    // only fetch from our own domain or a Vercel preview of it; never from an arbitrary Host header
+    let host = String(req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase().split(',')[0].trim();
+    if (!/^([a-z0-9-]+\.)*bheavendubai\.com$|^[a-z0-9-]+\.vercel\.app$/.test(host)) host = 'bheavendubai.com';
     let r = await fetch(`https://${host}/${page}/`, { headers: { 'x-bh-i18n': '1' } });
     if (!r.ok) r = await fetch(`${ORIGIN}/${page}/`);
     if (!r.ok) throw new Error('source page ' + r.status);
