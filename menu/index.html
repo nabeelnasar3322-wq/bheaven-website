@@ -2217,7 +2217,7 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 @media (max-width:1300px){nav.top .langSw{margin-inline-start:0}nav.top .langBox{margin-inline-start:auto}}
 </style>
 <style id="h1em">.hero h1 em,.heroCopy h1 em{font-style:normal!important;font-weight:inherit!important;background:none!important;text-decoration:none!important;transition:none!important}</style>
-<style id="qa1">body[data-mode=drinks] .tools .modeSw{display:inline-flex!important}</style>
+<style id="qa1">body[data-mode=drinks] .tools .modeSw{display:flex!important;width:max-content;margin:0 auto 30px}</style>
 <style id="herox">
 .heroMeta{display:none!important}
 @media (min-width:901px){.heroBtns{display:flex;flex-direction:column;align-items:stretch;gap:14px;width:max-content;max-width:100%;margin-top:34px}.heroBtns .btn{justify-content:center}}
@@ -2915,8 +2915,11 @@ function setMode(m,opt={}){
   if(m===cur){ if(opt.scroll) toMenu(true); return; }
   try{history.replaceState(null,'',m==='drinks'?'#drinks':'#menu');}catch(e){}
   if(opt.instant){applyMode(m); if(opt.scroll) toMenu(false); return;}
+  // keep the Food/Drinks switch exactly where it is on screen: the text above it differs in height between modes
+  const sw0=document.querySelector('.tools .modeSw'), r0=sw0&&sw0.getBoundingClientRect(), keep=(!opt.scroll&&r0&&r0.top>0&&r0.top<innerHeight)?r0.top:null;
+  const hold=()=>{if(keep==null)return;const sw=document.querySelector('.tools .modeSw');if(!sw)return;const d=sw.getBoundingClientRect().top-keep;if(Math.abs(d)>1)window.scrollBy({top:d,behavior:'instant'})};
   const f=$('#modeFade'); f.style.background=m==='drinks'?'#0E2024':'#ECECE9'; f.classList.add('on');
-  setTimeout(()=>{applyMode(m); if(opt.scroll) toMenu(false); requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.remove('on')));},390);
+  setTimeout(()=>{applyMode(m); if(opt.scroll) toMenu(false); hold(); setTimeout(hold,120); requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.remove('on')));},390);
 }
 document.addEventListener('click',e=>{
   const sb=e.target.closest('.modeSw button'); if(sb){setMode(sb.dataset.mode);return;}
