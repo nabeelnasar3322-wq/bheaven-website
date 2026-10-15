@@ -35,6 +35,26 @@ const ok = (c, msg) => { if (!c) { fails++; console.log('  FAIL  ' + msg); } els
     }
   }
 
+  // Content regressions: keep published counts aligned with the actual menu.
+  const menuText = fs.readFileSync(path.join(ROOT, 'menu/index.html'), 'utf8');
+  const menuData = menuText.match(/^const M = (\\{.*\\});$/m);
+  ok(!!menuData, 'menu JSON is present');
+  if (menuData) {
+    const cats = JSON.parse(menuData[1]);
+    const total = Object.values(cats).reduce((sum, a) => sum + a.length, 0);
+    ok(menuText.includes('<b>' + total + '</b>dishes'), 'hero count matches menu data (' + total + ')');
+    if (total === 34) {
+      ok(menuText.includes('thirty-four plates'), 'English menu total translated');
+      ok(menuText.includes('treinta y cuatro platos'), 'Spanish menu total translated');
+      ok(menuText.includes('أربعة وثلاثون طبقاً'), 'Arabic menu total translated');
+    }
+  }
+  const lunchSource = fs.readFileSync(path.join(ROOT, 'business-lunch/index.html'), 'utf8');
+  const fattoush = lunchSource.match(/n: 'Fattoush Salad', d: '([^']+)'/);
+  ok(!!fattoush && /Fresh vegetables/.test(fattoush[1]) && !/puff pastry|ice cream|nuts/i.test(fattoush[1]), 'Fattoush description is salad, not dessert');
+  ok(lunchSource.includes('<strong>Fattoush Salad</strong> – Fresh vegetables'), 'Fattoush SEO fallback matches the salad');
+  ok((menuText.match(/setInterval\\(update,60000\\)/g) || []).length === 3, 'hours, happy-hour, sunset refresh every minute');
+
   // 2) real browser checks
   const browser = await chromium.launch();
   for (const [name, w, h] of [['phone', 390, 844], ['desktop', 1440, 900]]) {
