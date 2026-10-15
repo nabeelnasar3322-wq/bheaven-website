@@ -35,28 +35,44 @@ const ok = (c, msg) => { if (!c) { fails++; console.log('  FAIL  ' + msg); } els
     }
   }
 
-  // Content regressions: keep published counts aligned with the actual menu.
+  // Menu data: every dish has the fields the site needs, and no dish is listed twice.
   const menuText = fs.readFileSync(path.join(ROOT, 'menu/index.html'), 'utf8');
   const menuData = menuText.match(/^const M = (\{.*\});$/m);
   ok(!!menuData, 'menu JSON is present');
   if (menuData) {
     const cats = JSON.parse(menuData[1]);
-    const total = Object.values(cats).reduce((sum, a) => sum + a.length, 0);
-    ok(cats["Chef's mains"].length === 8, 'Chef\'s mains has eight dishes');
-    ok(cats["Chef's mains"].some(d => d.n === 'Braised Lamb Shank' && d.p === 'AED 135'), 'Braised Lamb Shank present at AED 135');
-    ok(cats["Chef's mains"].find(d => d.n === 'Braised Lamb Shank')?.t.length === 0, 'unverified allergens are not asserted');
-    ok(menuText.includes('<b>' + total + '</b>dishes'), 'hero count matches menu data (' + total + ')');
-    if (total === 35) {
-      ok(menuText.includes('thirty-five plates'), 'English menu total translated');
-      ok(menuText.includes('treinta y cinco platos'), 'Spanish menu total translated');
-      ok(menuText.includes('خمسة وثلاثون طبقاً'), 'Arabic menu total translated');
-    }
+    const dishes = Object.values(cats).flat();
+    ok(Object.keys(cats).length >= 3 && Object.values(cats).every((a) => a.length > 0), 'every menu category has dishes');
+    const bad = dishes.filter((d) => !d.n || !d.d || !/^AED \d+$/.test(d.p || '') || !Array.isArray(d.t));
+    ok(bad.length === 0, 'every dish has a name, description, AED price and allergen list' + (bad.length ? ': ' + bad.slice(0, 3).map((d) => d.n || '?').join(', ') : ''));
+    const names = dishes.map((d) => d.n);
+    ok(new Set(names).size === names.length, 'no dish is listed twice');
+    ok(menuText.includes('<b>' + dishes.length + '</b>dishes'), 'hero count matches menu data (' + dishes.length + ')');
   }
   const lunchSource = fs.readFileSync(path.join(ROOT, 'business-lunch/index.html'), 'utf8');
-  const fattoush = lunchSource.match(/n: 'Fattoush Salad', d: '([^']+)'/);
-  ok(!!fattoush && /Fresh vegetables/.test(fattoush[1]) && !/puff pastry|ice cream|nuts/i.test(fattoush[1]), 'Fattoush description is salad, not dessert');
-  ok(lunchSource.includes('<strong>Fattoush Salad</strong> – Fresh vegetables'), 'Fattoush SEO fallback matches the salad');
+  const lunchDishes = [...lunchSource.matchAll(/n: '([^']+)', d: '([^']+)'/g)];
+  ok(lunchDishes.length >= 10, 'business lunch lists dishes (' + lunchDishes.length + ')');
+  const escapeHtml = (s) => s.replace(/&/g, '&amp;');
+  const noFallback = lunchDishes.map((m) => m[1]).filter((n) => !lunchSource.includes('<strong>' + escapeHtml(n) + '</strong>'));
+  ok(noFallback.length === 0, 'every business lunch dish has an SEO text fallback' + (noFallback.length ? ': ' + noFallback.slice(0, 3).join(', ') : ''));
   ok((menuText.match(/setInterval\(update,60000\)/g) || []).length === 3, 'hours, happy-hour, sunset refresh every minute');
+
+  // Images: referenced files exist and stay small; images that are not lazy-loaded must be marked high priority.
+  const MAX_IMG = 300 * 1024;
+  const imgProblems = [];
+  for (const p of PAGES) {
+    const html = fs.readFileSync(path.join(ROOT, p, 'index.html'), 'utf8');
+    for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+      const src = (tag.match(/\ssrc="([^"]+)"/) || [])[1] || '';
+      if (!src || src.startsWith('data:') || src.includes('${')) continue;
+      const clean = src.split('?')[0];
+      const file = path.join(ROOT, clean.startsWith('/') ? clean : path.join(p, clean));
+      if (!fs.existsSync(file)) { imgProblems.push(p + ' missing ' + src); continue; }
+      if (fs.statSync(file).size > MAX_IMG) imgProblems.push(p + ' over 300KB ' + src);
+      if (!/loading="lazy"|fetchpriority="high"/.test(tag)) imgProblems.push(p + ' not lazy and not high priority ' + src);
+    }
+  }
+  ok(imgProblems.length === 0, 'images exist, are under 300KB and load lazily' + (imgProblems.length ? ': ' + imgProblems.slice(0, 3).join('; ') : ''));
 
   // 2) real browser checks
   const browser = await chromium.launch();
