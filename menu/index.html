@@ -4,7 +4,7 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5EP0X5NXPJ"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
+  window.dataLayer = window.dataLayer || []
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
@@ -3622,7 +3622,7 @@ spin.appendChild(L);
 (()=>{try{
 const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('pz',!e.isIntersecting)),{rootMargin:'250px 0px'});
 const seen=new WeakSet(),watch=el=>{if(el.nodeType===1&&!seen.has(el)){seen.add(el);io.observe(el)}};
-document.querySelectorAll('.hero,.marq').forEach(watch);
+document.querySelectorAll('.hero,.marq,.hh').forEach(watch);
 ['palms','floaters'].forEach(id=>{const r=document.getElementById(id);if(!r)return;[...r.children].forEach(watch);new MutationObserver(m=>m.forEach(x=>x.addedNodes.forEach(watch))).observe(r,{childList:true})});
 const idle=window.requestIdleCallback||(f=>setTimeout(f,300));
 addEventListener('load',()=>idle(()=>{
