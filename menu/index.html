@@ -219,10 +219,10 @@ nav.top ul a{white-space:nowrap}
 .sq{position:relative;flex:0 0 calc(25% - 20px);min-width:0;text-align:left;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;transition:transform .4s cubic-bezier(.2,.8,.2,1),opacity .4s,filter .4s}
 .squares.big .sq{flex-basis:calc(33.333% - 18px)}
 .sq .tileBox{position:relative;aspect-ratio:1;border-radius:6px;background:var(--marble),linear-gradient(145deg,#FAFAF8,#EDEDEA);background-size:600px,auto;border:1px solid rgba(255,255,255,.8);box-shadow:0 1px 0 rgba(0,0,0,.04),0 24px 40px -30px rgba(0,0,0,.35);display:grid;place-items:center;overflow:hidden;transition:box-shadow .4s}
-.sq .tileBox::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(95,227,223,.28),transparent 62%);opacity:0;transition:opacity .5s}
+
 .sq .tileBox img{width:78%;border-radius:50%;filter:drop-shadow(0 18px 18px rgba(0,0,0,.2));transition:transform .8s cubic-bezier(.2,.8,.2,1)}@media (hover:hover){.sq:hover{transform:translateY(-8px)}}
 @media (hover:hover){.sq:hover .tileBox{box-shadow:0 40px 60px -34px rgba(0,0,0,.45)}}
-@media (hover:hover){.sq:hover .tileBox::before{opacity:1}}
+
 @media (hover:hover){.sq:hover .tileBox img{transform:rotate(-4deg) scale(1.07)}}
 
 .sq .idx{position:absolute;top:12px;left:14px;font-size:.66rem;letter-spacing:.2em;color:var(--muted);z-index:2}
@@ -529,7 +529,7 @@ body[data-mode=drinks] .chip.on{background:var(--gold);color:#10231F}body[data-m
 body[data-mode=drinks] .chips.sticky{background:rgba(14,32,36,.92)}
 body[data-mode=drinks] .ch .num{-webkit-text-stroke-color:rgba(214,180,110,.4)}
 body[data-mode=drinks] .sq .tileBox{background:var(--marble),radial-gradient(circle at 50% 30%,rgba(214,180,110,.12),transparent 60%),linear-gradient(160deg,#16333A,#0F2429);background-size:600px,auto,auto;border-color:rgba(255,255,255,.07)}
-body[data-mode=drinks] .sq .tileBox::before{background:radial-gradient(circle at 50% 45%,rgba(214,180,110,.3),transparent 62%)}
+body[data-mode=drinks] 
 body[data-mode=drinks] .sq .go{background:rgba(255,255,255,.12)}
 body[data-mode=drinks] .md{background:var(--lattice),var(--marble),#12292E;background-size:72px 124px,900px,auto}
 body[data-mode=drinks] .md .x,body[data-mode=drinks] .md .nav button{background:rgba(255,255,255,.1);color:var(--ink)}
@@ -3351,16 +3351,6 @@ function spin(){tick=false;const H=innerHeight;vis.forEach(el=>{const r=el.getBo
   if(el.closest('.gl')){el.style.setProperty('--sr',(p*3*el.dataset.sp).toFixed(2)+'deg');return}
   el.style.setProperty('--sr',(p*12*el.dataset.sp).toFixed(1)+'deg')})}
 /* scroll spin removed: its --sr/--nd values were unused and it forced layout reads on every scroll frame */
-/* --- magnetic plates + tilting cards (mouse only) --- */
-if(FINE&&!RM){
- let _pe=null,_pq=0;document.addEventListener('pointermove',e=>{_pe=e;if(!_pq)_pq=requestAnimationFrame(()=>{_pq=0;mag(_pe)})},{passive:true});
- function mag(e){const t=e.target.closest&&e.target.closest('.plate,.sq');
-  document.querySelectorAll('.fxMag').forEach(o=>{if(!t||!o.contains(t)&&o!==t){o.classList.remove('fxMag');const d=o.querySelector('.disc');d&&(d.style.setProperty('--mx','0px'),d.style.setProperty('--my','0px'));const b=o.querySelector('.tileBox');b&&b.style.setProperty('--ta','0deg')}});
-  if(!t)return;t.classList.add('fxMag');
-  if(t.classList.contains('plate')){const d=t.querySelector('.disc');if(!d)return;const r=d.getBoundingClientRect();const dx=(e.clientX-r.left-r.width/2)/r.width,dy=(e.clientY-r.top-r.height/2)/r.height;d.style.setProperty('--mx',(dx*22).toFixed(1)+'px');d.style.setProperty('--my',(dy*22).toFixed(1)+'px')}
-  else{const b=t.querySelector('.tileBox');if(!b)return;const r=b.getBoundingClientRect();const x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;b.style.setProperty('--tax',(-(y-.5)).toFixed(3));b.style.setProperty('--tay',((x-.5)).toFixed(3));b.style.setProperty('--ta',(Math.hypot(x-.5,y-.5)*16).toFixed(1)+'deg');b.style.setProperty('--gx',(x*100).toFixed(0)+'%');b.style.setProperty('--gy',(y*100).toFixed(0)+'%')}
- }
-}
 /* --- ripple on tap/click for every dish --- */
 document.addEventListener('pointerdown',e=>{if(RM)return;const t=e.target.closest&&e.target.closest('.plate .disc,.sq .tileBox,.gl,.wp,.mzPick button');if(!t)return;
  if(getComputedStyle(t).position==='static')return;const r=t.getBoundingClientRect(),s=Math.max(r.width,r.height)*1.4,d=document.createElement('span');d.className='fxRip';d.style.cssText=`left:${e.clientX-r.left}px;top:${e.clientY-r.top}px;width:${s}px;height:${s}px`;t.appendChild(d);setTimeout(()=>d.remove(),750)},{passive:true});
