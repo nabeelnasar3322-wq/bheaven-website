@@ -42,11 +42,14 @@ const ok = (c, msg) => { if (!c) { fails++; console.log('  FAIL  ' + msg); } els
   if (menuData) {
     const cats = JSON.parse(menuData[1]);
     const total = Object.values(cats).reduce((sum, a) => sum + a.length, 0);
+    ok(cats["Chef's mains"].length === 8, 'Chef\'s mains has eight dishes');
+    ok(cats["Chef's mains"].some(d => d.n === 'Braised Lamb Shank' && d.p === 'AED 135'), 'Braised Lamb Shank present at AED 135');
+    ok(cats["Chef's mains"].find(d => d.n === 'Braised Lamb Shank')?.t.length === 0, 'unverified allergens are not asserted');
     ok(menuText.includes('<b>' + total + '</b>dishes'), 'hero count matches menu data (' + total + ')');
-    if (total === 34) {
-      ok(menuText.includes('thirty-four plates'), 'English menu total translated');
-      ok(menuText.includes('treinta y cuatro platos'), 'Spanish menu total translated');
-      ok(menuText.includes('أربعة وثلاثون طبقاً'), 'Arabic menu total translated');
+    if (total === 35) {
+      ok(menuText.includes('thirty-five plates'), 'English menu total translated');
+      ok(menuText.includes('treinta y cinco platos'), 'Spanish menu total translated');
+      ok(menuText.includes('خمسة وثلاثون طبقاً'), 'Arabic menu total translated');
     }
   }
   const lunchSource = fs.readFileSync(path.join(ROOT, 'business-lunch/index.html'), 'utf8');
