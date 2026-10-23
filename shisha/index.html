@@ -84,10 +84,13 @@ h1{font-size:clamp(2.6rem,8vw,4.8rem);font-weight:600;line-height:1;color:#fff}
 .langSw{font:600 .72rem/1 'Montserrat',system-ui,sans-serif;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:var(--ink);cursor:pointer;transition:border-color .3s,background-color .3s}
 @media (hover:hover){.langSw:hover{border-color:var(--acc)}}
 .langSw:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.navBook{font-size:.7rem;letter-spacing:.2em;font-weight:600;text-transform:uppercase;border:1.5px solid var(--ink);padding:10px 18px;border-radius:999px;transition:.25s;text-decoration:none;white-space:nowrap;color:var(--ink)}
+@media (hover:hover){.navBook:hover{background:var(--ink);color:#10231F}}
+@media (max-width:1100px){.navBook{display:none}}
 html[dir=rtl] body{font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif}
 html[dir=rtl] :is(h1,h2,h3,h4,p,b,strong,em,small,span,a,button,li,div,label):not(.logo){font-family:'Cairo','Noto Kufi Arabic','Segoe UI',Tahoma,system-ui,sans-serif!important}
 html[dir=rtl] *{letter-spacing:0!important}
-html[dir=rtl] .ey,html[dir=rtl] .no,html[dir=rtl] .hd h2,html[dir=rtl] .nav nav a,html[dir=rtl] .shCta,html[dir=rtl] .back,html[dir=rtl] .lst strong{text-transform:none!important}
+html[dir=rtl] .ey,html[dir=rtl] .no,html[dir=rtl] .hd h2,html[dir=rtl] .nav nav a,html[dir=rtl] .navBook,html[dir=rtl] .shCta,html[dir=rtl] .back,html[dir=rtl] .lst strong{text-transform:none!important}
 html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.35}
 html[dir=rtl] .lede,html[dir=rtl] .sub,html[dir=rtl] .lst p,html[dir=rtl] .shNote{line-height:1.9}
 html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl] .lede{overflow-wrap:anywhere}
@@ -165,12 +168,35 @@ html[dir=rtl] .mnav a{text-transform:none}
 @keyframes mnavIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 @keyframes mnavSpin{from{opacity:0;transform:rotate(-90deg) scale(.6)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.mnav.open,.mnav.open>*{animation:none!important}}
+
+/* ============ FROSTED GLASS RESERVATION DOCK ============ */
+.resDock{position:fixed;right:20px;right:max(20px,env(safe-area-inset-right,20px));left:auto;bottom:20px;bottom:max(20px,env(safe-area-inset-bottom,20px));z-index:92;height:52px;background:rgba(20,42,46,.88);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.16);border-radius:999px;display:flex;align-items:center;gap:8px;padding:4px 6px;box-shadow:0 18px 36px -8px rgba(0,0,0,.5),0 0 0 1px rgba(176,141,87,.28);transform:translateY(0);transition:transform .38s cubic-bezier(.16,1,.3,1),opacity .25s ease;will-change:transform,opacity}
+.resDock.dockHidden{transform:translateY(140%)!important;opacity:0!important;pointer-events:none!important}
+html[dir=rtl] .resDock{right:auto;left:20px;left:max(20px,env(safe-area-inset-left,20px))}
+body:has(#ov.open) .resDock,body:has(#mnav.open) .resDock{opacity:0!important;pointer-events:none!important;transform:translateY(30px)!important}
+.dockAction{display:flex;align-items:center;justify-content:center;text-decoration:none;font-family:'Montserrat',sans-serif;color:#fff;transition:transform .2s,background-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.dockCall{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;flex-shrink:0}
+.dockCall svg{width:15px;height:15px;fill:currentColor}
+.dockCall span{font-size:.54rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.dockCall:hover{background:rgba(255,255,255,.16);transform:scale(1.04)}
+.dockCall:active{transform:scale(.92);background:rgba(255,255,255,.22)}
+.dockBook{background:linear-gradient(135deg,#25D366,#1EBE5D);color:#fff;padding:0 18px;height:42px;border-radius:999px;font-size:.74rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 6px 16px -3px rgba(37,211,102,.45);white-space:nowrap}
+.dockBook svg{width:16px;height:16px;fill:currentColor}
+.dockBook:hover{filter:brightness(1.08);transform:scale(1.03)}
+.dockBook:active{transform:scale(.95)}
+.foot{padding-bottom:110px!important}
+@media (max-width:520px){
+  .resDock{right:12px;right:max(12px,env(safe-area-inset-right,12px));bottom:12px;bottom:max(12px,env(safe-area-inset-bottom,12px));height:46px;padding:3px 5px;gap:6px}
+  html[dir=rtl] .resDock{right:auto;left:12px;left:max(12px,env(safe-area-inset-left,12px))}
+  .dockCall{width:38px;height:38px}
+  .dockBook{height:38px;padding:0 14px;font-size:.7rem}
+}
 </style>
 <script src="/pwa.js" defer></script>
 </head>
 <body>
-<div class="nav"><a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a><nav><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a></nav><div class="navR"><div class="langBox" id="langBox"><button class="langSw" id="langSw" type="button" aria-label="Switch language" aria-haspopup="true" aria-expanded="false">EN</button><div class="langMenu" role="menu"><button type="button" role="menuitemradio" data-l="en" class="on" aria-checked="true">English</button><button type="button" role="menuitemradio" data-l="ar" aria-checked="false">العربية</button></div></div><button class="burger" id="burger" type="button" aria-label="Open menu"><i></i></button></div></div>
-<div class="mnav" id="mnav"><button class="x" id="mnavX" type="button" aria-label="Close">×</button><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a></div>
+<div class="nav"><a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a><nav><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a></nav><div class="navR"><div class="langBox" id="langBox"><button class="langSw" id="langSw" type="button" aria-label="Switch language" aria-haspopup="true" aria-expanded="false">EN</button><div class="langMenu" role="menu"><button type="button" role="menuitemradio" data-l="en" class="on" aria-checked="true">English</button><button type="button" role="menuitemradio" data-l="ar" aria-checked="false">العربية</button></div></div><a class="navBook" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table%20for%20shisha" target="_blank" rel="noopener">Book a table</a><button class="burger" id="burger" type="button" aria-label="Open menu"><i></i></button></div></div>
+<div class="mnav" id="mnav"><button class="x" id="mnavX" type="button" aria-label="Close">×</button><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a><a class="shCta" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table%20for%20shisha" target="_blank" rel="noopener" style="margin:8px auto 0">Book on WhatsApp</a></div>
 <div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shisha</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
 <main class="cards">
 <article class="card"><div class="ph"><img src="/menu/img/shisha-1.webp" alt="Amber cube hookah" width="720" height="900" decoding="async"></div><div class="rv"><span class="no">01</span><div class="hd"><h2>Single shisha</h2><b><i class="aed" role="img" aria-label="AED"></i>65</b></div><p class="sub">Single flavours, with mint or without.</p><div class="shChips"><span>Double apple</span><span>Grape mint</span><span>Grape-berry</span><span>Grape</span><span>Lemon</span><span>Orange</span><span>Grapefruit</span><span>Fresh mist</span><span>Blueberry</span><span>Watermelon</span><span>Sweet melon</span><span>Pineapple</span><span>Gum</span><span>Bubble gum</span><span>Gum mastic</span><span>Strawberry</span><span>Mint</span><span>Coconut</span><span>Kiwi</span><span>Vanilla cherry</span><span>Peach</span><span>Mango</span><span>Gum cinnamon</span><span>Rose</span><span>Chocolate coffee</span><span>Energy drink</span><span>Banana</span></div></div></article>
@@ -180,6 +206,18 @@ html[dir=rtl] .mnav a{text-transform:none}
 <article class="card"><div class="ph"><img src="/menu/img/shisha-5.webp" alt="Black hookah with smoke" width="720" height="900" decoding="async" loading="lazy"></div><div class="rv"><span class="no">05</span><div class="hd"><h2>Nova cocktails · II</h2><b><i class="aed" role="img" aria-label="AED"></i>159</b></div><p class="sub">Cocktail-style blends, part two.</p><ul class="lst"><li><strong>Belgian Waffles</strong><p>Soft sponge cake with cinnamon, creamy soufflé and caramel topping</p></li><li><strong>Peach Killer</strong><p>A luxurious and full-bodied taste of sweet and delicate peach pulp</p></li><li><strong>Mango Tango</strong><p>Sweet mango with tropical passion fruit</p></li><li><strong>Pinkman</strong><p>A unique blend of pink grapefruit, strawberry, and raspberry — destined to be a favourite</p></li><li><strong>Cherry Garden</strong><p>Bold and tart natural cherries, sweet and sour, a flavour that easily becomes a favourite</p></li></ul></div></article>
 </main>
 <div class="foot rv"><p class="shNote">All prices are in Dirhams &amp; inclusive of 10% service charge, 7% municipality fee and 5% VAT.</p><a class="shCta" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table" target="_blank" rel="noopener">Book on WhatsApp</a><a class="back" href="/menu/">← Back to menu</a></div>
+
+<nav class="resDock" id="resDock" aria-label="Reservation bar">
+  <a class="dockAction dockCall" href="tel:+971506129150" aria-label="Call B-Heaven">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+    <span>Call</span>
+  </a>
+
+  <a class="dockAction dockBook" id="dockBook" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table%20for%20shisha" target="_blank" rel="noopener" aria-label="Book shisha table on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.06a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.53 3.69-8.22 8.24-8.22a8.22 8.22 0 0 1 0 16.45zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
+    <span>Book on WhatsApp</span>
+  </a>
+</nav>
 <script>
 (function(){
 var nv=document.querySelector('.nav');function sol(){nv.classList.toggle('solid',(window.scrollY||0)>24)}addEventListener('scroll',sol,{passive:true});sol();
@@ -219,7 +257,7 @@ var AR={
 "A unique blend of pink grapefruit, strawberry, and raspberry — destined to be a favourite":"مزيج فريد من الجريب فروت الوردي والفراولة وتوت العليق — مكتوب له أن يصبح المفضل لديك",
 "Bold and tart natural cherries, sweet and sour, a flavour that easily becomes a favourite":"كرز طبيعي جريء وحامض، حلو وحامض، نكهة تصبح مفضلة بسهولة",
 "All prices are in Dirhams & inclusive of 10% service charge, 7% municipality fee and 5% VAT.":"جميع الأسعار بالدرهم وتشمل رسوم الخدمة 10% ورسوم البلدية 7% وضريبة القيمة المضافة 5%.",
-"Book on WhatsApp":"احجز عبر واتساب","← Back to menu":"→ العودة إلى القائمة",
+"Book on WhatsApp":"احجز عبر واتساب","Book a table":"احجز طاولة","Call":"اتصال","← Back to menu":"→ العودة إلى القائمة",
 "Shisha · B-Heaven by Barceló":"الشيشة · بي-هيفن من برشلو",
 "Amber cube hookah":"شيشة بقاعدة كهرمانية مكعبة","Carbon fibre hookah":"شيشة من ألياف الكربون","Hookah with wooden stem and lemon-mint base":"شيشة بساق خشبية وقاعدة بالليمون والنعناع","Silver hookah with blue crystal base":"شيشة فضية بقاعدة كريستال زرقاء","Black hookah with smoke":"شيشة سوداء يتصاعد منها الدخان"
 };
@@ -263,6 +301,30 @@ var M=[[/(^|\.)google\./,'Google'],[/instagram\./,'Instagram'],[/(facebook|fb)\.
 var n='';if(l){n=l==='qr'?'QR code':l.charAt(0).toUpperCase()+l.slice(1)}else if(h){n=h;for(var i=0;i<M.length;i++)if(M[i][0].test(h)){n=M[i][1];break}}else n='Direct';
 var s=sessionStorage.getItem('bh_sid');if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('bh_sid',s)}
 var p=JSON.stringify({s:s,e:[{t:'source',l:n.slice(0,40)}]});if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([p],{type:'application/json'}))))fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:p,keepalive:true}).catch(function(){})}catch(_){}})();
+</script>
+<script>
+/* ---------- SMART AUTO-HIDE RESERVATION DOCK ---------- */
+(function(){
+  const dock=document.getElementById('resDock');
+  if(!dock)return;
+  let lastY=window.scrollY, ticking=false;
+  window.addEventListener('scroll',function(){
+    if(!ticking){
+      window.requestAnimationFrame(function(){
+        const curY=window.scrollY;
+        const diff=curY-lastY;
+        if(curY>160 && diff>8){
+          dock.classList.add('dockHidden');
+        } else if(diff<-5 || curY<=160){
+          dock.classList.remove('dockHidden');
+        }
+        lastY=curY;
+        ticking=false;
+      });
+      ticking=true;
+    }
+  },{passive:true});
+})();
 </script>
 </body>
 </html>
