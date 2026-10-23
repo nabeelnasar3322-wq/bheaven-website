@@ -3256,10 +3256,10 @@ const navMap=[['home','#home'],['menu','#menu'],['story','#story'],['events','#e
 const nio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let id=en.target.id; if(id.startsWith('cat-')||id.startsWith('d-')||id==='menuRoot'||id==='drinkRoot'||id==='menu')id=document.body.dataset.mode==='drinks'?'drinks':'menu'; document.querySelectorAll('nav.top ul a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));}}),{rootMargin:'-50% 0px -50% 0px'});
 ['home','menu','menuRoot','drinkRoot','story','events','contact'].forEach(id=>{const el=document.getElementById(id); if(el) nio.observe(el);});
 /* tonight + open now (Dubai time) */
-(()=>{try{const pt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
+(()=>{const update=()=>{try{const pt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
   const wd=pt.find(x=>x.type==='weekday').value, h=(+pt.find(x=>x.type==='hour').value)%24, mi=+pt.find(x=>x.type==='minute').value, hm=h+mi/60, open=h>=9||h<2;
   const EV={Thu:['GRAPE &amp; GRAZE','8 PM'],Fri:['Jazz Friday','9 PM'],Sat:['Layali Night','9 PM']};
-  const t=$('#tonight'), sp=t.querySelector('span');
+  const t=$('#tonight'), sp=t.querySelector('span'); t.classList.remove('closed');t.href='#events';
   if(['Mon','Tue','Wed','Thu','Fri'].includes(wd)&&hm>=11.5&&hm<15.5){
     sp.innerHTML=hm<12.5?`<b>Business lunch</b> · from 12:30 PM · AED 89`:`<b>Business lunch</b> · until 3:30 PM · AED 89`; t.href='/business-lunch/';}
   else if(wd==='Sun'&&hm<16) sp.innerHTML=`<b>Today</b> · Ibiza Brunch 1 – 4 PM`;
@@ -3267,36 +3267,36 @@ const nio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let
   else if(open) sp.innerHTML=`<b>Open now</b> · until 2 AM`;
   else {sp.innerHTML=`<b>Opens today</b> at 9 AM`; t.classList.add('closed');}
   const o=$('#openNow'); o.querySelector('span').textContent=open?'Open now':'Closed · opens 9 AM'; o.classList.toggle('closed',!open);
-}catch(e){}})();
+}catch(e){}};update();setInterval(update,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)update()});})();
 /* happy-hour sunset countdown (approx monthly Dubai sunset, local Asia/Dubai clock) */
-(()=>{try{
+(()=>{const update=()=>{try{
   const SUN=[17.78,18.08,18.25,18.38,18.58,18.93,19.08,18.92,18.42,17.92,17.58,17.58]; // decimal hour sunset by month, Dubai
   const pt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',month:'numeric',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
   const mo=(+pt.find(x=>x.type==='month').value)-1, h=+pt.find(x=>x.type==='hour').value, m=+pt.find(x=>x.type==='minute').value;
   const now=h+m/60, sunset=SUN[mo], end=20;
-  const el=$('#hhCd'); if(!el) return;
+  const el=$('#hhCd'); if(!el) return; el.style.display='';
   const fmt=d=>{const H=Math.floor(d),M=Math.round((d-H)*60);return H>0?`${H}h ${M}m`:`${M}m`};
   const label=el.querySelector('span');
   if(now<sunset){label.textContent=`Happy hour starts in ${fmt(sunset-now)}`;el.classList.remove('on');}
   else if(now<end){label.textContent=`Happy hour ends in ${fmt(end-now)}`;el.classList.add('on');}
-  else{el.remove();}
-}catch(e){}})();
+  else{el.style.display='none';el.classList.remove('on');}
+}catch(e){}};update();setInterval(update,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)update()});})();
 /* Sunset Mode: warm hero + live pill from 1h before sunset until happy hour ends. Preview with ?sun=17:30 */
-(()=>{try{
+(()=>{const update=()=>{try{
   const SUN=[17.78,18.08,18.25,18.38,18.58,18.93,19.08,18.92,18.42,17.92,17.58,17.58];
   const pt=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',month:'numeric',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
   const mo=(+pt.find(x=>x.type==='month').value)-1;
   let now=(+pt.find(x=>x.type==='hour').value)%24+(+pt.find(x=>x.type==='minute').value)/60;
   const q=new URLSearchParams(location.search).get('sun'); if(q&&/^\d{1,2}:\d{2}$/.test(q)){const[a,b]=q.split(':');now=+a+b/60}
   const sunset=SUN[mo], end=20;
-  if(!(now>=sunset-1&&now<end)) return;
+  if(!(now>=sunset-1&&now<end)){document.querySelector('.sunGlow')?.remove();document.body.classList.remove('sunset');document.getElementById('tonight')?.classList.remove('sun');return;}
   const hero=$('#home'), t=$('#tonight'); if(!hero||!t) return;
-  const g=document.createElement('div');g.className='sunGlow';g.setAttribute('aria-hidden','true');hero.prepend(g);
+  let g=hero.querySelector('.sunGlow');if(!g){g=document.createElement('div');g.className='sunGlow';g.setAttribute('aria-hidden','true');hero.prepend(g);}
   const fmt=d=>{const H=Math.floor(d),M=Math.max(1,Math.round((d-H)*60));return H>0?`${H}h ${M}m`:`${M}m`};
   t.classList.add('sun'); t.href='#events';
   t.querySelector('span').innerHTML=now<sunset?`<b>Sunset in ${fmt(sunset-now)}</b> <em>Happy hour from AED 35</em>`:`<b>Golden hour</b> <em>Happy hour ends in ${fmt(end-now)}</em>`;
   document.body.classList.add('sunset'); requestAnimationFrame(()=>requestAnimationFrame(()=>g.style.opacity=''));
-}catch(e){}})();
+}catch(e){}};update();setInterval(update,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)update()});})();
 /* staggered reveal for every dish */
 document.querySelectorAll('#menuRoot .scatter, #menuRoot .squares, #menuRoot .side, #drinkRoot .squares, #drinkRoot .shTrack').forEach(g=>[...g.children].forEach((el,i)=>{el.classList.add('pre');el.style.setProperty('--rd',(i%4)*0.09+'s');}));
 /* dish reveal: a light fade; skipped (instant) when scrolling fast or when many dishes arrive at once, so scrolling never stalls */
