@@ -2125,7 +2125,7 @@ img[src*="paloma-picante"]{object-position:50% 45%}img[src*="heaven-mule"]{objec
 
 /* B-Good Slider: tall photo cards */
 .slider{position:relative;margin-top:16px}
-.sliderTrack{display:flex;gap:24px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding:12px 40px;margin:0 -40px;scrollbar-width:none;-webkit-user-select:none;user-select:none}
+.sliderTrack{display:flex;gap:24px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding:12px 40px;margin:0 -40px;scrollbar-width:none;-webkit-user-select:none;user-select:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 .sliderTrack::-webkit-scrollbar{display:none}
 .sliderCard{flex:0 0 300px;padding:0;border:none;border-radius:28px;overflow:hidden;background:linear-gradient(165deg,#1e424a 0%,#0a1820 100%);border:1px solid rgba(214,180,110,.15);cursor:pointer;text-align:left;color:#F7EFE0;font-family:'Montserrat',sans-serif;transition:all .4s cubic-bezier(.2,.8,.2,1);position:relative;box-shadow:0 20px 50px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08)}@media (hover:hover){.sliderCard:hover{transform:translateY(-12px) scale(1.02);border-color:rgba(214,180,110,.35);box-shadow:0 40px 80px rgba(214,180,110,.2),inset 0 1px 0 rgba(255,255,255,.12)}}
 .sliderCard:first-child{margin-left:0}
@@ -3125,9 +3125,10 @@ function fly(src,tgt,shape){
 function closeDish(){ov.classList.remove('open');document.body.style.overflow='';const rdk=$('#resDock');if(rdk)rdk.classList.remove('dockHidden');if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true});}
 function syncHeart(){const on=cur&&picks.has(cur.k+'|'+cur.i);const h=$('#mdHeart');h.classList.toggle('on',!!on);h.querySelector('span').textContent=on?'In your picks':'Add to picks';}
 $('#mdX').onclick=closeDish; ov.addEventListener('click',e=>{if(e.target===ov)closeDish()});
-$('#mdPrev').onclick=()=>openDish(cur.k,cur.i-1); $('#mdNext').onclick=()=>openDish(cur.k,cur.i+1);
-$('#mdHeart').onclick=()=>{const key=cur.k+'|'+cur.i; picks.has(key)?picks.delete(key):picks.set(key,{...cur}); savePicks(); syncHeart(); renderPicks(true);};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDr();$('#mnav').classList.remove('open');} if(!ov.classList.contains('open'))return; if(e.key==='Escape')closeDish(); if(e.key==='ArrowRight')openDish(cur.k,cur.i+1); if(e.key==='ArrowLeft')openDish(cur.k,cur.i-1);});
+$('#mdPrev').onclick=()=>{if(!cur)return;openDish(cur.k,cur.i-1);};
+$('#mdNext').onclick=()=>{if(!cur)return;openDish(cur.k,cur.i+1);};
+$('#mdHeart').onclick=()=>{if(!cur)return;const key=cur.k+'|'+cur.i; picks.has(key)?picks.delete(key):picks.set(key,{...cur}); savePicks(); syncHeart(); renderPicks(true);};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDr();$('#mnav').classList.remove('open');} if(!ov.classList.contains('open'))return; if(e.key==='Escape')closeDish(); if(e.key==='ArrowRight'&&cur)openDish(cur.k,cur.i+1); if(e.key==='ArrowLeft'&&cur)openDish(cur.k,cur.i-1);});
 document.addEventListener('click',e=>{
   if(e.target.closest('.pr')) return;
   const t=e.target.closest('[data-k]'); if(!t||t.closest('.wheel')) return;

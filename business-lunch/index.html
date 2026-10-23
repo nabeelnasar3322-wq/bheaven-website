@@ -138,7 +138,7 @@ nav.top ul a{white-space:nowrap}
 .avoid .note{font-size:.8rem;color:var(--muted);margin-top:12px;min-height:1.2em}
 @media (max-width:900px){.avoid .row{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:560px){.avoid{padding:18px 14px 16px}.avoid .row{grid-template-columns:repeat(3,1fr);gap:6px}.al{padding:8px 7px;gap:6px;font-size:.7rem}.al b{min-width:22px}}
-.chips.sticky{position:fixed;top:64px;left:0;right:0;z-index:70;padding:10px 12px;background:rgba(236,236,233,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;transform:translateY(calc(-100% - 100px));opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.chips.sticky{position:fixed;top:64px;left:0;right:0;z-index:70;padding:10px 12px;background:rgba(236,236,233,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;transform:translateY(calc(-100% - 100px));opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s}
 .chips.sticky::-webkit-scrollbar{display:none}
 .chips.sticky.show{transform:none;opacity:1;pointer-events:auto}
 .chips.sticky .chip{flex-direction:row;width:auto;padding:8px 14px;border-radius:999px;flex:0 0 auto}
@@ -587,7 +587,7 @@ body[data-mode=drinks] .prog{background:linear-gradient(90deg,var(--gold),var(--
 .bcap b{display:block;font-family:'Montserrat',sans-serif;font-size:1.7rem;font-weight:600;margin:6px 0 6px;line-height:1.1}
 .bcap em{font-style:normal;color:var(--teal-d);font-size:.78rem;letter-spacing:.12em;font-weight:600}
 .dFoot{padding:10px 32px 90px;text-align:center;color:var(--muted);font-size:.8rem;line-height:1.8}
-@media (max-width:900px){.bgrid{grid-template-columns:1fr}.bviz{display:none}.board .tabs{flex-wrap:nowrap;overflow-x:auto;scroll-behavior:smooth;margin:0 -20px 24px;padding:0 20px;scrollbar-width:none}.board .tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 auto}.row,.bhead{grid-template-columns:34px 1fr 54px 64px;gap:10px}.board.one .row,.board.one .bhead{grid-template-columns:34px 1fr 64px}.row img{height:32px}.row .rn b{font-size:1.08rem}.gl{flex-basis:160px}.gl img{height:200px}.shelfBar{margin:-114px 0 114px}}
+@media (max-width:900px){.bgrid{grid-template-columns:1fr}.bviz{display:none}.board .tabs{flex-wrap:nowrap;overflow-x:auto;scroll-behavior:smooth;margin:0 -20px 24px;padding:0 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}.board .tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 auto}.row,.bhead{grid-template-columns:34px 1fr 54px 64px;gap:10px}.board.one .row,.board.one .bhead{grid-template-columns:34px 1fr 64px}.row img{height:32px}.row .rn b{font-size:1.08rem}.gl{flex-basis:160px}.gl img{height:200px}.shelfBar{margin:-114px 0 114px}}
 
 /* ===== B-Heaven brand type: Gotham/Montserrat structure from the printed menus ===== */
 :root{--head:#5F8F9B}
@@ -855,7 +855,7 @@ body[data-mode=drinks] .plate .lbl em,body[data-mode=drinks] .meta em,body[data-
 .ev .b .kv b{font-size:1.05rem!important}
 .ev .b a{padding:10px 14px!important;font-size:.62rem!important}
 @media (max-width:1100px) and (min-width:701px){.evs{grid-template-columns:repeat(4,minmax(0,1fr))!important}.ev{height:280px!important}}
-@media (max-width:700px){.evs{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px!important;padding-bottom:8px;scrollbar-width:none}.evs::-webkit-scrollbar{display:none}.ev{flex:0 0 68%;scroll-snap-align:start;height:300px!important}}
+@media (max-width:700px){.evs{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px!important;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}.evs::-webkit-scrollbar{display:none}.ev{flex:0 0 68%;scroll-snap-align:start;height:300px!important}}
 /* smaller footer wordmark */
 .logo.fWord{width:min(100%,420px)!important;margin:50px auto 0!important;display:block}
 
@@ -904,7 +904,7 @@ body[data-mode=drinks] .plate .lbl em,body[data-mode=drinks] .meta em,body[data-
 .rvScore .st{color:#E5A93B;font-size:1.1rem;letter-spacing:2px}
 .rvScore small{display:block;font-size:.74rem;color:#5E6A70}
 .rvScore .g{width:30px;height:30px}
-.rvTrack{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 16px;scrollbar-width:none}
+.rvTrack{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 .rvTrack::-webkit-scrollbar{display:none}
 .rvCard{flex:0 0 min(360px,82%);scroll-snap-align:start;display:flex;flex-direction:column;gap:14px;padding:24px;border-radius:22px;background:#fff;box-shadow:0 18px 34px -24px rgba(0,0,0,.35);color:#1F2A33}
 .rvCard q{quotes:none;font-size:1rem;line-height:1.6;color:#2E3A40}
@@ -1851,7 +1851,7 @@ html{-webkit-tap-highlight-color:transparent}
 <style id="round43">
 /* allergen filter: one aligned line (scrolls sideways only if the screen is too narrow) */
 .avoid{max-width:min(1240px,100%)!important;padding:20px 16px 16px!important}
-.avoid .row{display:flex!important;flex-wrap:nowrap!important;gap:6px!important;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 2px 4px}
+.avoid .row{display:flex!important;flex-wrap:nowrap!important;gap:6px!important;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding:2px 2px 4px}
 .avoid .row::-webkit-scrollbar{display:none}
 .avoid .note{min-height:0!important;margin-top:6px!important}.avoid .note:empty{display:none}
 .avoid .row .al{flex:0 0 auto!important;white-space:nowrap;padding:8px 9px!important;gap:6px!important;font-size:.74rem!important}
@@ -2030,7 +2030,7 @@ img[src*="paloma-picante"]{object-position:50% 45%}img[src*="heaven-mule"]{objec
 
 /* B-Good Slider: tall photo cards */
 .slider{position:relative;margin-top:16px}
-.sliderTrack{display:flex;gap:24px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding:12px 40px;margin:0 -40px;scrollbar-width:none;-webkit-user-select:none;user-select:none}
+.sliderTrack{display:flex;gap:24px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding:12px 40px;margin:0 -40px;scrollbar-width:none;-webkit-user-select:none;user-select:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 .sliderTrack::-webkit-scrollbar{display:none}
 .sliderCard{flex:0 0 300px;padding:0;border:none;border-radius:28px;overflow:hidden;background:linear-gradient(165deg,#1e424a 0%,#0a1820 100%);border:1px solid rgba(214,180,110,.15);cursor:pointer;text-align:left;color:#F7EFE0;font-family:'Montserrat',sans-serif;transition:all .4s cubic-bezier(.2,.8,.2,1);position:relative;box-shadow:0 20px 50px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08)}@media (hover:hover){.sliderCard:hover{transform:translateY(-12px) scale(1.02);border-color:rgba(214,180,110,.35);box-shadow:0 40px 80px rgba(214,180,110,.2),inset 0 1px 0 rgba(255,255,255,.12)}}
 .sliderCard:first-child{margin-left:0}
