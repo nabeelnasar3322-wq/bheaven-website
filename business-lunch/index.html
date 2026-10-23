@@ -2239,10 +2239,50 @@ nav.top ul a.on::after{transform:scaleX(1)!important}
 .dcard p{margin:0;font-size:.86rem;line-height:1.6;color:var(--muted);flex-grow:1}
 .dcard em{font-style:normal;font-size:.7rem;letter-spacing:.18em;font-weight:600;color:var(--teal-d);text-transform:uppercase}
 @media (max-width:600px){.dgrid{grid-template-columns:1fr}.prices{justify-content:center}.prices div{flex:1 1 130px;padding:14px 18px}.prices b{font-size:1.6rem}}
+/* ============ BRAND ENTRY SILK CURTAIN ============ */
+#bhCurtain{position:fixed;inset:0;z-index:999999;background:var(--marble,#0D1C1F),radial-gradient(circle at 50% 45%,#16363B 0%,#0C1A1D 55%,#060E10 100%);background-size:900px,cover;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .85s cubic-bezier(.77,0,.175,1);pointer-events:all;will-change:transform;cursor:pointer;-webkit-user-select:none;user-select:none}
+#bhCurtain.dismiss{transform:translateY(-100%);pointer-events:none}
+.curtainCenter{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px}
+.curtainLogo{width:min(280px,78vw);aspect-ratio:900/238;background:#fff;-webkit-mask:url(/menu/img/387ccd074c43.webp) center/contain no-repeat;mask:url(/menu/img/387ccd074c43.webp) center/contain no-repeat;filter:drop-shadow(0 2px 14px rgba(255,255,255,.25));animation:curtainFade .75s cubic-bezier(.16,1,.3,1) forwards}
+.curtainSub{font-size:clamp(.66rem,2vw,.74rem);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.9);font-weight:500;margin-top:14px;animation:curtainFade .75s cubic-bezier(.16,1,.3,1) .1s backwards}
+.curtainSub span{color:var(--gold,#B08D57);font-weight:600}
+.curtainTrack{width:160px;height:2px;background:rgba(255,255,255,.15);border-radius:2px;margin-top:22px;overflow:hidden;animation:curtainFade .6s ease .15s backwards}
+.curtainBar{width:100%;height:100%;background:linear-gradient(90deg,#376C71,#5FE3DF 40%,#fff);transform-origin:left center;transform:scaleX(0);animation:curtainFill 1.05s cubic-bezier(.4,0,.2,1) .15s forwards}
+.curtainSkip{position:absolute;bottom:24px;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.38);transition:color .2s}
+@media (hover:hover){#bhCurtain:hover .curtainSkip{color:rgba(255,255,255,.75)}}
+@keyframes curtainFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes curtainFill{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){#bhCurtain{display:none!important}}
 </style>
 <script src="/pwa.js" defer></script>
 </head>
 <body class="bl" data-mode="food">
+<div id="bhCurtain" onclick="dismissCurtain()" role="dialog" aria-label="Welcome to B-Heaven">
+  <div class="curtainCenter">
+    <div class="curtainLogo" role="img" aria-label="B-Heaven by Barceló"></div>
+    <div class="curtainSub">Rooftop Levantine Dining · <span>Al Jaddaf</span></div>
+    <div class="curtainTrack"><div class="curtainBar"></div></div>
+  </div>
+  <span class="curtainSkip">Tap anywhere to enter</span>
+</div>
+<script>
+function dismissCurtain(){
+  var c=document.getElementById('bhCurtain');
+  if(c&&!c.classList.contains('dismiss')){
+    c.classList.add('dismiss');
+    try{sessionStorage.setItem('bh_curtain','1')}catch(_){}
+    setTimeout(function(){c.remove()},900);
+  }
+}
+(function(){
+  try{
+    if(sessionStorage.getItem('bh_curtain')==='1'||/bot|googlebot|crawler|spider|lighthouse/i.test(navigator.userAgent)){
+      var c=document.getElementById('bhCurtain');if(c)c.remove();return;
+    }
+  }catch(_){}
+  setTimeout(dismissCurtain,1200);
+})();
+</script>
 <nav class="top" id="top">
   <a class="logo" href="/menu/" aria-label="B-Heaven by Barceló"></a>
   <ul>
