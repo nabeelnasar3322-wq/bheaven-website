@@ -35,6 +35,15 @@ const ok = (c, msg) => { if (!c) { fails++; console.log('  FAIL  ' + msg); } els
     }
   }
 
+  // Google Search Console schema requirements validation
+  try {
+    const { execSync } = require('child_process');
+    execSync('node ' + path.join(ROOT, 'scripts', 'validate-schema.js'), { stdio: 'pipe' });
+    ok(true, 'structured data meets all Google Search Console Event & Schema standards');
+  } catch (e) {
+    ok(false, 'schema validator failed: ' + e.message);
+  }
+
   // Menu data: every dish has the fields the site needs, and no dish is listed twice.
   const menuText = fs.readFileSync(path.join(ROOT, 'menu/index.html'), 'utf8');
   const menuData = menuText.match(/^const M = (\{.*\});$/m);

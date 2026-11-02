@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node scripts/seo-menu.js && node scripts/seo-i18n.js",
+  "buildCommand": "node scripts/validate-schema.js && node scripts/seo-menu.js && node scripts/seo-i18n.js",
   "outputDirectory": ".",
   "redirects": [
     {
