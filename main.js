@@ -81,11 +81,21 @@ fetch('/api/instagram').then(r => r.status === 200 ? r.json() : null).then(d => 
   requestAnimationFrame(parTick);
 }).catch(() => {});
 
-/* Menu category tiles: real photos linking straight to the full menu (only if on the page) */
+/* Menu category tiles: real photos linking straight to the full menu (only if on the page).
+   Each tile carries its category as a class (cat-food/cat-drinks/cat-shisha/cat-pool) so its
+   empty-photo state gets its own tint and icon instead of 4 identical gray boxes, and a number
+   badge (01-04) for a bit of menu-like structure while real photos aren't uploaded yet. */
+const CAT_ICON = {
+  food: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11h16M6 11V8a6 6 0 0 1 12 0v3M5 11l1 9h12l1-9"/></svg>',
+  drinks: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3h8l-4 7zM12 10v8M8 21h8M4 3h16"/></svg>',
+  shisha: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20c-2-1-2-3 0-4s0-3-2-4M13 20c-2-1-2-3 0-4s0-3-2-4"/><path d="M6 20h12M9 8c0-2 1.5-3 1.5-5M14 8c0-2-1.5-3-1.5-5"/><ellipse cx="12" cy="9" rx="5" ry="2"/></svg>',
+  pool: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 17c2 0 2-1.5 4-1.5S8 17 10 17s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 21c2 0 2-1.5 4-1.5S8 21 10 21s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M8 13V5a2 2 0 0 1 4 0M16 13V5a2 2 0 0 0-4 0"/></svg>'
+};
 if ($('#menuCatGrid')) {
 $('#menuCatGrid').innerHTML = TASTE.map((t, i) => `
-  <a class="tcard ph" href="/menu/" data-r data-tilt style="--i:${i}">
-    <div class="ph-label">${camera}${esc(t.title)}</div>
+  <a class="tcard ph cat-${t.tab}" href="/menu/" data-r data-tilt style="--i:${i}">
+    <span class="tcard-num">0${i + 1}</span>
+    <div class="ph-label">${CAT_ICON[t.tab] || camera}<span>${esc(t.title)}</span></div>
     <div class="tcard-body"><h3>${esc(t.title)}</h3><p>${esc(t.text)}</p><span class="tcard-go">View menu <b>→</b></span></div>
   </a>`).join('');
 $('#menuCatGrid').querySelectorAll('.tcard').forEach((el, i) => fillPhoto(el, TASTE[i].src, TASTE[i].title));

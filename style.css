@@ -233,9 +233,24 @@ p{margin:0}
 /* Menu category grid: 4 photo tiles (Food/Drinks/Shisha/Pool), each linking to /menu/.
    Reuses .tcard (the dark-overlay photo-card already built for the gallery/about sections) —
    it carries its own gradient overlay, so it reads fine inside this light .menus section. */
-.menu-cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:900px;margin:0 auto}
+.menu-cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:1160px;margin:0 auto}
 @media(min-width:760px){.menu-cat-grid{grid-template-columns:repeat(4,1fr)}}
-.menu-cat-grid .tcard{border-radius:20px}
+.menu-cat-grid .tcard{border-radius:20px;min-height:380px}
+@media(max-width:600px){.menu-cat-grid .tcard{min-height:280px}}
+/* Number badge: top-left, small, reads like a menu index while real photos are pending */
+.tcard-num{position:absolute;top:16px;left:16px;z-index:2;font-family:var(--script);font-size:26px;color:rgba(251,247,226,.55);line-height:1}
+/* Per-category tint on the empty-photo state, so the 4 tiles read as distinct categories
+   instead of identical gray boxes — same idea as the .event.* gradients used elsewhere. */
+.tcard.cat-food{background:radial-gradient(70% 70% at 30% 20%,rgba(154,182,186,.3),transparent 60%),linear-gradient(145deg,#3A332A,#262220)}
+.tcard.cat-drinks{background:radial-gradient(70% 70% at 70% 25%,rgba(214,178,106,.28),transparent 60%),linear-gradient(145deg,#2E2420,#1E1816)}
+.tcard.cat-shisha{background:radial-gradient(60% 60% at 50% 30%,rgba(90,140,200,.25),transparent 65%),radial-gradient(50% 50% at 75% 75%,rgba(214,178,106,.18),transparent 65%),linear-gradient(160deg,#17191c,#0e0f10)}
+.tcard.cat-pool{background:radial-gradient(70% 70% at 30% 25%,rgba(154,182,186,.38),transparent 60%),linear-gradient(145deg,#2A3638,#1E2628)}
+.tcard.cat-food .ph-label svg,.tcard.cat-pool .ph-label svg{color:var(--lagoon)}
+.tcard.cat-drinks .ph-label svg,.tcard.cat-shisha .ph-label svg{color:#E0BE80}
+/* custom.css collapses .tcard .ph-label text to font-size:0 (the title already shows in
+   .tcard-body below), so only the category icon needs sizing here; the <span> stays in
+   markup for accessibility but renders invisibly, same as the old plain-text label did. */
+.tcard .ph-label svg{width:30px;height:30px;opacity:.8}
 .menu-foot{font-size:13px;text-align:center;color:rgba(38,39,41,.6);margin-top:28px}
 
 /* Pool pass */
