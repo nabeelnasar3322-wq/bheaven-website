@@ -209,7 +209,16 @@ html{scroll-padding-top:100px}
 @media(max-width:600px){.lb-nav{top:auto;bottom:22px}}
 
 /* ============ WhatsApp widget ============ */
-.wa-wrap{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+/* Confirmed bug (via elementFromPoint on the live preview): .wa-wrap is a flex column that
+   reserves layout space for .wa-card (365px tall) above the 62px FAB, even while the card is
+   visibility:hidden. The wrapper DIV itself has no background and normally wouldn't be the
+   thing clicked — but because it has no pointer-events:none fallback, that reserved empty
+   space was eating clicks meant for whatever page content sits underneath it (e.g. the
+   "View the full menu" button), matching the "nothing happens when I tap it" report exactly.
+   Fix: the wrapper ignores pointer events by default; only its actually-visible children
+   (the FAB, and the bubble/card once shown) opt back in. */
+.wa-wrap{position:fixed;right:18px;bottom:18px;z-index:80;display:flex;flex-direction:column;align-items:flex-end;gap:12px;pointer-events:none}
+.wa-wrap .wa,.wa-wrap .wa-bubble,.wa-wrap .wa-card{pointer-events:auto}
 .wa-wrap .wa{position:relative;right:auto;bottom:auto;width:62px;height:62px;border:0;cursor:pointer;animation:waWiggle 6s ease-in-out 3s infinite;transition:transform .35s var(--ease),box-shadow .35s}
 .wa-wrap .wa:hover{transform:scale(1.1) rotate(-8deg);box-shadow:0 16px 40px rgba(37,211,102,.55);animation-play-state:paused}
 .wa-wrap .wa::before{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid #25D366;animation:ping 2.2s var(--ease) 1.1s infinite}
