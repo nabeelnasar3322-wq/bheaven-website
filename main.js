@@ -81,17 +81,14 @@ fetch('/api/instagram').then(r => r.status === 200 ? r.json() : null).then(d => 
   requestAnimationFrame(parTick);
 }).catch(() => {});
 
-/* Food & drinks tiles (only if the section is on the page) */
-if ($('#taste-grid')) {
-$('#taste-grid').innerHTML = TASTE.map((t, i) => `
-  <a class="tcard ph" href="#menus" data-tab="${t.tab}" data-r data-tilt style="--i:${i}">
+/* Menu category tiles: real photos linking straight to the full menu (only if on the page) */
+if ($('#menuCatGrid')) {
+$('#menuCatGrid').innerHTML = TASTE.map((t, i) => `
+  <a class="tcard ph" href="/menu/" data-r data-tilt style="--i:${i}">
     <div class="ph-label">${camera}${esc(t.title)}</div>
     <div class="tcard-body"><h3>${esc(t.title)}</h3><p>${esc(t.text)}</p><span class="tcard-go">View menu <b>→</b></span></div>
   </a>`).join('');
-$('#taste-grid').querySelectorAll('.tcard').forEach((el, i) => {
-  fillPhoto(el, TASTE[i].src, TASTE[i].title);
-  el.addEventListener('click', () => setTimeout(() => $(`.tab[data-tab="${el.dataset.tab}"]`)?.click(), 50));
-});
+$('#menuCatGrid').querySelectorAll('.tcard').forEach((el, i) => fillPhoto(el, TASTE[i].src, TASTE[i].title));
 }
 
 /* Ribbon */
@@ -234,54 +231,6 @@ if (REVIEWS.length) {
     <p>Enjoyed a sunset, a Jazz Friday or a lazy pool day with us? We’d love to hear about it. Your review helps other guests find our hidden rooftop.</p>
   </div></div>`;
 }
-
-/* Menus: this homepage links straight to /menu/ for the real menu (see the "Menus" section's
-   CTA card in index.html), so the tab/panel builder below only runs if those elements exist. */
-if ($('#menuTabs') && $('#menuPanels')) {
-$('#menuTabs').innerHTML = MENUS.map((m, i) => `<button class="tab${i ? '' : ' active'}" role="tab" data-tab="${m.id}">${esc(m.label)}</button>`).join('');
-/* Food tab: one view in the style of the B·Heaven food menu (torn-paper cards, spinning plates) */
-const AL = { G: 'Gluten', D: 'Dairy', S: 'Shellfish', N: 'Nuts', E: 'Egg', M: 'Mustard', SE: 'Sesame', F: 'Fish', C: 'Celery', P: 'Peanuts', SO: 'Soya', SUL: 'Sulphites' };
-function rng(str) { let h = 2166136261; for (const ch of str) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return () => ((h = Math.imul(h ^ (h >>> 15), 2246822507) ^ Math.imul(h ^ (h >>> 13), 3266489909)) >>> 0) / 4294967296; }
-function tearPoly(r) { const P = [], n = 26, j = () => r() * 1.8;
-  for (let i = 0; i <= n; i++) P.push([i / n * 100, j()]);
-  for (let i = 1; i <= n; i++) P.push([100 - j(), i / n * 100]);
-  for (let i = 1; i <= n; i++) P.push([100 - i / n * 100, 100 - j()]);
-  for (let i = 1; i < n; i++) P.push([j(), 100 - i / n * 100]);
-  return 'polygon(' + P.map(([x, y]) => x.toFixed(2) + '% ' + y.toFixed(2) + '%').join(',') + ')'; }
-const VIEWS = typeof MENU_VIEWS !== 'undefined' ? MENU_VIEWS : {};
-const menuView = F => `<div class="fm">
-  ${MENU_LEAVES.map((l, k) => `<img class="fm-leaf ${['tl', 'bl'][k]}" src="${esc(l)}" alt="" onerror="this.remove()"><img class="fm-leaf ${['tr', 'br'][k]}" src="${esc(l)}" alt="" onerror="this.remove()">`).join('')}
-  <h3 class="fm-h">${esc(F.title)}</h3>
-  <div class="fm-rail">${F.dishes.map((d, i) => { const r = rng(d.name + i); return `<div class="fm-dish" style="--tear:${tearPoly(r)};--rot:${((r() - .5) * 3.2).toFixed(2)}deg">
-    <span class="fm-paper"></span>
-    <div class="fm-bowl${d.photo ? ' photo' : ''}"><img src="${esc(optimise(d.img, 640)[0] || d.img)}" alt="${esc(d.name)}" loading="lazy" onerror="if(this.src!=='${esc(d.img)}')this.src='${esc(d.img)}';else this.remove()"></div>
-    <p class="fm-name">${esc(d.name)}</p>
-    <div class="fm-meta"><small>Price</small><span class="fm-pr"><i>AED</i>${esc(d.price)}</span>${d.allergens ? `<small>Allergens</small><span class="fm-algs">${d.allergens.split(' ').map(k => `<b title="${AL[k] || k}">${k}</b>`).join('')}</span>` : ''}</div>
-  </div>`; }).join('')}</div>
-  ${F.note ? `<p class="fm-foot">${esc(F.note)}</p>` : ''}
-  <a class="btn btn-line" href="${wa('Hi B·Heaven, could you send me the ' + F.title + ' menu?')}" target="_blank" rel="noopener">${esc(F.cta || 'Get the menu on WhatsApp')}</a>
-</div>`;
-if (!document.querySelector('link[href*="Poppins"]')) document.head.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">');
-$('#menuPanels').innerHTML = MENUS.map((m, i) => `
-  <div class="menu-panel${i ? '' : ' active'}" id="panel-${m.id}" role="tabpanel">
-    <div class="menu-card${VIEWS[m.id] ? ' fm-card' : ''}">
-      ${VIEWS[m.id] ? menuView(VIEWS[m.id]) : m.sections.length ? m.sections.map(s => `
-        <div class="menu-sec"><h3>${esc(s.title)}</h3>
-          ${s.items.map(it => `<div class="menu-item"><strong>${esc(it.name)}</strong><span class="p">${esc(it.price || '')}</span>${it.desc ? `<p>${esc(it.desc)}</p>` : ''}</div>`).join('')}
-        </div>`).join('') : `
-        <div class="menu-empty">
-          <span class="script">${esc(m.label)}</span>
-          <p>Our ${esc(m.label.toLowerCase())} menu is coming to the website soon. Ask us and we’ll send it straight to you.</p>
-          <a class="btn btn-line" href="${wa(`Hi B·Heaven, could you send me the ${m.label} menu?`)}" target="_blank" rel="noopener">Get the menu on WhatsApp</a>
-        </div>`}
-    </div>
-  </div>`).join('');
-$('#menuTabs').addEventListener('click', e => {
-  const b = e.target.closest('.tab'); if (!b) return;
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === b));
-  document.querySelectorAll('.menu-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + b.dataset.tab));
-});
-} // end menu tab/panel builder guard
 
 /* Reservation form */
 const telHref = 'tel:' + SITE.phone.replace(/\s/g, '');

@@ -48,10 +48,13 @@ p{margin:0}
 .header{position:fixed;inset:0 0 auto;z-index:50;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
 .header.solid{background:rgba(38,39,41,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom-color:var(--line)}
 .header-inner{height:76px;display:flex;align-items:center;gap:28px}
-.nav{display:none;gap:30px;margin-left:auto;font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
-.nav a{position:relative;color:var(--muted);transition:color .3s}
+.nav{display:none;gap:26px;margin-left:auto;font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+.nav a{position:relative;display:inline-flex;align-items:center;gap:0;color:var(--muted);transition:color .3s}
 .nav a::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .35s var(--ease)}
 .nav a:hover{color:var(--cream)}.nav a:hover::after{transform:scaleX(1)}
+/* Icon reveals on hover: collapsed to 0 width, expands and fades in alongside the label */
+.nav-ic{width:0;height:15px;color:var(--gold-l);opacity:0;transform:translateX(-4px) scale(.7);transition:width .32s var(--ease),opacity .28s var(--ease),transform .32s var(--ease),margin-right .32s var(--ease);flex:none;overflow:visible}
+.nav a:hover .nav-ic{width:15px;opacity:1;transform:translateX(0) scale(1);margin-right:7px}
 .header .btn{display:none}
 .burger{margin-left:auto;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(46,48,50,.6);display:grid;place-content:center;gap:6px;cursor:pointer}
 .burger span{width:18px;height:1.5px;background:var(--cream);display:block;transition:transform .3s}
@@ -222,25 +225,13 @@ p{margin:0}
 .menus .eyebrow{color:#6E9296}.menus .eyebrow::before,.menus .head.center .eyebrow::after{background:#6E9296}
 .menus .lead{color:rgba(38,39,41,.72)}
 .menus::before{content:'';position:absolute;inset:0;opacity:.5;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0 60 26v52L30 104 0 78V26Z' fill='none' stroke='%23D7D2C5' stroke-width='.8'/%3E%3C/svg%3E")}
-.tabs{position:relative;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.tab{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:12px 20px;border-radius:999px;border:1px solid #D7D2C5;background:#FFFDF3;color:#262729;cursor:pointer;transition:all .3s}
-.tab:hover{border-color:#6E9296}
-.tab.active{background:#262729;color:var(--cream);border-color:#262729}
-.menu-panel{position:relative;display:none;max-width:900px;margin:0 auto}
-.menu-panel.active{display:block;animation:up .6s var(--ease)}
-.menu-card{background:#FFFDF3;border:1px solid #D7D2C5;border-radius:24px;padding:34px 24px;box-shadow:0 30px 60px -40px rgba(38,39,41,.35)}
-@media(min-width:768px){.menu-card{padding:48px 56px}}
-.menu-sec{margin-bottom:30px}
-.menu-sec h3{font-family:var(--script);font-size:44px;color:#6E9296;text-align:center;margin-bottom:10px}
-.menu-item{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:12px 0;border-bottom:1px dashed #D7D2C5}
-.menu-item strong{font-family:var(--serif);font-size:17px;font-weight:700}
-.menu-item .p{font-family:var(--serif);font-size:17px;font-weight:600;color:#6E9296}
-.menu-item p{grid-column:1/-1;font-size:14px;color:rgba(38,39,41,.7)}
-.menu-empty{text-align:center;padding:30px 10px}
-.menu-empty .script{display:block;font-size:56px;color:#6E9296;line-height:1}
-.menu-empty p{margin:10px auto 22px;max-width:44ch;color:rgba(38,39,41,.72)}
-.menu-empty .btn-line{color:#262729;border-color:#262729;background:transparent}
-.menu-foot{font-size:13px;text-align:center;color:rgba(38,39,41,.6);margin-top:18px}
+/* Menu category grid: 4 photo tiles (Food/Drinks/Shisha/Pool), each linking to /menu/.
+   Reuses .tcard (the dark-overlay photo-card already built for the gallery/about sections) —
+   it carries its own gradient overlay, so it reads fine inside this light .menus section. */
+.menu-cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:900px;margin:0 auto}
+@media(min-width:760px){.menu-cat-grid{grid-template-columns:repeat(4,1fr)}}
+.menu-cat-grid .tcard{border-radius:20px}
+.menu-foot{font-size:13px;text-align:center;color:rgba(38,39,41,.6);margin-top:28px}
 
 /* Pool pass */
 .pass{background:linear-gradient(180deg,var(--deep),var(--night))}
