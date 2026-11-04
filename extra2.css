@@ -244,15 +244,15 @@
 .footer.ft .wordmark{margin:0}
 .footer.ft .wordmark .logo-svg{width:230px;background:#3F4042}
 .footer.ft .social{margin:0;gap:18px;justify-content:center}
-.footer.ft .social a{width:52px;height:52px;border-radius:14px;background:#3F4042;color:#F3F1EA;border:0;display:grid;place-items:center;transition:background .3s}
-.footer.ft .social a:hover{background:#6E9296;color:#fff}
+.footer.ft .social a{width:52px;height:52px;border-radius:14px;background:#6E9296;color:#FBF7E2;border:0;display:grid;place-items:center;transition:background .3s}
+.footer.ft .social a:hover{background:#3F5456;color:#fff}
 .footer.ft .social svg{width:24px;height:24px}
 .ft-col h3{font-size:30px;font-weight:600;letter-spacing:0;text-transform:none;color:#3F4042;margin:0 0 20px}
 .ft-col p{font-size:17px;line-height:1.55;color:#8A8B8D;margin:0 0 18px}
 .ft-col p b{color:#8A8B8D;font-weight:700}
 .ft-contact{list-style:none;padding:0;margin:0;display:grid;gap:16px}
 .ft-contact li{display:flex;align-items:flex-start;gap:14px;font-size:15.5px;line-height:1.5;color:#8A8B8D}
-.ft-contact svg{flex:none;width:21px;height:21px;margin-top:1px;color:#3F4042}
+.ft-contact svg{flex:none;width:21px;height:21px;margin-top:1px;color:#6E9296}
 .ft-contact a{color:#8A8B8D;transition:color .3s;word-break:break-word}
 .ft-contact a:hover{color:#6E9296}
 .ft-bar{background:#3F4042;color:#E8E6DE;font-size:13.5px}
