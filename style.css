@@ -62,7 +62,12 @@ p{margin:0}
 .burger.open span:last-child{transform:translateY(-3.75px) rotate(-45deg)}
 .mnav{position:fixed;inset:76px 0 0;background:linear-gradient(180deg,var(--ink),var(--deep));padding:30px 20px;display:none;flex-direction:column;gap:28px;z-index:49}
 .mnav.open{display:flex;animation:fade .35s var(--ease)}
-.mnav a.l{font-family:var(--serif);font-size:26px;font-weight:600;padding:10px 0;border-bottom:1px solid var(--line)}
+.mnav a.l{display:flex;align-items:center;gap:16px;font-family:var(--serif);font-size:26px;font-weight:600;padding:10px 0;border-bottom:1px solid var(--line);opacity:0;transform:translateX(-16px)}
+.mnav.open a.l,.mnav.open .btn{animation:navIn .5s var(--ease) both;animation-delay:calc(var(--i,0)*60ms + 80ms)}
+@keyframes navIn{to{opacity:1;transform:none}}
+.mnav .l-ic{width:22px;height:22px;flex:none;color:var(--gold);opacity:.85;transition:transform .3s var(--ease),color .3s}
+.mnav a.l:active .l-ic,.mnav a.l:hover .l-ic{color:var(--gold-l);transform:scale(1.12) rotate(-4deg)}
+.mnav .btn{opacity:0}
 @keyframes fade{from{opacity:0}}
 @media(min-width:960px){.nav,.header .btn{display:flex}.burger,.mnav,.mnav.open{display:none}}
 

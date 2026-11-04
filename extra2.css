@@ -116,7 +116,8 @@
   .burger{display:grid}
   .mnav.open{display:flex}
   .mnav{align-items:center;justify-content:center;gap:10px;padding:40px}
-  .mnav a.l{font-size:34px;min-width:min(520px,80vw);text-align:center}
+  .mnav a.l{font-size:34px;min-width:min(520px,80vw);justify-content:center}
+  .mnav .l-ic{width:28px;height:28px}
   .mnav .btn{margin-top:22px}
 }
 .burger{position:relative;width:44px;height:44px;margin-left:auto;display:grid;place-items:center}
