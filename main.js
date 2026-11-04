@@ -533,12 +533,15 @@ waFab.addEventListener('click', () => waToggle(!waWrap.classList.contains('open'
 $('#waX').addEventListener('click', () => waToggle(false));
 $('#waBubble').addEventListener('click', () => waToggle(true));
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { waToggle(false); lbClose(); } if (lb.classList.contains('open') && e.key === 'ArrowRight') lbShow(lbI + 1); if (lb.classList.contains('open') && e.key === 'ArrowLeft') lbShow(lbI - 1); });
-/* Don't auto-nudge the WhatsApp bubble while the reservation form is on screen — the bubble's
-   corner position would otherwise sit on top of the Name/Phone fields and submit button. */
-setTimeout(() => {
-  if (waWrap.classList.contains('open')) return;
+/* Don't let the auto-nudge WhatsApp bubble sit over the reservation form — the bubble's
+   corner position would otherwise cover the Name/Phone fields and submit button. This has to
+   keep checking for the whole nudge window (not just once before it starts), because the
+   visitor can scroll onto the form at any point while the bubble is showing. */
+(function () {
   const form = $('#resForm');
-  if (form) { const r = form.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) return; }
-  waWrap.classList.add('nudge');
-}, 6000);
-setTimeout(() => waWrap.classList.remove('nudge'), 16000);
+  const formInView = () => { if (!form) return false; const r = form.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; };
+  let nudgeWanted = false, checker = null;
+  const tick = () => { waWrap.classList.toggle('nudge', nudgeWanted && !formInView() && !waWrap.classList.contains('open')); };
+  setTimeout(() => { nudgeWanted = true; tick(); addEventListener('scroll', tick, { passive: true }); }, 6000);
+  setTimeout(() => { nudgeWanted = false; tick(); removeEventListener('scroll', tick); }, 16000);
+})();
