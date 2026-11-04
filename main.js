@@ -223,23 +223,54 @@ if (typeof GOOGLE_RATING !== 'undefined' && $('#revRating')) {
   $('#revRating').innerHTML = `${stars(5)} <strong>${esc(GOOGLE_RATING.value)}</strong> on Google · ${esc(GOOGLE_RATING.count)} reviews`;
   $('#revRating').removeAttribute('aria-hidden');
 }
-const revCard = r => `<figure class="rev">
-  <span class="rev-q">“</span>${stars(Math.max(1, Math.min(5, r.rating || 5)))}
-  <blockquote>${esc(r.text)}</blockquote>
-  <figcaption><span class="rev-av">${esc((r.name || '?').trim()[0])}</span><span><strong>${esc(r.name)}</strong><small>${esc(r.source || 'Guest review')}</small></span></figcaption>
-</figure>`;
 if (REVIEWS.length) {
-  const rows = REVIEWS.length >= 6 ? [REVIEWS.filter((_, i) => i % 2 === 0), REVIEWS.filter((_, i) => i % 2)] : [REVIEWS];
-  $('#reviewsWrap').innerHTML = rows.map((row, k) => {
-    let list = row; while (list.length < 4) list = list.concat(row);
-    return `<div class="rev-row${k ? ' rev' + '-rev' : ''}" style="--dur:${list.length * 9}s"><div class="rev-track">${[...list, ...list].map(revCard).join('')}</div></div>`;
-  }).join('');
+  const initials = n => (n || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  $('#reviewsWrap').innerHTML = `
+    <div class="rev-stage">
+      <span class="rev-mark" aria-hidden="true">“</span>
+      ${REVIEWS.map((r, i) => `
+        <figure class="rev-slide${i === 0 ? ' is-active' : ''}" data-i="${i}">
+          ${stars(Math.max(1, Math.min(5, r.rating || 5)))}
+          <blockquote>${esc(r.text)}</blockquote>
+          <figcaption><span class="rev-av">${esc(initials(r.name))}</span><span><strong>${esc(r.name)}</strong><small>${esc(r.source || 'Guest review')}</small></span></figcaption>
+        </figure>`).join('')}
+    </div>
+    ${REVIEWS.length > 1 ? `<div class="rev-tabs" role="tablist" aria-label="Guest reviews">
+      ${REVIEWS.map((r, i) => `
+        <button class="rev-tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" aria-selected="${i === 0}" data-i="${i}">
+          <span class="rev-tab-av">${esc(initials(r.name))}</span>
+          <span class="rev-tab-name">${esc(r.name)}</span>
+        </button>`).join('')}
+      <span class="rev-tab-bar" aria-hidden="true"></span>
+    </div>` : ''}`;
+
+  const stage = $('#reviewsWrap');
+  const slides = [...stage.querySelectorAll('.rev-slide')];
+  const tabs = [...stage.querySelectorAll('.rev-tab')];
+  const bar = stage.querySelector('.rev-tab-bar');
+  let active = 0, revTimer;
+
+  const moveBar = () => {
+    if (!bar || !tabs[active]) return;
+    bar.style.width = tabs[active].offsetWidth + 'px';
+    bar.style.transform = `translateX(${tabs[active].offsetLeft}px)`;
+  };
+  const show = i => {
+    active = (i + REVIEWS.length) % REVIEWS.length;
+    slides.forEach((s, k) => s.classList.toggle('is-active', k === active));
+    tabs.forEach((t, k) => { t.classList.toggle('is-active', k === active); t.setAttribute('aria-selected', k === active); });
+    moveBar();
+  };
+  const autoplay = () => { clearInterval(revTimer); revTimer = setInterval(() => show(active + 1), 6000); };
+  tabs.forEach(t => t.addEventListener('click', () => { show(+t.dataset.i); autoplay(); }));
+  if (REVIEWS.length > 1) { autoplay(); window.addEventListener('resize', moveBar); }
+  moveBar();
 } else {
-  $('#reviewsWrap').innerHTML = `<div class="container"><div class="rev-empty">
+  $('#reviewsWrap').innerHTML = `<div class="rev-empty">
     ${stars(5)}
     <h3>Share your B·Heaven moment</h3>
     <p>Enjoyed a sunset, a Jazz Friday or a lazy pool day with us? We’d love to hear about it. Your review helps other guests find our hidden rooftop.</p>
-  </div></div>`;
+  </div>`;
 }
 
 /* Reservation form */
