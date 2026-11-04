@@ -9,11 +9,6 @@
       "permanent": true
     },
     {
-      "source": "/",
-      "destination": "/menu/",
-      "permanent": true
-    },
-    {
       "source": "/ar",
       "destination": "/ar/menu/",
       "permanent": false
