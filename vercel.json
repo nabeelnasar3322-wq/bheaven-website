@@ -4,7 +4,12 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "bheaven-website.vercel.app" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "bheaven-website.vercel.app"
+        }
+      ],
       "destination": "https://bheavendubai.com/:path*",
       "permanent": true
     },
@@ -188,6 +193,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/:file([^/]+\\.(?:jpe?g|png|webp|JPG|PNG))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
     }

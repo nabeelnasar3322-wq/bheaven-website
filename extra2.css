@@ -268,3 +268,15 @@
 @media(max-width:959px){.ft-grid{grid-template-columns:1fr 1fr}.ft-brand{grid-column:1/-1}}
 @media(max-width:600px){.ft-grid{grid-template-columns:1fr;gap:32px;padding-top:44px;padding-bottom:40px}.ft-col h3{font-size:24px;margin-bottom:14px}.ft-col p{font-size:15.5px}.ft-bar .container{flex-direction:column;align-items:center;text-align:center;padding-bottom:90px}}
 @media(min-width:601px){.ft-bar .container{padding-right:110px}}
+
+/* ===== Sticky Reserve / Call bar (phones only) ===== */
+.mbar{display:none}
+@media (max-width:768px){
+  .mbar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:79;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(30,31,33,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.1);transform:translateY(110%);transition:transform .35s ease}
+  .mbar.on{transform:none}
+  .mbar .btn{flex:1;justify-content:center;text-align:center;padding-top:12px;padding-bottom:12px}
+  .mbar .btn:first-child{flex:2}
+  body.has-mbar .wa-wrap{bottom:calc(86px + env(safe-area-inset-bottom))}
+  body.has-mbar{padding-bottom:70px}
+}
+@media (prefers-reduced-motion:reduce){.mbar{transition:none}}

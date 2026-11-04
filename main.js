@@ -133,13 +133,18 @@ const renderHeroDots = () => {
   [...heroDots.children].forEach((d, i) => d.addEventListener('click', () => showSlide(i)));
   if (live.length === 2 && !hTimer) hTimer = setTimeout(() => showSlide(1), 7000);
 };
-HS.slice(1).forEach((sl, k) => loadImg(sl.src, im => {
+const loadExtraSlides = () => HS.slice(1).forEach((sl, k) => loadImg(sl.src, im => {
   im.className = 'slide'; im.alt = ''; slides[k + 1] = im;
   if (sl.focus) im.style.objectPosition = sl.focus;
   const rays = pan.querySelector('.rays'); liveSlides().forEach(x => pan.insertBefore(x, rays));
   hs = liveSlides().findIndex(x => x.classList.contains('on'));
   renderHeroDots();
 }, null, 1920));
+/* first photo loads straight away; the other slides wait until the page has finished loading (and skip on Data Saver) */
+if (!(navigator.connection && navigator.connection.saveData)) {
+  const go = () => (window.requestIdleCallback ? requestIdleCallback(loadExtraSlides, { timeout: 3000 }) : setTimeout(loadExtraSlides, 1500));
+  document.readyState === 'complete' ? go() : addEventListener('load', go, { once: true });
+}
 
 /* What's on: 3D carousel of nights & offers */
 const SHOWS = [...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))];

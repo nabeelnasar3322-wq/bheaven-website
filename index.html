@@ -9,13 +9,14 @@
 <meta property="og:title" content="B·Heaven by Barceló | Rooftop Bar & Lounge, Dubai">
 <meta property="og:description" content="Modern Levant cuisine, signature cocktails, premium shisha and live entertainment above the Dubai skyline.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/nabeelnasar3322-wq/bheaven-website@44d9bde/hero-1.jpeg">
+<meta property="og:image" content="https://bheavendubai.com/hero-1.jpeg">
 <meta property="og:url" content="https://bheavendubai.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="B·Heaven by Barceló | Rooftop Bar &amp; Lounge, Dubai">
 <meta name="twitter:description" content="Modern Levant cuisine, signature cocktails, premium shisha and live entertainment above the Dubai skyline.">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/nabeelnasar3322-wq/bheaven-website@44d9bde/hero-1.jpeg">
+<meta name="twitter:image" content="https://bheavendubai.com/hero-1.jpeg">
 <link rel="canonical" href="https://bheavendubai.com/">
+<link rel="preload" as="image" href="/hero-1.jpeg" fetchpriority="high">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23262729'/%3E%3Cpath d='M20 46 32 16l12 30' fill='none' stroke='%239AB6BA' stroke-width='4'/%3E%3C/svg%3E">
 <script type="application/ld+json">
@@ -23,7 +24,7 @@
   "@context": "https://schema.org",
   "@type": "Restaurant",
   "name": "B·Heaven by Barceló",
-  "image": "https://cdn.jsdelivr.net/gh/nabeelnasar3322-wq/bheaven-website@44d9bde/hero-1.jpeg",
+  "image": "https://bheavendubai.com/hero-1.jpeg",
   "url": "https://bheavendubai.com/",
   "telephone": "+971506129150",
   "priceRange": "AED",
@@ -55,7 +56,6 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="custom.css">
@@ -99,7 +99,7 @@
 <section class="hero" id="hero">
   <div class="frame" aria-hidden="true">
     <div class="pan">
-      <img src="https://cdn.jsdelivr.net/gh/nabeelnasar3322-wq/bheaven-website@44d9bde/hero-1.jpeg" alt="" fetchpriority="high" style="object-position:64% 50%">
+      <img src="/hero-1.jpeg" alt="" fetchpriority="high" style="object-position:64% 50%">
       <div class="rays"></div><div class="sun"></div>
       <div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
       <div class="water"></div>
@@ -293,6 +293,7 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Oud Metha Street, Al Jaddaf, Dubai</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Open daily, 9 AM – 2 AM</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 3l4 3 4-3 4 4-3 3v11H7V10L4 7z"/></svg>Smart casual dress code</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a href="tel:+971506129150" style="color:inherit">+971 50 612 9150</a></li>
         </ul>
         <div class="loc-actions">
           <a class="btn btn-gold" id="dirBtn" target="_blank" rel="noopener" href="https://maps.app.goo.gl/7RTPsLerNj21f1Y5A">Get directions</a>
@@ -338,6 +339,7 @@
   </div>
 </footer>
 
+<div class="mbar" id="mbar" aria-label="Quick actions"><a class="btn btn-gold" href="#reserve" data-t="Sticky bar reserve">Reserve a table</a><a class="btn btn-line" href="tel:+971506129150" data-t="Sticky bar call" aria-label="Call B·Heaven on +971 50 612 9150">Call</a></div>
 <div class="wa-wrap" id="waWrap">
   <div class="wa-card" id="waCard" role="dialog" aria-label="Chat with B·Heaven on WhatsApp">
     <div class="wa-top"><span class="wa-av">B</span><div><strong>B·Heaven</strong><small><i></i>Usually replies quickly</small></div><button type="button" class="wa-x" id="waX" aria-label="Close">×</button></div>
@@ -354,6 +356,7 @@
 <script src="content.js"></script>
 <script>if (!document.getElementById('bandWa')) document.body.insertAdjacentHTML('beforeend', '<a id="bandWa" hidden></a>')</script>
 <script src="main.js"></script>
+<script src="home-extras.js" defer></script>
 <script src="gallery.js"></script>
 </body>
 </html>

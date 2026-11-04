@@ -2,7 +2,7 @@
    B·Heaven website content. Edit this file to update the site.
    Photos live in the GitHub folder: github.com/nabeelnasar3322-wq/bheaven-website
    ===================================================================== */
-const IMG = 'https://cdn.jsdelivr.net/gh/nabeelnasar3322-wq/bheaven-website@44d9bde/';
+const IMG = '/';
 
 /* HERO SLIDES: photos rotate in this order. "focus" is the part of the photo kept
    in view on phones (left-right %, top-bottom %). Add or remove lines to change slides. */
