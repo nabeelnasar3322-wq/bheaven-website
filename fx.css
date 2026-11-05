@@ -1,0 +1,57 @@
+/* ============ Hero effects (hero-fx.js) + mobile menu polish ============ */
+
+/* --- hero: layered depth, light that follows the finger/pointer, floating bokeh, slide sweep --- */
+.hero .pan{translate:var(--fx-px,0px) var(--fx-py,0px);will-change:translate}
+.hero-content{transform:translate3d(var(--fx-cx,0px),var(--fx-cy,0px),0)}
+.hero-fx-glow{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:-1;opacity:0;
+  background:radial-gradient(circle,rgba(255,236,190,.42),rgba(154,182,186,.16) 42%,transparent 68%);mix-blend-mode:soft-light;
+  transform:translate3d(var(--gx,50%),var(--gy,50%),0);transition:opacity .7s ease;will-change:transform,opacity}
+.hero-fx-glow.on{opacity:1}
+.hero-bokeh{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;transform:translate3d(var(--fx-bx,0px),var(--fx-by,0px),0)}
+.hero-sweep{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;
+  background:linear-gradient(105deg,transparent 32%,rgba(255,244,214,.26) 50%,transparent 68%);transform:translateX(-120%)}
+.hero-sweep.go{animation:fxSweep 1.5s cubic-bezier(.22,1,.36,1)}
+@keyframes fxSweep{0%{opacity:1;transform:translateX(-120%)}100%{opacity:1;transform:translateX(120%)}}
+
+/* slide counter (desktop) */
+.hero-count{position:absolute;left:max(40px,calc(50% - 720px + 40px));bottom:26px;z-index:3;display:none;align-items:center;gap:12px;
+  font-size:12px;font-weight:600;letter-spacing:.22em;color:rgba(251,247,226,.85);font-variant-numeric:tabular-nums}
+.hero-count .n{display:inline-block;height:1.3em;line-height:1.3em;overflow:hidden}
+.hero-count .n b{display:block;font-weight:700;color:var(--cream)}
+.hero-count .n b.roll{animation:fxRoll .6s cubic-bezier(.22,1,.36,1)}
+.hero-count i{width:34px;height:1px;background:rgba(251,247,226,.45)}
+@keyframes fxRoll{from{transform:translateY(70%);opacity:0}to{transform:none;opacity:1}}
+@media (min-width:901px){.hero-count{display:flex}}
+
+/* tap ripple on hero buttons */
+.hero-actions .btn{overflow:hidden}
+.fx-ripple{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.5);transform:scale(0);animation:fxRip .65s ease-out forwards}
+@keyframes fxRip{to{transform:scale(1);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){.hero-fx-glow,.hero-bokeh,.hero-sweep{display:none}}
+
+/* --- mobile / tablet menu: fits the screen, clearer rows, actions always in reach --- */
+.m-foot{display:none}
+@media (max-width:959px){
+  .mnav{padding:6px 22px calc(18px + env(safe-area-inset-bottom));gap:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+    background:radial-gradient(120% 55% at 100% 0%,rgba(154,182,186,.18),transparent 62%),radial-gradient(90% 40% at 0% 100%,rgba(251,247,226,.06),transparent 60%),linear-gradient(180deg,#1E1F21,#2A2C2E)}
+  .mnav a.l{font-size:clamp(20px,3.4svh,26px);font-weight:600;letter-spacing:.01em;padding:clamp(12px,2.1svh,18px) 4px;gap:16px;border-bottom:1px solid rgba(154,182,186,.16);
+    transition:background .25s,padding-left .3s var(--ease)}
+  .mnav a.l::after{content:'';margin-left:auto;width:9px;height:9px;border-top:1.6px solid rgba(251,247,226,.4);border-right:1.6px solid rgba(251,247,226,.4);transform:rotate(45deg);transition:transform .3s var(--ease),border-color .3s}
+  .mnav a.l:active{background:rgba(154,182,186,.1);padding-left:10px}
+  .mnav a.l:active::after{transform:translateX(4px) rotate(45deg);border-color:var(--cream)}
+  .mnav .l-ic{width:22px;height:22px}
+  .mnav>.btn{width:100%;min-height:54px;flex:none;margin-top:clamp(14px,2.4svh,24px)}
+  .mnav>.btn{margin-top:auto;position:sticky;bottom:0;box-shadow:0 -14px 22px -10px rgba(30,31,33,.9),0 12px 34px -14px rgba(154,182,186,.7)}
+  .m-foot{display:block;margin-top:14px;flex:none;opacity:0}
+  .mnav.open .m-foot{animation:navIn .5s var(--ease) both;animation-delay:calc(var(--i,8)*60ms + 80ms)}
+  .m-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .m-q{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border-radius:999px;border:1px solid rgba(154,182,186,.3);background:rgba(38,39,41,.45);
+    font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);transition:background .25s,transform .25s var(--ease)}
+  .m-q svg{width:17px;height:17px;flex:none;color:var(--lagoon)}
+  .m-q:active{background:rgba(154,182,186,.2);transform:scale(.97)}
+  .m-hours{margin:12px 0 0;text-align:center;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,247,226,.55)}
+}
+@media (max-width:359px){.m-q{font-size:11px;letter-spacing:.08em;gap:6px}}
+@media (max-height:760px) and (max-width:959px){.mnav a.l{padding-top:9px;padding-bottom:9px;font-size:20px}.mnav>.btn{min-height:50px;margin-top:12px}.m-q{min-height:42px}.m-foot{margin-top:10px}.m-hours{margin-top:8px}}
+@media (max-height:600px) and (max-width:959px){.mnav a.l{padding-top:6px;padding-bottom:6px;font-size:18px}.m-hours{display:none}}
