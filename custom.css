@@ -1,11 +1,12 @@
 /* Small tweaks on top of style.css */
 
 /* Header logo: 250px wide, original proportions (670:180) */
-.header .wordmark .logo-svg{width:250px}
+.header .wordmark .logo-svg{width:150px}
+@media(max-width:899px){.header .wordmark .logo-svg{width:124px}}
 .header-inner{height:92px}
 .mnav{inset:92px 0 0}
 html{scroll-padding-top:100px}
-@media(max-width:359px){.header .wordmark .logo-svg{width:200px}.header-inner{gap:14px}}
+@media(max-width:359px){.header-inner{gap:14px}}
 
 /* Hero: no script text, one bold headline */
 .hero h1 .hl{color:var(--lagoon);text-shadow:0 4px 30px rgba(30,31,33,.6)}

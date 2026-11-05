@@ -121,7 +121,8 @@
 
   /* Nav */
   .nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;border-bottom:1px solid rgba(255,255,255,.08)}
-  .nav-logo{font-size:1.1rem;font-weight:800;letter-spacing:.08em;color:var(--text)}
+  .nav-logo{display:block;width:150px;aspect-ratio:670/180;background:var(--text);-webkit-mask:url(/icons/logo-wordmark.svg) center/contain no-repeat;mask:url(/icons/logo-wordmark.svg) center/contain no-repeat;font-size:0;line-height:0;overflow:hidden}
+  @media (max-width:899px){.nav-logo{width:124px}}
   .nav-link{font-size:.85rem;font-weight:600;letter-spacing:.06em;color:var(--gold)}
 
   /* Hero */
@@ -165,7 +166,7 @@
 <body>
 
 <nav class="nav" aria-label="Site navigation">
-  <a class="nav-logo" href="https://bheavendubai.com/">B-Heaven</a>
+  <a class="nav-logo" href="https://bheavendubai.com/" aria-label="B-Heaven by Barceló, home">B-Heaven</a>
   <a class="nav-link" href="https://bheavendubai.com/#events">← All events</a>
 </nav>
 
