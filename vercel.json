@@ -3,6 +3,21 @@
   "outputDirectory": ".",
   "redirects": [
     {
+      "source": "/:file(.+\\.md)",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/:dir(tests|scripts|\\.github)/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/:file(vercel|package|package-lock)\\.json",
+      "destination": "/",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -56,7 +71,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'"
+          "value": "frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-src 'self' https://www.google.com; upgrade-insecure-requests"
         },
         {
           "key": "Strict-Transport-Security",

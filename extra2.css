@@ -280,3 +280,6 @@
   body.has-mbar{padding-bottom:70px}
 }
 @media (prefers-reduced-motion:reduce){.mbar{transition:none}}
+
+/* Phones: the floating "Book a table on WhatsApp" bubble sat on top of buttons and headings; the sticky Reserve bar now does that job */
+@media (max-width:768px){.wa-wrap .wa-bubble{display:none!important}}
