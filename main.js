@@ -112,45 +112,11 @@ document.querySelectorAll('[data-split]').forEach(el => {
   el.innerHTML = text.split(' ').map(w => `<span class="w">${[...w].map(c => `<span class="ch" style="animation-delay:${(start + n++ * 0.035).toFixed(3)}s">${esc(c)}</span>`).join('')}</span>`).join(' ');
 });
 
-/* Hero slides: extra slides join the rotation once their photo has loaded (only if using image slides) */
+/* Hero video: continuously loops the primary video banner */
 const pan = $('.pan'), heroDots = $('#heroDots');
-const heroVids = pan ? [...pan.querySelectorAll('video.slide')] : [];
-if (heroVids.length > 1) {
-  // If it's night in Dubai, start on the night pool scene; otherwise start on sunset terrace
-  const isNight = document.documentElement.dataset.daypart === 'night';
-  let vs = isNight ? 1 : 0;
-  let vTimer;
-
-  const updateVideoSlide = n => {
-    vs = (n + heroVids.length) % heroVids.length;
-    heroVids.forEach((v, i) => {
-      const active = i === vs;
-      v.classList.toggle('on', active);
-      if (active) {
-        v.play().catch(() => {});
-      }
-    });
-    if (heroDots) {
-      [...heroDots.children].forEach((d, i) => {
-        d.classList.toggle('on', i === vs);
-        const bar = d.querySelector('i');
-        if (bar) {
-          bar.style.animation = 'none';
-          bar.offsetHeight;
-          if (i === vs) bar.style.animation = '';
-        }
-      });
-    }
-    clearTimeout(vTimer);
-    vTimer = setTimeout(() => updateVideoSlide(vs + 1), 7500);
-  };
-
-  if (heroDots) {
-    heroDots.innerHTML = heroVids.map((_, i) => `<button type="button" class="${i === vs ? 'on' : ''}" aria-label="Scene ${i + 1}"><i></i></button>`).join('');
-    [...heroDots.children].forEach((d, i) => d.addEventListener('click', () => updateVideoSlide(i)));
-  }
-
-  updateVideoSlide(vs);
+const heroVid = pan ? pan.querySelector('video') : null;
+if (heroVid && heroDots) {
+  heroDots.innerHTML = '';
 }
 
 const firstSlideImg = pan ? pan.querySelector('img') : null;
