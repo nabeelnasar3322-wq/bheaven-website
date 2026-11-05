@@ -192,80 +192,132 @@ if (firstSlideImg) {
   }
 }
 
-/* What's on: 3D carousel of nights & offers */
+/* What's on: React Bits Pro Skewed Carousel of nights & offers */
 const SHOWS = [...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))];
 const track = $('#showTrack'), dotsEl = $('#showDots');
-track.innerHTML = SHOWS.map((e, i) => `
-  <article class="show ${e.key}" tabindex="0" aria-label="${esc(e.title)}">
-    <div class="show-art">
-      ${[1,2,3,4,5].map(k => `<i class="spark" style="left:${10 + k * 16}%;top:${8 + (k * 29) % 40}%;animation-delay:${k * .4}s"></i>`).join('')}
-      <div class="big">${esc(e.big)}<small>${esc(e.sub)}</small></div>
-    </div>
-    <div class="show-shine"></div>
-    <span class="show-badge${e.type === 'Daily offer' ? ' offer' : ''}">${e.type}</span>
-    <div class="show-info">
-      <div class="show-meta"><span>${esc(e.day)}</span><span>${esc(e.time)}</span></div>
-      <h3>${esc(e.title)}</h3>
-      <span class="show-hint"><i>+</i>See details</span>
-      <div class="show-more"><div>
-        <ul>${e.perks.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
-        ${e.price ? `<p class="price">${esc(e.price)}</p>` : ''}
-        <a class="btn btn-gold btn-sm" href="${wa(`Hi B·Heaven, I would like to book a table for ${e.title}.`)}" target="_blank" rel="noopener">${esc(e.cta || 'Book ' + e.title.split(' ')[0])}</a>
-      </div></div>
-    </div>
-  </article>`).join('');
-dotsEl.innerHTML = SHOWS.map((e, i) => `<button type="button" aria-label="${esc(e.title)}"></button>`).join('');
-const cards = [...track.children], dots = [...dotsEl.children], N = cards.length;
-cards.forEach((c, i) => SHOWS[i].poster && loadImg(SHOWS[i].poster, im => { im.alt = SHOWS[i].title + ' poster'; c.querySelector('.show-art').append(im); }));
-let current = 1;
-/* Each card sits at an offset from the centre card; CSS turns the offset into position, size and depth */
-const layout = () => {
-  cards.forEach((c, i) => {
-    let o = i - current; if (o > N / 2) o -= N; if (o < -N / 2) o += N;
-    const prev = c.dataset.o === undefined ? o : +c.dataset.o;
-    c.classList.toggle('jump', Math.abs(o - prev) > 1.5);
-    c.dataset.o = o;
-    c.style.setProperty('--o', o); c.style.setProperty('--a', Math.abs(o));
-    c.style.zIndex = 10 - Math.abs(o);
-    c.classList.toggle('is-center', o === 0);
+if (track && dotsEl) {
+  track.innerHTML = SHOWS.map((e, i) => `
+    <article class="show ${e.key}" tabindex="${i === 1 ? '0' : '-1'}" aria-label="${esc(e.title)}" aria-current="${i === 1 ? 'true' : 'false'}">
+      <div class="show-art">
+        ${[1,2,3,4,5].map(k => `<i class="spark" style="left:${10 + k * 16}%;top:${8 + (k * 29) % 40}%;animation-delay:${k * .4}s"></i>`).join('')}
+        <div class="big">${esc(e.big)}<small>${esc(e.sub)}</small></div>
+      </div>
+      <div class="show-shine"></div>
+      <span class="show-badge${e.type === 'Daily offer' ? ' offer' : ''}">${e.type}</span>
+      <div class="show-info">
+        <div class="show-meta"><span>${esc(e.day)}</span><span>${esc(e.time)}</span></div>
+        <h3>${esc(e.title)}</h3>
+        <span class="show-hint"><i>+</i>See details</span>
+        <div class="show-more"><div>
+          <ul>${e.perks.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
+          ${e.price ? `<p class="price">${esc(e.price)}</p>` : ''}
+          <a class="btn btn-gold btn-sm" href="${wa(`Hi B·Heaven, I would like to book a table for ${e.title}.`)}" target="_blank" rel="noopener">${esc(e.cta || 'Book ' + e.title.split(' ')[0])}</a>
+        </div></div>
+      </div>
+    </article>`).join('');
+
+  dotsEl.innerHTML = SHOWS.map((e, i) => `<button type="button" aria-label="${esc(e.title)}" class="${i === 1 ? 'on' : ''}"><i></i></button>`).join('');
+
+  const cards = [...track.children], dots = [...dotsEl.children], N = cards.length;
+  cards.forEach((c, i) => SHOWS[i].poster && loadImg(SHOWS[i].poster, im => { im.alt = SHOWS[i].title + ' poster'; c.querySelector('.show-art').append(im); }));
+
+  let current = 1;
+  const layout = () => {
+    cards.forEach((c, i) => {
+      let o = i - current;
+      if (o > N / 2) o -= N;
+      if (o < -N / 2) o += N;
+      const prev = c.dataset.o === undefined ? o : +c.dataset.o;
+      c.classList.toggle('jump', Math.abs(o - prev) > 1.5);
+      c.dataset.o = o;
+      c.style.setProperty('--o', o);
+      c.style.setProperty('--a', Math.abs(o));
+      c.style.zIndex = 10 - Math.abs(o);
+      const isCenter = o === 0;
+      c.classList.toggle('is-center', isCenter);
+      c.setAttribute('tabindex', isCenter ? '0' : '-1');
+      c.setAttribute('aria-current', isCenter ? 'true' : 'false');
+    });
+    dots.forEach((d, i) => d.classList.toggle('on', i === current));
+    requestAnimationFrame(() => requestAnimationFrame(() => cards.forEach(c => c.classList.remove('jump'))));
+  };
+
+  const goTo = i => {
+    current = (i + N) % N;
+    cards.forEach(c => c.classList.remove('open'));
+    layout();
+  };
+
+  const prevBtn = $('.show-nav.prev'), nextBtn = $('.show-nav.next');
+  if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); play(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); play(); });
+  dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); play(); }));
+
+  /* keyboard arrow navigation */
+  track.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); play(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); play(); }
   });
-  dots.forEach((d, i) => d.classList.toggle('on', i === current));
-  requestAnimationFrame(() => requestAnimationFrame(() => cards.forEach(c => c.classList.remove('jump'))));
-};
-const goTo = i => { current = (i + N) % N; cards.forEach(c => c.classList.remove('open')); layout(); };
-$('.show-nav.prev').addEventListener('click', () => { goTo(current - 1); play(); });
-$('.show-nav.next').addEventListener('click', () => { goTo(current + 1); play(); });
-dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); play(); }));
-/* drag / swipe */
-let dragX = null, dragDx = 0, moved = false;
-track.addEventListener('pointerdown', e => { if (e.target.closest('a')) return; dragX = e.clientX; dragDx = 0; moved = false; });
-addEventListener('pointermove', e => {
-  if (dragX === null) return;
-  dragDx = e.clientX - dragX;
-  if (Math.abs(dragDx) > 6 && !moved) { moved = true; track.classList.add('dragging'); }
-  if (moved) track.style.setProperty('--dx', dragDx + 'px');
-}, { passive: true });
-addEventListener('pointerup', () => {
-  if (dragX === null) return;
-  track.classList.remove('dragging'); track.style.setProperty('--dx', '0px');
-  if (moved && Math.abs(dragDx) > 50) { goTo(current + (dragDx < 0 ? 1 : -1)); play(); }
-  dragX = null;
-});
-cards.forEach((c, i) => c.addEventListener('click', e => {
-  if (moved) { e.preventDefault(); return; }
-  if (e.target.closest('a')) return;
-  if (i !== current) { goTo(i); play(); return; }
-  c.classList.toggle('open');
-}));
-/* auto-play only while the section is on screen and nobody is interacting */
-let hold = false, inView = false, timer;
-const play = () => { clearInterval(timer); if (false) return; timer = setInterval(() => { if (!hold && inView && !document.hidden) goTo(current + 1); }, 4500); };
-track.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hold = true; });
-track.addEventListener('pointerleave', () => { hold = false; });
-track.addEventListener('touchstart', () => { hold = true; }, { passive: true });
-track.addEventListener('touchend', () => setTimeout(() => { hold = false; }, 5000), { passive: true });
-if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; }, { threshold: .3 }).observe(track); else inView = true;
-layout(); play();
+
+  /* drag / swipe with momentum */
+  let dragX = null, dragDx = 0, moved = false;
+  track.addEventListener('pointerdown', e => {
+    if (e.target.closest('a')) return;
+    dragX = e.clientX;
+    dragDx = 0;
+    moved = false;
+  });
+  addEventListener('pointermove', e => {
+    if (dragX === null) return;
+    dragDx = e.clientX - dragX;
+    if (Math.abs(dragDx) > 6 && !moved) {
+      moved = true;
+      track.classList.add('dragging');
+    }
+    if (moved) track.style.setProperty('--dx', dragDx + 'px');
+  }, { passive: true });
+  addEventListener('pointerup', () => {
+    if (dragX === null) return;
+    track.classList.remove('dragging');
+    track.style.setProperty('--dx', '0px');
+    if (moved && Math.abs(dragDx) > 40) {
+      goTo(current + (dragDx < 0 ? 1 : -1));
+      play();
+    }
+    dragX = null;
+  });
+
+  cards.forEach((c, i) => c.addEventListener('click', e => {
+    if (moved) { e.preventDefault(); return; }
+    if (e.target.closest('a')) return;
+    if (i !== current) {
+      goTo(i);
+      play();
+      return;
+    }
+    c.classList.toggle('open');
+  }));
+
+  /* auto-play only while the section is on screen */
+  let hold = false, inView = false, timer;
+  const play = () => {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      if (!hold && inView && !document.hidden) goTo(current + 1);
+    }, 5500);
+  };
+  track.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hold = true; });
+  track.addEventListener('pointerleave', () => { hold = false; });
+  track.addEventListener('touchstart', () => { hold = true; }, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      inView = entries[0].isIntersecting;
+      if (inView) play(); else clearInterval(timer);
+    }, { threshold: 0.2 }).observe(track);
+  }
+  layout();
+}
 
 /* Guest reviews */
 const stars = n => '<span class="rev-stars" aria-label="' + n + ' out of 5">' + '★'.repeat(n) + '<i>' + '★'.repeat(5 - n) + '</i></span>';

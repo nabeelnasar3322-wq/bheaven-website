@@ -83,15 +83,7 @@ html{scroll-padding-top:92px}
 .show-hint i{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--lagoon);display:grid;place-items:center;font-style:normal;font-size:14px;line-height:1;animation:pulse 2s infinite}
 .show:hover .show-hint,.show.open .show-hint,.show:focus-within .show-hint{opacity:0;height:0;overflow:hidden}
 
-/* arrows + dots */
-.show-nav{position:absolute;top:50%;z-index:5;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:1px solid rgba(251,247,226,.3);background:rgba(30,31,33,.65);backdrop-filter:blur(8px);color:var(--cream);display:grid;place-items:center;cursor:pointer;transition:transform .3s var(--ease),background .3s}
-.show-nav svg{width:22px;height:22px}
-.show-nav:hover{background:var(--lagoon);color:#262729;transform:scale(1.08)}
-.show-nav.prev{left:max(16px,calc(50% - 600px))}.show-nav.next{right:max(16px,calc(50% - 600px))}
-@media(max-width:600px){.show-nav{display:none}}
-.show-dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
-.show-dots button{width:9px;height:9px;padding:0;border-radius:999px;border:0;background:rgba(251,247,226,.3);cursor:pointer;transition:width .4s var(--ease),background .4s}
-.show-dots button.on{width:30px;background:var(--lagoon)}
+/* arrows + rail (see extra2.css for Skewed Carousel styling) */
 .events .note-sm{margin-top:18px}
 .js .shows[data-r]{transform:translateY(40px)}
 

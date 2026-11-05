@@ -203,12 +203,14 @@
       <p class="lead">Live music, social dining and daily deals. Swipe through and book your table.</p>
     </div>
   </div>
-  <div class="shows" data-r>
-    <button class="show-nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 6-6 6 6 6"/></svg></button>
-    <div class="show-track" id="showTrack"></div>
-    <button class="show-nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></button>
+  <div class="shows skewed-carousel-wrap" data-r>
+    <div class="show-track" id="showTrack" tabindex="0" role="region" aria-label="Events carousel"></div>
+    <div class="show-controls">
+      <button class="show-nav prev" type="button" aria-label="Previous slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="show-rail" id="showDots" role="tablist" aria-label="Events navigation"></div>
+      <button class="show-nav next" type="button" aria-label="Next slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
   </div>
-  <div class="show-dots" id="showDots"></div>
   <p class="note-sm container">Offers and prices may change. Please confirm when booking.</p>
 </section>
 

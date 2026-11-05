@@ -17,21 +17,8 @@
 @media(max-width:959px){.about-photos{min-height:0;grid-template-rows:repeat(3,190px)}}
 @media(max-width:600px){.about-photos{grid-template-rows:repeat(3,150px);gap:10px}}
 
-/* ============ Nights & offers: bigger cards, smooth motion ============ */
-.shows{--w:min(400px,80vw);--h:calc(var(--w)*1.3);--step:calc(var(--w)*.9 + 20px);margin-top:-8px}
-.show-track{display:block;position:relative;overflow:hidden;height:calc(var(--h) + 56px);padding:0;perspective:1600px;scroll-snap-type:none;touch-action:pan-y;cursor:grab;user-select:none}
-.show-track.dragging{cursor:grabbing}
-.show{position:absolute;top:24px;left:50%;width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);flex:none;aspect-ratio:auto;scroll-snap-align:none;
-  transform:translateX(calc(var(--o,0) * var(--step) + var(--dx,0px))) scale(calc(1 - var(--a,0) * .1)) rotateY(calc(var(--o,0) * -12deg));
-  opacity:calc(1 - var(--a,0) * .38);
-  transition:transform .9s cubic-bezier(.22,1,.36,1),opacity .9s cubic-bezier(.22,1,.36,1),box-shadow .6s;
-  will-change:transform,opacity;backface-visibility:hidden}
-.show-track.dragging .show,.show.jump{transition:none}
-.show[style*="--a: 2"],.show[style*="--a:2"]{pointer-events:none}
-.show-badge{backdrop-filter:none;background:rgba(30,31,33,.78)}
-.show h3{font-size:26px}
+/* ============ Nights & offers ============ */
 .events .head{margin-bottom:22px}
-@media(max-width:600px){.shows{--w:80vw;--step:calc(80vw + 14px)}.show h3{font-size:22px}}
 .js .shows[data-r]{transform:translateY(40px)}
 .js .shows[data-r].in{transform:none}
 .glow{filter:none;opacity:.28;will-change:translate}
