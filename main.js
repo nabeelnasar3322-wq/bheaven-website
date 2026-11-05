@@ -114,6 +114,45 @@ document.querySelectorAll('[data-split]').forEach(el => {
 
 /* Hero slides: extra slides join the rotation once their photo has loaded (only if using image slides) */
 const pan = $('.pan'), heroDots = $('#heroDots');
+const heroVids = pan ? [...pan.querySelectorAll('video.slide')] : [];
+if (heroVids.length > 1) {
+  // If it's night in Dubai, start on the night pool scene; otherwise start on sunset terrace
+  const isNight = document.documentElement.dataset.daypart === 'night';
+  let vs = isNight ? 1 : 0;
+  let vTimer;
+
+  const updateVideoSlide = n => {
+    vs = (n + heroVids.length) % heroVids.length;
+    heroVids.forEach((v, i) => {
+      const active = i === vs;
+      v.classList.toggle('on', active);
+      if (active) {
+        v.play().catch(() => {});
+      }
+    });
+    if (heroDots) {
+      [...heroDots.children].forEach((d, i) => {
+        d.classList.toggle('on', i === vs);
+        const bar = d.querySelector('i');
+        if (bar) {
+          bar.style.animation = 'none';
+          bar.offsetHeight;
+          if (i === vs) bar.style.animation = '';
+        }
+      });
+    }
+    clearTimeout(vTimer);
+    vTimer = setTimeout(() => updateVideoSlide(vs + 1), 7500);
+  };
+
+  if (heroDots) {
+    heroDots.innerHTML = heroVids.map((_, i) => `<button type="button" class="${i === vs ? 'on' : ''}" aria-label="Scene ${i + 1}"><i></i></button>`).join('');
+    [...heroDots.children].forEach((d, i) => d.addEventListener('click', () => updateVideoSlide(i)));
+  }
+
+  updateVideoSlide(vs);
+}
+
 const firstSlideImg = pan ? pan.querySelector('img') : null;
 if (firstSlideImg) {
   /* Portrait phones get pre-cropped, lighter hero photos (hero-N-m.jpeg, centred on each photo's focus point) */
