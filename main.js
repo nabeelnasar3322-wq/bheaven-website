@@ -112,31 +112,68 @@ document.querySelectorAll('[data-split]').forEach(el => {
   el.innerHTML = text.split(' ').map(w => `<span class="w">${[...w].map(c => `<span class="ch" style="animation-delay:${(start + n++ * 0.035).toFixed(3)}s">${esc(c)}</span>`).join('')}</span>`).join(' ');
 });
 
-/* Hero video: iOS Safari autoplay assurance & Low-Power-Mode tap fallback */
+/* Hero video slides: crossfades between Heavenly Clouds Pool & Sunset Terrace Cabanas */
 const pan = $('.pan'), heroDots = $('#heroDots');
-const heroVid = pan ? pan.querySelector('video') : null;
-if (heroVid) {
-  if (heroDots) heroDots.innerHTML = '';
-  heroVid.muted = true;
-  heroVid.defaultMuted = true;
+const heroVids = pan ? [...pan.querySelectorAll('video.slide')] : [];
+if (heroVids.length > 0) {
+  let vs = 0, vTimer;
+
+  heroVids.forEach(v => {
+    v.muted = true;
+    v.defaultMuted = true;
+  });
+
+  const showVideoSlide = n => {
+    if (heroVids.length > 1) {
+      vs = (n + heroVids.length) % heroVids.length;
+    } else {
+      vs = 0;
+    }
+    heroVids.forEach((v, i) => {
+      const active = i === vs;
+      v.classList.toggle('on', active);
+      if (active) {
+        v.play().catch(() => {});
+      }
+    });
+    if (heroDots && heroVids.length > 1) {
+      [...heroDots.children].forEach((d, i) => {
+        d.classList.toggle('on', i === vs);
+        const bar = d.querySelector('i');
+        if (bar) {
+          bar.style.animation = 'none';
+          bar.offsetHeight;
+          if (i === vs) bar.style.animation = '';
+        }
+      });
+      clearTimeout(vTimer);
+      vTimer = setTimeout(() => showVideoSlide(vs + 1), 7500);
+    }
+  };
+
+  if (heroDots) {
+    if (heroVids.length > 1) {
+      heroDots.innerHTML = heroVids.map((_, i) => `<button type="button" class="${i === 0 ? 'on' : ''}" aria-label="Scene ${i + 1}"><i></i></button>`).join('');
+      [...heroDots.children].forEach((d, i) => d.addEventListener('click', () => showVideoSlide(i)));
+    } else {
+      heroDots.innerHTML = '';
+    }
+  }
 
   const startPlayback = () => {
-    const playPromise = heroVid.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        const onFirstInteraction = () => {
-          heroVid.play().catch(() => {});
-          window.removeEventListener('touchstart', onFirstInteraction);
-          window.removeEventListener('touchend', onFirstInteraction);
-          window.removeEventListener('scroll', onFirstInteraction);
-          window.removeEventListener('click', onFirstInteraction);
-        };
-        window.addEventListener('touchstart', onFirstInteraction, { once: true, passive: true });
-        window.addEventListener('touchend', onFirstInteraction, { once: true, passive: true });
-        window.addEventListener('scroll', onFirstInteraction, { once: true, passive: true });
-        window.addEventListener('click', onFirstInteraction, { once: true, passive: true });
-      });
-    }
+    showVideoSlide(0);
+    const onFirstInteraction = () => {
+      const current = heroVids[vs];
+      if (current) current.play().catch(() => {});
+      window.removeEventListener('touchstart', onFirstInteraction);
+      window.removeEventListener('touchend', onFirstInteraction);
+      window.removeEventListener('scroll', onFirstInteraction);
+      window.removeEventListener('click', onFirstInteraction);
+    };
+    window.addEventListener('touchstart', onFirstInteraction, { once: true, passive: true });
+    window.addEventListener('touchend', onFirstInteraction, { once: true, passive: true });
+    window.addEventListener('scroll', onFirstInteraction, { once: true, passive: true });
+    window.addEventListener('click', onFirstInteraction, { once: true, passive: true });
   };
 
   if (document.readyState === 'loading') {
