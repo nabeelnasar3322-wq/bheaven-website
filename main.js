@@ -112,43 +112,46 @@ document.querySelectorAll('[data-split]').forEach(el => {
   el.innerHTML = text.split(' ').map(w => `<span class="w">${[...w].map(c => `<span class="ch" style="animation-delay:${(start + n++ * 0.035).toFixed(3)}s">${esc(c)}</span>`).join('')}</span>`).join(' ');
 });
 
-/* Hero slides: extra slides join the rotation once their photo has loaded */
+/* Hero slides: extra slides join the rotation once their photo has loaded (only if using image slides) */
 const pan = $('.pan'), heroDots = $('#heroDots');
-/* Portrait phones get pre-cropped, lighter hero photos (hero-N-m.jpeg, centred on each photo's focus point) */
-const MOB = matchMedia('(max-width:820px) and (orientation:portrait)').matches;
-const HS = HERO_SLIDES.map(x => typeof x === 'string' ? { src: x } : x)
-  .map(x => MOB && /^\/hero-\d\.jpeg$/.test(x.src) ? { ...x, src: x.src.replace('.jpeg', '-m.jpeg'), focus: '50% 50%' } : x);
-const slides = new Array(HS.length).fill(null);
-slides[0] = pan.querySelector('img'); slides[0].classList.add('slide', 'on');
-/* the first photo ships inside a <picture> so phones download the small crop; flatten it so the slide logic can reorder images */
-if (slides[0].parentElement.tagName === 'PICTURE') { const pic = slides[0].parentElement; slides[0].src = slides[0].currentSrc || slides[0].src; pic.replaceWith(slides[0]); }
-if (HS[0].focus) slides[0].style.objectPosition = HS[0].focus;
-let hs = 0, hTimer;
-const liveSlides = () => slides.filter(Boolean);
-const showSlide = n => {
-  const live = liveSlides(); if (live.length < 2) return;
-  hs = (n + live.length) % live.length;
-  live.forEach((im, i) => { im.classList.toggle('on', i === hs); if (i === hs) { im.style.animation = 'none'; im.offsetWidth; im.style.animation = ''; } });
-  [...heroDots.children].forEach((d, i) => d.classList.toggle('on', i === hs));
-  clearTimeout(hTimer); hTimer = setTimeout(() => showSlide(hs + 1), 7000);
-};
-const renderHeroDots = () => {
-  const live = liveSlides();
-  heroDots.innerHTML = live.length > 1 ? live.map((_, i) => `<button type="button" class="${i === hs ? 'on' : ''}" aria-label="Slide ${i + 1}"><i></i></button>`).join('') : '';
-  [...heroDots.children].forEach((d, i) => d.addEventListener('click', () => showSlide(i)));
-  if (live.length === 2 && !hTimer) hTimer = setTimeout(() => showSlide(1), 7000);
-};
-const loadExtraSlides = () => HS.slice(1).forEach((sl, k) => loadImg(sl.src, im => {
-  im.className = 'slide'; im.alt = ''; slides[k + 1] = im;
-  if (sl.focus) im.style.objectPosition = sl.focus;
-  const rays = pan.querySelector('.rays'); liveSlides().forEach(x => pan.insertBefore(x, rays));
-  hs = liveSlides().findIndex(x => x.classList.contains('on'));
-  renderHeroDots();
-}, null, 1920));
-/* first photo loads straight away; the other slides wait until the page has finished loading (and skip on Data Saver) */
-if (!(navigator.connection && navigator.connection.saveData)) {
-  const go = () => (window.requestIdleCallback ? requestIdleCallback(loadExtraSlides, { timeout: 3000 }) : setTimeout(loadExtraSlides, 1500));
-  document.readyState === 'complete' ? go() : addEventListener('load', go, { once: true });
+const firstSlideImg = pan ? pan.querySelector('img') : null;
+if (firstSlideImg) {
+  /* Portrait phones get pre-cropped, lighter hero photos (hero-N-m.jpeg, centred on each photo's focus point) */
+  const MOB = matchMedia('(max-width:820px) and (orientation:portrait)').matches;
+  const HS = HERO_SLIDES.map(x => typeof x === 'string' ? { src: x } : x)
+    .map(x => MOB && /^\/hero-\d\.jpeg$/.test(x.src) ? { ...x, src: x.src.replace('.jpeg', '-m.jpeg'), focus: '50% 50%' } : x);
+  const slides = new Array(HS.length).fill(null);
+  slides[0] = firstSlideImg; slides[0].classList.add('slide', 'on');
+  /* the first photo ships inside a <picture> so phones download the small crop; flatten it so the slide logic can reorder images */
+  if (slides[0].parentElement.tagName === 'PICTURE') { const pic = slides[0].parentElement; slides[0].src = slides[0].currentSrc || slides[0].src; pic.replaceWith(slides[0]); }
+  if (HS[0].focus) slides[0].style.objectPosition = HS[0].focus;
+  let hs = 0, hTimer;
+  const liveSlides = () => slides.filter(Boolean);
+  const showSlide = n => {
+    const live = liveSlides(); if (live.length < 2) return;
+    hs = (n + live.length) % live.length;
+    live.forEach((im, i) => { im.classList.toggle('on', i === hs); if (i === hs) { im.style.animation = 'none'; im.offsetWidth; im.style.animation = ''; } });
+    [...heroDots.children].forEach((d, i) => d.classList.toggle('on', i === hs));
+    clearTimeout(hTimer); hTimer = setTimeout(() => showSlide(hs + 1), 7000);
+  };
+  const renderHeroDots = () => {
+    const live = liveSlides();
+    heroDots.innerHTML = live.length > 1 ? live.map((_, i) => `<button type="button" class="${i === hs ? 'on' : ''}" aria-label="Slide ${i + 1}"><i></i></button>`).join('') : '';
+    [...heroDots.children].forEach((d, i) => d.addEventListener('click', () => showSlide(i)));
+    if (live.length === 2 && !hTimer) hTimer = setTimeout(() => showSlide(1), 7000);
+  };
+  const loadExtraSlides = () => HS.slice(1).forEach((sl, k) => loadImg(sl.src, im => {
+    im.className = 'slide'; im.alt = ''; slides[k + 1] = im;
+    if (sl.focus) im.style.objectPosition = sl.focus;
+    const rays = pan.querySelector('.rays'); liveSlides().forEach(x => pan.insertBefore(x, rays));
+    hs = liveSlides().findIndex(x => x.classList.contains('on'));
+    renderHeroDots();
+  }, null, 1920));
+  /* first photo loads straight away; the other slides wait until the page has finished loading (and skip on Data Saver) */
+  if (!(navigator.connection && navigator.connection.saveData)) {
+    const go = () => (window.requestIdleCallback ? requestIdleCallback(loadExtraSlides, { timeout: 3000 }) : setTimeout(loadExtraSlides, 1500));
+    document.readyState === 'complete' ? go() : addEventListener('load', go, { once: true });
+  }
 }
 
 /* What's on: 3D carousel of nights & offers */
