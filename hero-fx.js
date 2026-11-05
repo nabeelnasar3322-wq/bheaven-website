@@ -119,10 +119,10 @@
   var pan = hero.querySelector('.pan'), lastIdx = -1;
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function sync() {
-    var imgs = [].slice.call(pan.querySelectorAll('img.slide')), idx = imgs.findIndex(function (i) { return i.classList.contains('on'); });
-    if (!imgs.length) { count.remove(); return; }
+    var slides = [].slice.call(pan.querySelectorAll('video.slide, img.slide')), idx = slides.findIndex(function (i) { return i.classList.contains('on'); });
+    if (!slides.length) { count.remove(); return; }
     if (idx < 0) return;
-    tEl.textContent = pad(imgs.length);
+    tEl.textContent = pad(slides.length);
     if (idx !== lastIdx) {
       nEl.textContent = pad(idx + 1); nEl.classList.remove('roll'); void nEl.offsetWidth; nEl.classList.add('roll');
       if (lastIdx !== -1) { sweep.classList.remove('go'); void sweep.offsetWidth; sweep.classList.add('go'); }

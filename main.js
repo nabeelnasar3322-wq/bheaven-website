@@ -132,20 +132,25 @@ if (heroVids.length > 0) {
     heroVids.forEach((v, i) => {
       const active = i === vs;
       v.classList.toggle('on', active);
+      v.style.opacity = active ? '1' : '0';
+      v.style.zIndex = active ? '2' : '1';
+      v.style.pointerEvents = active ? 'auto' : 'none';
       if (active) {
         v.play().catch(() => {});
       }
     });
-    if (heroDots && heroVids.length > 1) {
+    if (heroDots && heroDots.children.length > 0) {
       [...heroDots.children].forEach((d, i) => {
         d.classList.toggle('on', i === vs);
         const bar = d.querySelector('i');
         if (bar) {
           bar.style.animation = 'none';
-          bar.offsetHeight;
+          void bar.offsetHeight;
           if (i === vs) bar.style.animation = '';
         }
       });
+    }
+    if (heroVids.length > 1) {
       clearTimeout(vTimer);
       vTimer = setTimeout(() => showVideoSlide(vs + 1), 7500);
     }

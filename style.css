@@ -75,9 +75,9 @@ p{margin:0}
 .hero{--sy:0;--mx:0;--my:0;position:relative;height:100svh;min-height:620px;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;padding:0 0 70px;background:#1E1F21}
 .frame{position:absolute;left:50%;top:50%;z-index:-3;width:max(104vw,calc(max(100svh,620px)*2.52));aspect-ratio:1983/793;transform:translate(-50%,-50%);translate:calc(var(--mx)*-22px) calc(var(--sy)*.42px + var(--my)*-12px);transition:translate .3s linear;will-change:translate}
 .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:kb 26s ease-in-out infinite alternate,heroIn 1.8s var(--ease) both}
-.frame video,.frame .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;animation:heroIn 1.8s var(--ease) both}
-.frame video.slide{opacity:0;transition:opacity 1.6s ease;will-change:opacity;pointer-events:none}
-.frame video.slide.on{opacity:1;pointer-events:auto}
+.frame video,.frame .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.frame video.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:none !important;opacity:0;z-index:1;transition:opacity 1.6s ease;will-change:opacity;pointer-events:none}
+.frame video.slide.on{opacity:1 !important;z-index:2 !important;pointer-events:auto}
 #heroVid1{object-position:50% 50%}
 #heroVid2{object-position:64% 50%}
 @keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.1) translate(-1%,-1%)}}
