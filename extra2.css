@@ -217,15 +217,15 @@
 .btn-gold:hover::after,.btn-line:hover::after{transform:none}
 .wa-wrap .wa:hover{transform:none}
 
-/* ============ Hero: text arrives after the photo is seen ============ */
-@keyframes heroTxt{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-.hero-content>*{animation:heroTxt 1.1s cubic-bezier(.22,1,.36,1) both}
-.hero-content>.hero-tag{animation-delay:1.6s}
-.hero-content>h1{animation-delay:1.8s}
-.hero-content>.lead{animation-delay:2.1s}
-.hero-content>.hero-actions{animation-delay:2.3s}
+/* ============ Hero: text arrives promptly & smoothly ============ */
+@keyframes heroTxt{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero-content>*{animation:heroTxt .75s cubic-bezier(.22,1,.36,1) both}
+.hero-content>.hero-tag{animation-delay:.15s}
+.hero-content>h1{animation-delay:.28s}
+.hero-content>.lead{animation-delay:.42s}
+.hero-content>.hero-actions{animation-delay:.55s}
 .hero h1 .ch{animation:none}
-.scroll-cue{bottom:52px;animation-delay:2.8s}
+.scroll-cue{bottom:52px;animation-delay:.75s}
 .hero-dots{bottom:52px}
 .hero{padding-bottom:110px}
 @media(max-width:700px){.hero-dots{bottom:30px}.hero{padding-bottom:84px}}

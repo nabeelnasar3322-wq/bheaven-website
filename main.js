@@ -1,7 +1,9 @@
 /* Show script errors on screen when the page is opened with ?debug */
 if (/[?&]debug/.test(location.search)) addEventListener('error', e => { const d = document.createElement('pre'); d.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:9999;margin:0;padding:10px;background:#b00020;color:#fff;font:12px/1.4 monospace;white-space:pre-wrap'; d.textContent = 'Error: ' + e.message + ' (' + (e.filename || '').split('/').pop() + ':' + e.lineno + ')'; document.body.append(d); });
-/* Keep the animations on for every visitor, including phones with "Reduce motion" switched on */
-[...document.styleSheets].forEach(sh => { try { for (let i = sh.cssRules.length - 1; i >= 0; i--) { const r = sh.cssRules[i]; if (r.media && /reduced-motion/.test(r.media.mediaText)) sh.deleteRule(i); } } catch (e) {} });
+/* Keep the animations on for every visitor, including phones with "Reduce motion" switched on (deferred so initial paint never hangs) */
+setTimeout(() => {
+  [...document.styleSheets].forEach(sh => { try { for (let i = sh.cssRules.length - 1; i >= 0; i--) { const r = sh.cssRules[i]; if (r.media && /reduced-motion/.test(r.media.mediaText)) sh.deleteRule(i); } } catch (e) {} });
+}, 800);
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const wa = (t) => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(t)}`;
@@ -139,11 +141,7 @@ if (heroVid) {
     }
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startPlayback, { once: true });
-  } else {
-    startPlayback();
-  }
+  startPlayback();
 
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && heroVid.paused) {
