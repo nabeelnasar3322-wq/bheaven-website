@@ -67,3 +67,18 @@
 /* hero video: lets the whole scene breathe on phones, with a gentle vignette so text stays readable */
 .hero-video{background:#1E1F21}
 @media (max-width:820px) and (orientation:portrait){.hero-video{object-position:60% 50%!important}}
+
+/* tablets in portrait: anchor the photo to the top edge (the base style centres it, which left a dark gap) */
+@media (max-width:820px) and (orientation:portrait){
+  .hero .frame{top:0;left:0;width:100%;transform:none;aspect-ratio:auto}
+}
+
+/* phones on their side: keep the headline and both buttons in the first screen */
+@media (orientation:landscape) and (max-height:520px){
+  .hero{min-height:100svh;padding-bottom:22px}
+  .hero-tag,.hero .lead,.scroll-cue,.hero-count{display:none!important}
+  .hero h1{font-size:clamp(24px,7.2vh,34px);margin-bottom:12px}
+  .hero-actions{gap:10px}
+  .hero-actions .btn{min-height:42px;flex:0 0 auto}
+}
+@media (min-width:700px) and (max-width:820px) and (orientation:portrait){.hero .frame{height:60svh}}
