@@ -72,3 +72,8 @@
   .hero-actions .btn{min-height:42px;flex:0 0 auto}
 }
 @media (min-width:700px) and (max-width:820px) and (orientation:portrait){.hero .frame{height:60svh}}
+
+/* hero video playlist: cross-fade between clips */
+.hero-video{transition:opacity 1.3s ease}
+.hero-video.off{opacity:0}
+.hero-video.top{z-index:1}
