@@ -21,9 +21,9 @@ const SITE = {
   /* Every photo slot looks for a file with this name in the GitHub folder.
      Upload a file with the same name and it shows up on the site. */
   photos: {
-    rooftop: IMG + 'DAY.jpg', pool: IMG + 'Artboard%201.jpg', lounge: IMG + 'BHVNterrace-4.webp',
-    terrace: IMG + 'BHVNterrace-7.webp', bar: IMG + 'Drinks.jpg',
-    day: IMG + 'Artboard%201.jpg', sunset: IMG + 'Artboard%203.png', night: IMG + 'Artboard%202.png',
+    rooftop: IMG + 'restaurant-lounge.webp', pool: IMG + 'dome-night.webp', lounge: IMG + 'restaurant-lounge.webp',
+    terrace: IMG + 'terrace-lounge.webp', bar: IMG + 'bar-counter.webp',
+    day: IMG + 'pool-day.webp', sunset: IMG + 'barcelofacade.webp', night: IMG + 'dome-night.webp',
     band1: IMG + 'barcelofacade.webp', band2: IMG + 'hero-2.jpeg', pass: IMG + 'pool-pass.jpg',
     resbg: IMG + 'hero-3.jpeg', visit: IMG + 'barcelofacade.webp'
   },
@@ -34,40 +34,40 @@ const SITE = {
     band1: IMG + 'hero-2.jpeg', band2: IMG + 'hero-3.jpeg'
   },
   gallery: [
-    { src: IMG + 'Artboard%202.png', label: 'Skyline at night', size: 'tall' },
-    { src: IMG + 'Artboard%203.png', label: 'Signature cocktails' },
-    { src: IMG + 'BusinesL.webp', label: 'Lunch with friends' },
-    { src: IMG + 'shisha.JPG', label: 'Premium shisha', size: 'tall' },
-    { src: IMG + 'DAY.jpg', label: 'Poolside days', size: 'wide' },
-    { src: IMG + 'BHVNterrace-6.webp', label: 'Welcome to B·Heaven' },
+    { src: IMG + 'dome-night.webp', label: 'B·Heaven Dome Pavilion at night', size: 'tall' },
+    { src: IMG + 'cocktails.webp', label: 'Signature cocktails' },
+    { src: IMG + 'BusinesL.webp', label: 'Modern Levant cuisine' },
+    { src: IMG + 'BHVNevents5.jpeg', label: 'Premium shisha', size: 'tall' },
+    { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', size: 'wide' },
+    { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge' },
     { src: IMG + 'hero-2.jpeg', label: 'Sunset on the rooftop' },
-    { src: IMG + 'BHVNterrace-7.webp', label: 'Terrace lounge', size: 'wide' },
-    { src: IMG + 'Artboard%201.jpg', label: 'Friends by the pool', size: 'tall' },
-    { src: IMG + 'BHVNterrace-4.webp', label: 'The bar', size: 'tall' },
-    { src: IMG + 'Drinks.jpg', label: 'Bar & mixology', size: 'wide' },
-    { src: IMG + 'hero-3.jpeg', label: 'Night views', size: 'wide' }
+    { src: IMG + 'terrace-lounge.webp', label: 'Terrace lounge', size: 'wide' },
+    { src: IMG + 'BHVNevents4.jpeg', label: 'Live saxophone & music', size: 'tall' },
+    { src: IMG + 'bar-counter.webp', label: 'The bar', size: 'tall' },
+    { src: IMG + 'Drinks.jpeg', label: 'Bar & mixology', size: 'wide' },
+    { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', size: 'wide' }
   ]
 };
 
 /* "Made for sharing" photo tiles (menu tab opens when tapped) */
 const TASTE = [
   { src: IMG + 'BusinesL.webp', title: 'Modern Levant plates', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
-  { src: IMG + 'Artboard%203.png', title: 'Signature cocktails', text: 'House creations shaken with a view.', tab: 'drinks' },
-  { src: IMG + 'shisha.JPG', title: 'Premium shisha', text: 'Classic and signature flavours until late.', tab: 'shisha' },
-  { src: IMG + 'hero-1.jpeg', title: 'Pool menu', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
+  { src: IMG + 'cocktails.webp', title: 'Signature cocktails', text: 'House creations shaken with a view.', tab: 'drinks' },
+  { src: IMG + 'BHVNevents5.jpeg', title: 'Premium shisha', text: 'Classic and signature flavours until late.', tab: 'shisha' },
+  { src: IMG + 'pool-day.webp', title: 'Pool menu', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
 ];
 
 /* Kept in sync with the live site's events (bheavendubai.com/menu/ JSON-LD, #ldEv1-4).
    weekday: 0=Sun..6=Sat, startHour: 24h clock (Asia/Dubai) — used by the "Tonight's Table" strip
    in main.js to find the next event; everything else (cards, carousel) only reads the fields above. */
 const EVENTS = [
-  { key: 'grape', day: 'Every Thursday', time: '8 PM – Midnight', weekday: 4, startHour: 20, title: 'Grape & Graze', big: 'Grape', sub: '& Graze', poster: IMG + 'BHVNevents3.PNG',
+  { key: 'grape', day: 'Every Thursday', time: '8 PM – Midnight', weekday: 4, startHour: 20, title: 'Grape & Graze', big: 'Grape', sub: '& Graze', poster: IMG + 'BHVNevents3.webp',
     perks: ['A cheese board', 'Levantine mezze selections', 'Two glasses of wine (white, rosé or red)'],
     price: 'AED 99 per person' },
-  { key: 'jazz', day: 'Every Friday', time: '9 PM – Midnight', weekday: 5, startHour: 21, title: 'Jazz Friday', big: 'JAZZ', sub: 'Live singing · Anetta', poster: IMG + 'BHVNevents4.jpeg',
+  { key: 'jazz', day: 'Every Friday', time: '9 PM – Midnight', weekday: 5, startHour: 21, title: 'Jazz Friday', big: 'JAZZ', sub: 'Live singing · Anetta', poster: IMG + 'BHVNevents4.webp',
     perks: ['Live jazz with Anetta on the rooftop', 'As the city lights come on'],
     price: 'Ladies AED 99 · Gentlemen AED 149' },
-  { key: 'layali', day: 'Every Saturday', time: '9 PM – 1 AM', weekday: 6, startHour: 21, title: 'Layali Night', big: 'layali', sub: 'Night · Nouha Issa', poster: IMG + 'BHVNevents2.PNG',
+  { key: 'layali', day: 'Every Saturday', time: '9 PM – 1 AM', weekday: 6, startHour: 21, title: 'Layali Night', big: 'layali', sub: 'Night · Nouha Issa', poster: IMG + 'BHVNevents2.webp',
     perks: ['Classic Arabic songs with Nouha Issa', 'Shisha and late-night plates', 'Reservation required'],
     price: 'Free entry · à la carte dining & shisha' },
   { key: 'ibiza', day: 'Every Sunday', time: '1 PM – 5 PM', weekday: 0, startHour: 13, title: 'Ibiza Brunch', big: 'IBIZA', sub: 'Brunch', poster: IMG + 'BHVNevents1.webp',
@@ -77,7 +77,7 @@ const EVENTS = [
 
 /* Daily offers (shown under the weekly nights) */
 const OFFERS = [
-  { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'BHVNevents1.webp',
+  { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'BusinesL.webp',
     perks: ['2-course set menu: AED 89', '3-course set menu: AED 105'],
     price: 'From AED 89', cta: 'Book lunch' },
   { key: 'shisha', day: 'Every day', time: '8 PM – 11 PM', title: 'Shisha & Drinks', big: 'SHISHA', sub: '& Drinks', poster: IMG + 'BHVNevents5.jpeg',
