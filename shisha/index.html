@@ -104,6 +104,9 @@ html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.35}
 html[dir=rtl] .lede,html[dir=rtl] .sub,html[dir=rtl] .lst p,html[dir=rtl] .shNote{line-height:1.9}
 html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl] .lede{overflow-wrap:anywhere}
 @media (max-width:560px){.logo{width:124px}}
+/* same header height on every page so the logo sits at the same spot at every screen width */
+.nav:not(.solid){padding-top:0;padding-bottom:0;min-height:84px}
+@media (max-width:900px){.nav:not(.solid){min-height:79px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.ph img,.pn{transition:none!important;transform:none!important;opacity:1!important}}
 
 .cards{max-width:1180px;margin:0 auto;padding:10px clamp(20px,5vw,44px) 30px;display:grid;gap:clamp(36px,7vw,90px)}

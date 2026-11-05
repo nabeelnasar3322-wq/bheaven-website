@@ -3,9 +3,13 @@
 /* Header logo: 250px wide, original proportions (670:180) */
 .header .wordmark .logo-svg{width:150px}
 @media(max-width:899px){.header .wordmark .logo-svg{width:124px}}
-.header-inner{height:92px}
-.mnav{inset:92px 0 0}
-html{scroll-padding-top:100px}
+/* Header lines up with the menu, shisha and business-lunch pages: logo 40px from the left and 22px from the top (20px / 23px on phones) */
+.header .container.header-inner{max-width:none;padding:0 40px}
+@media(max-width:900px){.header .container.header-inner{padding:0 20px}}
+.header-inner{height:84px}
+.mnav{inset:84px 0 0}
+html{scroll-padding-top:92px}
+@media(max-width:899px){.header-inner{height:79px}.mnav{inset:79px 0 0}html{scroll-padding-top:87px}}
 @media(max-width:359px){.header-inner{gap:14px}}
 
 /* Hero: no script text, one bold headline */

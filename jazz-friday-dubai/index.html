@@ -120,7 +120,8 @@
   a:hover{text-decoration:underline}
 
   /* Nav */
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:22px 40px;border-bottom:1px solid rgba(255,255,255,.08)}
+  @media (max-width:900px){.nav{padding:23px 20px}}
   .nav-logo{display:block;width:150px;aspect-ratio:670/180;background:var(--text);-webkit-mask:url(/icons/logo-wordmark.svg) center/contain no-repeat;mask:url(/icons/logo-wordmark.svg) center/contain no-repeat;font-size:0;line-height:0;overflow:hidden}
   @media (max-width:899px){.nav-logo{width:124px}}
   .nav-link{font-size:.85rem;font-weight:600;letter-spacing:.06em;color:var(--gold)}

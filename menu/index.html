@@ -1059,6 +1059,10 @@ body[data-mode=drinks] nav.top .logo{background-image:url(img/e00746565e35.webp)
 /* bigger nav logo */
 nav.top .logo{width:150px!important}
 @media (max-width:899px){nav.top .logo{width:124px!important}}
+/* same header height on every page so the logo sits at the same spot at every screen width */
+nav.top:not(.solid){padding-top:0;padding-bottom:0;min-height:84px}
+nav.top .logo{flex:none}
+@media (max-width:900px){nav.top:not(.solid){min-height:79px}}
 
 /* ===== Motion kit: every dish reacts to scroll, pointer and touch ===== */
 /* scroll-driven spin for round plates (after their entrance finishes) */
