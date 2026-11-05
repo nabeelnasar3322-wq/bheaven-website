@@ -17,7 +17,8 @@
     }
   }, { passive: true });
 
-  if (reduce) return;
+  var vid = hero.querySelector('video.hero-video');
+  if (reduce) { if (vid) { try { vid.pause(); } catch (_) {} } return; }
 
   /* ---- build the extra layers ---- */
   var shade = hero.querySelector('.hero-shade');
@@ -119,7 +120,8 @@
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function sync() {
     var imgs = [].slice.call(pan.querySelectorAll('img.slide')), idx = imgs.findIndex(function (i) { return i.classList.contains('on'); });
-    if (!imgs.length || idx < 0) return;
+    if (!imgs.length) { count.remove(); return; }
+    if (idx < 0) return;
     tEl.textContent = pad(imgs.length);
     if (idx !== lastIdx) {
       nEl.textContent = pad(idx + 1); nEl.classList.remove('roll'); void nEl.offsetWidth; nEl.classList.add('roll');
