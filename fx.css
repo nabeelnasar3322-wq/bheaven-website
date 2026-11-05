@@ -82,3 +82,16 @@
   .hero-actions .btn{min-height:42px;flex:0 0 auto}
 }
 @media (min-width:700px) and (max-width:820px) and (orientation:portrait){.hero .frame{height:60svh}}
+
+/* --- festive mood (festive.js) --- */
+.fest-lights{position:absolute;left:0;right:0;top:70px;z-index:1;pointer-events:none;animation:festSway 7s ease-in-out infinite alternate;transform-origin:50% 0}
+.fest-lights svg{display:block;width:100%;overflow:visible;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+.fest-lights .fb{animation:festTwinkle 3s ease-in-out infinite}
+@keyframes festTwinkle{0%,100%{opacity:1}45%{opacity:.35}60%{opacity:.9}}
+@keyframes festSway{from{transform:translateY(0) rotate(-.15deg)}to{transform:translateY(3px) rotate(.15deg)}}
+.fest-sp{position:absolute;z-index:1;width:5px;height:5px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#fff,rgba(255,226,160,.9) 40%,transparent 70%);box-shadow:0 0 10px 2px rgba(255,214,140,.55);opacity:0;animation:festSpark 4.5s ease-in-out infinite}
+@keyframes festSpark{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.95;transform:scale(1.15) translateY(-8px)}}
+.hero::after{content:'';position:absolute;inset:auto 0 0;height:38%;z-index:-1;pointer-events:none;background:radial-gradient(70% 90% at 50% 120%,rgba(255,196,120,.22),transparent 70%)}
+@media (max-width:700px){.fest-lights{top:66px}}
+@media (orientation:landscape) and (max-height:520px){.fest-lights{display:none}}
+@media (prefers-reduced-motion:reduce){.fest-lights,.fest-lights .fb{animation:none}}
