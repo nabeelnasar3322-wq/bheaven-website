@@ -114,9 +114,14 @@ document.querySelectorAll('[data-split]').forEach(el => {
 
 /* Hero slides: extra slides join the rotation once their photo has loaded */
 const pan = $('.pan'), heroDots = $('#heroDots');
-const HS = HERO_SLIDES.map(x => typeof x === 'string' ? { src: x } : x);
+/* Portrait phones get pre-cropped, lighter hero photos (hero-N-m.jpeg, centred on each photo's focus point) */
+const MOB = matchMedia('(max-width:820px) and (orientation:portrait)').matches;
+const HS = HERO_SLIDES.map(x => typeof x === 'string' ? { src: x } : x)
+  .map(x => MOB && /^\/hero-\d\.jpeg$/.test(x.src) ? { ...x, src: x.src.replace('.jpeg', '-m.jpeg'), focus: '50% 50%' } : x);
 const slides = new Array(HS.length).fill(null);
 slides[0] = pan.querySelector('img'); slides[0].classList.add('slide', 'on');
+/* the first photo ships inside a <picture> so phones download the small crop; flatten it so the slide logic can reorder images */
+if (slides[0].parentElement.tagName === 'PICTURE') { const pic = slides[0].parentElement; slides[0].src = slides[0].currentSrc || slides[0].src; pic.replaceWith(slides[0]); }
 if (HS[0].focus) slides[0].style.objectPosition = HS[0].focus;
 let hs = 0, hTimer;
 const liveSlides = () => slides.filter(Boolean);
