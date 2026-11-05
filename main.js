@@ -112,11 +112,38 @@ document.querySelectorAll('[data-split]').forEach(el => {
   el.innerHTML = text.split(' ').map(w => `<span class="w">${[...w].map(c => `<span class="ch" style="animation-delay:${(start + n++ * 0.035).toFixed(3)}s">${esc(c)}</span>`).join('')}</span>`).join(' ');
 });
 
-/* Hero video: continuously loops the primary video banner */
+/* Hero video: iOS Safari autoplay assurance & Low-Power-Mode tap fallback */
 const pan = $('.pan'), heroDots = $('#heroDots');
 const heroVid = pan ? pan.querySelector('video') : null;
-if (heroVid && heroDots) {
-  heroDots.innerHTML = '';
+if (heroVid) {
+  if (heroDots) heroDots.innerHTML = '';
+  heroVid.muted = true;
+  heroVid.defaultMuted = true;
+
+  const startPlayback = () => {
+    const playPromise = heroVid.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        const onFirstInteraction = () => {
+          heroVid.play().catch(() => {});
+          window.removeEventListener('touchstart', onFirstInteraction);
+          window.removeEventListener('touchend', onFirstInteraction);
+          window.removeEventListener('scroll', onFirstInteraction);
+          window.removeEventListener('click', onFirstInteraction);
+        };
+        window.addEventListener('touchstart', onFirstInteraction, { once: true, passive: true });
+        window.addEventListener('touchend', onFirstInteraction, { once: true, passive: true });
+        window.addEventListener('scroll', onFirstInteraction, { once: true, passive: true });
+        window.addEventListener('click', onFirstInteraction, { once: true, passive: true });
+      });
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startPlayback, { once: true });
+  } else {
+    startPlayback();
+  }
 }
 
 const firstSlideImg = pan ? pan.querySelector('img') : null;
