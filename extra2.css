@@ -227,7 +227,6 @@
 .hero h1 .ch{animation:none}
 .scroll-cue{bottom:52px;animation-delay:2.8s}
 .hero-dots{bottom:52px}
-.ribbon{margin-top:-8px}
 .hero{padding-bottom:110px}
 @media(max-width:700px){.hero-dots{bottom:30px}.hero{padding-bottom:84px}}
 
