@@ -231,3 +231,320 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
   box-shadow: 0 35px 70px -25px rgba(0, 0, 0, 0.9), 0 0 24px -4px rgba(154, 182, 186, 0.28)!important;
 }
 
+/* ============ INTERACTIVE DAY-TO-NIGHT MOOD SWITCHER ============ */
+.mood-bar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px auto 36px;
+  max-width: 580px;
+  padding: 6px;
+  background: rgba(30, 31, 33, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+.mood-tab{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  white-space: nowrap;
+}
+.mood-tab .m-ic{
+  font-size: 15px;
+}
+.mood-tab small{
+  display: none;
+  font-size: 10px;
+  opacity: 0.75;
+  text-transform: none;
+}
+@media (min-width: 640px){
+  .mood-tab small{ display: inline; margin-left: 2px; }
+}
+.mood-tab:hover{
+  color: var(--cream);
+  background: rgba(255, 255, 255, 0.06);
+}
+.mood-tab.on{
+  background: linear-gradient(120deg, #9AB6BA, #FBF7E2);
+  color: #1E1F21;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px -4px rgba(154, 182, 186, 0.55);
+  transform: scale(1.02);
+}
+.time{
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              opacity 0.4s ease!important;
+}
+.time.is-active{
+  border-color: rgba(154, 182, 186, 0.75)!important;
+  box-shadow: 0 24px 50px -12px rgba(154, 182, 186, 0.4), 0 0 0 1px rgba(154, 182, 186, 0.35)!important;
+  transform: translateY(-8px) scale(1.02)!important;
+}
+.time-perks{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0 18px;
+}
+.time-perks span{
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--cream);
+}
+.time-cta{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lagoon);
+  margin-top: auto;
+  transition: gap 0.25s ease, color 0.25s ease;
+}
+.time-cta:hover{
+  color: var(--cream);
+  gap: 12px;
+}
+
+/* ============ SOUND TEASER WEB AUDIO SYNTHESIZER ============ */
+.soundTeaserWrap{
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 32px;
+}
+.soundTeaser{
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 22px;
+  border-radius: 999px;
+  background: rgba(38, 39, 41, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(154, 182, 186, 0.35);
+  color: var(--cream);
+  cursor: pointer;
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  outline: none;
+}
+.soundTeaser:hover{
+  transform: translateY(-2.5px);
+  background: rgba(154, 182, 186, 0.18);
+  border-color: var(--lagoon);
+  box-shadow: 0 16px 32px -8px rgba(154, 182, 186, 0.35);
+}
+.soundTeaser:active{
+  transform: translateY(0.5px) scale(0.98);
+}
+.soundEq{
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 16px;
+  width: 15px;
+  flex-shrink: 0;
+}
+.soundEq span{
+  width: 2.5px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--lagoon);
+  transition: height 0.25s ease;
+}
+@keyframes eqBounce{
+  0%{ height: 3px; }
+  100%{ height: 16px; }
+}
+.soundTeaser.playing .eqBar1{ animation: eqBounce 0.7s ease-in-out infinite alternate; }
+.soundTeaser.playing .eqBar2{ animation: eqBounce 0.5s ease-in-out infinite alternate 0.15s; }
+.soundTeaser.playing .eqBar3{ animation: eqBounce 0.8s ease-in-out infinite alternate 0.3s; }
+.soundTeaser.playing .eqBar4{ animation: eqBounce 0.6s ease-in-out infinite alternate 0.1s; }
+.soundMeta{
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  line-height: 1.25;
+}
+.soundEyebrow{
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lagoon);
+}
+.soundTitle{
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cream);
+}
+.soundBtnTag{
+  margin-left: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(154, 182, 186, 0.2);
+  color: var(--lagoon);
+  border: 1px solid rgba(154, 182, 186, 0.4);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.soundTeaser.playing .soundBtnTag{
+  background: var(--lagoon);
+  color: #1E1F21;
+}
+
+/* ============ INTERACTIVE VIBE CONCIERGE ============ */
+.vibe-concierge{
+  background: rgba(30, 31, 33, 0.75);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 26px;
+  padding: 32px 28px;
+  margin: 0 auto 36px;
+  max-width: 860px;
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.65);
+}
+.vibe-chips{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+@media (min-width: 680px){
+  .vibe-chips{ grid-template-columns: repeat(4, 1fr); }
+}
+.vibe-chip{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(38, 39, 41, 0.55);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  text-align: center;
+}
+.vibe-chip:hover{
+  border-color: rgba(154, 182, 186, 0.5);
+  background: rgba(154, 182, 186, 0.14);
+  transform: translateY(-2px);
+}
+.vibe-chip.on{
+  background: linear-gradient(135deg, rgba(154, 182, 186, 0.35), rgba(212, 175, 55, 0.25));
+  border-color: var(--lagoon);
+  box-shadow: 0 10px 24px -6px rgba(154, 182, 186, 0.45), inset 0 0 0 1px rgba(251, 247, 226, 0.35);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.vibe-card{
+  background: rgba(24, 25, 27, 0.88);
+  border: 1px solid rgba(154, 182, 186, 0.25);
+  border-radius: 20px;
+  padding: 22px 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-items: center;
+  animation: fadeIn 0.35s ease;
+}
+@media (min-width: 680px){
+  .vibe-card{ grid-template-columns: 1.4fr 1fr; }
+}
+.vibe-match-title{
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 6px;
+}
+.vibe-match-desc{
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+.vibe-details{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+}
+.vibe-details span{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cream);
+}
+.vibe-details span i{
+  font-style: normal;
+  color: var(--lagoon);
+}
+.vibe-card .btn{
+  width: 100%;
+}
+
+/* ============ INTERACTIVE CURSOR SPOTLIGHT PHYSICS ============ */
+[data-spotlight]{
+  position: relative;
+  overflow: hidden;
+}
+[data-spotlight]::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(400px circle at var(--mx, -1000px) var(--my, -1000px), rgba(154, 182, 186, 0.14), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+[data-spotlight]:hover::before{
+  opacity: 1;
+}
+
+

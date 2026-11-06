@@ -181,16 +181,46 @@
 </section>
 
 <!-- ============ DAY TO NIGHT ============ -->
-<section class="section daynight">
+<section class="section daynight" id="daynight">
   <div class="container">
     <div class="head center" data-r>
       <p class="eyebrow">Day to night</p>
       <h2>One rooftop, <span class="script gold-text">three moods</span></h2>
+      <p class="lead">Tap a mood to preview the daytime sparkle, golden sunset, or starlit city vibe.</p>
+      <div class="mood-bar" role="tablist" aria-label="Select rooftop mood">
+        <button type="button" class="mood-tab on" data-mood="day" role="tab" aria-selected="true"><span class="m-ic">☀️</span><span>Poolside Day</span><small>9 AM – 5 PM</small></button>
+        <button type="button" class="mood-tab" data-mood="sunset" role="tab" aria-selected="false"><span class="m-ic">🌅</span><span>Golden Sunset</span><small>5 PM – 8 PM</small></button>
+        <button type="button" class="mood-tab" data-mood="night" role="tab" aria-selected="false"><span class="m-ic">🌙</span><span>Starlit Night</span><small>8 PM – 2 AM</small></button>
+      </div>
     </div>
     <div class="times">
-      <article class="time day" data-r data-tilt style="--i:0"><div class="time-photo" data-bg="day"></div><div class="orb"></div><span class="when">From 9 AM</span><h3>Poolside days</h3><p>Sun loungers, fresh juices and a dedicated pool menu. Pool access passes are available for daytime visitors.</p><span class="pill">Pool passes available</span></article>
-      <article class="time sunset" data-r data-tilt style="--i:1"><div class="time-photo" data-bg="sunset"></div><div class="orb"></div><span class="when">Golden hour</span><h3>Sunset &amp; cocktails</h3><p>Watch the skyline turn gold with a signature cocktail in hand and the pool glowing below.</p><span class="pill">Signature cocktails</span></article>
-      <article class="time night" data-r data-tilt style="--i:2"><div class="time-photo" data-bg="night"></div><div class="orb"></div><span class="when">Until 2 AM</span><h3>Nights above the city</h3><p>Modern Levant sharing plates, premium shisha and live entertainment under the stars.</p><span class="pill">Live music &amp; shisha</span></article>
+      <article class="time day is-active" data-r data-tilt style="--i:0">
+        <div class="time-photo" data-bg="day"></div>
+        <div class="orb"></div>
+        <span class="when">From 9 AM</span>
+        <h3>Poolside days</h3>
+        <p>Sun loungers, fresh juices and a dedicated pool menu. Pool access passes are available for daytime visitors.</p>
+        <div class="time-perks"><span>🏊 Pool pass available</span><span>🍹 Fresh juices</span><span>☀️ Sun loungers</span></div>
+        <a class="time-cta" href="https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%20would%20like%20to%20book%20a%20Poolside%20Day%20pass." target="_blank" rel="noopener">Book Pool Pass <b>→</b></a>
+      </article>
+      <article class="time sunset" data-r data-tilt style="--i:1">
+        <div class="time-photo" data-bg="sunset"></div>
+        <div class="orb"></div>
+        <span class="when">Golden hour</span>
+        <h3>Sunset &amp; cocktails</h3>
+        <p>Watch the skyline turn gold with a signature cocktail in hand and the pool glowing below.</p>
+        <div class="time-perks"><span>🍸 Sunset Happy Hour</span><span>🌆 180° Skyline views</span><span>🥂 Signature serves</span></div>
+        <a class="time-cta" href="https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%20would%20like%20to%20reserve%20a%20Sunset%20table." target="_blank" rel="noopener">Book Sunset Table <b>→</b></a>
+      </article>
+      <article class="time night" data-r data-tilt style="--i:2">
+        <div class="time-photo" data-bg="night"></div>
+        <div class="orb"></div>
+        <span class="when">Until 2 AM</span>
+        <h3>Nights above the city</h3>
+        <p>Modern Levant sharing plates, premium shisha and live entertainment under the stars.</p>
+        <div class="time-perks"><span>🎷 Live music &amp; singer</span><span>💨 Premium shisha</span><span>🍢 Charcoal Levant dining</span></div>
+        <a class="time-cta" href="https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%20would%20like%20to%20reserve%20an%20Evening%20table." target="_blank" rel="noopener">Book Evening Lounge <b>→</b></a>
+      </article>
     </div>
   </div>
 </section>
@@ -202,6 +232,18 @@
       <p class="eyebrow">What's on</p>
       <h2>Nights &amp; offers at <span class="script gold-text">B·Heaven</span></h2>
       <p class="lead">Live music, social dining and daily deals. Swipe through and book your table.</p>
+      <div class="soundTeaserWrap">
+        <button type="button" class="soundTeaser" id="soundTeaser" aria-label="Listen to tonight's live sound teaser">
+          <span class="soundEq" aria-hidden="true">
+            <span class="eqBar1"></span><span class="eqBar2"></span><span class="eqBar3"></span><span class="eqBar4"></span>
+          </span>
+          <span class="soundMeta">
+            <span class="soundEyebrow">Tonight's Soundtrack</span>
+            <span class="soundTitle">Rooftop Jazz &amp; Lounge (15s sample)</span>
+          </span>
+          <span class="soundBtnTag" id="soundBtnTag">Listen</span>
+        </button>
+      </div>
     </div>
   </div>
   <div class="shows skewed-carousel-wrap" data-r>
@@ -272,6 +314,23 @@
       <h2>Book your <span class="script gold-text">table</span></h2>
       <p class="lead">Pick a date, time and seat. Our team confirms your table on WhatsApp.</p>
     </div>
+
+    <!-- Interactive Vibe Concierge -->
+    <div class="vibe-concierge" data-r>
+      <div class="vibe-head">
+        <p class="eyebrow" style="margin-bottom:6px">Interactive Concierge</p>
+        <h3 style="font-size:22px;color:var(--cream)">What's your mood tonight?</h3>
+        <p style="font-size:13.5px;color:var(--muted)">Tap an experience below to instantly tailor your table &amp; signature pairing:</p>
+      </div>
+      <div class="vibe-chips" role="tablist">
+        <button type="button" class="vibe-chip on" data-vibe="sunset">🌅 Sunset &amp; Cocktails</button>
+        <button type="button" class="vibe-chip" data-vibe="jazz">🎷 Live Jazz Night</button>
+        <button type="button" class="vibe-chip" data-vibe="shisha">💨 Shisha &amp; Skyline</button>
+        <button type="button" class="vibe-chip" data-vibe="brunch">🥂 Sunday Pool Brunch</button>
+      </div>
+      <div class="vibe-card" id="vibeCard"></div>
+    </div>
+
     <form class="form rbook" id="resForm" data-r novalidate>
       <div class="rb-row rb-four">
         <label>Date<input name="date" type="date" required></label>
@@ -378,5 +437,6 @@
 <script src="hero-fx.js" defer></script>
 <script src="hero-playlist.js" defer></script>
 <script src="gallery.js" defer></script>
+<script src="interactive.js" defer></script>
 </body>
 </html>
