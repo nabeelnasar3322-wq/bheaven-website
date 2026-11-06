@@ -21,7 +21,7 @@ const SITE = {
   /* Every photo slot looks for a file with this name in the GitHub folder.
      Upload a file with the same name and it shows up on the site. */
   photos: {
-    rooftop: IMG + 'restaurant-lounge.webp', pool: IMG + 'dome-night.webp', lounge: IMG + 'restaurant-lounge.webp',
+    rooftop: IMG + 'BHVNterrace-1.webp', pool: IMG + 'dome-night.webp', lounge: IMG + 'restaurant-lounge.webp',
     terrace: IMG + 'terrace-lounge.webp', bar: IMG + 'bar-counter.webp',
     day: IMG + 'pool-day.webp', sunset: IMG + 'barcelofacade.webp', night: IMG + 'dome-night.webp',
     band1: IMG + 'barcelofacade.webp', band2: IMG + 'hero-2.jpeg', pass: IMG + 'pool-pass.jpg',
