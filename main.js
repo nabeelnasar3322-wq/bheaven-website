@@ -291,6 +291,9 @@ if (track && dotsEl) {
     if (i !== current) {
       goTo(i);
       play();
+      if (e.target.closest('.show-hint')) {
+        setTimeout(() => c.classList.add('open'), 320);
+      }
       return;
     }
     c.classList.toggle('open');
@@ -301,7 +304,8 @@ if (track && dotsEl) {
   const play = () => {
     clearInterval(timer);
     timer = setInterval(() => {
-      if (!hold && inView && !document.hidden) goTo(current + 1);
+      const anyOpen = cards.some(c => c.classList.contains('open'));
+      if (!hold && inView && !document.hidden && !anyOpen) goTo(current + 1);
     }, 5500);
   };
   track.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hold = true; });

@@ -37,14 +37,14 @@ const SITE = {
     { src: IMG + 'dome-night.webp', label: 'B·Heaven Dome Pavilion at night', size: 'tall' },
     { src: IMG + 'cocktails.webp', label: 'Signature cocktails' },
     { src: IMG + 'BusinesL.webp', label: 'Modern Levant cuisine' },
-    { src: IMG + 'BHVNevents5.jpeg', label: 'Premium shisha', size: 'tall' },
+    { src: IMG + 'BHVNevents5.webp', label: 'Premium shisha', size: 'tall' },
     { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', size: 'wide' },
     { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge' },
     { src: IMG + 'hero-2.jpeg', label: 'Sunset on the rooftop' },
     { src: IMG + 'terrace-lounge.webp', label: 'Terrace lounge', size: 'wide' },
-    { src: IMG + 'BHVNevents4.jpeg', label: 'Live saxophone & music', size: 'tall' },
+    { src: IMG + 'BHVNevents4.webp', label: 'Live saxophone & music', size: 'tall' },
     { src: IMG + 'bar-counter.webp', label: 'The bar', size: 'tall' },
-    { src: IMG + 'Drinks.jpeg', label: 'Bar & mixology', size: 'wide' },
+    { src: IMG + 'Drinks.webp', label: 'Bar & mixology', size: 'wide' },
     { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', size: 'wide' }
   ]
 };
@@ -53,7 +53,7 @@ const SITE = {
 const TASTE = [
   { src: IMG + 'BusinesL.webp', title: 'Modern Levant plates', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
   { src: IMG + 'cocktails.webp', title: 'Signature cocktails', text: 'House creations shaken with a view.', tab: 'drinks' },
-  { src: IMG + 'BHVNevents5.jpeg', title: 'Premium shisha', text: 'Classic and signature flavours until late.', tab: 'shisha' },
+  { src: IMG + 'BHVNevents5.webp', title: 'Premium shisha', text: 'Classic and signature flavours until late.', tab: 'shisha' },
   { src: IMG + 'pool-day.webp', title: 'Pool menu', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
 ];
 
@@ -83,7 +83,7 @@ const OFFERS = [
   { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'BusinesL.webp',
     perks: ['2-course set menu: AED 89', '3-course set menu: AED 105'],
     price: 'From AED 89', cta: 'Book lunch' },
-  { key: 'shisha', day: 'Every day', time: '8 PM – 11 PM', title: 'Shisha & Drinks', big: 'SHISHA', sub: '& Drinks', poster: IMG + 'BHVNevents5.jpeg',
+  { key: 'shisha', day: 'Every day', time: '8 PM – 11 PM', title: 'Shisha & Drinks', big: 'SHISHA', sub: '& Drinks', poster: IMG + 'BHVNevents5.webp',
     perks: ['1 shisha + 1 drink', 'Alcoholic or non-alcoholic'],
     price: 'AED 89', cta: 'Book shisha' }
 ];
