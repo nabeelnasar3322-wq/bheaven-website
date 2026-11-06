@@ -77,3 +77,157 @@
 .hero-video{transition:opacity 1.3s ease}
 .hero-video.off{opacity:0}
 .hero-video.top{z-index:1}
+
+/* ============ DESIGN ELEVATIONS: LUXURY POLISH & INTERACTION SYSTEM ============ */
+
+/* 1. Glassmorphic Sticky Header */
+.header{
+  transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)!important;
+}
+.header.solid{
+  background: rgba(24, 25, 27, 0.78)!important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%)!important;
+  backdrop-filter: blur(20px) saturate(160%)!important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08)!important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5)!important;
+}
+
+/* 2. Atmospheric Ambient Lighting Glows */
+.section.about{
+  position: relative;
+  overflow: hidden;
+}
+.section.about::before{
+  content: '';
+  position: absolute;
+  top: -15%;
+  left: -10%;
+  width: 55vw;
+  max-width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(154, 182, 186, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.shows-wrap{
+  position: relative;
+}
+.shows-wrap::before{
+  content: '';
+  position: absolute;
+  top: 15%;
+  right: -10%;
+  width: 50vw;
+  max-width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.reviews{
+  position: relative;
+  overflow: hidden;
+}
+.reviews::before{
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75vw;
+  max-width: 850px;
+  height: 450px;
+  background: radial-gradient(ellipse at center, rgba(154, 182, 186, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 3. Tactile Button Dynamics & Layered Shadow Physics */
+.btn{
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+              background 0.3s ease,
+              border-color 0.25s ease,
+              color 0.25s ease!important;
+  will-change: transform, box-shadow;
+}
+.btn:hover{
+  transform: translateY(-2.5px)!important;
+}
+.btn:active{
+  transform: translateY(0.5px) scale(0.98)!important;
+}
+.btn-gold{
+  box-shadow: 0 4px 14px -2px rgba(154, 182, 186, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25)!important;
+}
+.btn-gold:hover{
+  box-shadow: 0 14px 30px -4px rgba(154, 182, 186, 0.55), 0 0 20px 2px rgba(251, 247, 226, 0.35)!important;
+}
+.btn-line{
+  border: 1px solid rgba(251, 247, 226, 0.32)!important;
+  background: rgba(38, 39, 41, 0.4)!important;
+  -webkit-backdrop-filter: blur(12px)!important;
+  backdrop-filter: blur(12px)!important;
+}
+.btn-line:hover{
+  border-color: rgba(251, 247, 226, 0.85)!important;
+  background: rgba(251, 247, 226, 0.12)!important;
+  color: var(--cream)!important;
+  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.55)!important;
+}
+
+/* 4. Editorial Typography & Micro-Hierarchy */
+h1, h2, h3, .section h2, .band-title, .ft-col h3{
+  letter-spacing: -0.025em;
+}
+.hero h1 .line{
+  letter-spacing: -0.02em;
+}
+.eyebrow{
+  letter-spacing: 0.24em!important;
+  font-size: 11.5px!important;
+  font-weight: 700!important;
+}
+
+/* 5. Surface Architecture & Bento Micro-Borders */
+.feature{
+  border: 1px solid rgba(255, 255, 255, 0.08)!important;
+  background: rgba(38, 39, 41, 0.45)!important;
+  -webkit-backdrop-filter: blur(10px)!important;
+  backdrop-filter: blur(10px)!important;
+  border-radius: 20px!important;
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 0.3s ease,
+              box-shadow 0.32s ease!important;
+}
+.feature:hover{
+  border-color: rgba(154, 182, 186, 0.4)!important;
+  transform: translateY(-3.5px)!important;
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(154, 182, 186, 0.15)!important;
+}
+.about-photos .ph, .ig-grid .ph{
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.45);
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.about-photos .ph:hover, .ig-grid .ph:hover{
+  border-color: rgba(154, 182, 186, 0.4);
+  box-shadow: 0 20px 42px -10px rgba(0, 0, 0, 0.75);
+}
+
+/* 3D Tilted Card Polish */
+.show{
+  border: 1px solid rgba(251, 247, 226, 0.16)!important;
+  box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.04)!important;
+}
+.show.is-center{
+  border-color: rgba(154, 182, 186, 0.5)!important;
+  box-shadow: 0 35px 70px -25px rgba(0, 0, 0, 0.9), 0 0 24px -4px rgba(154, 182, 186, 0.28)!important;
+}
+
