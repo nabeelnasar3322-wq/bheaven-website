@@ -167,12 +167,12 @@ if (firstSlideImg) {
     const live = liveSlides(); if (live.length < 2) return;
     hs = (n + live.length) % live.length;
     live.forEach((im, i) => { im.classList.toggle('on', i === hs); if (i === hs) { im.style.animation = 'none'; im.offsetWidth; im.style.animation = ''; } });
-    [...heroDots.children].forEach((d, i) => d.classList.toggle('on', i === hs));
+    [...heroDots.children].forEach((d, i) => { const on = i === hs; d.classList.toggle('on', on); d.setAttribute('aria-current', on ? 'true' : 'false'); });
     clearTimeout(hTimer); hTimer = setTimeout(() => showSlide(hs + 1), 7000);
   };
   const renderHeroDots = () => {
     const live = liveSlides();
-    heroDots.innerHTML = live.length > 1 ? live.map((_, i) => `<button type="button" class="${i === hs ? 'on' : ''}" aria-label="Slide ${i + 1}"><i></i></button>`).join('') : '';
+    heroDots.innerHTML = live.length > 1 ? live.map((_, i) => `<button type="button" class="${i === hs ? 'on' : ''}" aria-label="Slide ${i + 1}" aria-current="${i === hs ? 'true' : 'false'}"><i></i></button>`).join('') : '';
     [...heroDots.children].forEach((d, i) => d.addEventListener('click', () => showSlide(i)));
     if (live.length === 2 && !hTimer) hTimer = setTimeout(() => showSlide(1), 7000);
   };
@@ -214,7 +214,7 @@ if (track && dotsEl) {
       </div>
     </article>`).join('');
 
-  dotsEl.innerHTML = SHOWS.map((e, i) => `<button type="button" aria-label="${esc(e.title)}" class="${i === 1 ? 'on' : ''}"><i></i></button>`).join('');
+  dotsEl.innerHTML = SHOWS.map((e, i) => `<button type="button" role="tab" aria-selected="${i === 1 ? 'true' : 'false'}" aria-label="${esc(e.title)}" class="${i === 1 ? 'on' : ''}"><i></i></button>`).join('');
 
   const cards = [...track.children], dots = [...dotsEl.children], N = cards.length;
   cards.forEach((c, i) => SHOWS[i].poster && loadImg(SHOWS[i].poster, im => { im.alt = SHOWS[i].title + ' poster'; c.querySelector('.show-art').append(im); }));
@@ -236,7 +236,11 @@ if (track && dotsEl) {
       c.setAttribute('tabindex', isCenter ? '0' : '-1');
       c.setAttribute('aria-current', isCenter ? 'true' : 'false');
     });
-    dots.forEach((d, i) => d.classList.toggle('on', i === current));
+    dots.forEach((d, i) => {
+      const on = i === current;
+      d.classList.toggle('on', on);
+      d.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
     requestAnimationFrame(() => requestAnimationFrame(() => cards.forEach(c => c.classList.remove('jump'))));
   };
 

@@ -24,15 +24,19 @@
       el.dataset.cat = g.cat || guess(g.label);
     });
     const bar = document.createElement('div');
-    bar.className = 'gal-chips'; bar.id = 'galChips'; bar.setAttribute('role', 'tablist');
+    bar.className = 'gal-chips'; bar.id = 'galChips'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', 'Gallery categories');
     bar.innerHTML = CATS.map(([k, l], i) => {
       const n = k === 'all' ? tiles().length : tiles().filter(t => t.dataset.cat === k).length;
-      return n ? `<button type="button" class="${i ? '' : 'on'}" data-cat="${k}">${l}<i>${n}</i></button>` : '';
+      return n ? `<button type="button" role="tab" aria-selected="${i ? 'false' : 'true'}" class="${i ? '' : 'on'}" data-cat="${k}">${l}<i>${n}</i></button>` : '';
     }).join('');
     grid.before(bar);
     bar.addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
-      bar.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+      bar.querySelectorAll('button').forEach(x => {
+        const on = x === b;
+        x.classList.toggle('on', on);
+        x.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
       const c = b.dataset.cat;
       grid.classList.add('gx-swap');
       setTimeout(() => {

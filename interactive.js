@@ -183,7 +183,11 @@
       const v = VIBES[key];
       if (!v) return;
 
-      chips.forEach(c => c.classList.toggle('on', c.dataset.vibe === key));
+      chips.forEach(c => {
+        const on = c.dataset.vibe === key;
+        c.classList.toggle('on', on);
+        c.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
 
       cardEl.innerHTML = `
         <div class="vibe-info">
@@ -233,6 +237,8 @@
     }
 
     chips.forEach(chip => {
+      chip.setAttribute('role', 'tab');
+      chip.setAttribute('aria-selected', chip.classList.contains('on') ? 'true' : 'false');
       chip.addEventListener('click', () => renderVibe(chip.dataset.vibe));
     });
 
