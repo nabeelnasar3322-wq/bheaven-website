@@ -48,6 +48,8 @@ html{scroll-padding-top:92px}
 .show-art .big{position:relative;font-family:var(--script);font-size:84px;line-height:1;text-align:center;padding:0 10px;margin-top:-30%;text-shadow:0 6px 30px rgba(0,0,0,.35)}
 .show-art .big small{display:block;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;margin-top:10px}
 .show.velvet .show-art{background:radial-gradient(60% 50% at 50% 30%,#9B2B35,transparent 70%),linear-gradient(160deg,#3A0C12,#6E1A22 60%,#2A070C)}
+.show.happy .show-art{background:radial-gradient(50% 40% at 50% 28%,rgba(214,178,106,.35),transparent 70%),linear-gradient(180deg,#15110A,#050505)}
+.show.happy .big{font-family:var(--serif);font-weight:700;font-size:60px;letter-spacing:.08em;color:#E8C77E}
 .show.jazz .show-art{background:radial-gradient(50% 40% at 50% 28%,rgba(214,178,106,.35),transparent 70%),linear-gradient(180deg,#050505,#15110A)}
 .show.jazz .big{font-family:var(--serif);font-weight:700;font-size:70px;letter-spacing:.12em;color:#E8C77E}
 .show.layali .show-art{background:radial-gradient(60% 50% at 50% 30%,#FFF8EA,#EADCC2 70%),linear-gradient(180deg,#F6EEDF,#E4D3B6)}

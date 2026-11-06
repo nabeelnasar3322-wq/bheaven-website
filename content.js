@@ -61,16 +61,19 @@ const TASTE = [
    weekday: 0=Sun..6=Sat, startHour: 24h clock (Asia/Dubai) — used by the "Tonight's Table" strip
    in main.js to find the next event; everything else (cards, carousel) only reads the fields above. */
 const EVENTS = [
-  { key: 'grape', day: 'Every Thursday', time: '8 PM – Midnight', weekday: 4, startHour: 20, title: 'Grape & Graze', big: 'Grape', sub: '& Graze', poster: IMG + 'BHVNevents3.webp',
+  { key: 'happy', day: 'Daily', time: 'Sunset – 8 PM', weekday: 0, startHour: 17, title: 'Sunset Happy Hours', big: 'Sunset', sub: 'Happy Hours · Daily', poster: '/menu/img/ev-happy-hours.webp',
+    perks: ['Sunset prices on spirits, cocktails, wine and beer', 'As the skyline turns gold'],
+    price: 'Drinks from AED 35', cta: 'Book Happy Hour' },
+  { key: 'grape', day: 'Every Thursday', time: '8 PM – Midnight', weekday: 4, startHour: 20, title: 'Grape & Graze', big: 'Grape', sub: '& Graze', poster: '/menu/img/ev-mezze-wine.webp',
     perks: ['A cheese board', 'Levantine mezze selections', 'Two glasses of wine (white, rosé or red)'],
     price: 'AED 99 per person' },
-  { key: 'jazz', day: 'Every Friday', time: '9 PM – Midnight', weekday: 5, startHour: 21, title: 'Jazz Friday', big: 'JAZZ', sub: 'Live singing · Anetta', poster: IMG + 'BHVNevents4.webp',
+  { key: 'jazz', day: 'Every Friday', time: '9 PM – Midnight', weekday: 5, startHour: 21, title: 'Jazz Friday', big: 'JAZZ', sub: 'Live singing · Anetta', poster: '/menu/img/ev-jazz-night.webp',
     perks: ['Live jazz with Anetta on the rooftop', 'As the city lights come on'],
     price: 'Ladies AED 99 · Gentlemen AED 149' },
-  { key: 'layali', day: 'Every Saturday', time: '9 PM – 1 AM', weekday: 6, startHour: 21, title: 'Layali Night', big: 'layali', sub: 'Night · Nouha Issa', poster: IMG + 'BHVNevents2.webp',
+  { key: 'layali', day: 'Every Saturday', time: '9 PM – 1 AM', weekday: 6, startHour: 21, title: 'Layali Night', big: 'layali', sub: 'Night · Nouha Issa', poster: '/menu/img/ev-layali-night.webp',
     perks: ['Classic Arabic songs with Nouha Issa', 'Shisha and late-night plates', 'Reservation required'],
     price: 'Free entry · à la carte dining & shisha' },
-  { key: 'ibiza', day: 'Every Sunday', time: '1 PM – 5 PM', weekday: 0, startHour: 13, title: 'Ibiza Brunch', big: 'IBIZA', sub: 'Brunch', poster: IMG + 'BHVNevents1.webp',
+  { key: 'ibiza', day: 'Every Sunday', time: '1 PM – 5 PM', weekday: 0, startHour: 13, title: 'Ibiza Brunch', big: 'IBIZA', sub: 'Brunch', poster: '/menu/img/ev-ibiza-brunch.webp',
     perks: ['Unlimited food and drinks', 'Live BBQ', 'Pool entry', 'DJ music'],
     price: 'Soft package from AED 149', cta: 'Book the brunch' }
 ];
