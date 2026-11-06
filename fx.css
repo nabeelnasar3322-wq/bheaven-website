@@ -271,6 +271,15 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
 .mood-tab .m-ic{
   font-size: 15px;
 }
+.mood-tab b{
+  font-weight: 700;
+}
+.mood-tab .m-short{
+  display: none;
+}
+.mood-tab .m-full{
+  display: inline;
+}
 .mood-tab small{
   display: none;
   font-size: 10px;
@@ -279,6 +288,31 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
 }
 @media (min-width: 640px){
   .mood-tab small{ display: inline; margin-left: 2px; }
+}
+@media (max-width: 600px){
+  .mood-bar{
+    gap: 4px;
+    padding: 4px;
+    max-width: 356px;
+    width: 100%;
+    margin: 18px auto 28px;
+  }
+  .mood-tab{
+    gap: 5px;
+    min-height: 38px;
+    padding: 6px 8px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .mood-tab .m-ic{
+    font-size: 13px;
+  }
+  .mood-tab .m-short{
+    display: inline;
+  }
+  .mood-tab .m-full{
+    display: none;
+  }
 }
 .mood-tab:hover{
   color: var(--cream);
@@ -304,11 +338,18 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
   box-shadow: 0 24px 50px -12px rgba(154, 182, 186, 0.4), 0 0 0 1px rgba(154, 182, 186, 0.35)!important;
   transform: translateY(-8px) scale(1.02)!important;
 }
+.times .time{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .time-perks{
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin: 14px 0 18px;
+  flex-grow: 1;
+  align-content: flex-start;
 }
 .time-perks span{
   font-size: 11px;
@@ -526,6 +567,46 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
 }
 .vibe-card .btn{
   width: 100%;
+}
+@media (max-width: 600px){
+  .vibe-concierge{
+    padding: 20px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .vibe-chips{
+    gap: 8px;
+    margin: 14px 0;
+  }
+  .vibe-chip{
+    min-height: 44px;
+    padding: 8px 6px;
+    font-size: 11px;
+    border-radius: 12px;
+  }
+  .vibe-card{
+    padding: 18px 14px;
+    border-radius: 16px;
+    gap: 14px;
+  }
+  .vibe-match-title{
+    font-size: 16px;
+  }
+  .vibe-match-desc{
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .vibe-details{
+    font-size: 12px;
+    gap: 5px;
+  }
+}
+
+/* ============ OPTICAL ALIGNMENT TWEAKS ============ */
+@media (min-width: 960px){
+  .about-grid{
+    align-items: center;
+  }
 }
 
 /* ============ INTERACTIVE CURSOR SPOTLIGHT PHYSICS ============ */

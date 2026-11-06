@@ -164,15 +164,16 @@
 @media(min-width:1300px){.time-photo{aspect-ratio:4/3.4}}
 @media(min-width:601px) and (max-width:899px){.times .time:last-child .time-photo{background-position:50% 75%}}
 
-/* ============ Header: only the menu icon (all screens), new dot-grid icon ============ */
+/* ============ Header: desktop inline nav + mobile drawer ============ */
 @media(min-width:960px){
+  .header .nav{display:flex!important;align-items:center;gap:24px;margin-left:auto}
+  .header .btn{display:inline-flex!important;margin-left:18px}
+  .burger{display:none!important}
+  .mnav,.mnav.open{display:none!important}
+}
+@media(max-width:959px){
   .header .nav,.header .btn{display:none}
   .burger{display:grid}
-  .mnav.open{display:flex}
-  .mnav{align-items:center;justify-content:center;gap:10px;padding:40px}
-  .mnav a.l{font-size:34px;min-width:min(520px,80vw);justify-content:center}
-  .mnav .l-ic{width:28px;height:28px}
-  .mnav .btn{margin-top:22px}
 }
 .burger{position:relative;width:44px;height:44px;margin-left:auto;display:grid;place-items:center}
 .burger span{position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-11px 0 0 -11px;border-radius:50%;background:var(--cream);
@@ -306,7 +307,7 @@
 .ft-bar .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-top:16px;padding-bottom:16px}
 @media(max-width:959px){.ft-grid{grid-template-columns:1fr 1fr}.ft-brand{grid-column:1/-1}}
 @media(max-width:600px){.ft-grid{grid-template-columns:1fr;gap:32px;padding-top:44px;padding-bottom:40px}.ft-col h3{font-size:24px;margin-bottom:14px}.ft-col p{font-size:15.5px}.ft-bar .container{flex-direction:column;align-items:center;text-align:center;padding-bottom:90px}}
-@media(min-width:601px){.ft-bar .container{padding-right:110px}}
+@media(min-width:601px){.ft-bar .container{padding:16px 56px}}
 
 /* ===== Sticky Reserve / Call bar (phones only) ===== */
 .mbar{display:none}
