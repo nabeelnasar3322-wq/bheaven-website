@@ -344,36 +344,40 @@ if (REVIEWS.length) {
           <figcaption><span class="rev-av">${esc(initials(r.name))}</span><span><strong>${esc(r.name)}</strong><small>${esc(r.source || 'Guest review')}</small></span></figcaption>
         </figure>`).join('')}
     </div>
-    ${REVIEWS.length > 1 ? `<div class="rev-tabs" role="tablist" aria-label="Guest reviews">
-      ${REVIEWS.map((r, i) => `
-        <button class="rev-tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" aria-selected="${i === 0}" data-i="${i}">
+    ${REVIEWS.length > 1 ? `<div class="rev-tabs fan" role="tablist" aria-label="Guest reviews" data-r>
+      ${REVIEWS.map((r, i) => {
+        const mid = (REVIEWS.length - 1) / 2;
+        const d = i - mid;
+        const rot = (d * 10).toFixed(1);
+        const ty = (Math.abs(d) * Math.abs(d) * 7).toFixed(1);
+        return `
+        <button class="rev-tab${i === 0 ? ' is-active' : ''}" type="button" role="tab" aria-selected="${i === 0}" data-i="${i}" style="--i:${i};--rot:${rot}deg;--ty:${ty}px" title="${esc(r.name)}">
           <span class="rev-tab-av">${esc(initials(r.name))}</span>
           <span class="rev-tab-name">${esc(r.name)}</span>
-        </button>`).join('')}
-      <span class="rev-tab-bar" aria-hidden="true"></span>
+        </button>`;
+      }).join('')}
     </div>` : ''}`;
 
   const stage = $('#reviewsWrap');
   const slides = [...stage.querySelectorAll('.rev-slide')];
   const tabs = [...stage.querySelectorAll('.rev-tab')];
-  const bar = stage.querySelector('.rev-tab-bar');
   let active = 0, revTimer;
 
-  const moveBar = () => {
-    if (!bar || !tabs[active]) return;
-    bar.style.width = tabs[active].offsetWidth + 'px';
-    bar.style.transform = `translateX(${tabs[active].offsetLeft}px)`;
-  };
   const show = i => {
     active = (i + REVIEWS.length) % REVIEWS.length;
     slides.forEach((s, k) => s.classList.toggle('is-active', k === active));
     tabs.forEach((t, k) => { t.classList.toggle('is-active', k === active); t.setAttribute('aria-selected', k === active); });
-    moveBar();
   };
   const autoplay = () => { clearInterval(revTimer); revTimer = setInterval(() => show(active + 1), 6000); };
-  tabs.forEach(t => t.addEventListener('click', () => { show(+t.dataset.i); autoplay(); }));
-  if (REVIEWS.length > 1) { autoplay(); window.addEventListener('resize', moveBar); }
-  moveBar();
+  // Each avatar brings its review forward on click (always) and on hover for
+  // pointer devices that support real hovering - matches the "hover/tap to
+  // bring that review forward" fan interaction, without double-firing on touch.
+  const canHover = matchMedia('(hover: hover)').matches;
+  tabs.forEach(t => {
+    t.addEventListener('click', () => { show(+t.dataset.i); autoplay(); });
+    if (canHover) t.addEventListener('mouseenter', () => { show(+t.dataset.i); autoplay(); });
+  });
+  if (REVIEWS.length > 1) autoplay();
 } else {
   $('#reviewsWrap').innerHTML = `<div class="rev-empty">
     ${stars(5)}
