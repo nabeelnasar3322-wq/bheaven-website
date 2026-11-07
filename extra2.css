@@ -356,3 +356,33 @@
 
 /* Phones: the floating "Book a table on WhatsApp" bubble sat on top of buttons and headings; the sticky Reserve bar now does that job */
 @media (max-width:768px){.wa-wrap .wa-bubble{display:none!important}}
+
+/* ============ Rooftop intro: editorial collage (replaces the grid) ============ */
+/* On tablet/desktop the tidy 2x3 photo grid becomes an overlapping, slightly
+   tilted stack of prints instead - one large anchor shot with four smaller
+   photos layered over its edges. Below 960px this block simply doesn't apply,
+   so the existing stacked mobile layout (extra.css) is untouched. */
+@media(min-width:960px){
+  .about-photos.collage{
+    position:relative;
+    display:block;
+    grid-template-columns:none;
+    grid-template-rows:none;
+    min-height:620px;
+    padding:4px 4px 28px 0;
+  }
+  .about-photos.collage .ph{
+    position:absolute;
+    box-sizing:border-box;
+    margin:0;
+    height:auto;
+    translate:none;
+    border:5px solid #1E1F21;
+  }
+  .about-photos.collage .ph[data-photo="rooftop"]{left:0;top:0;width:56%;height:66%;transform:rotate(-2deg);z-index:2}
+  .about-photos.collage .ph[data-photo="pool"]{left:48%;top:0;width:32%;height:30%;transform:rotate(3deg);z-index:4}
+  .about-photos.collage .ph[data-photo="lounge"]{left:50%;top:26%;width:34%;height:34%;transform:rotate(-3deg);z-index:5}
+  .about-photos.collage .ph[data-photo="terrace"]{left:0;top:58%;width:28%;height:32%;transform:rotate(2deg);z-index:6}
+  .about-photos.collage .ph[data-photo="bar"]{left:64%;top:58%;width:36%;height:36%;transform:rotate(-2deg);z-index:7}
+}
+@media(min-width:1300px){.about-photos.collage{min-height:680px}}
