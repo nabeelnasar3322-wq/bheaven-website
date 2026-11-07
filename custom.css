@@ -259,3 +259,7 @@ html{scroll-padding-top:92px}
 /* Nav: keep six links comfortable */
 @media(min-width:960px) and (max-width:1240px){.nav{gap:18px;font-size:12px;letter-spacing:.12em}}
 .tcard .ph-label{font-size:0;gap:0}
+
+/* About section: BounceCards photo fan replaces the old static photo grid */
+.about-bounce{display:flex;align-items:center;justify-content:center;min-height:320px}
+@media(max-width:600px){.about-bounce{min-height:240px}}

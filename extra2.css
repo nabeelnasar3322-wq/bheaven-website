@@ -54,7 +54,7 @@
 @media(max-width:959px){
   .about-grid{gap:0}
   .about-grid>div:first-child{display:contents}
-  .about-photos{order:1;margin-top:26px}
+  .about-bounce{order:1;margin-top:26px}
   .about-grid .features{order:2;margin-top:28px}
   .js .about-grid>div:first-child .wd{transform:none;opacity:1}
 }
