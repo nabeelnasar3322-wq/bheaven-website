@@ -238,7 +238,7 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
   justify-content: center;
   gap: 8px;
   margin: 24px auto 36px;
-  max-width: 580px;
+  max-width: 820px;
   padding: 6px;
   background: rgba(30, 31, 33, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -249,6 +249,7 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
 }
 .mood-tab{
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,10 +287,10 @@ h1, h2, h3, .section h2, .band-title, .ft-col h3{
   opacity: 0.75;
   text-transform: none;
 }
-@media (min-width: 640px){
+@media (min-width: 900px){
   .mood-tab small{ display: inline; margin-left: 2px; }
 }
-@media (max-width: 600px){
+@media (max-width: 899px){
   .mood-bar{
     gap: 4px;
     padding: 4px;
