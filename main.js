@@ -336,12 +336,11 @@ if (REVIEWS.length) {
   const initials = n => (n || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
   $('#reviewsWrap').innerHTML = `
     <div class="rev-stage">
-      <span class="rev-mark" aria-hidden="true">“</span>
       ${REVIEWS.map((r, i) => `
         <figure class="rev-slide${i === 0 ? ' is-active' : ''}" data-i="${i}">
+          <figcaption><span class="rev-av">${esc(initials(r.name))}</span><span><strong>${esc(r.name)}</strong><small>${esc(r.source || 'Guest review')}</small></span></figcaption>
           ${stars(Math.max(1, Math.min(5, r.rating || 5)))}
           <blockquote>${esc(r.text)}</blockquote>
-          <figcaption><span class="rev-av">${esc(initials(r.name))}</span><span><strong>${esc(r.name)}</strong><small>${esc(r.source || 'Guest review')}</small></span></figcaption>
         </figure>`).join('')}
     </div>
     ${REVIEWS.length > 1 ? `<div class="rev-tabs fan" role="tablist" aria-label="Guest reviews" data-r>
