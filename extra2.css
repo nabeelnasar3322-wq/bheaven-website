@@ -241,6 +241,7 @@
 .js .time .time-photo{clip-path:inset(0 0 100% 0 round 0);transform:scale(1.18);transition:clip-path 1.3s cubic-bezier(.77,0,.18,1),transform 2.2s cubic-bezier(.22,1,.36,1),opacity 1s;transition-delay:calc(var(--i,0)*180ms + .15s)}
 .js .time.in .time-photo{clip-path:inset(0 0 0 0);transform:scale(1)}
 .time.in .time-photo.on{animation:dnDrift 16s ease-in-out 2.4s infinite alternate}
+.time-photo{translate:0 var(--p,0px)}
 @keyframes dnDrift{from{scale:1}to{scale:1.07}}
 .js .time>.when,.js .time>h3,.js .time>.pill{opacity:0;translate:0 14px;transition:opacity .7s ease,translate .8s cubic-bezier(.22,1,.36,1)}
 .js .time.in>.when{opacity:1;translate:none;transition-delay:calc(var(--i,0)*180ms + .7s)}

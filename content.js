@@ -24,7 +24,7 @@ const SITE = {
     rooftop: IMG + 'BHVNterrace-1.webp', pool: IMG + 'dome-night.webp', lounge: IMG + 'restaurant-lounge.webp',
     terrace: IMG + 'terrace-lounge.webp', bar: IMG + 'bar-counter.webp',
     day: IMG + 'pool-day.webp', sunset: IMG + 'barcelofacade.webp', night: IMG + 'dome-night.webp',
-    band1: IMG + 'barcelofacade.webp', band2: IMG + 'hero-2.jpeg', pass: IMG + 'pool-pass.jpg',
+    band1: IMG + 'barcelofacade.webp', band2: IMG + 'saxophonist.webp', pass: IMG + 'pool-pass.jpg',
     resbg: IMG + 'hero-3.jpeg', visit: IMG + 'barcelofacade.webp'
   },
   /* Used until the photo above is uploaded */
