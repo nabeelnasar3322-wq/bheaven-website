@@ -374,7 +374,7 @@
 .rev-tabs.fan .rev-tab{
   width:54px;height:54px;
   padding:0;
-  margin:0 -7px;
+  margin:0 4px;
   border-radius:50%;
   flex:none;
   transform:rotate(var(--rot)) translateY(var(--ty)) scale(0);
@@ -403,7 +403,7 @@
   box-shadow:0 10px 22px rgba(0,0,0,.45),0 0 0 2px var(--gold);
 }
 @media(max-width:640px){
-  .rev-tabs.fan .rev-tab{width:42px;height:42px;margin:0 -9px}
+  .rev-tabs.fan .rev-tab{width:42px;height:42px;margin:0 2px}
   .rev-tabs.fan .rev-tab .rev-tab-av{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){
