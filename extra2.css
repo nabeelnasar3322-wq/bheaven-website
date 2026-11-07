@@ -356,3 +356,10 @@
 
 /* Phones: the floating "Book a table on WhatsApp" bubble sat on top of buttons and headings; the sticky Reserve bar now does that job */
 @media (max-width:768px){.wa-wrap .wa-bubble{display:none!important}}
+
+/* ============ Rooftop intro: ambient motion on the hero photo ============ */
+/* The "An urban beach club oasis" section's big left-hand tile gets a slow, continuous
+   Ken Burns drift instead of sitting still, so the first content section after the hero
+   has a touch of life to it without duplicating the hero's own looping video clips. */
+@keyframes aboutHeroDrift{0%{transform:scale(1.04) translate(0,0)}50%{transform:scale(1.12) translate(-1.6%,-1.1%)}100%{transform:scale(1.04) translate(0,0)}}
+.about-photos .ph:first-child img{animation:aboutHeroDrift 26s ease-in-out infinite}
