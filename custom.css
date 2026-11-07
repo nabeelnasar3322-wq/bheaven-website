@@ -202,9 +202,14 @@ html{scroll-padding-top:92px}
 .lb.swap img{animation:lbIn .5s var(--ease)}
 @keyframes lbIn{from{opacity:0;transform:scale(.94)}}
 .lb figcaption{margin-top:14px;font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--lagoon)}
-.lb-x,.lb-nav{position:absolute;width:52px;height:52px;border-radius:50%;border:1px solid rgba(251,247,226,.3);background:rgba(30,31,33,.6);color:var(--cream);font-size:30px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .3s,transform .3s}
-.lb-x:hover,.lb-nav:hover{background:var(--lagoon);color:#262729;transform:scale(1.08)}
+.lb-x,.lb-nav,.lb-play{position:absolute;width:52px;height:52px;border-radius:50%;border:1px solid rgba(251,247,226,.3);background:rgba(30,31,33,.6);color:var(--cream);font-size:30px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .3s,transform .3s}
+.lb-x:hover,.lb-nav:hover,.lb-play:hover{background:var(--lagoon);color:#262729;transform:scale(1.08)}
 .lb-x{top:18px;right:18px}.lb-nav.prev{left:18px}.lb-nav.next{right:18px}
+.lb-play{top:18px;left:18px}
+.lb-play.on{background:var(--lagoon);color:#262729;border-color:var(--lagoon)}
+.lb-play .i-pause{display:none}
+.lb-play.on .i-play{display:none}
+.lb-play.on .i-pause{display:block}
 @media(max-width:600px){.lb-nav{top:auto;bottom:22px}}
 
 /* ============ WhatsApp widget ============ */

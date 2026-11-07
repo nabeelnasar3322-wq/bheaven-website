@@ -210,7 +210,7 @@
 [data-tilt],.ph,.show{--rx:0deg!important;--ry:0deg!important;--ty:0px!important}
 .ph:hover::before,[data-tilt]:hover::before{opacity:0!important}
 .btn,.show-nav,.social a{translate:none!important}
-.btn:hover,.btn-gold:hover,.btn-line:hover,.feature:hover,.time:hover,.rev:hover,a.rq:hover,.loc-map:hover,.fm-dish:hover,.show-nav:hover,.social a:hover,.footer .social a:hover,.seg.tiles button:hover,.wa-quick a:hover,.lb-x:hover,.lb-nav:hover{transform:none}
+.btn:hover,.btn-gold:hover,.btn-line:hover,.feature:hover,.time:hover,.rev:hover,a.rq:hover,.loc-map:hover,.fm-dish:hover,.show-nav:hover,.social a:hover,.footer .social a:hover,.seg.tiles button:hover,.wa-quick a:hover,.lb-x:hover,.lb-nav:hover,.lb-play:hover{transform:none}
 .fm-dish:hover{transform:rotate(var(--rot,0deg))}
 .ph:hover img,.band:hover .band-bg,.loc:hover .band-bg,.show:hover .show-art img{transform:none;scale:none}
 .show.is-center .show-art img{transform:none}

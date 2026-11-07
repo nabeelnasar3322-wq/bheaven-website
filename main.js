@@ -536,7 +536,7 @@ document.addEventListener('pointerdown', e => {
 });
 
 /* Gallery lightbox */
-const lb = $('#lb'), lbImg = $('#lb img'), lbCap = $('#lb figcaption');
+const lb = $('#lb'), lbImg = $('#lb img'), lbCap = $('#lb figcaption'), lbPlayBtn = $('.lb-play');
 let lbList = [], lbI = 0;
 const lbShow = i => { lbI = (i + lbList.length) % lbList.length; const el = lbList[lbI]; lbImg.src = el.querySelector('img').src; lbCap.textContent = el.querySelector('.ph-cap')?.textContent || ''; lb.classList.remove('swap'); lb.offsetWidth; lb.classList.add('swap'); };
 $('#gallery').addEventListener('click', e => {
@@ -546,10 +546,32 @@ $('#gallery').addEventListener('click', e => {
   lbList = [...$('#gallery').querySelectorAll('.ph.has-img')];
   lbShow(lbList.indexOf(t)); lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 });
-const lbClose = () => { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
-lb.addEventListener('click', e => { if (e.target.closest('.lb-nav.prev')) lbShow(lbI - 1); else if (e.target.closest('.lb-nav.next')) lbShow(lbI + 1); else if (!e.target.closest('img')) lbClose(); });
+/* Slideshow autoplay: advances every 3.2s while on; any manual nav, swipe, or close stops it.
+   The on/off icon is two static SVGs toggled by the .on class (see custom.css) rather than an
+   innerHTML swap — mutating the button's children mid-click would detach the event's own target
+   while the click is still bubbling to the .lb container's listener below. */
+let lbTimer = null;
+const lbStop = () => {
+  if (!lbTimer) return;
+  clearInterval(lbTimer); lbTimer = null;
+  lbPlayBtn.classList.remove('on'); lbPlayBtn.setAttribute('aria-pressed', 'false'); lbPlayBtn.setAttribute('aria-label', 'Play slideshow');
+};
+const lbPlay = () => {
+  if (lbList.length < 2) return;
+  lbTimer = setInterval(() => lbShow(lbI + 1), 3200);
+  lbPlayBtn.classList.add('on'); lbPlayBtn.setAttribute('aria-pressed', 'true'); lbPlayBtn.setAttribute('aria-label', 'Pause slideshow');
+};
+lbPlayBtn.addEventListener('click', () => { lbTimer ? lbStop() : lbPlay(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) lbStop(); });
+const lbClose = () => { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; lbStop(); };
+lb.addEventListener('click', e => {
+  if (e.target.closest('.lb-play')) return;
+  if (e.target.closest('.lb-nav.prev')) { lbStop(); lbShow(lbI - 1); }
+  else if (e.target.closest('.lb-nav.next')) { lbStop(); lbShow(lbI + 1); }
+  else if (!e.target.closest('img')) lbClose();
+});
 let lbX = 0; lb.addEventListener('touchstart', e => { lbX = e.touches[0].clientX; }, { passive: true });
-lb.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - lbX; if (Math.abs(dx) > 50) lbShow(lbI + (dx < 0 ? 1 : -1)); });
+lb.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - lbX; if (Math.abs(dx) > 50) { lbStop(); lbShow(lbI + (dx < 0 ? 1 : -1)); } });
 
 /* WhatsApp chat widget */
 const waWrap = $('#waWrap'), waFab = $('#waFab');
