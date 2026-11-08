@@ -115,7 +115,7 @@
   <div class="frame" aria-hidden="true">
     <div class="pan">
       <video muted playsinline webkit-playsinline preload="auto" poster="/hero-2.jpeg" class="hero-video" id="heroVid"></video>
-      <script>(function(){try{var v=document.getElementById('heroVid');if(!v)return;var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,sd=(navigator.connection||{}).saveData,wide=matchMedia('(min-width: 901px) and (hover: hover)').matches,sky=!rm&&!sd&&wide;window.__skyOn=sky;v.muted=true;v.defaultMuted=true;if(sky){document.documentElement.classList.add('sky-on');v.loop=false;v.addEventListener('play',function(){v.pause()});v.src='/hero-scroll.mp4';v.pause()}else{v.src='/bhvn.mp4';v.loop=true;v.play().catch(function(){})}}catch(e){}})();</script>
+      <script>(function(){try{var v=document.getElementById('heroVid');if(!v)return;var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,sd=(navigator.connection||{}).saveData,sky=!rm&&!sd,mobile=matchMedia('(max-width: 900px)').matches;window.__skyOn=sky;v.muted=true;v.defaultMuted=true;if(sky){document.documentElement.classList.add('sky-on');v.loop=false;v.addEventListener('play',function(){v.pause()});v.src=mobile?'/hero-scroll-m.mp4':'/hero-scroll.mp4';v.pause()}else{v.src='/bhvn.mp4';v.loop=true;v.play().catch(function(){})}}catch(e){}})();</script>
       <div class="rays"></div><div class="sun"></div>
       <div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
       <div class="water"></div>

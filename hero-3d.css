@@ -1,4 +1,4 @@
-/* ============ Hero: 3D scroll skyline (hero-3d.js) — desktop with hover; other visitors keep the looping hero ============ */
+/* ============ Hero: 3D scroll skyline (hero-3d.js) — all visitors except reduced-motion/Data Saver ============ */
 .sky-on .hero{height:360svh;min-height:0;display:block;padding:0;overflow:visible;background:#1E1F21}
 .sky-on .hero .sky-stick{position:sticky;top:0;height:100svh;min-height:620px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 70px;overflow:hidden;isolation:isolate}
 /* the 3D move: the video layer travels in depth (scale) and drifts vertically as you scroll
@@ -21,8 +21,10 @@
 /* the stage panel: carries what used to be the "One rooftop, three moods" section (the time
    label, title, description, perks and booking link), now surfaced as you scroll the hero.
    It fades in as the hero title fades out (inverse of --sk-op, both driven by scroll). */
-.sky-cap{position:absolute;left:max(56px,calc(50% - 720px + 56px));right:max(56px,calc(50% - 720px + 56px));bottom:40px;z-index:3;max-width:480px;
+.sky-cap{position:absolute;left:20px;right:20px;bottom:24px;z-index:3;max-width:480px;
   opacity:calc(1 - var(--sk-op,1));transform:translate3d(0,calc(var(--sk-op,1) * 14px),0);transition:none}
+@media (min-width:768px){.sky-cap{left:40px;right:40px;bottom:32px}}
+@media (min-width:1200px){.sky-cap{left:max(56px,calc(50% - 720px + 56px));right:max(56px,calc(50% - 720px + 56px));bottom:40px}}
 .sky-top{display:flex;align-items:center;gap:12px;font:600 11px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.22em;text-transform:uppercase;color:var(--lagoon,#9AB6BA);margin-bottom:14px}
 .sky-n{font-weight:700;color:var(--cream,#FBF7E2)}
 .sky-when{min-width:9ch}
@@ -36,5 +38,7 @@
 .sky-cta{display:inline-flex;align-items:center;gap:8px;font:700 13px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.04em;text-transform:uppercase;color:#1E1F21;background:var(--cream,#FBF7E2);padding:14px 24px;border-radius:999px;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .2s ease}
 .sky-cta:hover{transform:translateY(-2px)}
 .sky-cta::after{content:"→";font-weight:700}
-@media (max-width:900px){.sky-cap{display:none}}
+/* perk chips stay off on phones/tablets so the panel doesn't crowd the frame; title,
+   description and the booking link are what matter most on a small screen */
 @media (max-width:1100px){.sky-perks{display:none}}
+@media (max-width:480px){.sky-desc{font-size:14px}.sky-cta{padding:12px 20px;font-size:12px}}
