@@ -5,7 +5,7 @@
   'use strict';
   var a = document.getElementById('heroVid'); if (!a) return;
   var conn = navigator.connection || {};
-  if (conn.saveData || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.__skyOn || conn.saveData || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var CLIPS = ['/bhvn.mp4', '/bhvn888.mp4', '/bheaven-clouds.mp4'], HOLD = 6000, FADE = 1300, idx = 0;
 
   var b = a.cloneNode(false);
