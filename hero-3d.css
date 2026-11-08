@@ -18,10 +18,23 @@
 .sky-on html,.sky-on body{overflow-x:clip!important}
 /* the old scroll-parallax on the frame would drift the picture away from the pinned stage */
 .sky-on .hero .frame{translate:none!important;transition:none}
-.sky-cap{position:absolute;left:max(56px,calc(50% - 720px + 56px));bottom:28px;z-index:3;display:flex;align-items:center;gap:12px;font:600 11px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.22em;text-transform:uppercase;color:var(--cream,#FBF7E2);pointer-events:none;text-shadow:0 2px 12px rgba(30,31,33,.8)}
-.sky-cap .sky-n{font-weight:700}
-.sky-cap .sky-t{transition:opacity .35s ease;min-width:14ch}
-.sky-dots{display:inline-flex;gap:7px;margin-left:6px}
+/* the stage panel: carries what used to be the "One rooftop, three moods" section (the time
+   label, title, description, perks and booking link), now surfaced as you scroll the hero.
+   It fades in as the hero title fades out (inverse of --sk-op, both driven by scroll). */
+.sky-cap{position:absolute;left:max(56px,calc(50% - 720px + 56px));right:max(56px,calc(50% - 720px + 56px));bottom:40px;z-index:3;max-width:480px;
+  opacity:calc(1 - var(--sk-op,1));transform:translate3d(0,calc(var(--sk-op,1) * 14px),0);transition:none}
+.sky-top{display:flex;align-items:center;gap:12px;font:600 11px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.22em;text-transform:uppercase;color:var(--lagoon,#9AB6BA);margin-bottom:14px}
+.sky-n{font-weight:700;color:var(--cream,#FBF7E2)}
+.sky-when{min-width:9ch}
+.sky-dots{display:inline-flex;gap:7px;margin-left:2px}
 .sky-dots b{width:6px;height:6px;border-radius:50%;background:rgba(251,247,226,.35);transition:background .3s ease,transform .3s ease}
 .sky-dots b.on{background:var(--cream,#FBF7E2);transform:scale(1.35)}
+.sky-title{margin:0 0 10px;font-family:var(--serif,inherit);font-size:clamp(26px,2.4vw,36px);font-weight:700;color:var(--cream,#FBF7E2);text-shadow:0 4px 24px rgba(30,31,33,.7);text-transform:capitalize}
+.sky-desc{margin:0 0 16px;font-size:15px;line-height:1.6;color:var(--cream,#FBF7E2);opacity:.9;text-shadow:0 2px 14px rgba(30,31,33,.8)}
+.sky-perks{list-style:none;display:flex;flex-wrap:wrap;gap:8px 10px;margin:0 0 20px;padding:0}
+.sky-perks li{font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--cream,#FBF7E2);padding:6px 12px;border-radius:999px;border:1px solid rgba(251,247,226,.3);background:rgba(30,31,33,.35);backdrop-filter:blur(6px)}
+.sky-cta{display:inline-flex;align-items:center;gap:8px;font:700 13px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.04em;text-transform:uppercase;color:#1E1F21;background:var(--cream,#FBF7E2);padding:14px 24px;border-radius:999px;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .2s ease}
+.sky-cta:hover{transform:translateY(-2px)}
+.sky-cta::after{content:"→";font-weight:700}
 @media (max-width:900px){.sky-cap{display:none}}
+@media (max-width:1100px){.sky-perks{display:none}}
