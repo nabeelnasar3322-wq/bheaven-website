@@ -98,5 +98,5 @@ const REVIEWS = [
 ];
 /* Same Google Maps link the live site uses (bheavendubai.com/menu/ JSON-LD "hasMap") — a
    direct pin, not a text search, so it always resolves to the right place. */
-const REVIEW_LINK = 'https://maps.app.goo.gl/7RTPsLerNj21f1Y5A';
+const REVIEW_LINK = 'https://g.page/r/CW7gQlJ3WG5wEBM/review';
 
