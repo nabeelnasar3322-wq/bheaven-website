@@ -22,7 +22,8 @@
 
   /* ---- build the extra layers ---- */
   var shade = hero.querySelector('.hero-shade');
-  function add(tag, cls) { var el = document.createElement(tag); el.className = cls; hero.insertBefore(el, shade ? shade.nextSibling : hero.firstChild); return el; }
+  var box = shade ? shade.parentNode : hero; /* the sticky stage that holds the visuals (hero-3d) */
+  function add(tag, cls) { var el = document.createElement(tag); el.className = cls; box.insertBefore(el, shade ? shade.nextSibling : box.firstChild); return el; }
   var glow = add('div', 'hero-fx-glow'); glow.setAttribute('aria-hidden', 'true');
   var sweep = add('div', 'hero-sweep'); sweep.setAttribute('aria-hidden', 'true');
   var cv = add('canvas', 'hero-bokeh'); cv.setAttribute('aria-hidden', 'true');
@@ -31,7 +32,7 @@
   var count = document.createElement('div');
   count.className = 'hero-count'; count.setAttribute('aria-hidden', 'true');
   count.innerHTML = '<span class="n"><b>01</b></span><i></i><span class="t">01</span>';
-  hero.appendChild(count);
+  box.appendChild(count);
   var nEl = count.querySelector('.n b'), tEl = count.querySelector('.t');
 
   /* ---- pointer / touch tracking ---- */
@@ -39,7 +40,7 @@
   var btns = [].slice.call(hero.querySelectorAll('.hero-actions .btn'));
   var bs = btns.map(function () { return { x: 0, y: 0 }; });
   function point(e) {
-    var r = hero.getBoundingClientRect();
+    var r = box.getBoundingClientRect();
     mxp = e.clientX; myp = e.clientY;
     tx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2));
     ty = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - 0.5) * 2));
@@ -75,7 +76,7 @@
       sw: 0.4 + Math.random() * 0.9, ph: Math.random() * 6.28, tw: 0.6 + Math.random() * 1.4, a: 0.25 + Math.random() * 0.45, c: c };
   }
   function resize() {
-    var r = hero.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var r = box.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = cv.width = Math.round(r.width * dpr); H = cv.height = Math.round(r.height * dpr);
     var n = r.width < 700 ? 12 : 22; parts = []; for (var i = 0; i < n; i++) parts.push(make(true));
   }

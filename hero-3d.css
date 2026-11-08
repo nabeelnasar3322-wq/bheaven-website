@@ -1,0 +1,27 @@
+/* ============ Hero: 3D scroll skyline (hero-3d.js) — desktop with hover; other visitors keep the looping hero ============ */
+.sky-on .hero{height:360svh;min-height:0;display:block;padding:0;overflow:visible;background:#1E1F21}
+.sky-on .hero .sky-stick{position:sticky;top:0;height:100svh;min-height:620px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 70px;overflow:hidden;isolation:isolate}
+/* the 3D move: the video layer travels in depth (scale) and drifts vertically as you scroll
+   (values set by hero-3d.js). A real perspective()+rotateX() tilt reads well but forces the
+   browser to repaint the whole video layer every frame instead of compositing a flat transform
+   on the GPU — on this page that pushed scroll frame times from ~17ms to ~50ms. translate3d+scale
+   keeps the depth feel (the frame pulls back and down as the page explains the next mood) while
+   staying on the fast compositor path. */
+.sky-on .hero .pan{transform:translate3d(0,var(--sk-y,0px),0) scale(var(--sk-s,1))!important;transform-origin:50% 100%;will-change:transform;animation:none!important}
+.sky-on .hero .hero-content{opacity:var(--sk-op,1);transform:translate3d(0,var(--sk-cy,0px),0)!important;transition:none}
+.sky-on .hero .scroll-cue{opacity:var(--sk-op,1)}
+.sky-on .hero .hero-dots{display:none}
+.sky-on .hero .hero-shade{transition:none}
+.sky-on .hero .hero-tag .daypart-label{transition:opacity .4s ease}
+@media (prefers-reduced-motion:reduce){.sky-on .hero{height:100svh}}
+/* sticky needs no scrolling ancestor: clip (not hidden) keeps the sideways-overflow guard */
+.sky-on html,.sky-on body{overflow-x:clip!important}
+/* the old scroll-parallax on the frame would drift the picture away from the pinned stage */
+.sky-on .hero .frame{translate:none!important;transition:none}
+.sky-cap{position:absolute;left:max(56px,calc(50% - 720px + 56px));bottom:28px;z-index:3;display:flex;align-items:center;gap:12px;font:600 11px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.22em;text-transform:uppercase;color:var(--cream,#FBF7E2);pointer-events:none;text-shadow:0 2px 12px rgba(30,31,33,.8)}
+.sky-cap .sky-n{font-weight:700}
+.sky-cap .sky-t{transition:opacity .35s ease;min-width:14ch}
+.sky-dots{display:inline-flex;gap:7px;margin-left:6px}
+.sky-dots b{width:6px;height:6px;border-radius:50%;background:rgba(251,247,226,.35);transition:background .3s ease,transform .3s ease}
+.sky-dots b.on{background:var(--cream,#FBF7E2);transform:scale(1.35)}
+@media (max-width:900px){.sky-cap{display:none}}

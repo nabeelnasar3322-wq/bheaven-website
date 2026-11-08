@@ -66,6 +66,7 @@
 <link rel="stylesheet" href="extra.css">
 <link rel="stylesheet" href="extra2.css">
 <link rel="stylesheet" href="fx.css">
+<link rel="stylesheet" href="hero-3d.css">
 </head>
 <body>
 <script>document.documentElement.className='js'</script>
@@ -110,12 +111,11 @@
 <main id="top">
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
+  <div class="sky-stick">
   <div class="frame" aria-hidden="true">
     <div class="pan">
-      <video autoplay muted loop playsinline webkit-playsinline preload="auto" poster="/hero-2.jpeg" class="hero-video" id="heroVid" src="/bhvn.mp4">
-        <source src="/bhvn.mp4" type="video/mp4">
-      </video>
-      <script>try{var v=document.getElementById('heroVid');if(v){v.muted=true;v.defaultMuted=true;v.play().catch(function(){})}}catch(e){}</script>
+      <video muted playsinline webkit-playsinline preload="auto" poster="/hero-2.jpeg" class="hero-video" id="heroVid"></video>
+      <script>(function(){try{var v=document.getElementById('heroVid');if(!v)return;var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,sd=(navigator.connection||{}).saveData,wide=matchMedia('(min-width: 901px) and (hover: hover)').matches,sky=!rm&&!sd&&wide;window.__skyOn=sky;v.muted=true;v.defaultMuted=true;if(sky){document.documentElement.classList.add('sky-on');v.loop=false;v.addEventListener('play',function(){v.pause()});v.src='/hero-scroll.mp4';v.pause()}else{v.src='/bhvn.mp4';v.loop=true;v.play().catch(function(){})}}catch(e){}})();</script>
       <div class="rays"></div><div class="sun"></div>
       <div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
       <div class="water"></div>
@@ -139,6 +139,7 @@
   </div>
   <a href="#about" class="scroll-cue" aria-label="Scroll down"><span></span></a>
   <div class="hero-dots" id="heroDots" role="group" aria-label="Hero slides"></div>
+  </div>
 </section>
 
 <div class="ribbon-wrap" aria-hidden="true"><div class="ribbon"><div class="ribbon-track" id="ribbon"></div></div></div>
@@ -439,6 +440,7 @@
 <script src="main.js"></script>
 <script src="home-extras.js" defer></script>
 <script src="hero-fx.js" defer></script>
+<script src="hero-3d.js" defer></script>
 <script src="hero-playlist.js" defer></script>
 <script src="gallery.js" defer></script>
 <script src="interactive.js" defer></script>
