@@ -195,8 +195,8 @@
           <h4 class="vibe-match-title">${v.title}</h4>
           <p class="vibe-match-desc">${v.desc}</p>
           <div class="vibe-details">
-            <span><i>🪑 Seating:</i> <strong>${v.table}</strong></span>
-            <span><i>🍸 Recommended:</i> <strong>${v.pairing}</strong></span>
+            <span><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11V4h12v7M4 11h16v3H4zM6 14v6M18 14v6"/></svg> Seating:</i> <strong>${v.table}</strong></span>
+            <span><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16l-8 9zM12 13v7M8 20h8"/></svg> Recommended:</i> <strong>${v.pairing}</strong></span>
           </div>
         </div>
         <div class="vibe-action" style="display:flex;flex-direction:column;gap:10px;align-items:stretch">

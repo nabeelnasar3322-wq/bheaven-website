@@ -152,6 +152,7 @@ if (heroVid) {
 
 const firstSlideImg = pan ? pan.querySelector('img') : null;
 if (firstSlideImg) {
+  if (!firstSlideImg.alt) firstSlideImg.alt = 'B·Heaven rooftop at Barceló Al Jaddaf';
   /* Portrait phones get pre-cropped, lighter hero photos (hero-N-m.jpeg, centred on each photo's focus point) */
   const MOB = matchMedia('(max-width:820px) and (orientation:portrait)').matches;
   const HS = HERO_SLIDES.map(x => typeof x === 'string' ? { src: x } : x)
@@ -177,7 +178,7 @@ if (firstSlideImg) {
     if (live.length === 2 && !hTimer) hTimer = setTimeout(() => showSlide(1), 7000);
   };
   const loadExtraSlides = () => HS.slice(1).forEach((sl, k) => loadImg(sl.src, im => {
-    im.className = 'slide'; im.alt = ''; slides[k + 1] = im;
+    im.className = 'slide'; im.alt = 'B·Heaven rooftop at Barceló Al Jaddaf'; slides[k + 1] = im;
     if (sl.focus) im.style.objectPosition = sl.focus;
     const rays = pan.querySelector('.rays'); liveSlides().forEach(x => pan.insertBefore(x, rays));
     hs = liveSlides().findIndex(x => x.classList.contains('on'));
