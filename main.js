@@ -450,6 +450,10 @@ const parCollect = () => {
   parMeasure();
 };
 function parFrame() {
+  /* while the scroll-scrubbed hero video is actively seeking (window.__skyBusy, set by
+     hero-3d.js), defer this page-wide parallax pass rather than stack its work on top of the
+     video-seek cost in the same frame; the progress bar/orbs just pick up a frame later */
+  if (window.__skyBusy) { requestAnimationFrame(parFrame); return; }
   const vh = innerHeight, y = scrollY; let moving = false;
   prog.style.transform = `scaleX(${(y / Math.max(1, document.documentElement.scrollHeight - vh)).toFixed(4)})`;
   for (const p of parEls) {

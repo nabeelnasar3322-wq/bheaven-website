@@ -24,10 +24,20 @@
   var shade = hero.querySelector('.hero-shade');
   var box = shade ? shade.parentNode : hero; /* the sticky stage that holds the visuals (hero-3d) */
   function add(tag, cls) { var el = document.createElement(tag); el.className = cls; box.insertBefore(el, shade ? shade.nextSibling : box.firstChild); return el; }
-  var glow = add('div', 'hero-fx-glow'); glow.setAttribute('aria-hidden', 'true');
-  var sweep = add('div', 'hero-sweep'); sweep.setAttribute('aria-hidden', 'true');
-  var cv = add('canvas', 'hero-bokeh'); cv.setAttribute('aria-hidden', 'true');
-  var ctx = cv.getContext('2d');
+  var skyOn = !!window.__skyOn; /* scroll-scrubbed hero already carries its own motion; skip the
+    bokeh canvas's per-frame draw work there so it doesn't compete with the video-scrub rAF loop */
+  /* sweep only ever plays on a slide change, which doesn't exist under the scroll-scrubbed
+     hero (single video, no .slide elements) - dead weight there, so skip creating it; the
+     pointer glow is skipped there too since, measured together with the video's own rAF loop,
+     these absolutely-positioned layers add real per-frame paint/composite cost for no visible
+     benefit against a video that already fills the frame with motion */
+  var glow = skyOn ? document.createElement('div') : add('div', 'hero-fx-glow');
+  if (!skyOn) glow.setAttribute('aria-hidden', 'true');
+  var sweep = skyOn ? document.createElement('div') : add('div', 'hero-sweep');
+  if (!skyOn) sweep.setAttribute('aria-hidden', 'true');
+  var cv = skyOn ? null : add('canvas', 'hero-bokeh');
+  if (cv) cv.setAttribute('aria-hidden', 'true');
+  var ctx = cv ? cv.getContext('2d') : null;
 
   var count = document.createElement('div');
   count.className = 'hero-count'; count.setAttribute('aria-hidden', 'true');
@@ -76,12 +86,14 @@
       sw: 0.4 + Math.random() * 0.9, ph: Math.random() * 6.28, tw: 0.6 + Math.random() * 1.4, a: 0.25 + Math.random() * 0.45, c: c };
   }
   function resize() {
+    if (!cv) return;
     var r = box.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = cv.width = Math.round(r.width * dpr); H = cv.height = Math.round(r.height * dpr);
     var n = r.width < 700 ? 12 : 22; parts = []; for (var i = 0; i < n; i++) parts.push(make(true));
   }
   var t0 = performance.now();
   function draw(now) {
+    if (!ctx) return;
     var t = (now - t0) / 1000;
     ctx.clearRect(0, 0, W, H); ctx.globalCompositeOperation = 'lighter';
     for (var i = 0; i < parts.length; i++) {
@@ -99,14 +111,26 @@
   var visible = true, raf = 0;
   function frame(now) {
     raf = 0; if (!visible || document.hidden) return;
+    /* while the scroll-scrubbed hero video is actively seeking (window.__skyBusy, set by
+       hero-3d.js), skip this loop's own work rather than stack two costly per-frame jobs on
+       top of each other; just keep the loop alive so it resumes the moment scrubbing settles */
+    if (window.__skyBusy) { raf = requestAnimationFrame(frame); return; }
     cx += (tx - cx) * 0.07; cy += (ty - cy) * 0.07;
     hero.style.setProperty('--fx-px', (-cx * 16).toFixed(2) + 'px'); hero.style.setProperty('--fx-py', (-cy * 11).toFixed(2) + 'px');
     hero.style.setProperty('--fx-cx', (cx * 7).toFixed(2) + 'px'); hero.style.setProperty('--fx-cy', (cy * 5).toFixed(2) + 'px');
     hero.style.setProperty('--fx-bx', (-cx * 26).toFixed(2) + 'px'); hero.style.setProperty('--fx-by', (-cy * 18).toFixed(2) + 'px');
+    /* only measure button rects while a real pointer is over the hero (mxp/myp are reset to
+       -999 on leave) - this read follows a style write above, so doing it every animation frame
+       unconditionally (e.g. while the page is just being scrolled, with no pointer involved)
+       forces a synchronous layout recalc 60x/sec and was the main source of scroll jank */
     if (fine) btns.forEach(function (b, i) {
-      var r = b.getBoundingClientRect(), dx = mxp - (r.left + r.width / 2), dy = myp - (r.top + r.height / 2), d = Math.sqrt(dx * dx + dy * dy), s = bs[i];
-      var gxm = d < 120 ? Math.max(-9, Math.min(9, dx * 0.22)) : 0, gym = d < 120 ? Math.max(-6, Math.min(6, dy * 0.28)) : 0;
-      s.x += (gxm - s.x) * 0.18; s.y += (gym - s.y) * 0.18; b.style.translate = s.x.toFixed(2) + 'px ' + s.y.toFixed(2) + 'px';
+      var s = bs[i], gxm = 0, gym = 0;
+      if (mxp > -999) {
+        var r = b.getBoundingClientRect(), dx = mxp - (r.left + r.width / 2), dy = myp - (r.top + r.height / 2), d = Math.sqrt(dx * dx + dy * dy);
+        gxm = d < 120 ? Math.max(-9, Math.min(9, dx * 0.22)) : 0; gym = d < 120 ? Math.max(-6, Math.min(6, dy * 0.28)) : 0;
+      }
+      s.x += (gxm - s.x) * 0.18; s.y += (gym - s.y) * 0.18;
+      if (Math.abs(s.x) > 0.02 || Math.abs(s.y) > 0.02 || mxp > -999) b.style.translate = s.x.toFixed(2) + 'px ' + s.y.toFixed(2) + 'px';
     });
     draw(now); raf = requestAnimationFrame(frame);
   }

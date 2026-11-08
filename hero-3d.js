@@ -80,14 +80,17 @@
   }
   function tick() {
     raf = 0;
+    window.__skyBusy = true; /* tells hero-fx.js to skip its own parallax/bokeh work this
+      frame, so that loop doesn't compete with the video-seek cost below for frame budget */
     var p = progress();
     apply(p);
     goal = p * (dur || 0);
     if (ready) {
       cur += (goal - cur) * 0.2;
       if (!v.seeking && Math.abs(goal - cur) > 0.012) { try { v.currentTime = cur; } catch (_) {} }
-      if (Math.abs(goal - cur) > 0.012) raf = requestAnimationFrame(tick);
+      if (Math.abs(goal - cur) > 0.012) { raf = requestAnimationFrame(tick); return; }
     }
+    window.__skyBusy = false;
   }
   function kick() { if (!raf) raf = requestAnimationFrame(tick); }
 
