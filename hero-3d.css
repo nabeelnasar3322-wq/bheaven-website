@@ -25,9 +25,12 @@
   opacity:calc(1 - var(--sk-op,1));transform:translate3d(0,calc(var(--sk-op,1) * 14px),0);transition:none}
 @media (min-width:768px){.sky-cap{left:40px;right:40px;bottom:32px}}
 @media (min-width:1200px){.sky-cap{left:max(56px,calc(50% - 720px + 56px));right:max(56px,calc(50% - 720px + 56px));bottom:40px}}
-.sky-top{display:flex;align-items:center;gap:12px;font:600 11px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.22em;text-transform:uppercase;color:var(--lagoon,#9AB6BA);margin-bottom:14px}
+.sky-top{position:absolute;top:104px;right:20px;z-index:3;display:flex;align-items:center;gap:12px;font:600 11px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.22em;text-transform:uppercase;color:var(--lagoon,#9AB6BA);
+  opacity:calc(1 - var(--sk-op,1));pointer-events:none}
+@media (min-width:768px){.sky-top{right:40px}}
+@media (min-width:1200px){.sky-top{right:max(56px,calc(50% - 720px + 56px))}}
 .sky-n{font-weight:700;color:var(--cream,#FBF7E2)}
-.sky-when{min-width:9ch}
+.sky-when{min-width:9ch;text-align:right}
 .sky-dots{display:inline-flex;gap:7px;margin-left:2px}
 .sky-dots b{width:6px;height:6px;border-radius:50%;background:rgba(251,247,226,.35);transition:background .3s ease,transform .3s ease}
 .sky-dots b.on{background:var(--cream,#FBF7E2);transform:scale(1.35)}
