@@ -46,6 +46,24 @@
     tick(); setInterval(tick, 1000);
   })();
 
+  /* ---------- 1b. Hero: perks + CTA move out of the caption into a dock over the pool (desktop + iPad) ---------- */
+  (function dock() {
+    var mq = matchMedia('(min-width:900px)'), tries = 0, d = null, cap, perks, cta;
+    function place() {
+      if (!d) return;
+      if (mq.matches) { d.appendChild(perks); d.appendChild(cta); d.hidden = false; }
+      else { cap.appendChild(perks); cap.appendChild(cta); d.hidden = true; }
+    }
+    function init() {
+      cap = $('.sky-cap'); perks = cap && $('.sky-perks', cap); cta = cap && $('.sky-cta', cap);
+      if (!cap || !perks || !cta) { if (++tries < 25) setTimeout(init, 200); return; }
+      d = doc.createElement('div'); d.className = 'sky-dock'; cap.parentNode.appendChild(d);
+      mq.addEventListener ? mq.addEventListener('change', place) : mq.addListener(place);
+      place();
+    }
+    init();
+  })();
+
   if (rm || save) return;
 
   /* ---------- 2. 3D event ring (cylinder with inertia + depth-of-field) ---------- */
