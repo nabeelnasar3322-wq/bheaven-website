@@ -1,8 +1,9 @@
 /* Small tweaks on top of style.css */
 
-/* Header logo: 250px wide, original proportions (670:180) */
-.header .wordmark .logo-svg{width:150px}
-@media(max-width:899px){.header .wordmark .logo-svg{width:124px}}
+/* Header logo: 185px wide (145px on phones), original proportions (670:180) */
+.header .wordmark .logo-svg{width:185px}
+@media(max-width:899px){.header .wordmark .logo-svg{width:145px}}
+@media(min-width:960px) and (max-width:1279px){.header .wordmark .logo-svg{width:160px}}
 /* Header lines up with the menu, shisha and business-lunch pages: logo 40px from the left and 22px from the top (20px / 23px on phones) */
 .header .container.header-inner{max-width:none;padding:0 40px}
 @media(max-width:900px){.header .container.header-inner{padding:0 20px}}

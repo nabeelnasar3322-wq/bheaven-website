@@ -235,6 +235,8 @@ em,i:not([class]){font-style:normal}
 
 /* ============ Hero: text on the left, photos visible ============ */
 .hero-content{text-align:left;align-items:flex-start;max-width:1440px}
+/* Hero text: sits a little further left (closer to the logo edge) on desktop */
+@media(min-width:701px){.hero-content{max-width:1640px;padding-left:40px;padding-right:40px}}
 .hero-content>*{max-width:min(760px,100%)}
 .hero-content>.chips{max-width:none}
 .hero h1{font-size:clamp(40px,5.8vw,104px)}
