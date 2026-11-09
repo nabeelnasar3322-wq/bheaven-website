@@ -192,7 +192,7 @@ if (firstSlideImg) {
 }
 
 /* What's on: React Bits Pro Skewed Carousel of nights & offers */
-const SHOWS = [...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))];
+const SHOWS = [...FESTIVE.filter(e => Date.parse(e.until) > Date.now()).map(e => ({ ...e, type: 'Festive' })), ...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))];
 const track = $('#showTrack'), dotsEl = $('#showDots');
 if (track && dotsEl) {
   track.innerHTML = SHOWS.map((e, i) => `
@@ -202,7 +202,7 @@ if (track && dotsEl) {
         <div class="big">${esc(e.big)}<small>${esc(e.sub)}</small></div>
       </div>
       <div class="show-shine"></div>
-      <span class="show-badge${e.type === 'Daily offer' ? ' offer' : ''}">${e.type}</span>
+      <span class="show-badge${e.type === 'Daily offer' ? ' offer' : e.type === 'Festive' ? ' festive' : ''}">${e.type}</span>
       <div class="show-info">
         <div class="show-meta"><span>${esc(e.day)}</span><span>${esc(e.time)}</span></div>
         <h3>${esc(e.title)}</h3>
