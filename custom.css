@@ -297,5 +297,3 @@ html{scroll-padding-top:92px}
 .festiveCd .fc-star{color:#D9BE8C;animation:fcTw 2.4s ease-in-out infinite}
 @keyframes fcTw{50%{opacity:.3;transform:scale(.75)}}
 @media(prefers-reduced-motion:reduce){.festiveCd .fc-star{animation:none}}
-.show.festive .show-art{background:radial-gradient(55% 45% at 50% 30%,rgba(232,199,126,.4),transparent 70%),linear-gradient(165deg,#3A0C12,#14403A 52%,#05080C)}
-.show.festive .big{margin-top:-58%;font-family:var(--serif);font-weight:700;font-size:44px;letter-spacing:.08em;color:#F1DDB3;text-transform:uppercase}.show.festive .big small{color:#D9BE8C}
