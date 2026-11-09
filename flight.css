@@ -99,18 +99,16 @@ html.perf-2 .gate{display:none!important}
 /* hero dock (tags + booking button) removed on desktop and iPad */
 html.sky-on .sky-dock{display:none!important}
 
-/* hero caption v2: no box. A thin gold line, a tiny time label, the title in the brand script,
-   and three ticks for day / sunset / night. Small on purpose. */
+/* hero caption v4: small glass pill, one line: time label + title */
 html.sky-on .sky-top{display:none}
-html.sky-on .sky-cap{display:flex;flex-direction:column;align-items:flex-start;width:auto;max-width:360px;padding:2px 0 2px 20px;border:0;border-left:1px solid rgba(214,180,110,.75);border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-@media(min-width:900px){html.sky-on .sky-cap{width:auto;padding:2px 0 2px 22px;border-radius:0}}
-html.sky-on .sky-eyebrow{display:block;font:600 10px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.34em;text-transform:uppercase;color:#D6B46E;margin:0 0 6px;text-shadow:0 2px 12px rgba(0,0,0,.7)}
-html.sky-on .sky-cap .sky-title{font-family:'Great Vibes',cursive;font-weight:400;text-transform:none;letter-spacing:.01em;line-height:1;font-size:clamp(40px,3.6vw,56px);color:#FBF7E2;margin:0;text-shadow:0 4px 26px rgba(0,0,0,.75)}
-html.sky-on .sky-rail{display:flex;gap:6px;margin-top:12px;order:3}
-html.sky-on .sky-cap .sky-cta{order:4;margin-top:16px}
-html.sky-on .sky-rail b{display:block;width:14px;height:2px;border-radius:2px;background:rgba(251,247,226,.35);transition:width .45s cubic-bezier(.22,1,.36,1),background .3s}
-html.sky-on .sky-rail b.on{width:34px;background:#D6B46E}
-@keyframes skyIn{from{opacity:0;transform:translateY(10px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
-html.sky-on .sky-cap.in .sky-eyebrow,html.sky-on .sky-cap.in .sky-title{animation:skyIn .6s cubic-bezier(.22,1,.36,1) both}
-html.sky-on .sky-cap.in .sky-title{animation-delay:.08s}
+html.sky-on .sky-cap,html.sky-on .sky-cap.in{display:inline-flex;align-items:center;gap:12px;width:auto;max-width:calc(100vw - 40px);box-sizing:border-box;padding:10px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.22);
+  background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.04)),rgba(24,25,27,.5);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 14px 30px -18px rgba(0,0,0,.7)}
+@media(min-width:900px){html.sky-on .sky-cap{width:auto;max-width:none;padding:10px 22px;border-radius:999px}}
+html.sky-on .sky-eyebrow{display:block;margin:0;white-space:nowrap;font:600 10px/1 var(--sans,Montserrat,sans-serif);letter-spacing:.24em;text-transform:uppercase;color:#D6B46E}
+html.sky-on .sky-eyebrow::after{content:"";display:inline-block;width:1px;height:12px;margin-left:12px;vertical-align:-2px;background:rgba(251,247,226,.35)}
+html.sky-on .sky-cap .sky-title{margin:0;white-space:nowrap;font-weight:700;text-transform:none;line-height:1;font-size:clamp(15px,1.3vw,18px);color:#FBF7E2;text-shadow:none}
+html.sky-on .sky-cap .sky-cta,html.sky-on .sky-cap .sky-rail,html.sky-on .sky-cap .sky-perks,html.sky-on .sky-cap .sky-desc{display:none}
+@keyframes skyIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+html.sky-on .sky-cap.in .sky-eyebrow,html.sky-on .sky-cap.in .sky-title{animation:skyIn .45s cubic-bezier(.22,1,.36,1) both}
 @media(prefers-reduced-motion:reduce){html.sky-on .sky-cap.in .sky-eyebrow,html.sky-on .sky-cap.in .sky-title{animation:none}}
+@media(max-width:899px){html.sky-on .sky-cap,html.sky-on .sky-cap.in{right:auto}}
