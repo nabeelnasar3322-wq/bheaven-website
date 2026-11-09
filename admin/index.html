@@ -143,6 +143,7 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
     <button class="tab" role="tab" id="tabMenu" aria-selected="true" aria-controls="paneMenu">Food</button>
     <button class="tab" role="tab" id="tabDrinks" aria-selected="false" aria-controls="paneDrinks">Drinks</button>
     <button class="tab" role="tab" id="tabOffers" aria-selected="false" aria-controls="paneOffers">Offers &amp; alerts</button>
+    <button class="tab" role="tab" id="tabTables" aria-selected="false" aria-controls="paneTables">Tables</button>
     <button class="tab" role="tab" id="tabStats" aria-selected="false" aria-controls="paneStats">Analytics</button>
   </div>
 
@@ -177,6 +178,11 @@ svg.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
       </div>
       <p class="note" style="margin:14px 0 0">Only phones that installed the app and tapped &ldquo;Get offer alerts&rdquo; receive notifications. Send sparingly: guests turn alerts off if they get too many.</p>
     </div>
+  </section>
+
+  <section id="paneTables" role="tabpanel" aria-labelledby="tabTables" class="hide">
+    <p class="note">Tell guests how busy the next two weeks are. The reserve form on the website shows &ldquo;few left&rdquo; or &ldquo;full&rdquo; next to the times, and a &ldquo;full&rdquo; time still lets people message you for the waitlist. Changes go live within a minute. Your team still confirms every booking on WhatsApp.</p>
+    <div id="tablesList"><p class="empty">Loading…</p></div>
   </section>
 
   <section id="paneStats" role="tabpanel" aria-labelledby="tabStats" class="hide">
@@ -214,14 +220,46 @@ $('#loginForm').addEventListener('submit',function(e){
 $('#logout').addEventListener('click',function(){api('/api/login',{method:'DELETE'}).then(function(){show(false)})});
 function sessionExpired(){show(false);$('#loginErr').textContent='Your session ended. Please sign in again.'}
 
+
+/* ---------- table availability ---------- */
+var TB={};
+function tbDays(){var out=[];for(var i=0;i<14;i++){var d=new Date(Date.now()+4*3600e3+i*86400e3);out.push(d.toISOString().slice(0,10))}return out}
+function tbLabel(iso){var d=new Date(iso+'T12:00:00Z');return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'})}
+function loadTables(){
+  api('/api/avail').then(function(j){TB=j.days||{};renderTables()}).catch(function(err){
+    $('#tablesList').replaceChildren(el('p',{class:'empty',text:/Storage/.test(err.message)?'Storage is not connected yet.':'Could not load: '+err.message}));
+  });
+}
+function tbSel(day,k,label){
+  var cur=(TB[day]&&TB[day][k])||'o';
+  var s=el('select',{class:'sel','aria-label':label+' on '+tbLabel(day)});
+  [['o','Open'],['f','Few left'],['x','Full']].forEach(function(o){var op=el('option',{value:o[0],text:o[1]});if(o[0]===cur)op.selected=true;s.appendChild(op)});
+  s.addEventListener('change',function(){
+    var v={date:day,l:'o',s:'o',e:'o'};
+    ['l','s','e'].forEach(function(x){var n=document.getElementById('tb-'+day+'-'+x);v[x]=n?n.value:'o'});
+    s.disabled=true;
+    api('/api/avail',{method:'POST',body:v}).then(function(){TB[day]={l:v.l,s:v.s,e:v.e};toast('Saved '+tbLabel(day))})
+     .catch(function(err){if(err.status===401)return sessionExpired();toast('Could not save: '+err.message)}).then(function(){s.disabled=false});
+  });
+  s.id='tb-'+day+'-'+k;
+  return s;
+}
+function renderTables(){
+  var box=$('#tablesList'),rows=[el('div',{class:'rowbar',style:'font-weight:600'},[el('span',{text:'Day',style:'width:110px'}),el('span',{text:'Lunch 9 to 4',style:'width:120px'}),el('span',{text:'Sunset 4 to 8',style:'width:120px'}),el('span',{text:'Evening 8 on',style:'width:120px'})])];
+  tbDays().forEach(function(d){
+    rows.push(el('div',{class:'rowbar',style:'align-items:center;gap:10px'},[el('span',{text:tbLabel(d),style:'width:110px'}),tbSel(d,'l','Lunch'),tbSel(d,'s','Sunset'),tbSel(d,'e','Evening')]));
+  });
+  box.replaceChildren.apply(box,rows);
+}
+
 /* ---------- tabs ---------- */
-var TABS={menu:['tabMenu','paneMenu'],drinks:['tabDrinks','paneDrinks'],offers:['tabOffers','paneOffers'],stats:['tabStats','paneStats']};
+var TABS={menu:['tabMenu','paneMenu'],drinks:['tabDrinks','paneDrinks'],offers:['tabOffers','paneOffers'],tables:['tabTables','paneTables'],stats:['tabStats','paneStats']};
 function setTab(which){
   if(!TABS[which])which='menu';
   Object.keys(TABS).forEach(function(k){var on=k===which;$('#'+TABS[k][0]).setAttribute('aria-selected',on);$('#'+TABS[k][1]).classList.toggle('hide',!on)});
   try{localStorage.setItem('bhTab',which)}catch(e){}
   try{history.replaceState(null,'','#'+(which==='menu'?'food':which))}catch(e){}
-  updateBar();updateDBar();if(which==='stats')loadStats();if(which==='offers')loadOffers();if(which==='drinks')loadDrinks();
+  updateBar();updateDBar();if(which==='stats')loadStats();if(which==='offers')loadOffers();if(which==='tables')loadTables();if(which==='drinks')loadDrinks();
 }
 function initialTab(){
   var h=(location.hash||'').slice(1).toLowerCase();if(h==='food')h='menu';

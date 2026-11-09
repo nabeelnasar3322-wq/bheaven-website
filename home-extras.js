@@ -14,6 +14,7 @@
       }
     } catch (e) {}
   }
+  window.__bhTrack = send;
   try { if (!sessionStorage.getItem('bh_p_Home')) { sessionStorage.setItem('bh_p_Home', '1'); send('page', 'Home'); } } catch (e) {}
 
   function where(el) {

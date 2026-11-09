@@ -116,3 +116,8 @@ html.s3d-full .tilt-on{will-change:transform;}
 /* the spring in JS does the easing, so drop any CSS transform transition on these */
 html.s3d-full .features .feature{transition:border-color .4s}
 html.perf-1 :is(.menu-cat-grid .tcard,.gal-grid .ph,.about-photos .ph,.features .feature,.loc .loc-map){transform:none!important}
+
+/* table availability note under the reserve form's date / time row */
+.rb-avail{margin:2px 0 10px;padding:9px 14px;border-radius:12px;font-size:13px;line-height:1.4;background:rgba(215,170,90,.14);color:var(--cream,#fbf7e2);border:1px solid rgba(215,170,90,.4)}
+.rb-avail[data-st=x]{background:rgba(200,80,70,.14);border-color:rgba(200,80,70,.45)}
+.rb-avail[hidden]{display:none}

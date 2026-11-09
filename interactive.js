@@ -179,6 +179,7 @@
     const cardEl = document.getElementById('vibeCard');
     if (!chips.length || !cardEl) return;
 
+    const VIBE_MENU = { sunset: ['/menu/#d-signature-cocktails', 'Signature cocktails'], jazz: ['/menu/#d-wine-bubbles', 'Wine & bubbles'], shisha: ['/shisha/', 'Shisha menu'], brunch: ['/menu/#cat-sharers', 'Sharers'] };
     function renderVibe(key) {
       const v = VIBES[key];
       if (!v) return;
@@ -206,6 +207,7 @@
           <button type="button" class="btn btn-line btn-sm apply-form-btn" style="font-size:11px;min-height:38px">
             Select in Form ↓
           </button>
+          ${VIBE_MENU[key] ? `<a class="btn btn-line btn-sm vibe-menu" href="${VIBE_MENU[key][0]}" style="font-size:11px;min-height:38px">See ${VIBE_MENU[key][1]} →</a>` : ''}
         </div>
       `;
 
@@ -239,7 +241,7 @@
     chips.forEach(chip => {
       chip.setAttribute('role', 'tab');
       chip.setAttribute('aria-selected', chip.classList.contains('on') ? 'true' : 'false');
-      chip.addEventListener('click', () => renderVibe(chip.dataset.vibe));
+      chip.addEventListener('click', () => { renderVibe(chip.dataset.vibe); window.__bhTrack && window.__bhTrack('cat_view', 'Vibe: ' + chip.dataset.vibe); });
     });
 
     renderVibe('sunset');
