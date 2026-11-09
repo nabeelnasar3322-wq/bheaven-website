@@ -2371,6 +2371,24 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 @keyframes curtainFill{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){#bhCurtain{display:none!important}}
 </style>
+<style>
+/* ---- tactile 3D: event cards lean toward the pointer / tap, allergen chips snap ---- */
+.evs{perspective:1000px!important}
+.ev{transform-style:preserve-3d!important;transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg))!important;transition:transform .35s cubic-bezier(.2,.8,.2,1)!important;will-change:transform}
+.ev.tilting{transition:transform .08s linear!important}
+.ev .f,.ev .b{transform-style:preserve-3d}
+.ev .shot{transform:translateZ(26px)}
+.ev::after{content:'';position:absolute;inset:0;border-radius:24px;pointer-events:none;opacity:0;transition:opacity .35s;background:radial-gradient(240px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.28),transparent 60%);mix-blend-mode:soft-light}
+.ev.tilting::after{opacity:1}
+.ev:hover,.ev.flip{box-shadow:0 22px 40px -18px rgba(20,40,44,.45)}
+.avoid .row .al{transition:transform .18s,background .2s,border-color .2s,color .2s,box-shadow .2s}
+.avoid .row .al:active{scale:.93}
+@keyframes alSnap{0%{scale:.88}45%{scale:1.1}72%{scale:.97}100%{scale:1}}
+@keyframes alOff{0%{scale:1}40%{scale:.92}100%{scale:1}}
+.avoid .row .al.snap{animation:alSnap .42s cubic-bezier(.3,1.6,.5,1)}
+.avoid .row .al.snapOff{animation:alOff .3s ease-out}
+@media (prefers-reduced-motion:reduce){.ev{transform:none!important}.ev .shot{transform:none}.avoid .row .al.snap,.avoid .row .al.snapOff{animation:none}}
+</style>
 </head>
 <body>
 
@@ -3280,6 +3298,31 @@ function applyAvoid(){
 /* ---------- EVENTS: tap to flip on touch ---------- */
 document.querySelectorAll('.ev').forEach(ev=>{ev.addEventListener('click',e=>{if(e.target.closest('a'))return;ev.classList.toggle('flip')});ev.addEventListener('keydown',e=>{if(e.key==='Enter')ev.classList.toggle('flip')});});
 
+
+/* ---------- tactile 3D: tilt event cards toward the pointer (mouse) or the tap (touch) ---------- */
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  const MAXX=9,MAXY=11;
+  function aim(ev,e){const r=ev.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    ev.style.setProperty('--tx',((.5-y)*2*MAXX).toFixed(2)+'deg');ev.style.setProperty('--ty',((x-.5)*2*MAXY).toFixed(2)+'deg');
+    ev.style.setProperty('--gx',(x*100).toFixed(1)+'%');ev.style.setProperty('--gy',(y*100).toFixed(1)+'%');ev.classList.add('tilting')}
+  function rest(ev){ev.classList.remove('tilting');ev.style.setProperty('--tx','0deg');ev.style.setProperty('--ty','0deg')}
+  document.querySelectorAll('.ev').forEach(ev=>{
+    ev.addEventListener('pointermove',e=>{if(e.pointerType==='mouse')aim(ev,e)});
+    ev.addEventListener('pointerleave',()=>rest(ev));
+    ev.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;aim(ev,e);clearTimeout(ev._t);ev._t=setTimeout(()=>rest(ev),380)});
+  });
+})();
+/* ---------- tactile snap on the allergen chips (and a tiny haptic tick on phones) ---------- */
+(function(){
+  const row=document.getElementById('alRow');if(!row)return;
+  row.addEventListener('click',e=>{const b=e.target.closest('.al');if(!b)return;
+    const cls=b.classList.contains('on')?'snap':'snapOff';
+    b.classList.remove('snap','snapOff');void b.offsetWidth;b.classList.add(cls);
+    b.addEventListener('animationend',()=>b.classList.remove('snap','snapOff'),{once:true});
+    try{if(cls==='snap'&&navigator.vibrate)navigator.vibrate(8)}catch(_){}
+  });
+})();
 /* ---------- NAV ---------- */
 const nav=$('#top'), sticky=$('#chipsSticky');
 const prog=$('#prog');
