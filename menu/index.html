@@ -3398,6 +3398,8 @@ renderChips();
 })();
 if(location.hash==='#drinks') setMode('drinks',{instant:true});
 addEventListener('hashchange',()=>{if(location.hash==='#drinks')setMode('drinks',{scroll:true});});
+/* deep links to one menu section, e.g. /menu/#d-signature-cocktails from the home page vibe picker */
+(function(){var h=location.hash.slice(1);if(!/^(cat|d)-/.test(h))return;if(h.indexOf('d-')===0)setMode('drinks',{instant:true});setTimeout(function(){var e=document.getElementById(h);if(e){e.style.scrollMarginTop='120px';e.scrollIntoView({behavior:'smooth',block:'start'})}},400)})();
 const rio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');rio.unobserve(en.target)}}),{rootMargin:'0px 0px 8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>rio.observe(el));
 requestAnimationFrame(()=>document.body.classList.add('ready'));

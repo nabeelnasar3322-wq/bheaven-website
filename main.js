@@ -365,7 +365,7 @@ for (let h = 9; h <= 25; h++) for (const m of [0, 30]) {
   if (h === 25 && m) break;
   const hh = h % 24, ap = hh < 12 ? 'AM' : 'PM', h12 = ((hh + 11) % 12) + 1;
   const label = `${h12}:${m ? '30' : '00'} ${ap}`;
-  timeSel.insertAdjacentHTML('beforeend', `<option${label === '8:00 PM' ? ' selected' : ''}>${label}</option>`);
+  timeSel.insertAdjacentHTML('beforeend', `<option value="${label}" data-h="${h}"${label === '8:00 PM' ? ' selected' : ''}>${label}</option>`);
 }
 const dateIn = $('input[name=date]'), guestIn = $('#guestIn');
 const today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
@@ -384,12 +384,36 @@ function resSummary() {
   $('#rfSum').innerHTML = `<span>${fmtDate(f.elements.date.value)}</span><span>${f.elements.time.value}</span><span>${g} guest${g > 1 ? 's' : ''}</span><span>${$('#seatSeg .on span').textContent}</span><span>${esc(f.elements.occasion.value)}</span>`;
 }
 $('#resForm').addEventListener('input', resSummary); $('#resForm').addEventListener('change', resSummary); resSummary();
+/* Live table availability: staff set Open / Few left / Full per day and part of day in the admin.
+   The form shows it next to each time and never blocks a request (a full time can still join the waitlist). */
+let AVAIL = {};
+const AV_TXT = { f: ' · few left', x: ' · full, waitlist' };
+const avPart = h => (h < 16 ? 'l' : h < 20 ? 's' : 'e');
+function avRender() {
+  const d = AVAIL[dateIn.value] || {}, note = $('#rbAvail');
+  let worst = 'o';
+  [...timeSel.options].forEach(o => {
+    const st = d[avPart(+o.dataset.h)] || 'o';
+    o.textContent = o.value + (AV_TXT[st] || '');
+  });
+  const cur = d[avPart(+timeSel.selectedOptions[0].dataset.h)] || 'o';
+  if (note) {
+    note.hidden = cur === 'o';
+    note.textContent = cur === 'x' ? 'That time is fully booked. Send your request and we will add you to the waitlist or suggest the nearest table.' : cur === 'f' ? 'Only a few tables left at that time. Request soon.' : '';
+    note.dataset.st = cur;
+  }
+}
+fetch('/api/avail').then(r => (r.ok ? r.json() : null)).then(j => { if (j && j.days) { AVAIL = j.days; avRender(); } }).catch(() => {});
+$('#resForm').addEventListener('change', avRender);
+let rfStarted = false;
+$('#resForm').addEventListener('input', () => { if (!rfStarted) { rfStarted = true; window.__bhTrack && window.__bhTrack('page', 'Home: reserve form started'); } }, { once: false });
+
 function bookingText() {
   const f = $('#resForm'), v = n => f.elements[n].value.trim();
   return `Hi B·Heaven, I'd like to request a reservation.\n\nName: ${v('name')}\nPhone: ${v('phone')}\nDate: ${v('date')}\nTime: ${v('time')}\nGuests: ${v('guests')}\nSeating: ${$('#seatSeg .on span').textContent}\nOccasion: ${v('occasion')}${v('notes') ? `\nNotes: ${v('notes')}` : ''}`;
 }
 const resValid = () => { const f = $('#resForm'); f.classList.add('tried'); return f.reportValidity(); };
-$('#resForm').addEventListener('submit', e => { e.preventDefault(); if (resValid()) window.open(wa(bookingText()), '_blank', 'noopener'); });
+$('#resForm').addEventListener('submit', e => { e.preventDefault(); if (resValid()) { window.__bhTrack && window.__bhTrack('book', 'Book via form (Home)' + (document.querySelector('#rbAvail') && !document.querySelector('#rbAvail').hidden ? ' - ' + (document.querySelector('#rbAvail').dataset.st === 'x' ? 'full slot' : 'few left') : '')); window.open(wa(bookingText()), '_blank', 'noopener'); } });
 $('#emailBtn').addEventListener('click', () => {
   if (!resValid()) return;
   location.href = `mailto:${SITE.email}?subject=${encodeURIComponent('Reservation request')}&body=${encodeURIComponent(bookingText())}`;
