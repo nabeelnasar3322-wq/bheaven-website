@@ -279,3 +279,6 @@ html{scroll-padding-top:92px}
   #header .nav{margin:0;justify-self:center}
   #header .header-inner>.btn{justify-self:end}
 }
+
+/* floating WhatsApp bubble removed from the home page */
+#waWrap{display:none!important}
