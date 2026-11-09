@@ -3,6 +3,16 @@
   "outputDirectory": ".",
   "redirects": [
     {
+      "source": "/ibiza-brunch-dubai/:path*",
+      "destination": "/#events",
+      "permanent": false
+    },
+    {
+      "source": "/jazz-friday-dubai/:path*",
+      "destination": "/#events",
+      "permanent": false
+    },
+    {
       "source": "/:file(.+\\.md)",
       "destination": "/",
       "permanent": false
