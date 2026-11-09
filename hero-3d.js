@@ -35,13 +35,19 @@
      actual booking content moved out of the removed "day to night" section */
   cap.className = 'sky-cap';
   cap.innerHTML =
-    '<div class="sky-top" aria-hidden="true"><span class="sky-n">01</span><span class="sky-when"></span><span class="sky-dots"><b></b><b></b><b></b></span></div>' +
     '<h3 class="sky-title"></h3>' +
     '<p class="sky-desc"></p>' +
     '<ul class="sky-perks"></ul>' +
     '<a class="sky-cta" target="_blank" rel="noopener"></a>';
   stick.appendChild(cap);
-  var capN = cap.querySelector('.sky-n'), capWhen = cap.querySelector('.sky-when'), capD = cap.querySelectorAll('.sky-dots b'),
+  /* the step counter ("01 FROM 9 AM" + dots) sits top right of the stage, clear of the header,
+     and fades in with the panel */
+  var top = document.createElement('div');
+  top.className = 'sky-top';
+  top.setAttribute('aria-hidden', 'true');
+  top.innerHTML = '<span class="sky-n">01</span><span class="sky-when"></span><span class="sky-dots"><b></b><b></b><b></b></span>';
+  stick.appendChild(top);
+  var capN = top.querySelector('.sky-n'), capWhen = top.querySelector('.sky-when'), capD = top.querySelectorAll('.sky-dots b'),
     capTitle = cap.querySelector('.sky-title'), capDesc = cap.querySelector('.sky-desc'),
     capPerks = cap.querySelector('.sky-perks'), capCta = cap.querySelector('.sky-cta');
   /* the clip must not run on its own: it is driven only by the scroll position */
