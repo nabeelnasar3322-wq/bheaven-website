@@ -24,12 +24,7 @@ html.fl-ring .show-track{transform-style:preserve-3d;-webkit-transform-style:pre
 html.fl-ring .show-track .show{transition:box-shadow .6s ease,border-color .6s ease!important;transform-style:flat}
 html.fl-ring .show-track.dragging{cursor:grabbing}
 
-/* --- Extruded type --- */
-.head h2{filter:drop-shadow(0 1px 0 rgba(63,84,86,.95)) drop-shadow(0 2px 0 rgba(63,84,86,.8)) drop-shadow(0 3px 0 rgba(46,60,62,.8)) drop-shadow(0 14px 18px rgba(0,0,0,.5))}
-.x3d-gold,.cd-n,.gate-cap{background:linear-gradient(100deg,#8a6a2d 0%,#f2dca0 26%,#d6b26a 46%,#fff3c9 62%,#a98238 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 1px 0 #7a5d24) drop-shadow(0 2px 0 #6a501e) drop-shadow(0 3px 0 #5a4418) drop-shadow(0 4px 0 #4b3914) drop-shadow(0 12px 12px rgba(0,0,0,.55));
-  animation:x3d-sheen 6s ease-in-out infinite alternate}
-@keyframes x3d-sheen{to{background-position:100% 0}}
+.cd-n,.gate-cap{color:var(--cream,#FBF7E2)}
 
 /* --- Next-night countdown --- */
 .cd{margin:20px auto 4px;display:grid;justify-items:center;gap:12px}
@@ -41,7 +36,6 @@ html.fl-ring .show-track.dragging{cursor:grabbing}
 .cd-n{display:block;font:800 clamp(28px,4vw,42px)/1.05 var(--sans,Montserrat,sans-serif);font-variant-numeric:tabular-nums;letter-spacing:.02em}
 .cd-u small{display:block;margin-top:7px;font-size:9.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(251,247,226,.6)}
 @media(max-width:480px){.cd-row{gap:7px}.cd-u{min-width:62px;padding:10px 6px 8px}}
-@media(prefers-reduced-motion:reduce){.x3d-gold,.cd-n,.gate-cap{animation:none}}
 
 /* wide arc fan (desktop + iPad) */
 html.fl-fan .shows{padding-bottom:56px}
