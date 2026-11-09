@@ -1,0 +1,40 @@
+/* Google reviews: same design as the menu page */
+.rvw{position:relative;z-index:2;margin:0;padding:0;font-family:'Montserrat',system-ui,sans-serif}
+.rvw .wrap{position:relative;max-width:none;width:100%;margin:0;box-sizing:border-box;padding:clamp(40px,5vw,72px) max(20px,calc((100vw - 1240px)/2)) clamp(36px,4vw,56px);
+  background:linear-gradient(180deg,rgba(10,26,30,.55),rgba(10,26,30,.35) 45%,rgba(10,26,30,.7)),url("/reviews-bg.webp") center 66%/cover no-repeat #15363B;overflow:hidden}
+.rvHead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:26px}
+.rvw .eyebrow{display:block;color:#D6B46E;font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;font-weight:500}
+.rvHead h2{margin:8px 0 0;font-family:inherit;font-weight:800;text-transform:uppercase;font-size:clamp(2rem,4.4vw,3.4rem);color:#fff;line-height:1.02}
+.rvScore{display:flex;align-items:center;gap:16px;padding:14px 20px;border-radius:20px;background:rgba(255,255,255,.95);box-shadow:0 16px 30px -20px rgba(0,0,0,.35);color:#1F2A33;text-decoration:none}
+.rvScore .big{font-size:2.6rem;font-weight:700;color:#1F2A33;line-height:1}
+.rvScore .st{color:#E5A93B;font-size:1.1rem;letter-spacing:2px}
+.rvScore small{display:block;font-size:.74rem;color:#5E6A70}
+.rvScore .g{width:30px;height:30px}
+.rvTrack{display:flex;align-items:stretch;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  -webkit-mask:linear-gradient(90deg,#000 88%,transparent);mask:linear-gradient(90deg,#000 88%,transparent)}
+.rvTrack::-webkit-scrollbar{display:none}
+.rvTrack:focus-visible{outline:2px solid #D6B46E;outline-offset:4px;border-radius:12px}
+.rvCard{flex:0 0 min(380px,84%);scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:16px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.26);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;transition:transform .35s}
+@media (hover:hover){.rvCard:hover{transform:translateY(-6px)}}
+.rvWho{display:flex;align-items:center;gap:12px}
+.rvAv{width:42px;height:42px;border-radius:50%;flex:0 0 42px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:1.05rem;font-family:Georgia,serif}
+.rvWho b{display:block;font-size:.95rem;color:#fff;line-height:1.25}
+.rvWho .rvMeta{display:flex;align-items:center;gap:6px;font-size:.72rem;color:rgba(255,255,255,.82);margin-top:2px}
+.rvWho .st,.rvCard .src i{color:#E5B452;letter-spacing:2px;font-size:.8rem;font-style:normal}
+.rvLg{display:inline-flex;align-items:center;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:1px 7px;border-radius:20px;background:rgba(214,180,110,.25);color:#F3DFAE}
+.rvCard .qm{display:none}
+.rvCard .hl{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:1.05rem;line-height:1.3;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rvCard q{quotes:none;font-size:.9rem;line-height:1.5;color:rgba(255,255,255,.82);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rvCard .src{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.2);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.82)}
+.rvCard .src span{display:flex;align-items:center;gap:8px}
+.rvCard .src svg{width:16px;height:16px}
+.rvBtns{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;align-items:center}
+.rvBtns .btn{display:inline-flex;align-items:center;padding:15px 28px;border-radius:999px;font:500 .78rem/1 'Montserrat',sans-serif;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;background:#D6B46E;color:#10231F;border:1.5px solid #D6B46E;transition:transform .25s}
+.rvBtns .btn.line{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+@media (hover:hover){.rvBtns .btn:hover{transform:translateY(-2px)}.rvBtns .btn.line:hover{background:#fff;color:#10231F}}
+.rvNav{display:flex;gap:10px;margin-left:auto}
+.rvNav button{width:44px;height:44px;border:0;border-radius:50%;background:#fff;box-shadow:0 10px 20px -12px rgba(0,0,0,.4);display:grid;place-items:center;cursor:pointer}
+.rvNav svg{width:18px;height:18px;fill:none;stroke:#1F2A33;stroke-width:2;stroke-linecap:round}
+.rvNote{font-size:.72rem;color:rgba(255,255,255,.7);margin:10px 0 0}
+@media (max-width:700px){.rvw .wrap{padding:32px 18px 28px}.rvCard{flex-basis:min(280px,80%)}.rvScore{padding:8px 14px;gap:10px;border-radius:16px}.rvScore .big{font-size:1.8rem}.rvScore .g{width:24px;height:24px}.rvNav{margin-left:0}}

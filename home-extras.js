@@ -45,3 +45,7 @@
   if (heroActions) new IntersectionObserver(function (en) { covered.hero = en[0].isIntersecting; update(); }).observe(heroActions);
   if (reserve) new IntersectionObserver(function (en) { covered.reserve = en[0].isIntersecting; update(); }, { threshold: 0.15 }).observe(reserve);
 })();
+
+/* Google reviews carousel arrows */
+(()=>{const t=document.getElementById('rvTrack');if(!t)return;const step=d=>t.scrollBy({left:d*(t.firstElementChild.offsetWidth+18),behavior:'smooth'});
+const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.onclick=()=>step(-1);if(n)n.onclick=()=>step(1)})();

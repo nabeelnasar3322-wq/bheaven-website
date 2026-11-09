@@ -331,12 +331,13 @@ if (track && dotsEl) {
 
 /* Guest reviews */
 const stars = n => '<span class="rev-stars" aria-label="' + n + ' out of 5">' + '★'.repeat(n) + '<i>' + '★'.repeat(5 - n) + '</i></span>';
-$('#revLink').href = REVIEW_LINK;
+if ($('#revLink')) $('#revLink').href = REVIEW_LINK;
 if (typeof GOOGLE_RATING !== 'undefined' && $('#revRating')) {
   $('#revRating').innerHTML = `${stars(5)} <strong>${esc(GOOGLE_RATING.value)}</strong> on Google · ${esc(GOOGLE_RATING.count)} reviews`;
   $('#revRating').removeAttribute('aria-hidden');
 }
-if (REVIEWS.length) {
+if (!$('#reviewsWrap')) { /* reviews now use the static Google carousel */ }
+else if (REVIEWS.length) {
   const initials = n => (n || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
   $('#reviewsWrap').innerHTML = `
     <div class="rev-grid">
