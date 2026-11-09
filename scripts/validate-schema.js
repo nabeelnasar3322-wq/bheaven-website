@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const PAGES = ['menu/index.html', 'business-lunch/index.html', 'shisha/index.html', 'jazz-friday-dubai/index.html', 'ibiza-brunch-dubai/index.html', 'layali-night-dubai/index.html', 'grape-and-graze-dubai/index.html'];
+const PAGES = ['menu/index.html', 'business-lunch/index.html', 'shisha/index.html', 'jazz-friday-dubai/index.html', 'ibiza-brunch-dubai/index.html'];
 
 let errors = [];
 
