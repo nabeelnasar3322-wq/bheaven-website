@@ -40,3 +40,7 @@ html.fl-ring .show-track.dragging{cursor:grabbing}
 /* wide arc fan (desktop + iPad) */
 html.fl-fan .shows{padding-bottom:56px}
 html.fl-fan .show-track .show{transform-origin:50% 100%}
+
+/* gate sentence under the caption */
+.gate-sub{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(11svh - 62px);width:min(88vw,620px);margin:0;text-align:center;font-size:clamp(15px,1.5vw,19px);line-height:1.55;color:var(--cream,#FBF7E2);text-shadow:0 2px 14px rgba(0,0,0,.8);opacity:0;will-change:opacity;pointer-events:none}
+@media(max-width:900px){.gate-sub{bottom:calc(22svh - 62px)}.gate-cap{bottom:22svh}}
