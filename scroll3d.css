@@ -1,0 +1,71 @@
+/* ============ Page-wide 3D depth scroll (scroll3d.js) ============
+   Below the hero, every section moves in depth as you scroll:
+   - blocks rise out of the screen with a perspective tilt (reveal),
+   - photo / card grids tilt like a drum and glide at different speeds per column,
+   - photo bands zoom while their text floats forward,
+   - section headings rise layer by layer.
+   Only compositor-friendly properties are used (translate / rotate / scale, opacity) and each
+   frame JS writes just two variables, --s (position -1..1 through the viewport) and --a (|--s|),
+   on the section container. Off for reduced-motion and Data Saver; phones get a lighter set
+   (html.s3d-lite: no tilt, smaller moves). The hero keeps its own pinned 3D (hero-3d.js). */
+
+/* ---------- 1. Reveal: blocks come forward out of the depth ---------- */
+html.s3d-full.js [data-r]:not(:where(.event,.show,.shows,.time)){
+  transform:perspective(1200px) translate3d(0,64px,-150px) rotateX(13deg);
+  transform-origin:50% 100%;
+  transition:opacity 1s var(--ease),transform 1.25s var(--ease);
+  transition-delay:calc(var(--i,0)*110ms);
+}
+html.s3d-full.js [data-r].in{transform:none}
+html.s3d-lite.js [data-r]:not(:where(.event,.show,.shows,.time)){transform:translate3d(0,40px,0) scale(.97)}
+html.s3d-lite.js [data-r].in{transform:none}
+
+/* ---------- 2. Section headings: eyebrow, title and lead rise at different speeds ---------- */
+html.s3d .head>.eyebrow{translate:0 calc(var(--s,0)*-14px)}
+html.s3d .head>h2{translate:0 calc(var(--s,0)*-26px)}
+html.s3d .head>.lead{translate:0 calc(var(--s,0)*-38px)}
+html.s3d-lite .head>.eyebrow,html.s3d-lite .head>.lead{translate:none}
+html.s3d-lite .head>h2{translate:0 calc(var(--s,0)*-14px)}
+
+/* ---------- 3. About: photos sit on separate depth layers ---------- */
+html.s3d-full .about-photos{perspective:1400px}
+html.s3d-full .about-photos .ph{rotate:x calc(var(--s,0)*-6deg);transform-origin:50% 50%}
+html.s3d-full .about-photos .ph:nth-child(1){translate:0 calc(var(--s,0)*-10px)}
+html.s3d-full .about-photos .ph:nth-child(2){translate:0 calc(var(--s,0)*-22px)}
+html.s3d-full .about-photos .ph:nth-child(3){translate:0 calc(var(--s,0)*-34px)}
+html.s3d-full .about-photos .ph:nth-child(n+4){translate:0 calc(var(--s,0)*-46px)}
+html.s3d-full .features{perspective:1000px}
+html.s3d-full .features .feature{translate:0 calc(var(--s,0)*-16px);rotate:x calc(var(--s,0)*-5deg)}
+html.s3d-full .features .feature:nth-child(2n){translate:0 calc(var(--s,0)*-34px)}
+.about-photos.s3d-on .ph,.features.s3d-on .feature{will-change:translate,rotate}
+
+/* ---------- 4. Photo bands: the picture zooms, the words float in front ---------- */
+html.s3d .band .band-bg,html.s3d .res-bg{scale:calc(1.04 + (1 - var(--a,1))*.16);transform-origin:50% 50%}
+html.s3d .band:hover .band-bg{scale:calc(1.04 + (1 - var(--a,1))*.16)}
+html.s3d-full .band .band-inner{translate:0 calc(var(--s,0)*-44px);scale:calc(1 - var(--a,0)*.05)}
+html.s3d-lite .band .band-inner{translate:0 calc(var(--s,0)*-20px)}
+.band.s3d-on .band-bg,.reserve.s3d-on .res-bg{will-change:translate,scale}
+
+/* ---------- 5. Menu cards and gallery: drum tilt, each column on its own speed ---------- */
+html.s3d-full .menu-cat-grid,html.s3d-full .gal-grid{perspective:1500px}
+html.s3d-full .menu-cat-grid .tcard,html.s3d-full .gal-grid .ph{
+  rotate:x calc(var(--s,0)*-6deg);
+  translate:0 calc(var(--s,0)*var(--k,1)*20px);
+  transform-origin:50% 50%;
+}
+html.s3d-full .menu-cat-grid>:nth-child(4n+1),html.s3d-full .gal-grid>:nth-child(4n+1){--k:.4}
+html.s3d-full .menu-cat-grid>:nth-child(4n+2),html.s3d-full .gal-grid>:nth-child(4n+2){--k:.8}
+html.s3d-full .menu-cat-grid>:nth-child(4n+3),html.s3d-full .gal-grid>:nth-child(4n+3){--k:1.2}
+html.s3d-full .menu-cat-grid>:nth-child(4n+4),html.s3d-full .gal-grid>:nth-child(4n+4){--k:1.6}
+.menu-cat-grid.s3d-on .tcard,.gal-grid.s3d-on .ph{will-change:translate,rotate}
+html.s3d-lite .menu-cat-grid .tcard,html.s3d-lite .gal-grid .ph{translate:0 calc(var(--s,0)*-16px)}
+
+/* ---------- 6. Find us: the map comes forward from the picture ---------- */
+html.s3d-full .loc{perspective:1400px}
+html.s3d-full .loc .loc-map{translate:0 calc(var(--s,0)*-46px);rotate:x calc(var(--s,0)*-7deg)}
+html.s3d-full .loc .loc-info{translate:0 calc(var(--s,0)*-22px)}
+html.s3d-lite .loc .loc-map{translate:0 calc(var(--s,0)*-20px)}
+
+@media (prefers-reduced-motion:reduce){
+  html.s3d *{translate:none!important;rotate:none!important}
+}
