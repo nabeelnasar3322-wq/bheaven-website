@@ -94,6 +94,9 @@ const FESTIVE = [
   { key: 'xmas', day: '24 December', time: '6:30 PM – 10:30 PM', until: '2026-12-24T22:30:00+04:00', title: 'Christmas Eve Dinner', big: 'Christmas', sub: 'Eve Dinner',
     perks: ['B·Heaven Pool Area', 'AED 175 per person · Soft beverages', 'AED 250 per person · House beverages', 'AED 350 per person · Premium beverages'],
     price: 'From AED 175 per person', cta: 'Book Christmas Eve' },
+  { key: 'festive', day: '24 & 31 December', time: 'Two festive nights', until: '2027-01-01T04:00:00+04:00', title: 'Festive Season', big: 'Festive', sub: 'Season · 2027',
+    perks: ['Christmas Eve Dinner · 24 Dec', "New Year's Eve · 31 Dec", 'B·Heaven Pool Area'],
+    price: 'From AED 175 per person', cta: 'Book festive season' },
   { key: 'nye', day: '31 December', time: 'From 8 PM', until: '2027-01-01T04:00:00+04:00', title: "New Year's Eve Celebration", big: 'NYE', sub: 'Celebration · 2027',
     perks: ['B·Heaven Pool Area', 'AED 399 per person · Soft beverages', 'AED 499 per person · House beverages', 'AED 599 per person · Premium beverages'],
     price: 'From AED 399 per person', cta: 'Book New Year\'s Eve' }
