@@ -283,3 +283,17 @@ html{scroll-padding-top:92px}
 
 /* floating WhatsApp bubble removed from the home page */
 #waWrap{display:none!important}
+
+/* Festive season 2026: Christmas Eve and New Year's Eve cards, badge and NYE countdown */
+.show.xmas .show-art{background:radial-gradient(55% 45% at 50% 30%,rgba(214,178,106,.38),transparent 70%),linear-gradient(165deg,#0D2A27,#14403A 55%,#0A1C1A)}
+.show.xmas .big,.show.nye .big{margin-top:-46%}
+.show.xmas .big{font-family:var(--serif);font-weight:700;font-size:40px;letter-spacing:.08em;color:#F1DDB3;text-transform:uppercase}.show.xmas .big small{color:#D9BE8C}
+.show.nye .show-art{background:radial-gradient(50% 40% at 50% 28%,rgba(232,199,126,.45),transparent 70%),radial-gradient(30% 25% at 18% 72%,rgba(154,182,186,.22),transparent 70%),linear-gradient(180deg,#05080C,#101A22)}
+.show.nye .big{font-family:var(--serif);font-weight:800;font-size:78px;letter-spacing:.1em;color:#E8C77E}.show.nye .big small{color:#E8C77E;letter-spacing:.3em}
+.show-badge.festive{background:linear-gradient(120deg,#D9BE8C,#F7EBCB);color:#262729;border-color:transparent}
+.festiveCd{display:inline-flex;align-items:center;gap:10px;margin:18px auto 0;padding:10px 18px;border-radius:999px;border:1px solid rgba(217,190,140,.55);background:rgba(217,190,140,.1);color:#F1DDB3;font-size:.82rem;line-height:1.4;text-align:left}
+.festiveCd[hidden]{display:none}
+.festiveCd b{font-weight:700;font-variant-numeric:tabular-nums;color:#fff}
+.festiveCd .fc-star{color:#D9BE8C;animation:fcTw 2.4s ease-in-out infinite}
+@keyframes fcTw{50%{opacity:.3;transform:scale(.75)}}
+@media(prefers-reduced-motion:reduce){.festiveCd .fc-star{animation:none}}

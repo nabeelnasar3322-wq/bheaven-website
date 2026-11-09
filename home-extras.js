@@ -45,3 +45,22 @@
   if (heroActions) new IntersectionObserver(function (en) { covered.hero = en[0].isIntersecting; update(); }).observe(heroActions);
   if (reserve) new IntersectionObserver(function (en) { covered.reserve = en[0].isIntersecting; update(); }, { threshold: 0.15 }).observe(reserve);
 })();
+
+/* Festive: live countdown to the New Year's Eve party (8 PM, Dubai time). Hidden once the night has started. */
+(function () {
+  'use strict';
+  var box = document.getElementById('festiveCd'), out = document.getElementById('festiveCdT');
+  if (!box || !out) return;
+  var target = Date.parse('2026-12-31T20:00:00+04:00');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    var ms = target - Date.now();
+    if (ms <= 0) { box.hidden = true; return false; }
+    var s = Math.floor(ms / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+    out.textContent = d + (d === 1 ? ' day ' : ' days ') + pad(h) + ' h ' + pad(m) + ' min ' + pad(s % 60) + ' s';
+    box.hidden = false;
+    return true;
+  }
+  if (!tick()) return;
+  var id = setInterval(function () { if (!tick()) clearInterval(id); }, 1000);
+})();
