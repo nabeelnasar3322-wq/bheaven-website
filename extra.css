@@ -246,3 +246,5 @@ em,i:not([class]){font-style:normal}
   .hero-shade{background:linear-gradient(180deg,rgba(20,21,23,.45) 0%,rgba(20,21,23,0) 16%,rgba(20,21,23,0) 40%,rgba(20,21,23,.55) 64%,rgba(20,21,23,.9) 86%,#1E1F21 100%)}
   .hero-actions .btn{flex:1 1 100%}
 }
+
+.rf-privacy{margin:2px 0 0;font-size:12px;line-height:1.5;color:var(--muted)}
