@@ -35,10 +35,12 @@
      actual booking content moved out of the removed "day to night" section */
   cap.className = 'sky-cap';
   cap.innerHTML =
+    '<span class="sky-eyebrow"></span>' +
     '<h3 class="sky-title"></h3>' +
     '<p class="sky-desc"></p>' +
     '<ul class="sky-perks"></ul>' +
-    '<a class="sky-cta" target="_blank" rel="noopener"></a>';
+    '<a class="sky-cta" target="_blank" rel="noopener"></a>' +
+    '<span class="sky-rail" aria-hidden="true"><b></b><b></b><b></b></span>';
   stick.appendChild(cap);
   /* the step counter ("01 FROM 9 AM" + dots) sits top right of the stage, clear of the header,
      and fades in with the panel */
@@ -49,7 +51,8 @@
   stick.appendChild(top);
   var capN = top.querySelector('.sky-n'), capWhen = top.querySelector('.sky-when'), capD = top.querySelectorAll('.sky-dots b'),
     capTitle = cap.querySelector('.sky-title'), capDesc = cap.querySelector('.sky-desc'),
-    capPerks = cap.querySelector('.sky-perks'), capCta = cap.querySelector('.sky-cta');
+    capPerks = cap.querySelector('.sky-perks'), capCta = cap.querySelector('.sky-cta'),
+    capEy = cap.querySelector('.sky-eyebrow'), capRail = cap.querySelectorAll('.sky-rail b');
   /* the clip must not run on its own: it is driven only by the scroll position */
   v.loop = false; v.autoplay = false;
   v.addEventListener('play', function () { v.pause(); });
@@ -70,6 +73,9 @@
     capPerks.innerHTML = d.perks.map(function (t) { return '<li>' + t + '</li>'; }).join('');
     capCta.textContent = d.cta; capCta.href = d.href;
     for (var i = 0; i < capD.length; i++) capD[i].className = i === idx ? 'on' : '';
+    capEy.textContent = d.when;
+    for (var j = 0; j < capRail.length; j++) capRail[j].className = j === idx ? 'on' : '';
+    cap.classList.remove('in'); void cap.offsetWidth; cap.classList.add('in');
   }
   function apply(p) {
     var e = ease(p), root = hero.style;
