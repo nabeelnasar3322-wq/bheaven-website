@@ -54,13 +54,24 @@
     if (!track || !wrap || !track.children.length) return;
     var cards = [].slice.call(track.children), N = cards.length;
     var pos = window.__showCur || 0, target = pos, vel = 0, raf = 0, last = 0;
+    var mqFan = matchMedia('(min-width:768px)'), fan = mqFan.matches;
     var dragging = false, moved = false, sx = 0, p0 = 0, lx = 0, lt = 0, v = 0, W = 300, R = 300, inView = false, blurOn = fine;
     html.classList.add('fl-ring');
-    function measure() { W = cards[0].offsetWidth || 300; R = Math.round(W * .5 / Math.tan(Math.PI / N) * 1.12 + 30); render(); }
+    function measure() { fan = mqFan.matches; html.classList.toggle('fl-fan', fan); W = cards[0].offsetWidth || 300; R = Math.round(W * .5 / Math.tan(Math.PI / N) * 1.12 + 30); render(); }
     function render() {
       var step = 360 / N;
       for (var i = 0; i < N; i++) {
         var o = i - pos; o -= N * Math.round(o / N);
+        if (fan) { /* wide arc fan: desktop + iPad */
+          var ao = Math.abs(o), f = cards[i].style;
+          f.transform = 'translate3d(' + (o * W * .82).toFixed(1) + 'px,' + (o * o * 16).toFixed(1) + 'px,' + (-ao * 90).toFixed(1) + 'px) rotateZ(' + (o * 5).toFixed(2) + 'deg) rotateY(' + (-o * 12).toFixed(2) + 'deg) scale(' + Math.max(.5, 1 - ao * .07).toFixed(3) + ')';
+          f.opacity = ao > 2.6 ? 0 : Math.max(0, 1 - ao * .2 - Math.max(0, ao - 2) * .6).toFixed(3);
+          f.filter = blurOn && ao > .6 ? 'blur(' + (Math.min(3, (ao - .5) * 1.6) * 2 | 0) / 2 + 'px)' : 'none';
+          f.pointerEvents = ao > 2.2 ? 'none' : '';
+          f.zIndex = 100 - Math.round(ao * 10);
+          continue;
+        }
+        cards[i].style.zIndex = '';
         var ang = o * step, a = Math.abs(ang), c = cards[i], st = c.style;
         st.transform = 'translateZ(' + (-R) + 'px) rotateY(' + ang.toFixed(2) + 'deg) translateZ(' + R + 'px)';
         st.opacity = (1 - Math.min(1, a / 150) * .6).toFixed(3);
@@ -101,9 +112,9 @@
     function mv(e) {
       if (!dragging) return;
       var dx = e.clientX - sx; if (Math.abs(dx) > 6) moved = true;
-      pos = p0 - dx / (W * .9);
+      pos = p0 - dx / (W * (fan ? .82 : .9));
       var now = performance.now(), dt = Math.max(1, now - lt);
-      v = .6 * v + .4 * ((lx - e.clientX) / (W * .9)) / dt * 16; lx = e.clientX; lt = now;
+      v = .6 * v + .4 * ((lx - e.clientX) / (W * (fan ? .82 : .9))) / dt * 16; lx = e.clientX; lt = now;
       render();
     }
     function up() {

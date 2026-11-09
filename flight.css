@@ -42,3 +42,7 @@ html.fl-ring .show-track.dragging{cursor:grabbing}
 .cd-u small{display:block;margin-top:7px;font-size:9.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(251,247,226,.6)}
 @media(max-width:480px){.cd-row{gap:7px}.cd-u{min-width:62px;padding:10px 6px 8px}}
 @media(prefers-reduced-motion:reduce){.x3d-gold,.cd-n,.gate-cap{animation:none}}
+
+/* wide arc fan (desktop + iPad) */
+html.fl-fan .shows{padding-bottom:56px}
+html.fl-fan .show-track .show{transform-origin:50% 100%}
