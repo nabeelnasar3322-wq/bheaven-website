@@ -1,9 +1,9 @@
 /* Small tweaks on top of style.css */
 
 /* Header logo: 185px wide (145px on phones), original proportions (670:180) */
-.header .wordmark .logo-svg{width:185px}
-@media(max-width:899px){.header .wordmark .logo-svg{width:145px}}
-@media(min-width:960px) and (max-width:1279px){.header .wordmark .logo-svg{width:160px}}
+.header .wordmark .logo-svg{width:205px}
+@media(max-width:899px){.header .wordmark .logo-svg{width:158px}}
+@media(min-width:960px) and (max-width:1279px){.header .wordmark .logo-svg{width:178px}}
 /* Header lines up with the menu, shisha and business-lunch pages: logo 40px from the left and 22px from the top (20px / 23px on phones) */
 .header .container.header-inner{max-width:none;padding:0 40px}
 @media(max-width:900px){.header .container.header-inner{padding:0 20px}}
@@ -271,4 +271,11 @@ html{scroll-padding-top:92px}
 @media(max-width:700px){
   html .hero{padding-bottom:116px}
   html.sky-on .hero .sky-stick{padding-bottom:116px}
+}
+
+/* header: nav centred between logo and Reserve (matches the other pages) */
+@media(min-width:960px){
+  #header .header-inner{display:grid;grid-template-columns:minmax(max-content,1fr) auto minmax(max-content,1fr);align-items:center}
+  #header .nav{margin:0;justify-self:center}
+  #header .header-inner>.btn{justify-self:end}
 }
