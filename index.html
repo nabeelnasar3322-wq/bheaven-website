@@ -21,7 +21,8 @@
 <meta name="twitter:image" content="https://bheavendubai.com/og-image.jpg">
 <meta name="twitter:image:alt" content="The B·HEAVEN pool pavilion at Barceló Al Jaddaf, Dubai">
 <link rel="canonical" href="https://bheavendubai.com/">
-<link rel="preload" as="image" href="/hero-2.jpeg" fetchpriority="high">
+<link rel="preload" as="image" href="/hero-2.webp" type="image/webp" media="(min-width:901px)" fetchpriority="high">
+<link rel="preload" as="image" href="/hero-2-m.webp" type="image/webp" media="(max-width:900px)" fetchpriority="high">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23262729'/%3E%3Cpath d='M20 46 32 16l12 30' fill='none' stroke='%239AB6BA' stroke-width='4'/%3E%3C/svg%3E">
 <script type="application/ld+json">
@@ -64,7 +65,8 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="custom.css">
 <link rel="stylesheet" href="extra.css">
@@ -119,8 +121,8 @@
   <div class="sky-stick">
   <div class="frame" aria-hidden="true">
     <div class="pan">
-      <video muted playsinline webkit-playsinline preload="auto" poster="/hero-2.jpeg" class="hero-video" id="heroVid"></video>
-      <script>(function(){try{var v=document.getElementById('heroVid');if(!v)return;var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,sd=(navigator.connection||{}).saveData,sky=!rm&&!sd,mobile=matchMedia('(max-width: 900px)').matches;window.__skyOn=sky;v.muted=true;v.defaultMuted=true;if(sky){document.documentElement.classList.add('sky-on');v.loop=false;v.addEventListener('play',function(){v.pause()});v.src=mobile?'/hero-scroll-m.mp4':'/hero-scroll.mp4';v.pause()}else{v.src='/bhvn.mp4';v.loop=true;v.play().catch(function(){})}}catch(e){}})();</script>
+      <video muted playsinline webkit-playsinline preload="auto" poster="/hero-2.webp" class="hero-video" id="heroVid"></video>
+      <script>(function(){try{var v=document.getElementById('heroVid');if(!v)return;var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,sd=(navigator.connection||{}).saveData,sky=!rm&&!sd,mobile=matchMedia('(max-width: 900px)').matches;if(mobile)v.poster='/hero-2-m.webp';window.__skyOn=sky;v.muted=true;v.defaultMuted=true;if(sky){document.documentElement.classList.add('sky-on');v.loop=false;v.addEventListener('play',function(){v.pause()});v.src=mobile?'/hero-scroll-m.mp4':'/hero-scroll.mp4';v.pause()}else{v.src='/bhvn.mp4';v.loop=true;v.play().catch(function(){})}}catch(e){}})();</script>
       <div class="rays"></div><div class="sun"></div>
       <div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
       <div class="water"></div>
@@ -133,8 +135,8 @@
   <div class="container hero-content">
     <p class="hero-tag"><i></i><span class="daypart-label" id="daypartLabel">Rooftop bar &amp; lounge</span><span class="tag-more"> · Barceló Al Jaddaf</span></p>
     <h1 id="heroTitle" aria-label="Al Jaddaf's hidden rooftop">
-      <span class="line" data-split="Al Jaddaf's" data-start="0.5"></span>
-      <span class="line hl" data-split="hidden rooftop" data-start="0.85"></span>
+      <span class="line" data-split="Al Jaddaf's" data-start="0.12"></span>
+      <span class="line hl" data-split="hidden rooftop" data-start="0.32"></span>
     </h1>
     <p class="lead">Modern Levant cuisine, signature cocktails and premium shisha by the pool, with 180° views of the Dubai skyline.</p>
     <div class="hero-actions">

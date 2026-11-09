@@ -11,8 +11,8 @@ html.lenis,html.lenis body{height:auto}
 html.fl-gate .gate{display:block;position:relative;height:100svh;background:var(--night,#262729);overflow:hidden}
 .gate-stage{position:absolute;inset:0;overflow:hidden;--gw:min(30vw,40svh);--gh:min(62svh,86vw)}
 @media(max-width:900px){.gate-stage{--gw:min(62vw,42svh);--gh:min(64svh,110vw)}}
-.gate-deck{position:absolute;inset:-2%;background:#141518 url(/hero-2.jpeg) 64% 58%/cover no-repeat;transform:scale(1.18);will-change:transform;filter:saturate(1.05)}
-@media(max-width:900px){.gate-deck{background-image:url(/hero-2-m.jpeg)}}
+.gate-deck{position:absolute;inset:-2%;background:#141518 url(/hero-2.webp) 64% 58%/cover no-repeat;transform:scale(1.18);will-change:transform;filter:saturate(1.05)}
+@media(max-width:900px){.gate-deck{background-image:url(/hero-2-m.webp)}}
 .gate-glow{position:absolute;inset:0;background:radial-gradient(60% 55% at 50% 58%,rgba(214,178,106,.18),transparent 70%);mix-blend-mode:screen;pointer-events:none}
 .gate-frame{position:absolute;left:50%;top:50%;width:var(--gw);height:var(--gh);margin:calc(var(--gh) * -.5) 0 0 calc(var(--gw) * -.5);
   border-radius:calc(var(--gw) / 2) calc(var(--gw) / 2) 4px 4px;border:2px solid rgba(214,178,106,.72);transform-origin:50% 64%;will-change:transform;
@@ -72,12 +72,12 @@ html .hero h1 .line{perspective:700px;transform-style:preserve-3d}
 html .hero h1 .ch{animation:hx-ch 1.15s cubic-bezier(.16,1,.3,1) both;transform-origin:50% 100%;backface-visibility:hidden}
 html .hero-content>h1{animation:none}
 html .hero-content>.hero-tag{animation:hx-tag .9s cubic-bezier(.22,1,.36,1) .15s both}
-html .hero-content>.lead{animation:hx-lead .9s cubic-bezier(.22,1,.36,1) 1.35s both}
+html .hero-content>.lead{animation:hx-lead .8s cubic-bezier(.22,1,.36,1) .85s both}
 html .hero-content>.hero-actions>*{animation:hx-btn .8s cubic-bezier(.22,1.2,.36,1) both}
-html .hero-content>.hero-actions>*:nth-child(1){animation-delay:1.6s}
-html .hero-content>.hero-actions>*:nth-child(2){animation-delay:1.75s}
+html .hero-content>.hero-actions>*:nth-child(1){animation-delay:1.05s}
+html .hero-content>.hero-actions>*:nth-child(2){animation-delay:1.2s}
 html .hero-content>.hero-actions{animation:none}
-html .scroll-cue{animation-delay:2.1s}
+html .scroll-cue{animation-delay:1.5s}
 @media(prefers-reduced-motion:reduce){html .hero h1 .ch,html .hero-content>*,html .hero-content>.hero-actions>*{animation:none!important}}
 
 /* hero caption: title only, smaller */
@@ -88,3 +88,10 @@ html.sky-on .sky-cap .sky-title{margin:0}
   html.sky-on .sky-cap .sky-title{font-size:clamp(22px,1.9vw,28px)}
 }
 @media(max-width:899px){html.sky-on .sky-cap .sky-title{font-size:clamp(22px,5.6vw,28px)}}
+
+/* performance guard: level 1 = no backdrop blur, no depth blur; level 2 = flat reveals, no pinned tunnel */
+html.perf-1 *,html.perf-1 *::before,html.perf-1 *::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html.perf-1 #header.solid{background:rgba(30,31,33,.94)!important}
+html.perf-1 .rbook,html.perf-1 .vibe-concierge{background:rgba(24,25,27,.9)!important}
+html.perf-1 .show-track .show{filter:none!important}
+html.perf-2 .gate{display:none!important}

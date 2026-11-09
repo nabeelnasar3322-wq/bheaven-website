@@ -7,6 +7,40 @@
   var save = !!(navigator.connection && navigator.connection.saveData);
   var fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
 
+  /* ---------- 0. Adaptive performance guard (battery saver) ----------
+     Starts lighter on weak devices; watches real frame rate while the visitor scrolls and
+     steps effects down if it stays under ~50fps: level 1 drops glass blur + depth blur, level 2 also
+     drops smooth-scroll, the pinned tunnel and the 3D reveal tilt. */
+  var perf = { lvl: 0, lenis: null, frames: [], lastScroll: 0 };
+  function setLevel(n) {
+    if (n <= perf.lvl) return; perf.lvl = n;
+    html.classList.add('perf-1'); window.__blurOff = true;
+    if (n >= 2) {
+      html.classList.add('perf-2');
+      try { if (perf.lenis) { perf.lenis.destroy(); perf.lenis = null; } } catch (_) {}
+      try { if (window.ScrollTrigger) { ScrollTrigger.getAll().forEach(function (t) { t.kill(true); }); } } catch (_) {}
+      html.classList.remove('fl-gate', 's3d-full'); html.classList.add('s3d-lite');
+    }
+  }
+  (function monitor() {
+    var mem = navigator.deviceMemory, cores = navigator.hardwareConcurrency;
+    if ((mem && mem <= 2) || (cores && cores <= 2)) setLevel(1);
+    var last = 0, buf = [], poor = 0;
+    addEventListener('scroll', function () { perf.lastScroll = performance.now(); }, { passive: true });
+    function loop(t) {
+      if (last && !doc.hidden && t - perf.lastScroll < 120) { buf.push(t - last); }
+      last = t;
+      if (buf.length >= 90) {
+        var avg = buf.reduce(function (a, b) { return a + b; }, 0) / buf.length, fps = 1000 / avg;
+        buf = [];
+        poor = fps < 50 ? poor + 1 : 0; /* two poor windows in a row, so one hitch never trips it */
+        if (poor >= 2 && perf.lvl < 2) { poor = 0; setLevel(perf.lvl + 1); }
+      }
+      if (perf.lvl < 2) requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
   /* ---------- 1. Countdown to the next weekly night (Asia/Dubai, UTC+4, no DST) ---------- */
   (function countdown() {
     var box = $('#nextCd'); if (!box || typeof EVENTS === 'undefined') return;
@@ -84,7 +118,7 @@
           var ao = Math.abs(o), f = cards[i].style;
           f.transform = 'translate3d(' + (o * W * .82).toFixed(1) + 'px,' + (o * o * 16).toFixed(1) + 'px,' + (-ao * 90).toFixed(1) + 'px) rotateZ(' + (o * 5).toFixed(2) + 'deg) rotateY(' + (-o * 12).toFixed(2) + 'deg) scale(' + Math.max(.5, 1 - ao * .07).toFixed(3) + ')';
           f.opacity = ao > 2.6 ? 0 : Math.max(0, 1 - ao * .2 - Math.max(0, ao - 2) * .6).toFixed(3);
-          f.filter = blurOn && ao > .6 ? 'blur(' + (Math.min(3, (ao - .5) * 1.6) * 2 | 0) / 2 + 'px)' : 'none';
+          f.filter = blurOn && !window.__blurOff && ao > .6 ? 'blur(' + (Math.min(3, (ao - .5) * 1.6) * 2 | 0) / 2 + 'px)' : 'none';
           f.pointerEvents = ao > 2.2 ? 'none' : '';
           f.zIndex = 100 - Math.round(ao * 10);
           continue;
@@ -93,7 +127,7 @@
         var ang = o * step, a = Math.abs(ang), c = cards[i], st = c.style;
         st.transform = 'translateZ(' + (-R) + 'px) rotateY(' + ang.toFixed(2) + 'deg) translateZ(' + R + 'px)';
         st.opacity = (1 - Math.min(1, a / 150) * .6).toFixed(3);
-        st.filter = blurOn && a > 20 ? 'blur(' + (Math.min(4, (a - 20) / 20) * 2 | 0) / 2 + 'px)' : 'none';
+        st.filter = blurOn && !window.__blurOff && a > 20 ? 'blur(' + (Math.min(4, (a - 20) / 20) * 2 | 0) / 2 + 'px)' : 'none';
         st.pointerEvents = a > 80 ? 'none' : '';
       }
     }
@@ -163,14 +197,15 @@
     var lenis = null;
     if (fine && window.Lenis) {
       lenis = new Lenis({ lerp: .1, wheelMultiplier: .95, smoothWheel: true, anchors: true, prevent: function (n) { return !!(n.closest && n.closest('[data-lenis-prevent],.lb,.wa-card,[role=dialog]')); } });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+      perf.lenis = lenis; if (perf.lvl >= 2) { lenis.destroy(); perf.lenis = lenis = null; }
+      if (lenis) lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(function (t) { if (perf.lenis) perf.lenis.raf(t * 1000); });
       gsap.ticker.lagSmoothing(0);
-      var lock = function () { (html.style.overflow === 'hidden' || doc.body.style.overflow === 'hidden') ? lenis.stop() : lenis.start(); };
+      var lock = function () { if (!perf.lenis) return; (html.style.overflow === 'hidden' || doc.body.style.overflow === 'hidden') ? perf.lenis.stop() : perf.lenis.start(); };
       new MutationObserver(lock).observe(html, { attributes: true, attributeFilter: ['style'] });
       new MutationObserver(lock).observe(doc.body, { attributes: true, attributeFilter: ['style'] });
     }
-    var gate = $('#gate'); if (!gate) return;
+    var gate = $('#gate'); if (!gate || perf.lvl >= 2) return;
     html.classList.add('fl-gate');
     var frame = $('.gate-frame', gate), deck = $('.gate-deck', gate), cap = $('.gate-cap', gate), sub = $('.gate-sub', gate);
     var tl = gsap.timeline({ scrollTrigger: { trigger: gate, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 1.25); }, pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true } });
