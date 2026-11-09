@@ -79,3 +79,12 @@ html .hero-content>.hero-actions>*:nth-child(2){animation-delay:1.75s}
 html .hero-content>.hero-actions{animation:none}
 html .scroll-cue{animation-delay:2.1s}
 @media(prefers-reduced-motion:reduce){html .hero h1 .ch,html .hero-content>*,html .hero-content>.hero-actions>*{animation:none!important}}
+
+/* hero caption: title only, smaller */
+html.sky-on .sky-cap .sky-desc{display:none}
+html.sky-on .sky-cap .sky-title{margin:0}
+@media(min-width:900px){
+  html.sky-on .sky-cap{width:min(310px,30vw);padding:18px 22px 20px;border-radius:20px}
+  html.sky-on .sky-cap .sky-title{font-size:clamp(22px,1.9vw,28px)}
+}
+@media(max-width:899px){html.sky-on .sky-cap .sky-title{font-size:clamp(22px,5.6vw,28px)}}

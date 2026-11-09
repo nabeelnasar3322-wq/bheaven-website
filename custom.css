@@ -276,6 +276,7 @@ html{scroll-padding-top:92px}
 /* header: nav centred between logo and Reserve (matches the other pages) */
 @media(min-width:960px){
   #header .header-inner{display:grid;grid-template-columns:minmax(max-content,1fr) auto minmax(max-content,1fr);align-items:center}
+  #header .wordmark{justify-self:start}
   #header .nav{margin:0;justify-self:center}
   #header .header-inner>.btn{justify-self:end}
 }
