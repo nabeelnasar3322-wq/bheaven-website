@@ -70,11 +70,11 @@
       var done = !s.on && Math.abs(s.x) < .002 && Math.abs(s.y) < .002;
       if (done) {
         s.x = s.y = 0;
-        el.style.removeProperty('--rx'); el.style.removeProperty('--ry');
+        el.style.removeProperty('--ix'); el.style.removeProperty('--iy');
         el.classList.remove('tilt-on'); live.delete(el); return;
       }
-      el.style.setProperty('--rx', (-s.y * 9).toFixed(2) + 'deg');
-      el.style.setProperty('--ry', (s.x * 11).toFixed(2) + 'deg');
+      el.style.setProperty('--ix', (-s.y * 9).toFixed(2) + 'deg');
+      el.style.setProperty('--iy', (s.x * 11).toFixed(2) + 'deg');
       busy = true;
     });
     if (busy) raf = requestAnimationFrame(tick);

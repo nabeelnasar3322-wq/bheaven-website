@@ -109,9 +109,9 @@ html.s3d-full .loc .loc-info{translate:0 calc(var(--s,0)*-22px)}
 /* ---------- Interactive layer (interact3d.js): pointer tilt + scroll-velocity lean ----------
    Uses the separate `transform` property, so it adds to the scroll animation (translate / rotate / scale). */
 html.s3d-full :is(.menu-cat-grid .tcard,.gal-grid .ph,.about-photos .ph,.features .feature){
-  transform:perspective(900px) rotateX(calc(var(--rx,0deg) + var(--vel,0)*-2.2deg)) rotateY(var(--ry,0deg)) translateZ(0);
+  transform:perspective(900px) rotateX(calc(var(--ix,0deg) + var(--vel,0)*-2.2deg)) rotateY(var(--iy,0deg)) translateZ(0)!important;
 }
-html.s3d-full .loc .loc-map{transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+html.s3d-full .loc .loc-map{transform:perspective(1000px) rotateX(var(--ix,0deg)) rotateY(var(--iy,0deg))!important}
 html.s3d-full .tilt-on{will-change:transform;}
 /* the spring in JS does the easing, so drop any CSS transform transition on these */
 html.s3d-full .features .feature{transition:border-color .4s}
