@@ -1,0 +1,40 @@
+/* Festive season layer for the homepage (loaded only by index.html; body.fest).
+   Card-led: a greeting card in What's on, and a festive corner star on menu, review and feature cards.
+   Animates opacity only, keeps the site's palette (charcoal, teal, lagoon, cream, velvet), and stops for reduced motion. */
+
+body.fest{--fest-star:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23C9DADC' d='M12 1.5l2.4 7.4 7.8 0-6.3 4.6 2.4 7.4L12 16.4l-6.3 4.5 2.4-7.4-6.3-4.6 7.8 0z'/%3E%3C/svg%3E")}
+
+/* ---- Greeting card (What's on) ---- */
+.fest-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;gap:18px 30px;max-width:960px;margin:0 auto 44px;padding:46px 36px 30px;border-radius:26px;background:linear-gradient(160deg,rgba(110,26,34,.5),rgba(46,48,50,.94) 55%,rgba(47,95,102,.45));border:1px solid rgba(201,218,220,.35);box-shadow:inset 0 0 0 6px rgba(38,39,41,.55),inset 0 0 0 7px rgba(201,218,220,.18),0 30px 60px -34px rgba(0,0,0,.75)}
+/* string of fairy lights along the top edge */
+.fest-card::before{content:'';position:absolute;left:0;right:0;top:0;height:20px;pointer-events:none;background:linear-gradient(rgba(201,218,220,.4),rgba(201,218,220,.4)) 0 6px/100% 1px no-repeat,radial-gradient(circle at 50% 6px,#FBF7E2 0 2.6px,transparent 3.6px) 0 0/64px 20px repeat-x,radial-gradient(circle at 50% 6px,#E0A4A0 0 2.6px,transparent 3.6px) 32px 0/64px 20px repeat-x;animation:fest-twinkle 3.2s ease-in-out infinite alternate}
+.fest-orn{position:absolute;top:22px;right:26px;width:26px;height:26px;opacity:.9;pointer-events:none}
+.fest-body{flex:1 1 420px;min-width:0}
+.fest-body .eyebrow{color:#D6B46E;margin-bottom:10px}
+.fest-body h3{font-size:clamp(26px,3.4vw,38px);font-weight:800;line-height:1.12;color:var(--cream);margin:0 0 10px}
+.fest-body h3 .script{font-size:1.15em}
+.fest-body p{margin:0;color:var(--muted);max-width:560px}
+.fest-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.fest-actions .btn-line{border-color:rgba(201,218,220,.45)}
+
+/* ---- Festive corner star on existing cards ---- */
+body.fest .tcard,
+body.fest .rev-card{position:relative}
+body.fest .tcard::before,
+body.fest .rev-card::before{content:'';position:absolute;top:16px;right:16px;left:auto;bottom:auto;width:22px;height:22px;background:var(--fest-star) center/contain no-repeat;opacity:.9;z-index:2;pointer-events:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.45))}
+body.fest .tcard{box-shadow:inset 0 0 0 1px rgba(201,218,220,.3)}
+body.fest .rev-card{border-color:rgba(201,218,220,.3)}
+body.fest .feature{border-color:rgba(201,218,220,.3)}
+
+@keyframes fest-twinkle{from{opacity:.5}to{opacity:1}}
+
+@media (max-width:640px){
+  .fest-card{padding:44px 22px 24px;gap:16px}
+  .fest-card .fest-actions{width:100%}
+  .fest-card .fest-actions .btn{flex:1 1 100%}
+  .fest-orn{top:20px;right:18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .fest-card::before{animation:none;opacity:.85}
+}
