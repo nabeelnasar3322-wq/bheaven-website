@@ -21,11 +21,9 @@ html.s3d-lite.js [data-r]:not(:where(.event,.show,.shows,.time)){transform:trans
 html.s3d-lite.js [data-r].in{transform:none}
 
 /* ---------- 2. Section headings: eyebrow, title and lead rise at different speeds ---------- */
-html.s3d .head>.eyebrow{translate:0 calc(var(--s,0)*-14px)}
-html.s3d .head>h2{translate:0 calc(var(--s,0)*-26px)}
-html.s3d .head>.lead{translate:0 calc(var(--s,0)*-38px)}
-html.s3d-lite .head>.eyebrow,html.s3d-lite .head>.lead{translate:none}
-html.s3d-lite .head>h2{translate:0 calc(var(--s,0)*-14px)}
+html.s3d-full .head>.eyebrow{translate:0 calc(var(--s,0)*-14px)}
+html.s3d-full .head>h2{translate:0 calc(var(--s,0)*-26px)}
+html.s3d-full .head>.lead{translate:0 calc(var(--s,0)*-38px)}
 
 /* ---------- 3. About: photos sit on separate depth layers ---------- */
 html.s3d-full .about-photos{perspective:1400px}
@@ -58,13 +56,51 @@ html.s3d-full .menu-cat-grid>:nth-child(4n+2),html.s3d-full .gal-grid>:nth-child
 html.s3d-full .menu-cat-grid>:nth-child(4n+3),html.s3d-full .gal-grid>:nth-child(4n+3){--k:1.2}
 html.s3d-full .menu-cat-grid>:nth-child(4n+4),html.s3d-full .gal-grid>:nth-child(4n+4){--k:1.6}
 .menu-cat-grid.s3d-on .tcard,.gal-grid.s3d-on .ph{will-change:translate,rotate}
-html.s3d-lite .menu-cat-grid .tcard,html.s3d-lite .gal-grid .ph{translate:0 calc(var(--s,0)*-16px)}
 
 /* ---------- 6. Find us: the map comes forward from the picture ---------- */
 html.s3d-full .loc{perspective:1400px}
 html.s3d-full .loc .loc-map{translate:0 calc(var(--s,0)*-46px);rotate:x calc(var(--s,0)*-7deg)}
 html.s3d-full .loc .loc-info{translate:0 calc(var(--s,0)*-22px)}
-html.s3d-lite .loc .loc-map{translate:0 calc(var(--s,0)*-20px)}
+
+/* ---------- Native scroll-driven version (Chrome, Edge, Safari 26+) ----------
+   Same movement as the --s variables above, but run by the browser on the compositor with
+   animation-timeline: view() instead of by JavaScript on every scroll frame. scroll3d.js skips its
+   loop when this is supported (it adds html.s3d-native); Firefox keeps the JS version. The timeline
+   runs from "just entering at the bottom" (= --s of +1) to "just leaving at the top" (= -1). */
+@supports (animation-timeline: view()) {
+  html.s3d-native :is(.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head){view-timeline:--sec block}
+
+  @keyframes s3d-slide{from{translate:0 var(--s3y,0px);rotate:x var(--s3r,0deg)}to{translate:0 calc(var(--s3y,0px)*-1);rotate:x calc(var(--s3r,0deg)*-1)}}
+  @keyframes s3d-zoom{0%,100%{scale:1.04}50%{scale:1.2}}
+  @keyframes s3d-float{from{translate:0 var(--s3y,0px);scale:.95}50%{translate:0 0;scale:1}to{translate:0 calc(var(--s3y,0px)*-1);scale:.95}}
+
+  html.s3d-native .head>.eyebrow,html.s3d-native .head>h2,html.s3d-native .head>.lead,
+  html.s3d-native .about-photos .ph,html.s3d-native .features .feature,
+  html.s3d-native .menu-cat-grid .tcard,html.s3d-native .gal-grid .ph,
+  html.s3d-native .loc .loc-map,html.s3d-native .loc .loc-info{animation:s3d-slide linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
+  html.s3d-native .band .band-bg,html.s3d-native .res-bg{animation:s3d-zoom linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
+  html.s3d-native .band .band-inner{animation:s3d-slide linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
+  html.s3d-native.s3d-full .band .band-inner{animation-name:s3d-float}
+
+  /* amounts: the same numbers as the variable version */
+  html.s3d-native .head>.eyebrow{--s3y:-14px}
+  html.s3d-native .head>h2{--s3y:-26px}
+  html.s3d-native .head>.lead{--s3y:-38px}
+  html.s3d-native .about-photos .ph{--s3r:-6deg}
+  html.s3d-native .about-photos .ph:nth-child(1){--s3y:-10px}
+  html.s3d-native .about-photos .ph:nth-child(2){--s3y:-22px}
+  html.s3d-native .about-photos .ph:nth-child(3){--s3y:-34px}
+  html.s3d-native .about-photos .ph:nth-child(n+4){--s3y:-46px}
+  html.s3d-native .features .feature{--s3y:-16px;--s3r:-5deg}
+  html.s3d-native .features .feature:nth-child(2n){--s3y:-34px}
+  html.s3d-native .menu-cat-grid .tcard,html.s3d-native .gal-grid .ph{--s3y:calc(var(--k,1)*20px);--s3r:-6deg}
+  html.s3d-native .loc .loc-map{--s3y:-46px;--s3r:-7deg}
+  html.s3d-native .loc .loc-info{--s3y:-22px}
+  html.s3d-native.s3d-full .band .band-inner{--s3y:-44px}
+  html.s3d-native.s3d-lite .band .band-inner{--s3y:-20px}
+  /* head effects, tiles and the map are desktop-only (phones: reveal + band moves) */
+  html.s3d-native.s3d-lite :is(.head>*,.about-photos .ph,.features .feature,.menu-cat-grid .tcard,.gal-grid .ph,.loc .loc-map,.loc .loc-info){animation:none}
+}
 
 @media (prefers-reduced-motion:reduce){
   html.s3d *{translate:none!important;rotate:none!important}

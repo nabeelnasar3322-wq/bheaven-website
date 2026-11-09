@@ -260,3 +260,15 @@ html{scroll-padding-top:92px}
 /* Nav: keep six links comfortable */
 @media(min-width:960px) and (max-width:1240px){.nav{gap:18px;font-size:12px;letter-spacing:.12em}}
 .tcard .ph-label{font-size:0;gap:0}
+
+/* Header menu never wraps; on small laptops / tablets (960-1139px) it tightens up so the bigger logo, links and Reserve all fit on one line */
+#header .nav a{white-space:nowrap}
+@media(min-width:960px) and (max-width:1139px){
+  #header .nav{gap:14px;font-size:11px;letter-spacing:.1em}
+  #header .header-inner{gap:16px}
+}
+/* Phones: lift the hero buttons clear of the WhatsApp bubble */
+@media(max-width:700px){
+  html .hero{padding-bottom:116px}
+  html.sky-on .hero .sky-stick{padding-bottom:116px}
+}

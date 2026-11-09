@@ -18,11 +18,20 @@
     root.classList.toggle('s3d-full', !lite.matches);
   }
   setMode();
-  if (lite.addEventListener) lite.addEventListener('change', function () { setMode(); kick(); });
+  /* Chrome / Edge / Safari 26+: the CSS runs the movement itself (animation-timeline: view()),
+     so no per-frame JavaScript is needed. Firefox falls back to the loop below. */
+  var native = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline', 'view()'));
+  if (native) root.classList.add('s3d-native');
+  if (lite.addEventListener) lite.addEventListener('change', function () { setMode(); if (!native) { collect(); kick(); } });
 
-  /* containers whose children carry the effect (the hero is not included: hero-3d.js owns it) */
-  var SEL = '.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head';
+  /* containers whose children carry the effect (the hero is not included: hero-3d.js owns it).
+     Phones only get the two cheapest effects (band zoom / float); the rest is desktop. */
+  var SEL_FULL = '.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head';
+  var SEL_LITE = '.band,.reserve';
   var items = [], raf = 0, io = null;
+  /* the Reserve section is big (form, concierge): write the variables onto its background layer
+     only, so the browser does not re-style the whole form on every scroll frame */
+  function targetOf(el) { return el.classList.contains('reserve') ? (el.querySelector('.res-bg') || el) : el; }
 
   function clamp(v) { return v < -1 ? -1 : v > 1 ? 1 : v; }
 
@@ -30,28 +39,37 @@
     raf = 0;
     /* while the hero clip is seeking, let that finish first */
     if (window.__skyBusy) { raf = requestAnimationFrame(frame); return; }
-    var vh = innerHeight, moving = false;
-    for (var i = 0; i < items.length; i++) {
-      var it = items[i];
+    var vh = innerHeight, moving = false, i, it, act = [];
+    /* read everything first, then write: no layout thrash between sections */
+    for (i = 0; i < items.length; i++) {
+      it = items[i];
       if (!it.on) continue;
       var r = it.el.getBoundingClientRect();
       var h = it.el.offsetHeight || r.height;
-      var t = clamp((r.top + r.height / 2 - vh / 2) / (vh / 2 + h / 2));
-      it.s += (t - it.s) * 0.22;
-      if (Math.abs(t - it.s) > 0.002) moving = true; else it.s = t;
-      it.el.style.setProperty('--s', it.s.toFixed(3));
-      it.el.style.setProperty('--a', Math.abs(it.s).toFixed(3));
+      it.t = clamp((r.top + r.height / 2 - vh / 2) / (vh / 2 + h / 2));
+      act.push(it);
+    }
+    for (i = 0; i < act.length; i++) {
+      it = act[i];
+      it.s += (it.t - it.s) * 0.22;
+      if (Math.abs(it.t - it.s) > 0.002) moving = true; else it.s = it.t;
+      var sv = it.s.toFixed(3);
+      if (sv === it.last) continue;
+      it.last = sv;
+      var tg = it.tg;
+      tg.style.setProperty('--s', sv);
+      tg.style.setProperty('--a', Math.abs(it.s).toFixed(3));
     }
     if (moving) raf = requestAnimationFrame(frame);
   }
   function kick() { if (!raf) raf = requestAnimationFrame(frame); }
 
   function collect() {
-    var els = document.querySelectorAll(SEL);
+    var els = document.querySelectorAll(lite.matches ? SEL_LITE : SEL_FULL);
     for (var i = 0; i < els.length; i++) {
       var el = els[i];
       if (el.__s3d) continue;
-      var it = { el: el, s: 0, on: false };
+      var it = { el: el, tg: targetOf(el), s: 0, t: 0, last: '', on: false };
       el.__s3d = it; items.push(it);
       if (io) io.observe(el);
       else it.on = true;
@@ -75,6 +93,7 @@
     }, { rootMargin: '25% 0px 25% 0px' });
   }
 
+  if (native) return;
   collect();
   addEventListener('scroll', kick, { passive: true });
   addEventListener('resize', kick);
