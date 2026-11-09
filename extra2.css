@@ -362,3 +362,9 @@
 
 /* Line icons replace emoji in mood tabs, perks and vibe chips */
 .ico{width:1em;height:1em;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:inline-block}
+
+/* Reservation form: visible error state (outline on the field, one message above the button) */
+.rf-err{margin:0;font-size:.9rem;line-height:1.5;color:#F2B8B5;background:rgba(179,38,30,.16);border:1px solid rgba(242,184,181,.35);border-radius:12px;padding:10px 14px}
+.rf-err[hidden]{display:none}
+.rbook [aria-invalid="true"]{border-color:#F2B8B5 !important;box-shadow:0 0 0 2px rgba(242,184,181,.28)}
+.ft-bar .legal-links a{color:inherit;text-decoration:underline;text-underline-offset:3px}

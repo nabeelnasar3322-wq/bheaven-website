@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5EP0X5NXPJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || []
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5EP0X5NXPJ');
-</script>
+<script src="/consent.js" data-ga="G-5EP0X5NXPJ" defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B-Heaven | Modern Levant Rooftop Restaurant, Al Jaddaf Dubai</title>
@@ -3024,7 +3016,7 @@ $('#drinkRoot').innerHTML = DCATS.map((c,ci)=>{ dn++; let body='';
   return `<section class="cat" id="d-${slug(c.k)}" data-pr="d${dn}"><div class="wrap">
     <header class="ch rv"><span class="num">${String(ci+1).padStart(2,'0')}</span><div><span class="eyebrow">${DM[c.k].length} ${c.lay==='board'?'on the list':'drinks'}</span><h2>${c.t}</h2></div><p>${c.d}</p></header>
     ${body}</div></section>`;
-}).join('') + `<div class="dFoot wrap">*All prices are in Dirhams &amp; inclusive of 10% service charge, 7% municipality fee and 5% VAT.<br>Alcoholic beverages are served to guests aged 21 and over. Please drink responsibly.</div>`;
+}).join('') + `<div class="dFoot wrap">*All prices are in Dirhams &amp; inclusive of 10% service charge, 7% municipality fee and 5% VAT.<br>Alcoholic beverages are served to guests aged 21 and over. Please drink responsibly.<br><a href="/privacy/">Privacy policy</a> · <a href="/terms/">Terms of use</a></div>`;
 document.querySelectorAll('.board').forEach(bd=>{
   fillBoard(bd,bd.querySelector('.tab').dataset.g);
   bd.querySelector('.tabs').addEventListener('click',e=>{const t=e.target.closest('.tab'); if(!t||t.classList.contains('on'))return; bd.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t)); fillBoard(bd,t.dataset.g);});

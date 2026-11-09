@@ -413,8 +413,35 @@ function bookingText() {
   const f = $('#resForm'), v = n => f.elements[n].value.trim();
   return `Hi B·Heaven, I'd like to request a reservation.\n\nName: ${v('name')}\nPhone: ${v('phone')}\nDate: ${v('date')}\nTime: ${v('time')}\nGuests: ${v('guests')}\nSeating: ${$('#seatSeg .on span').textContent}\nOccasion: ${v('occasion')}${v('notes') ? `\nNotes: ${v('notes')}` : ''}`;
 }
-const resValid = () => { const f = $('#resForm'); f.classList.add('tried'); return f.reportValidity(); };
-$('#resForm').addEventListener('submit', e => { e.preventDefault(); if (resValid()) { window.__bhTrack && window.__bhTrack('book', 'Book via form (Home)' + (document.querySelector('#rbAvail') && !document.querySelector('#rbAvail').hidden ? ' - ' + (document.querySelector('#rbAvail').dataset.st === 'x' ? 'full slot' : 'few left') : '')); window.open(wa(bookingText()), '_blank', 'noopener'); } });
+/* Validation with visible messages: each missing field is outlined and named in one line above the button. */
+const RF_MSG = { name: 'Please enter your name.', phone: 'Please enter a phone number we can reach you on.', date: 'Please choose a date.', time: 'Please choose a time.' };
+const resValid = () => {
+  const f = $('#resForm'), err = $('#rfErr');
+  f.classList.add('tried');
+  const bad = [...f.querySelectorAll('input[required], select[required]')].filter(el => !el.checkValidity());
+  f.querySelectorAll('[aria-invalid="true"]').forEach(el => el.removeAttribute('aria-invalid'));
+  if (!bad.length) { err.hidden = true; err.textContent = ''; return true; }
+  bad.forEach(el => el.setAttribute('aria-invalid', 'true'));
+  err.textContent = [...new Set(bad.map(el => RF_MSG[el.name] || 'Please complete the highlighted fields.'))].join(' ');
+  err.hidden = false;
+  bad[0].focus();
+  return false;
+};
+$('#resForm').addEventListener('input', e => {
+  const el = e.target;
+  if (el.getAttribute('aria-invalid') === 'true' && el.checkValidity()) el.removeAttribute('aria-invalid');
+  if (!$('#resForm [aria-invalid="true"]')) $('#rfErr').hidden = true;
+});
+$('#resForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!resValid()) return;
+  window.__bhTrack && window.__bhTrack('book', 'Book via form (Home)' + (document.querySelector('#rbAvail') && !document.querySelector('#rbAvail').hidden ? ' - ' + (document.querySelector('#rbAvail').dataset.st === 'x' ? 'full slot' : 'few left') : ''));
+  /* Open WhatsApp in a new tab, then show the thank-you page here. If the browser blocks the new tab, go to WhatsApp in this tab instead. */
+  const url = wa(bookingText());
+  const w = window.open(url, '_blank');
+  if (w) { try { w.opener = null; } catch (_) {} location.assign('/thank-you/'); }
+  else location.href = url;
+});
 $('#emailBtn').addEventListener('click', () => {
   if (!resValid()) return;
   location.href = `mailto:${SITE.email}?subject=${encodeURIComponent('Reservation request')}&body=${encodeURIComponent(bookingText())}`;
