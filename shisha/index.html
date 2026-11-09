@@ -104,6 +104,11 @@ html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.35}
 html[dir=rtl] .lede,html[dir=rtl] .sub,html[dir=rtl] .lst p,html[dir=rtl] .shNote{line-height:1.9}
 html[dir=rtl] .lst strong,html[dir=rtl] .lst p,html[dir=rtl] .chip,html[dir=rtl] .lede{overflow-wrap:anywhere}
 @media (max-width:560px){.logo{width:124px}}
+/* logo and "Book a table" button: same size as the home page at every width */
+.logo{width:185px}
+@media (min-width:960px) and (max-width:1279px){.logo{width:160px}}
+@media (max-width:899px){.logo{width:145px}}
+.navBook{box-sizing:border-box;height:42px;line-height:39px;padding:0 20px;font-size:12px;letter-spacing:.18em;font-weight:700}
 /* same header height on every page so the logo sits at the same spot at every screen width */
 .nav:not(.solid){padding-top:0;padding-bottom:0;min-height:84px}
 @media (max-width:900px){.nav:not(.solid){min-height:79px}}
@@ -259,7 +264,7 @@ function dismissCurtain(){
   setTimeout(dismissCurtain,1150);
 })();
 </script>
-<div class="nav"><a class="logo" href="/" aria-label="B-Heaven by Barceló – back to home"></a><nav><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a></nav><div class="navR"><div class="langBox" id="langBox"><button class="langSw" id="langSw" type="button" aria-label="EN - Switch language" aria-haspopup="true" aria-expanded="false">EN</button><div class="langMenu" role="menu"><button type="button" role="menuitemradio" data-l="en" class="on" aria-checked="true">English</button><button type="button" role="menuitemradio" data-l="ar" aria-checked="false">العربية</button></div></div><a class="navBook" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table%20for%20shisha" target="_blank" rel="noopener">Book a table</a><button class="burger" id="burger" type="button" aria-label="Open menu"><i></i></button></div></div>
+<div class="nav"><a class="logo" href="/" aria-label="B-Heaven by Barceló – back to home"></a><nav><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on" aria-current="page">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a></nav><div class="navR"><div class="langBox" id="langBox"><button class="langSw" id="langSw" type="button" aria-label="EN - Switch language" aria-haspopup="true" aria-expanded="false">EN</button><div class="langMenu" role="menu"><button type="button" role="menuitemradio" data-l="en" class="on" aria-checked="true">English</button><button type="button" role="menuitemradio" data-l="ar" aria-checked="false">العربية</button></div></div><a class="navBook" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table%20for%20shisha" target="_blank" rel="noopener">Reserve</a><button class="burger" id="burger" type="button" aria-label="Open menu"><i></i></button></div></div>
 <div class="mnav" id="mnav"><button class="x" id="mnavX" type="button" aria-label="Close">×</button><a href="/menu/">Food</a><a href="/menu/#drinks">Drinks</a><a href="/shisha/" class="on">Shisha</a><a href="/business-lunch/">Business Lunch</a><a href="/menu/#events">Events</a><a href="/menu/#contact">Contact Us</a><a class="shCta" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20table%20for%20shisha" target="_blank" rel="noopener" style="margin:8px auto 0">Book on WhatsApp</a></div>
 <div class="intro"><span class="ey">B-Heaven by Barceló</span><h1>Shisha</h1><p class="lede">Rooftop shisha at Barceló Al Jaddaf — five hookahs, five ways to enjoy them.</p></div>
 <main class="cards">
@@ -324,7 +329,7 @@ var AR={
 "A unique blend of pink grapefruit, strawberry, and raspberry — destined to be a favourite":"مزيج فريد من الجريب فروت الوردي والفراولة وتوت العليق — مكتوب له أن يصبح المفضل لديك",
 "Bold and tart natural cherries, sweet and sour, a flavour that easily becomes a favourite":"كرز طبيعي جريء وحامض، حلو وحامض، نكهة تصبح مفضلة بسهولة",
 "All prices are in Dirhams & inclusive of 10% service charge, 7% municipality fee and 5% VAT.":"جميع الأسعار بالدرهم وتشمل رسوم الخدمة 10% ورسوم البلدية 7% وضريبة القيمة المضافة 5%.",
-"Book on WhatsApp":"احجز عبر واتساب","Book a table":"احجز طاولة","Call":"اتصال","← Back to menu":"→ العودة إلى القائمة",
+"Book on WhatsApp":"احجز عبر واتساب","Reserve":"احجز", "Book a table":"احجز طاولة","Call":"اتصال","← Back to menu":"→ العودة إلى القائمة",
 "Shisha · B-Heaven by Barceló":"الشيشة · بي-هيفن من برشلو",
 "Amber cube hookah":"شيشة بقاعدة كهرمانية مكعبة","Carbon fibre hookah":"شيشة من ألياف الكربون","Hookah with wooden stem and lemon-mint base":"شيشة بساق خشبية وقاعدة بالليمون والنعناع","Silver hookah with blue crystal base":"شيشة فضية بقاعدة كريستال زرقاء","Black hookah with smoke":"شيشة سوداء يتصاعد منها الدخان"
 };
