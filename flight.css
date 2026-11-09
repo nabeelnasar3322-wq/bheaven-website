@@ -42,8 +42,8 @@ html.fl-fan .shows{padding-bottom:56px}
 html.fl-fan .show-track .show{transform-origin:50% 100%}
 
 /* gate sentence under the caption */
-.gate-sub{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(11svh - 62px);width:min(88vw,620px);margin:0;text-align:center;font-size:clamp(15px,1.5vw,19px);line-height:1.55;color:var(--cream,#FBF7E2);text-shadow:0 2px 14px rgba(0,0,0,.8);opacity:0;will-change:opacity;pointer-events:none}
-@media(max-width:900px){.gate-sub{bottom:calc(22svh - 62px)}.gate-cap{bottom:22svh}}
+.gate-sub{position:absolute;left:50%;transform:translateX(-50%);bottom:4.5svh;width:min(90vw,820px);margin:0;text-align:center;font-size:clamp(16px,1.7vw,22px);line-height:1.55;color:var(--cream,#FBF7E2);text-shadow:0 2px 14px rgba(0,0,0,.8);opacity:0;will-change:opacity;pointer-events:none}
+@media(max-width:900px){.gate-sub{bottom:20svh}}
 
 /* hero daypart caption: right side, vertically centred (desktop + iPad landscape) */
 @media(min-width:900px){

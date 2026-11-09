@@ -207,13 +207,11 @@
     }
     var gate = $('#gate'); if (!gate || perf.lvl >= 2) return;
     html.classList.add('fl-gate');
-    var frame = $('.gate-frame', gate), deck = $('.gate-deck', gate), cap = $('.gate-cap', gate), sub = $('.gate-sub', gate);
+    var frame = $('.gate-frame', gate), deck = $('.gate-deck', gate), sub = $('.gate-sub', gate);
     var tl = gsap.timeline({ scrollTrigger: { trigger: gate, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 1.25); }, pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true } });
     tl.fromTo(frame, { scale: 1 }, { scale: function () { return Math.max(innerWidth / frame.offsetWidth, innerHeight / frame.offsetHeight) * 1.5; }, ease: 'power2.in', duration: 1 }, 0)
       .fromTo(deck, { scale: 1.18 }, { scale: 1, ease: 'none', duration: 1 }, 0)
-      .fromTo(cap, { opacity: 0, y: 34, scale: .9 }, { opacity: 1, y: 0, scale: 1, ease: 'power2.out', duration: .35 }, .12)
       .fromTo(sub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, ease: 'power2.out', duration: .3 }, .22)
-      .to(cap, { opacity: 0, scale: 1.25, ease: 'power1.in', duration: .25 }, .72)
       .to(sub, { opacity: 0, ease: 'power1.in', duration: .22 }, .74);
     ScrollTrigger.refresh();
     addEventListener('load', function () { ScrollTrigger.refresh(); });
