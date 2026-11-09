@@ -1,0 +1,75 @@
+/* Glass spatial UI — floating panes, pointer light, press depth. Loads last. */
+:root{
+  --g-fill:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.03) 48%,rgba(154,182,186,.07));
+  --g-edge:rgba(255,255,255,.16);
+  --g-hi:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.04);
+  --g-drop:0 24px 48px -22px rgba(0,0,0,.65),0 2px 8px rgba(0,0,0,.18);
+  --g-spring:cubic-bezier(.2,.9,.3,1.25);
+}
+@property --gl{syntax:'<number>';inherits:false;initial-value:0}
+
+/* pointer-following specular light (set by glass.js on hover, fine pointers only) */
+.rev-card,.vibe-card,.vibe-concierge,.rbook,.form,.soundTeaser,.chips li,.sky-perks li,.hero-tag,.btn-line,.vibe-chip,.rb-seats button{
+  --gx:50%;--gy:0%;
+  transition:--gl .35s ease,border-color .35s ease,box-shadow .35s ease,background-color .35s ease,scale .28s var(--g-spring);
+}
+.is-lit{--gl:1}
+
+/* fake glass (no blur): translucent gradient, light edge, inner highlight, drop shadow */
+.rev-card,.vibe-card,.form,.soundTeaser{
+  background:radial-gradient(260px circle at var(--gx) var(--gy),rgba(255,255,255,calc(var(--gl)*.13)),transparent 70%),var(--g-fill),rgba(30,31,33,.52);
+  border:1px solid var(--g-edge);
+  box-shadow:var(--g-hi),var(--g-drop);
+}
+.rev-card:hover{border-color:rgba(255,255,255,.3);box-shadow:var(--g-hi),var(--g-drop)}
+.chips li,.sky-perks li,.hero-tag,.btn-line{
+  background:radial-gradient(120px circle at var(--gx) var(--gy),rgba(255,255,255,calc(var(--gl)*.22)),transparent 75%),linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04)),rgba(30,31,33,.34);
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 8px 20px -10px rgba(0,0,0,.5);
+}
+.btn-line:hover{border-color:rgba(255,255,255,.38)}
+
+/* real glass: only a few panes over imagery */
+@supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){
+  #header.solid{
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.02)),rgba(30,31,33,.58);
+    -webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);
+    border-bottom:1px solid rgba(255,255,255,.12);
+    box-shadow:inset 0 -1px 0 rgba(255,255,255,.05),0 14px 40px -20px rgba(0,0,0,.7);
+  }
+  .rbook,.vibe-concierge{
+    background:radial-gradient(420px circle at var(--gx) var(--gy),rgba(255,255,255,calc(var(--gl)*.08)),transparent 70%),var(--g-fill),rgba(24,25,27,.55);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%);
+    border:1px solid var(--g-edge);
+    box-shadow:var(--g-hi),var(--g-drop);
+  }
+  .mbar{
+    background:var(--g-fill),rgba(24,25,27,.6);
+    border-color:rgba(255,255,255,.2);
+    box-shadow:var(--g-hi),0 18px 40px -8px rgba(0,0,0,.75);
+  }
+}
+.vibe-chip,.rb-seats button{
+  background:radial-gradient(110px circle at var(--gx) var(--gy),rgba(255,255,255,calc(var(--gl)*.2)),transparent 75%),linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:var(--g-hi);
+}
+.rb-seats button[aria-pressed="true"],.rb-seats button.on,.rb-seats button.active,.vibe-chip.on,.vibe-chip[aria-pressed="true"]{
+  background:linear-gradient(160deg,rgba(214,178,106,.34),rgba(214,178,106,.12));
+  border-color:rgba(214,178,106,.6);
+}
+
+/* press: glass compresses toward the viewer's finger */
+.btn:active,.btn-line:active,.vibe-chip:active,.rb-seats button:active,.mbar .btn:active,.soundTeaser:active{scale:.965}
+
+/* glass focus ring */
+.btn:focus-visible,.btn-line:focus-visible,.vibe-chip:focus-visible,.rb-seats button:focus-visible,.nav a:focus-visible,.mbar .btn:focus-visible{
+  outline:0;box-shadow:0 0 0 2px rgba(30,31,33,.9),0 0 0 4px rgba(255,255,255,.7),0 0 22px rgba(154,182,186,.55);
+}
+.rbook input:focus,.rbook select:focus,.form input:focus,.form select:focus,.form textarea:focus{
+  outline:0;border-color:rgba(255,255,255,.55);box-shadow:0 0 0 3px rgba(154,182,186,.28),inset 0 1px 0 rgba(255,255,255,.12);
+}
+@media(prefers-reduced-motion:reduce){
+  .rev-card,.vibe-card,.vibe-concierge,.rbook,.form,.soundTeaser,.chips li,.sky-perks li,.hero-tag,.btn-line,.vibe-chip,.rb-seats button{transition:none}
+  .btn:active,.btn-line:active,.vibe-chip:active,.rb-seats button:active{scale:1}
+}
