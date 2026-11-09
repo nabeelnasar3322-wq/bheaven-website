@@ -95,3 +95,6 @@ html.perf-1 #header.solid{background:rgba(30,31,33,.94)!important}
 html.perf-1 .rbook,html.perf-1 .vibe-concierge{background:rgba(24,25,27,.9)!important}
 html.perf-1 .show-track .show{filter:none!important}
 html.perf-2 .gate{display:none!important}
+
+/* hero dock (tags + booking button) removed on desktop and iPad */
+html.sky-on .sky-dock{display:none!important}
