@@ -243,6 +243,8 @@ if (track && dotsEl) {
       d.setAttribute('aria-selected', on ? 'true' : 'false');
     });
     requestAnimationFrame(() => requestAnimationFrame(() => cards.forEach(c => c.classList.remove('jump'))));
+    window.__showCur = current;
+    dispatchEvent(new CustomEvent('show:layout', { detail: { current, n: N } }));
   };
 
   const goTo = i => {
@@ -251,6 +253,7 @@ if (track && dotsEl) {
     layout();
   };
 
+  window.__showGo = i => { goTo(i); play(); };
   const prevBtn = $('.show-nav.prev'), nextBtn = $('.show-nav.next');
   if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); play(); });
   if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); play(); });

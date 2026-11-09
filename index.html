@@ -73,6 +73,7 @@
 <link rel="stylesheet" href="hero-3d.css">
 <link rel="stylesheet" href="scroll3d.css">
 <link rel="stylesheet" href="glass.css">
+<link rel="stylesheet" href="flight.css">
 </head>
 <body>
 <script>document.documentElement.className='js'</script>
@@ -187,6 +188,16 @@
   </div>
 </section>
 
+<!-- ============ GATE (tunnel into What's on) ============ -->
+<section class="gate" id="gate" aria-hidden="true">
+  <div class="gate-stage">
+    <div class="gate-deck"></div>
+    <div class="gate-glow"></div>
+    <div class="gate-frame"></div>
+    <p class="gate-cap">Step onto the deck</p>
+  </div>
+</section>
+
 <!-- ============ WHAT'S ON ============ -->
 <section class="section events" id="events">
   <div class="container">
@@ -194,6 +205,15 @@
       <p class="eyebrow">What's on</p>
       <h2>Nights &amp; offers at <span class="script gold-text">B·Heaven</span></h2>
       <p class="lead">Live music, social dining and daily deals. Swipe through and book your table.</p>
+      <div class="cd" id="nextCd" hidden>
+        <p class="cd-lab"><span id="cdPre">Next up</span> <b id="cdName"></b></p>
+        <div class="cd-row" role="timer" aria-label="Time until the next night">
+          <div class="cd-u"><span class="cd-n" data-u="d">00</span><small>days</small></div>
+          <div class="cd-u"><span class="cd-n" data-u="h">00</span><small>hrs</small></div>
+          <div class="cd-u"><span class="cd-n" data-u="m">00</span><small>min</small></div>
+          <div class="cd-u"><span class="cd-n" data-u="s">00</span><small>sec</small></div>
+        </div>
+      </div>
       <div class="soundTeaserWrap">
         <button type="button" class="soundTeaser" id="soundTeaser" aria-label="Tonight's Soundtrack: Rooftop Jazz &amp; Lounge (15s sample) - Listen">
           <span class="soundEq" aria-hidden="true">
@@ -405,6 +425,7 @@
 <script src="hero-3d.js" defer></script>
 <script src="scroll3d.js" defer></script>
 <script src="glass.js" defer></script>
+<script src="flight.js" defer></script>
 <script src="hero-playlist.js" defer></script>
 <script src="gallery.js" defer></script>
 <script src="interactive.js" defer></script>
