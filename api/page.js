@@ -12,26 +12,31 @@ const T = {
   menu: {
     ar: {
       title: 'B-Heaven by Barceló | مطعم شامي على السطح في الجداف، دبي',
+      h1: 'مطعم شامي على السطح في الجداف، دبي',
       desc: 'بي-هيفن من برشلونة — مطعم شامي عصري على سطح برشلونة الجداف في دبي. مأكولات شامية حديثة من مطبخ الفحم، كوكتيلات مميزة وإطلالات على أفق المدينة.',
     },
     es: {
-      title: 'B-Heaven by Barceló | Restaurante en azotea, Al Jaddaf, Dubái',
+      title: 'B-Heaven by Barceló | Azotea en Al Jaddaf, Dubái',
+      h1: 'Restaurante en azotea en Al Jaddaf, Dubái',
       desc: 'B-Heaven by Barceló: restaurante levantino en la azotea del Barceló Al Jaddaf, Dubái. Cocina a la brasa, cócteles de autor y vistas al skyline.',
     },
   },
   'business-lunch': {
     ar: {
       title: 'غداء الأعمال · B-Heaven by Barceló',
+      h1: 'غداء عمل يستحق الجلوس إليه',
       desc: 'قائمة غداء أعمال ثابتة في بي-هيفن من برشلونة، الجداف، دبي. من الاثنين إلى الجمعة، 12:30 – 3:30 مساءً. طبقان بـ 89 درهماً وثلاثة أطباق بـ 105 دراهم.',
     },
     es: {
       title: 'Almuerzo de negocios · B-Heaven by Barceló',
+      h1: 'Un almuerzo que merece la pena',
       desc: 'Menú de almuerzo de negocios en B-Heaven by Barceló, Al Jaddaf, Dubái. De lunes a viernes, de 12:30 a 15:30. 2 platos por 89 AED, 3 platos por 105 AED.',
     },
   },
   shisha: {
     ar: {
       title: 'الشيشة · B-Heaven by Barceló',
+      h1: 'الشيشة',
       desc: 'قائمة الشيشة في بي-هيفن من برشلونة، الجداف، دبي — نكهات فردية، خلطات، أصناف مميزة وكوكتيلات نوفا.',
     },
   },
@@ -47,6 +52,8 @@ function transform(html, page, lang, frag) {
 
   out = out.replace(/<html lang="en">/, `<html lang="${lang}"${lang === 'ar' ? ' dir="rtl"' : ''}>`);
   out = out.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
+  // the visible H1 is English in the source page; crawlers read this one, so give it the language's own text
+  out = out.replace(/<h1[^>]*>[\s\S]*?<\/h1>/, `<h1>${esc(t.h1)}</h1>`);
   out = out.replace(/(<meta name="description" content=")[^"]*(")/, `$1${desc}$2`);
   out = out.replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${title}$2`);
   out = out.replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${desc}$2`);
