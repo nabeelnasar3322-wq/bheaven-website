@@ -9,9 +9,9 @@
   var GA = (me && me.getAttribute('data-ga')) || '';
   var lang = (document.documentElement.lang || 'en').slice(0, 2);
   var T = {
-    en: { text: 'We use cookies from Google Analytics to see how the site is used. Your choice is saved on this device.', more: 'Privacy policy', yes: 'Accept', no: 'Decline' },
-    es: { text: 'Usamos cookies de Google Analytics para ver cómo se usa la web. Tu elección se guarda en este dispositivo.', more: 'Política de privacidad', yes: 'Aceptar', no: 'Rechazar' },
-    ar: { text: 'نستخدم ملفات تعريف الارتباط من Google Analytics لمعرفة كيفية استخدام الموقع. يُحفظ اختيارك على هذا الجهاز.', more: 'سياسة الخصوصية', yes: 'قبول', no: 'رفض' }
+    en: { text: 'We use analytics cookies, only if you accept.', more: 'Privacy policy', yes: 'Accept', no: 'Decline' },
+    es: { text: 'Usamos cookies de analítica, solo si aceptas.', more: 'Política de privacidad', yes: 'Aceptar', no: 'Rechazar' },
+    ar: { text: 'نستخدم ملفات تعريف الارتباط للتحليل، فقط إذا وافقت.', more: 'سياسة الخصوصية', yes: 'قبول', no: 'رفض' }
   };
   var S = T[lang] || T.en;
 
@@ -54,6 +54,7 @@
     'background:#fff;color:#1F2A33;box-shadow:0 -8px 28px rgba(0,0,0,.2);padding:12px 16px calc(12px + env(safe-area-inset-bottom));' +
     'font:14px/1.5 Montserrat,system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}' +
     '.ck p{margin:0;flex:1 1 260px;max-width:1040px}.ck a{color:#1E474C}' +
+    '@media (max-width:600px){.ck{padding:9px 14px calc(9px + env(safe-area-inset-bottom));gap:8px;font-size:13px;line-height:1.4}.ck p{flex:1 1 180px}.ck-b{gap:6px}.ck button{padding:8px 14px;font-size:12px}}' +
     '.ck-b{display:flex;gap:8px}' +
     '.ck button{font:600 13px Montserrat,system-ui,sans-serif;border-radius:999px;padding:10px 18px;cursor:pointer;border:1px solid #1E474C}' +
     '.ck-yes{background:#1E474C;color:#fff}.ck-no{background:#fff;color:#1E474C}' +
