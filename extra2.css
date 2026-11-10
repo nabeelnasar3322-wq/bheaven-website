@@ -384,3 +384,13 @@
 #showDots button,#heroDots button{position:relative}
 #showDots button::before,#heroDots button::before{content:"";position:absolute;inset:-10px -4px}
 .rf-mail{padding:4px 0}
+
+/* Homepage FAQ */
+.faq-title{margin:6px 0 22px}
+.faq-list details{border-bottom:1px solid rgba(214,180,110,.25);padding:14px 0}
+.faq-list summary{cursor:pointer;font-weight:600;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+";color:#D6B46E;font-size:1.3rem;line-height:1}
+.faq-list details[open] summary::after{content:"–"}
+.faq-list details p{margin:10px 0 0;opacity:.85;line-height:1.6}
+.faq-list details p a{color:#D6B46E}
