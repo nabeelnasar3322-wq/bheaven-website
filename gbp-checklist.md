@@ -27,7 +27,7 @@
 - [ ] Confirm pin drops exactly on the rooftop entrance, not the hotel lobby
 
 ### 5. Phone number
-- [ ] Add local Dubai number (+971-4-XXX-XXXX)
+- [ ] Use **+971 50 612 9150** (the number on the website)
 - [ ] Add WhatsApp number if reservations are taken there
 
 ### 6. Website URL
@@ -45,7 +45,7 @@
 ### 8. Business description (750 chars max)
 Paste this (edit phone/reservation link before saving):
 
-> B-Heaven by Barceló is a rooftop Levantine restaurant and bar in Al Jaddaf, Dubai, perched above the Barceló hotel with views of the Dubai Creek skyline. We serve authentic Lebanese and Eastern Mediterranean cuisine — mezze platters, fresh grills, and an extensive drinks menu. Weekly events include Jazz Friday (live music every Friday from 9 PM) and Ibiza Brunch (unlimited food, drinks, pool access and DJ every Sunday from 1 PM). Open daily from 9 AM to 2 AM. Reservations recommended.
+> B-Heaven by Barceló is a rooftop Levantine restaurant and bar in Al Jaddaf, Dubai, perched above the Barceló hotel with views of the Dubai Creek skyline. We serve Modern Levant cuisine, with premium shisha and an extensive drinks menu. Weekly events include Jazz Friday (live music every Friday from 9 PM) and Ibiza Brunch (unlimited food, drinks, pool access and DJ every Sunday from 1 PM). Open daily from 9 AM to 2 AM. Reservations recommended.
 
 ### 9. Services
 - [ ] Dine-in
