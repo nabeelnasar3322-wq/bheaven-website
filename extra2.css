@@ -375,3 +375,12 @@
 @media (max-width:600px){.hero-content h1{min-height:132px}}
 @media (min-width:601px) and (max-width:1100px){.hero-content h1{min-height:102px}}
 @media (min-width:1101px){.hero-content h1{min-height:276px}}
+
+/* Tap targets: event "Book" buttons keep at least 36px height; close buttons get an invisible larger hit area */
+.show .btn-sm{min-height:36px}
+.x{position:relative}
+.x::before{content:"";position:absolute;inset:-12px}
+/* Carousel dots: the visible mark stays small; the tappable area is larger */
+#showDots button,#heroDots button{position:relative}
+#showDots button::before,#heroDots button::before{content:"";position:absolute;inset:-10px -4px}
+.rf-mail{padding:4px 0}
