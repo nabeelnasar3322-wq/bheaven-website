@@ -1,0 +1,15 @@
+/* About photos as one seamless album: no gaps, scroll-driven drift inside each tile, staggered reveal */
+.about-photos{gap:0!important;border-radius:24px;overflow:hidden;isolation:isolate;box-shadow:0 28px 60px -26px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.08)}
+html .about-photos .ph.ph{border-radius:0;border:0;box-shadow:inset 0 0 0 .5px rgba(8,10,12,.5);translate:none!important;rotate:none!important;transform:none!important;animation:none!important}
+.about-photos .ph img{scale:1.28;translate:0 calc((var(--ap,.5) - .5) * var(--amp,30%));transition:none;will-change:translate}
+.about-photos .ph:nth-child(1){--amp:24%}
+.about-photos .ph:nth-child(2){--amp:-22%}
+.about-photos .ph:nth-child(3){--amp:24%}
+.about-photos .ph:nth-child(4){--amp:-24%}
+.about-photos .ph:nth-child(5){--amp:20%}
+/* staggered wipe-in (only when the script marks it ready) */
+.about-photos.am-ready .ph{clip-path:inset(100% 0 0 0);transition:clip-path 1.15s cubic-bezier(.77,0,.18,1) calc(var(--n,0)*.12s)}
+.about-photos.am-ready.am-in .ph{clip-path:inset(0 0 0 0)}
+.about-photos .ph:nth-child(1){--n:0}.about-photos .ph:nth-child(2){--n:1}.about-photos .ph:nth-child(3){--n:2}.about-photos .ph:nth-child(4){--n:3}.about-photos .ph:nth-child(5){--n:4}
+@media(max-width:600px){.about-photos{border-radius:18px}}
+@media(prefers-reduced-motion:reduce){.about-photos .ph img{translate:none}.about-photos.am-ready .ph{clip-path:none;transition:none}}
