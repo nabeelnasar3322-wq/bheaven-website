@@ -368,3 +368,10 @@
 .rf-err[hidden]{display:none}
 .rbook [aria-invalid="true"]{border-color:#F2B8B5 !important;box-shadow:0 0 0 2px rgba(242,184,181,.28)}
 .ft-bar .legal-links a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+
+/* Hero tag: keep its line reserved while the day-part label and web font load, so the hero does not jump */
+.hero-tag{min-height:38px}
+/* Hero H1: its text is filled in by script and by the script font, so reserve its settled height per breakpoint */
+@media (max-width:600px){.hero-content h1{min-height:132px}}
+@media (min-width:601px) and (max-width:1100px){.hero-content h1{min-height:102px}}
+@media (min-width:1101px){.hero-content h1{min-height:276px}}
