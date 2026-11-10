@@ -13,3 +13,12 @@ html .about-photos .ph.ph{border-radius:0;border:0;box-shadow:inset 0 0 0 .5px r
 .about-photos .ph:nth-child(1){--n:0}.about-photos .ph:nth-child(2){--n:1}.about-photos .ph:nth-child(3){--n:2}.about-photos .ph:nth-child(4){--n:3}.about-photos .ph:nth-child(5){--n:4}
 @media(max-width:600px){.about-photos{border-radius:18px}}
 @media(prefers-reduced-motion:reduce){.about-photos .ph img{translate:none}.about-photos.am-ready .ph{clip-path:none;transition:none}}
+
+/* bigger album + small border */
+.about-photos{border:3px solid rgba(201,218,220,.75);border-radius:18px}
+@media(min-width:960px){
+  .about-grid{grid-template-columns:.82fr 1.18fr!important;gap:56px!important}
+  .about-photos{min-height:min(760px,88vh);grid-template-rows:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:959px){.about-photos{grid-template-rows:repeat(3,min(34vw,240px))}}
+@media(max-width:600px){.about-photos{border-width:2px;border-radius:14px;grid-template-rows:repeat(3,200px)}}
