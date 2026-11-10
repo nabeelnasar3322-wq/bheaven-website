@@ -1,0 +1,32 @@
+/* Concave carousel: photo cards on an inward-facing arc (React Bits "Concave Carousel" idea, built in plain CSS/JS) */
+.cvx{position:relative;padding:56px 0 64px;overflow:hidden;font-family:var(--sans,'Montserrat',sans-serif)}
+@media(min-width:768px){.cvx{padding:84px 0 92px}}
+.cvx-head{text-align:center}
+.cvx-head .eyebrow::after{content:'';width:26px;height:1px;background:var(--gold)}
+.cvx-head h2{margin:0 0 6px}
+.cvx-stage{position:relative;height:clamp(360px,62vw,520px);perspective:1500px;perspective-origin:50% 45%;outline:none;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.cvx-stage.drag{cursor:grabbing}
+.cvx-stage:focus-visible{outline:2px solid var(--gold);outline-offset:-6px;border-radius:18px}
+.cvx-track{position:absolute;inset:0;margin:0;padding:0;list-style:none;transform-style:preserve-3d}
+.cvx-card{position:absolute;left:50%;top:50%;width:clamp(200px,24vw,300px);aspect-ratio:3/4;margin:0;border-radius:20px;overflow:hidden;background:#15363B;
+  box-shadow:0 30px 60px -28px rgba(0,0,0,.75),inset 0 0 0 1px rgba(255,255,255,.14);
+  transform:translate(-50%,-50%) translate3d(var(--x,0px),0,var(--z,0px)) rotateY(var(--r,0deg));
+  opacity:var(--o,1);filter:brightness(var(--b,1));
+  transition:transform .75s cubic-bezier(.22,1,.36,1),opacity .5s,filter .5s;will-change:transform,opacity;backface-visibility:hidden}
+.cvx-card img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.cvx-card.is-side{cursor:pointer}
+.cvx-stage.drag .cvx-card{transition:none}
+.cvx-bar{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:6px}
+.cvx-cap{margin:0;min-width:200px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.cvx-tag{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.cvx-cap b{font-size:clamp(18px,1.6vw,22px);font-weight:700;color:var(--cream,#FBF7E2)}
+.cvx-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:grid;place-items:center;cursor:pointer;transition:transform .25s,background .25s}
+.cvx-btn svg{width:18px;height:18px;fill:none;stroke:var(--cream,#FBF7E2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(hover:hover){.cvx-btn:hover{background:rgba(255,255,255,.18);transform:scale(1.06)}}
+.cvx-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+/* no-JS / reduced motion fallback: plain scroller */
+.cvx:not(.cvx-on) .cvx-stage{height:auto;perspective:none;overflow-x:auto;padding:0 20px}
+.cvx:not(.cvx-on) .cvx-track{position:static;display:flex;gap:16px}
+.cvx:not(.cvx-on) .cvx-card{position:relative;left:auto;top:auto;transform:none;flex:0 0 220px}
+.cvx:not(.cvx-on) .cvx-bar{display:none}
+@media(prefers-reduced-motion:reduce){.cvx-card{transition:none}}

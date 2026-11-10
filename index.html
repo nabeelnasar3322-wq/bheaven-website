@@ -81,6 +81,7 @@
 <link rel="stylesheet" href="glass.css">
 <link rel="stylesheet" href="flight.css">
 <link rel="stylesheet" href="reviews.css">
+<link rel="stylesheet" href="cvx.css">
 </head>
 <body>
 <script>document.documentElement.className='js'</script>
@@ -178,6 +179,22 @@
       <div class="ph" data-photo="terrace"><div class="ph-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>Terrace photo</div></div>
       <div class="ph" data-photo="bar"><div class="ph-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>Bar photo</div></div>
     </div>
+  </div>
+</section>
+
+<!-- ============ LOOK AROUND (concave carousel) ============ -->
+<section class="cvx" id="look" aria-roledescription="carousel" aria-label="Photos of B-Heaven">
+  <div class="container cvx-head">
+    <p class="eyebrow">Look around</p>
+    <h2>Step <span class="script gold-text">inside</span></h2>
+  </div>
+  <div class="cvx-stage" id="cvxStage" tabindex="0">
+    <ul class="cvx-track" id="cvxTrack"><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="1 of 8: The dome at night" data-cap="The dome at night" data-tag="Pool deck"><img src="/cvx/dome-night.webp" width="600" height="800" alt="The B·Heaven dome and pool, lit up after dark" loading="lazy" decoding="async" draggable="false"></li><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="2 of 8: Poolside days" data-cap="Poolside days" data-tag="Pool"><img src="/cvx/pool-day.webp" width="600" height="800" alt="The pool by day with skyline views" loading="lazy" decoding="async" draggable="false"></li><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="3 of 8: Sunset terrace" data-cap="Sunset terrace" data-tag="Terrace"><img src="/cvx/BHVNterrace-1.webp" width="600" height="800" alt="Lounge seating under the green pergola on the terrace" loading="lazy" decoding="async" draggable="false"></li><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="4 of 8: Restaurant & bar" data-cap="Restaurant & bar" data-tag="Indoors"><img src="/cvx/BHVNterrace-2.webp" width="600" height="800" alt="Indoor restaurant and bar with pendant lights" loading="lazy" decoding="async" draggable="false"></li><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="5 of 8: Dining room" data-cap="Dining room" data-tag="Indoors"><img src="/cvx/BHVNterrace-3.webp" width="600" height="800" alt="The dining room with striped ceiling" loading="lazy" decoding="async" draggable="false"></li><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="6 of 8: The bar" data-cap="The bar" data-tag="Bar"><img src="/cvx/BHVNterrace-4.webp" width="600" height="800" alt="The bar counter with high stools" loading="lazy" decoding="async" draggable="false"></li><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="7 of 8: B·Heaven" data-cap="B·Heaven" data-tag="Entrance"><img src="/cvx/BHVNterrace-5.webp" width="600" height="800" alt="B·Heaven sign on the tropical bird wall" loading="lazy" decoding="async" draggable="false"></li><li class="cvx-card" role="group" aria-roledescription="slide" aria-label="8 of 8: The lobby" data-cap="The lobby" data-tag="Entrance"><img src="/cvx/BHVNterrace-6.webp" width="600" height="800" alt="Neon wings and tropical murals in the lobby" loading="lazy" decoding="async" draggable="false"></li></ul>
+  </div>
+  <div class="cvx-bar">
+    <button class="cvx-btn" id="cvxPrev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <p class="cvx-cap" aria-live="polite"><span class="cvx-tag" id="cvxTag"></span><b id="cvxTitle"></b></p>
+    <button class="cvx-btn" id="cvxNext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
 </section>
 
@@ -394,6 +411,7 @@
 <script src="flight.js" defer></script>
 <script src="hero-playlist.js" defer></script>
 <script src="gallery.js" defer></script>
+<script src="cvx.js" defer></script>
 <script src="interactive.js" defer></script>
 </body>
 </html>
