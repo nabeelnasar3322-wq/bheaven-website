@@ -35,8 +35,7 @@
 - [ ] Not the Barceló hotel homepage — the B-Heaven menu page directly
 
 ### 7. Opening hours
-- [ ] Monday–Thursday: **5:00 PM – 2:00 AM**
-- [ ] Friday–Sunday: **12:00 PM – 3:00 AM**
+- [ ] Every day: **9:00 AM – 2:00 AM**
 - [ ] Special hours: set for UAE public holidays (National Day, Eid, New Year)
 
 ---
@@ -46,7 +45,7 @@
 ### 8. Business description (750 chars max)
 Paste this (edit phone/reservation link before saving):
 
-> B-Heaven by Barceló is a rooftop Levantine restaurant and bar in Al Jaddaf, Dubai, perched above the Barceló hotel with views of the Dubai Creek skyline. We serve authentic Lebanese and Eastern Mediterranean cuisine — mezze platters, fresh grills, and an extensive drinks menu. Weekly events include Jazz Friday (live music every Friday from 9 PM) and Ibiza Brunch (unlimited food, drinks, pool access and DJ every Sunday from 1 PM). Open Monday–Thursday from 5 PM and Friday–Sunday from 12 PM. Reservations recommended.
+> B-Heaven by Barceló is a rooftop Levantine restaurant and bar in Al Jaddaf, Dubai, perched above the Barceló hotel with views of the Dubai Creek skyline. We serve authentic Lebanese and Eastern Mediterranean cuisine — mezze platters, fresh grills, and an extensive drinks menu. Weekly events include Jazz Friday (live music every Friday from 9 PM) and Ibiza Brunch (unlimited food, drinks, pool access and DJ every Sunday from 1 PM). Open daily from 9 AM to 2 AM. Reservations recommended.
 
 ### 9. Services
 - [ ] Dine-in
