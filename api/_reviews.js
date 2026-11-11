@@ -1,4 +1,3 @@
-// Live Google rating + review count for the homepage badge.
 // Needs env GOOGLE_PLACES_KEY (Places API New). Optional GOOGLE_PLACE_ID to skip the lookup.
 // With no key, or if Google fails, returns 204 and the page keeps its saved numbers.
 const CID = '8101510049190568046';

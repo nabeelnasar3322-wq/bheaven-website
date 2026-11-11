@@ -338,7 +338,7 @@ if (typeof GOOGLE_RATING !== 'undefined' && $('#revRating')) {
 }
 /* Live Google rating (falls back silently to the numbers already in the page) */
 if (document.querySelector('.rvScore')) {
-  fetch('/api/reviews').then(r => r.status === 200 ? r.json() : null).then(d => {
+  fetch('/api/instagram?rating=1').then(r => r.status === 200 ? r.json() : null).then(d => {
     if (!d || !d.rating || !d.count) return;
     const big = document.querySelector('.rvScore .big'), sm = document.querySelector('.rvScore small');
     if (big) big.textContent = d.rating;
