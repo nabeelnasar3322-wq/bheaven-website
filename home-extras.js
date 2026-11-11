@@ -126,19 +126,20 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
     }
     countdown(); setInterval(countdown, 60000);
 
-    /* pointer tilt + moving highlight (mouse only) */
-    if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
-      card.addEventListener('pointermove', function (e) {
-        var r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-        card.style.setProperty('--ry', ((x - .5) * 6).toFixed(2) + 'deg');
-        card.style.setProperty('--rx', ((.5 - y) * 5).toFixed(2) + 'deg');
-        card.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+    /* Book button opens/closes this night's booking panel (falls back to a plain WhatsApp link without JS) */
+    var tog = card.querySelector('.fz-toggle');
+    tog.setAttribute('role', 'button'); tog.setAttribute('aria-expanded', 'false');
+    tog.addEventListener('click', function (e) {
+      e.preventDefault();
+      var open = !card.classList.contains('open');
+      Array.prototype.forEach.call(sec.querySelectorAll('.fz-row.open'), function (r) {
+        r.classList.remove('open'); var b = r.querySelector('.fz-toggle'); b.setAttribute('aria-expanded', 'false'); b.textContent = 'Book';
       });
-      card.addEventListener('pointerleave', function () { card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); });
-    }
+      if (open) { card.classList.add('open'); tog.setAttribute('aria-expanded', 'true'); tog.textContent = 'Close'; }
+    });
   });
 
-  /* sparkles + animated borders only run while the strip is on screen */
+  /* sparkles + shimmer + slow zoom only run while the strip is on screen */
   if (!reduce) {
     var box = sec.querySelector('.fs-sparks'), sp = matchMedia('(max-width:760px)').matches ? 10 : 18, html = '';
     for (i = 0; i < sp; i++) {
@@ -150,75 +151,4 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
       new IntersectionObserver(function (es) { sec.classList.toggle('fs-live', es[0].isIntersecting); }, { rootMargin: '10% 0px' }).observe(sec);
     } else sec.classList.add('fs-live');
   }
-})();
-
-/* festive photo lightbox: tap a card photo to view all its photos full size */
-(function () {
-  var sec = document.getElementById('festive');
-  if (!sec) return;
-  var box, img, cap, list = [], idx = 0, lastFocus, x0 = null;
-  function big(src) { return src.replace('/festive/', '/festive/L/'); }
-  function show(i) {
-    idx = (i + list.length) % list.length;
-    img.src = big(list[idx].getAttribute('src')); img.alt = list[idx].alt;
-    cap.textContent = (idx + 1) + ' / ' + list.length;
-  }
-  function close() { if (!box) return; box.hidden = true; document.documentElement.classList.remove('fs-lb-open'); document.removeEventListener('keydown', key); if (lastFocus) lastFocus.focus(); }
-  function key(e) {
-    if (e.key === 'Escape') close();
-    else if (e.key === 'ArrowRight') show(idx + 1);
-    else if (e.key === 'ArrowLeft') show(idx - 1);
-  }
-  function build() {
-    box = document.createElement('div');
-    box.className = 'fs-lb'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Photos');
-    box.innerHTML = '<button type="button" class="fs-lb-x" aria-label="Close">×</button><button type="button" class="fs-lb-p" aria-label="Previous photo">‹</button><img alt=""><button type="button" class="fs-lb-n" aria-label="Next photo">›</button><p class="fs-lb-c"></p>';
-    document.body.appendChild(box);
-    img = box.querySelector('img'); cap = box.querySelector('.fs-lb-c');
-    box.querySelector('.fs-lb-x').onclick = close;
-    box.querySelector('.fs-lb-p').onclick = function () { show(idx - 1); };
-    box.querySelector('.fs-lb-n').onclick = function () { show(idx + 1); };
-    box.addEventListener('click', function (e) { if (e.target === box) close(); });
-    box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-    box.addEventListener('touchend', function (e) { if (x0 === null) return; var d = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(d) > 40) show(idx + (d < 0 ? 1 : -1)); });
-  }
-  function open(card, start, from) {
-    if (!box) build();
-    list = [].slice.call(card.querySelectorAll('.fs-photo img'));
-    lastFocus = from; box.hidden = false; document.documentElement.classList.add('fs-lb-open');
-    show(start); document.addEventListener('keydown', key);
-    box.querySelector('.fs-lb-x').focus();
-  }
-  [].forEach.call(sec.querySelectorAll('.fs-card'), function (card) {
-    var top = card.querySelector('.fs-top'); if (!top) return;
-    var b = document.createElement('button');
-    b.type = 'button'; b.className = 'fs-zoom'; b.setAttribute('aria-label', 'View photos larger'); b.innerHTML = '<span aria-hidden="true">⤢</span> Photos';
-    top.appendChild(b);
-    top.addEventListener('click', function (e) {
-      if (e.target.closest('.fs-count')) return;
-      var imgs = [].slice.call(card.querySelectorAll('.fs-photo img')), cur = 0, i;
-      for (i = 0; i < imgs.length; i++) if (parseFloat(getComputedStyle(imgs[i]).opacity) > 0.5) { cur = i; break; }
-      open(card, cur, b);
-    });
-  });
-})();
-
-/* festive card frame: glowing travelling border + noise + click pulse (CSS recreation of an animated frame-border look) */
-(function () {
-  var sec = document.getElementById('festive');
-  if (!sec) return;
-  [].forEach.call(sec.querySelectorAll('.fs-card'), function (card) {
-    var fx = document.createElement('span');
-    fx.className = 'fs-fx'; fx.setAttribute('aria-hidden', 'true');
-    fx.innerHTML = '<span class="fs-in"><span class="fs-glow"></span><span class="fs-noise"></span><span class="fs-ring"></span></span>';
-    card.insertBefore(fx, card.firstChild);
-    var inner = fx.firstChild;
-    card.addEventListener('pointerdown', function (e) {
-      if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-      var r = card.getBoundingClientRect(), rip = document.createElement('span');
-      rip.className = 'fs-rip'; rip.style.left = (e.clientX - r.left) + 'px'; rip.style.top = (e.clientY - r.top) + 'px';
-      inner.appendChild(rip); setTimeout(function () { rip.remove(); }, 1000);
-      inner.classList.remove('fs-flash'); void inner.offsetWidth; inner.classList.add('fs-flash');
-    });
-  });
 })();
