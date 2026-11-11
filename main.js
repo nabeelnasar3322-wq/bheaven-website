@@ -60,7 +60,7 @@ function fillPhoto(el, src, alt, fallback) {
   loadImg(src, put, () => fallback && loadImg(fallback, put));
 }
 const FB = SITE.fallbacks || {};
-document.querySelectorAll('[data-photo]').forEach(el => fillPhoto(el, SITE.photos[el.dataset.photo], el.textContent.trim(), FB[el.dataset.photo]));
+document.querySelectorAll('[data-photo]').forEach(el => fillPhoto(el, SITE.photos[el.dataset.photo], el.dataset.alt || el.textContent.trim(), FB[el.dataset.photo]));
 document.querySelectorAll('[data-bg]').forEach(el => {
   const set = src => { el.style.backgroundImage = `url("${src}")`; el.classList.add('on'); el.closest('.time,.pass-card')?.classList.add('has-photo'); };
   const w = el.classList.contains('band-bg') ? 1920 : 960;
@@ -68,7 +68,7 @@ document.querySelectorAll('[data-bg]').forEach(el => {
 });
 $('#gallery').innerHTML = SITE.gallery.map((g, i) =>
   `<div class="ph ${g.size || ''}" data-r data-gi="${i}" style="--i:${i % 4}"><div class="ph-label">${camera}${esc(g.label)}</div><span class="ph-cap">${esc(g.label)}</span></div>`).join('');
-$('#gallery').querySelectorAll('.ph').forEach((el, i) => fillPhoto(el, SITE.gallery[i].src, SITE.gallery[i].label));
+$('#gallery').querySelectorAll('.ph').forEach((el, i) => fillPhoto(el, SITE.gallery[i].src, SITE.gallery[i].alt || SITE.gallery[i].label));
 
 /* Instagram: the latest 14 posts replace the photo tiles once the feed is connected */
 const igIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>';
@@ -100,7 +100,7 @@ $('#menuCatGrid').innerHTML = TASTE.map((t, i) => `
     <div class="ph-label">${CAT_ICON[t.tab] || camera}<span>${esc(t.title)}</span></div>
     <div class="tcard-body"><h3>${esc(t.title)}</h3><p>${esc(t.text)}</p><span class="tcard-go">View menu <b>→</b></span></div>
   </a>`).join('');
-$('#menuCatGrid').querySelectorAll('.tcard').forEach((el, i) => fillPhoto(el, TASTE[i].src, TASTE[i].title));
+$('#menuCatGrid').querySelectorAll('.tcard').forEach((el, i) => fillPhoto(el, TASTE[i].src, TASTE[i].alt || TASTE[i].title));
 }
 
 /* Ribbon */

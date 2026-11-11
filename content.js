@@ -34,27 +34,27 @@ const SITE = {
     band1: IMG + 'hero-2.jpeg', band2: IMG + 'hero-3.jpeg'
   },
   gallery: [
-    { src: IMG + 'dome-night.webp', label: 'B·Heaven Dome Pavilion at night', size: 'tall' },
-    { src: IMG + 'cocktails.webp', label: 'Signature cocktails' },
-    { src: IMG + 'BusinesL.webp', label: 'Modern Levant cuisine' },
-    { src: IMG + 'BHVNevents5.webp', label: 'Premium shisha', size: 'tall' },
-    { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', size: 'wide' },
-    { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge' },
-    { src: IMG + 'hero-2.jpeg', label: 'Sunset on the rooftop' },
-    { src: IMG + 'terrace-lounge.webp', label: 'Terrace lounge', size: 'wide' },
-    { src: IMG + 'BHVNevents4.webp', label: 'Live saxophone & music', size: 'tall' },
-    { src: IMG + 'bar-counter.webp', label: 'The bar', size: 'tall' },
-    { src: IMG + 'Drinks.webp', label: 'Bar & mixology', size: 'wide' },
-    { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', size: 'wide' }
+    { src: IMG + 'dome-night.webp', label: 'B·Heaven Dome Pavilion at night', alt: 'B·Heaven dome pavilion at night', size: 'tall' },
+    { src: IMG + 'cocktails.webp', label: 'Signature cocktails', alt: 'Signature cocktails at B·Heaven rooftop bar' },
+    { src: IMG + 'BusinesL.webp', label: 'Modern Levant cuisine', alt: 'Modern Levant dishes served at B·Heaven' },
+    { src: IMG + 'BHVNevents5.webp', label: 'Premium shisha', alt: 'Premium shisha at B·Heaven', size: 'tall' },
+    { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', alt: 'Rooftop pool with the Dubai skyline at B·Heaven', size: 'wide' },
+    { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge', alt: 'Indoor dining lounge at B·Heaven' },
+    { src: IMG + 'hero-2.jpeg', label: 'Sunset on the rooftop', alt: 'Sunset on the B·Heaven rooftop, Al Jaddaf' },
+    { src: IMG + 'terrace-lounge.webp', label: 'Terrace lounge', alt: 'Terrace lounge seating at B·Heaven', size: 'wide' },
+    { src: IMG + 'BHVNevents4.webp', label: 'Live saxophone & music', alt: 'Live saxophone music at B·Heaven', size: 'tall' },
+    { src: IMG + 'bar-counter.webp', label: 'The bar', alt: 'The bar counter at B·Heaven', size: 'tall' },
+    { src: IMG + 'Drinks.webp', label: 'Bar & mixology', alt: 'Bar and mixology at B·Heaven', size: 'wide' },
+    { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', alt: 'Barceló Al Jaddaf hotel at sunset', size: 'wide' }
   ]
 };
 
 /* "Made for sharing" photo tiles (menu tab opens when tapped) */
 const TASTE = [
-  { src: IMG + 'BusinesL.webp', title: 'Modern Levant plates', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
-  { src: IMG + 'cocktails.webp', title: 'Signature cocktails', text: 'House creations shaken with a view.', tab: 'drinks' },
-  { src: IMG + 'BHVNevents5.webp', title: 'Premium shisha', text: 'Classic and signature flavours until late.', tab: 'shisha' },
-  { src: IMG + 'pool-day.webp', title: 'Pool menu', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
+  { src: IMG + 'BusinesL.webp', title: 'Modern Levant plates', alt: 'Modern Levant dishes served at B·Heaven', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
+  { src: IMG + 'cocktails.webp', title: 'Signature cocktails', alt: 'Signature cocktails at B·Heaven rooftop bar', text: 'House creations shaken with a view.', tab: 'drinks' },
+  { src: IMG + 'BHVNevents5.webp', title: 'Premium shisha', alt: 'Premium shisha at B·Heaven', text: 'Classic and signature flavours until late.', tab: 'shisha' },
+  { src: IMG + 'pool-day.webp', title: 'Pool menu', alt: 'Rooftop pool with the Dubai skyline at B·Heaven', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
 ];
 
 /* Kept in sync with the live site's events (bheavendubai.com/menu/ JSON-LD, #ldEv1-4).

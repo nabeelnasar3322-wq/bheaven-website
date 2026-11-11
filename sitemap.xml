@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://bheavendubai.com/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image><image:loc>https://bheavendubai.com/hero-1.jpeg</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/BHVNterrace-1.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/dome-night.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/restaurant-lounge.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/terrace-lounge.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/bar-counter.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/cocktails.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/BusinesL.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/BHVNevents5.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/pool-day.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/BHVNevents4.webp</image:loc></image:image>
+    <image:image><image:loc>https://bheavendubai.com/barcelofacade.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://bheavendubai.com/menu/</loc>
