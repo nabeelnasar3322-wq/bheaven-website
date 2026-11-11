@@ -18,3 +18,18 @@
 @media(max-width:959px){.wall{order:1;margin-top:26px;height:520px}}
 @media(max-width:600px){.wall{grid-template-columns:repeat(2,1fr);height:460px;border-width:2px;border-radius:14px}.wall-col.c3{display:none}}
 @media(prefers-reduced-motion:reduce){.wall-track{animation:none}.wall-col.c2 .wall-track{transform:none}}
+
+/* ---- Wall uses the site's own 3D scroll system (.about-photos container + .ph columns):
+   drum tilt + staggered depth per column come from scroll3d.css; the rules below only undo the
+   single-photo tile look so the three columns stay seamless. ---- */
+.wall.about-photos{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:100%;gap:0;min-height:480px;height:min(760px,86vh);padding:0}
+.wall.about-photos .ph.wall-col{grid-row:auto;border:0;border-radius:0;box-shadow:none;background:none;height:calc(100% + 90px);margin:-45px 0;align-self:center;display:block}
+.wall.about-photos .ph.wall-col:hover{border:0;box-shadow:none}
+.wall.about-photos .ph.wall-col::before{display:none}
+/* the generic .ph img rules (absolute fill, zoom, parallax) must not touch the tiles */
+.wall.about-photos .wall-t img{position:static;inset:auto;scale:none;translate:none;transform:none;transition:none}
+.wall.about-photos .ph.wall-col:hover .wall-t img{transform:none;scale:none}
+/* pointer tilt would pry the columns apart; keep scroll 3D only */
+html.s3d-full .wall.about-photos .ph.wall-col{transform:none!important}
+@media(max-width:959px){.wall.about-photos{height:520px}}
+@media(max-width:600px){.wall.about-photos{grid-template-columns:repeat(2,1fr);height:460px}}
