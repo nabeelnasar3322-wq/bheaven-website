@@ -1,0 +1,20 @@
+/* Moving photo wall: three tight columns of photos that loop forever, up / down / up. No gaps. */
+.wall{display:grid;grid-template-columns:repeat(3,1fr);gap:0;height:min(760px,86vh);min-height:480px;overflow:hidden;border:3px solid rgba(201,218,220,.75);border-radius:18px;background:#15363B;isolation:isolate;
+  box-shadow:0 28px 60px -26px rgba(0,0,0,.75)}
+.wall-col{position:relative;overflow:hidden;min-width:0}
+.wall-track{display:flex;flex-direction:column;will-change:transform;animation:wallUp var(--dur,70s) linear infinite}
+.wall-col.c2 .wall-track{animation-name:wallDown;--dur:58s}
+.wall-col.c1 .wall-track{--dur:74s}
+.wall-col.c3 .wall-track{--dur:90s}
+.wall-t{margin:0;width:100%;flex:none;overflow:hidden;background:#15363B}
+.wall-t img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+@keyframes wallUp{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-50%,0)}}
+@keyframes wallDown{from{transform:translate3d(0,-50%,0)}to{transform:translate3d(0,0,0)}}
+.wall.paused .wall-track{animation-play-state:paused}
+@media(hover:hover){.wall:hover .wall-track{animation-duration:calc(var(--dur,70s)*3)}}
+@media(min-width:960px){
+  .about-grid{grid-template-columns:.82fr 1.18fr!important;gap:56px!important}
+}
+@media(max-width:959px){.wall{order:1;margin-top:26px;height:520px}}
+@media(max-width:600px){.wall{grid-template-columns:repeat(2,1fr);height:460px;border-width:2px;border-radius:14px}.wall-col.c3{display:none}}
+@media(prefers-reduced-motion:reduce){.wall-track{animation:none}.wall-col.c2 .wall-track{transform:none}}
