@@ -26,7 +26,7 @@
 
   /* containers whose children carry the effect (the hero is not included: hero-3d.js owns it).
      Phones only get the two cheapest effects (band zoom / float); the rest is desktop. */
-  var SEL_FULL = '.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head';
+  var SEL_FULL = '.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head,.about-grid>div:first-child,.rvw,.faq,.ft-grid,.events,.gallery,.visit,.section.about';
   var SEL_LITE = '.band,.reserve';
   var items = [], raf = 0, io = null;
   /* the Reserve section is big (form, concierge): write the variables onto its background layer

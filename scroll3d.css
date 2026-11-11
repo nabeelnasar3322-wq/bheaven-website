@@ -62,13 +62,44 @@ html.s3d-full .loc{perspective:1400px}
 html.s3d-full .loc .loc-map{translate:0 calc(var(--s,0)*-46px);rotate:x calc(var(--s,0)*-7deg)}
 html.s3d-full .loc .loc-info{translate:0 calc(var(--s,0)*-22px)}
 
+/* ---------- 7. About text, reviews, FAQ, footer ---------- */
+html.s3d-full .about-grid>div:first-child>.eyebrow{translate:0 calc(var(--s,0)*-14px)}
+html.s3d-full .about-grid>div:first-child>h2{translate:0 calc(var(--s,0)*-26px)}
+html.s3d-full .about-grid>div:first-child>.lead{translate:0 calc(var(--s,0)*-38px)}
+
+html.s3d-full .rvw{perspective:1400px}
+html.s3d-full .rvw .rvHead{translate:0 calc(var(--s,0)*-26px)}
+html.s3d-full .rvw .rvTrack{translate:0 calc(var(--s,0)*-18px);rotate:x calc(var(--s,0)*-4deg);transform-origin:50% 50%}
+
+html.s3d-full .faq{perspective:1200px}
+html.s3d-full .faq .eyebrow{translate:0 calc(var(--s,0)*-14px)}
+html.s3d-full .faq .faq-title{translate:0 calc(var(--s,0)*-26px)}
+html.s3d-full .faq .faq-list{translate:0 calc(var(--s,0)*-30px);rotate:x calc(var(--s,0)*-4deg);transform-origin:50% 50%}
+
+html.s3d-full .ft-grid>*{translate:0 calc(var(--s,0)*-18px)}
+
+.rvw.s3d-on .rvTrack,.faq.s3d-on .faq-list{will-change:translate,rotate}
+
+/* ---------- 8. Depth glow: a background plane that moves slower than the content ---------- */
+html.s3d-full :is(.section.about,.events,.gallery,.visit,.faq){isolation:isolate}
+html.s3d-full :is(.section.about,.events,.gallery,.visit,.faq)::after{
+  content:'';position:absolute;z-index:-1;pointer-events:none;
+  width:70vmax;height:70vmax;left:var(--gx,60%);top:20%;margin:-35vmax 0 0 -35vmax;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(154,182,186,.14),rgba(63,84,86,.08) 55%,transparent);
+  translate:0 calc(var(--s,0)*28vh);
+}
+html.s3d-full .events{--gx:30%}
+html.s3d-full .visit{--gx:75%}
+html.s3d-full .gallery{--gx:20%}
+html.s3d-full .faq{--gx:70%}
+
 /* ---------- Native scroll-driven version (Chrome, Edge, Safari 26+) ----------
    Same movement as the --s variables above, but run by the browser on the compositor with
    animation-timeline: view() instead of by JavaScript on every scroll frame. scroll3d.js skips its
    loop when this is supported (it adds html.s3d-native); Firefox keeps the JS version. The timeline
    runs from "just entering at the bottom" (= --s of +1) to "just leaving at the top" (= -1). */
 @supports (animation-timeline: view()) {
-  html.s3d-native :is(.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head){view-timeline:--sec block}
+  html.s3d-native :is(.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head,.about-grid>div:first-child,.rvw,.faq,.ft-grid,.events,.gallery,.visit,.section.about){view-timeline:--sec block}
 
   @keyframes s3d-slide{from{translate:0 var(--s3y,0px);rotate:x var(--s3r,0deg)}to{translate:0 calc(var(--s3y,0px)*-1);rotate:x calc(var(--s3r,0deg)*-1)}}
   @keyframes s3d-zoom{0%,100%{scale:1.04}50%{scale:1.2}}
@@ -78,6 +109,10 @@ html.s3d-full .loc .loc-info{translate:0 calc(var(--s,0)*-22px)}
   html.s3d-native .about-photos .ph,html.s3d-native .features .feature,
   html.s3d-native .menu-cat-grid .tcard,html.s3d-native .gal-grid .ph,
   html.s3d-native .loc .loc-map,html.s3d-native .loc .loc-info{animation:s3d-slide linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
+  html.s3d-native .about-grid>div:first-child>:is(.eyebrow,h2,.lead),
+  html.s3d-native .rvw .rvHead,html.s3d-native .rvw .rvTrack,
+  html.s3d-native .faq .eyebrow,html.s3d-native .faq .faq-title,html.s3d-native .faq .faq-list,
+  html.s3d-native .ft-grid>*{animation:s3d-slide linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
   html.s3d-native .band .band-bg,html.s3d-native .res-bg{animation:s3d-zoom linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
   html.s3d-native .band .band-inner{animation:s3d-slide linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
   html.s3d-native.s3d-full .band .band-inner{animation-name:s3d-float}
@@ -96,10 +131,24 @@ html.s3d-full .loc .loc-info{translate:0 calc(var(--s,0)*-22px)}
   html.s3d-native .menu-cat-grid .tcard,html.s3d-native .gal-grid .ph{--s3y:calc(var(--k,1)*20px);--s3r:-6deg}
   html.s3d-native .loc .loc-map{--s3y:-46px;--s3r:-7deg}
   html.s3d-native .loc .loc-info{--s3y:-22px}
+  html.s3d-native .about-grid>div:first-child>.eyebrow{--s3y:-14px}
+  html.s3d-native .about-grid>div:first-child>h2{--s3y:-26px}
+  html.s3d-native .about-grid>div:first-child>.lead{--s3y:-38px}
+  html.s3d-native .rvw .rvHead{--s3y:-26px}
+  html.s3d-native .rvw .rvTrack{--s3y:-18px;--s3r:-4deg}
+  html.s3d-native .faq .eyebrow{--s3y:-14px}
+  html.s3d-native .faq .faq-title{--s3y:-26px}
+  html.s3d-native .faq .faq-list{--s3y:-30px;--s3r:-4deg}
+  html.s3d-native .ft-grid>*{--s3y:-18px}
   html.s3d-native.s3d-full .band .band-inner{--s3y:-44px}
   html.s3d-native.s3d-lite .band .band-inner{--s3y:-20px}
   /* head effects, tiles and the map are desktop-only (phones: reveal + band moves) */
-  html.s3d-native.s3d-lite :is(.head>*,.about-photos .ph,.features .feature,.menu-cat-grid .tcard,.gal-grid .ph,.loc .loc-map,.loc .loc-info){animation:none}
+  html.s3d-native.s3d-lite :is(.head>*,.about-photos .ph,.features .feature,.menu-cat-grid .tcard,.gal-grid .ph,.loc .loc-map,.loc .loc-info,
+    .about-grid>div:first-child>*,.rvw .rvHead,.rvw .rvTrack,.faq .eyebrow,.faq .faq-title,.faq .faq-list,.ft-grid>*){animation:none}
+  @keyframes s3d-glow{from{translate:0 28vh}to{translate:0 -28vh}}
+  html.s3d-native :is(.section.about,.events,.gallery,.visit,.faq)::after{
+    animation:s3d-glow linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%;
+  }
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -116,6 +165,7 @@ html.s3d-full .tilt-on{will-change:transform;}
 /* the spring in JS does the easing, so drop any CSS transform transition on these */
 html.s3d-full .features .feature{transition:border-color .4s}
 html.perf-1 :is(.menu-cat-grid .tcard,.gal-grid .ph,.about-photos .ph,.features .feature,.loc .loc-map){transform:none!important}
+html.perf-1 :is(.section.about,.events,.gallery,.visit,.faq)::after{display:none}
 
 /* table availability note under the reserve form's date / time row */
 .rb-avail{margin:2px 0 10px;padding:9px 14px;border-radius:12px;font-size:13px;line-height:1.4;background:rgba(215,170,90,.14);color:var(--cream,#fbf7e2);border:1px solid rgba(215,170,90,.4)}

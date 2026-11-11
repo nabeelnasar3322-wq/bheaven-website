@@ -97,7 +97,7 @@
 /* 2. Atmospheric Ambient Lighting Glows */
 .section.about{
   position: relative;
-  overflow: hidden;
+  overflow: clip;
 }
 .section.about::before{
   content: '';
