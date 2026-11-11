@@ -69,3 +69,16 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   if (!tick()) return;
   var id = setInterval(function () { if (!tick()) clearInterval(id); }, 1000);
 })();
+
+/* Festive strip: each night's card disappears once that night is over; the whole strip goes when both have. (Dubai time) */
+(function () {
+  'use strict';
+  var sec = document.getElementById('festive');
+  if (!sec) return;
+  var cards = sec.querySelectorAll('.fs-card'), left = 0, now = Date.now();
+  for (var i = 0; i < cards.length; i++) {
+    var until = Date.parse(cards[i].getAttribute('data-until'));
+    if (until && now >= until) cards[i].remove(); else left++;
+  }
+  if (!left) sec.remove();
+})();

@@ -297,3 +297,23 @@ html{scroll-padding-top:92px}
 .festiveCd .fc-star{color:#D9BE8C;animation:fcTw 2.4s ease-in-out infinite}
 @keyframes fcTw{50%{opacity:.3;transform:scale(.75)}}
 @media(prefers-reduced-motion:reduce){.festiveCd .fc-star{animation:none}}
+
+/* ---------- Festive strip (home): highlighted band for Christmas Eve + New Year's Eve ---------- */
+.festive-strip{position:relative;padding:56px 0;background:linear-gradient(115deg,#4a1219 0%,#6E1A22 45%,#3a1a1d 100%);border-top:1px solid rgba(217,190,140,.55);border-bottom:1px solid rgba(217,190,140,.55);overflow:clip}
+.festive-strip::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 90% at 15% 0%,rgba(217,190,140,.16),transparent 70%),radial-gradient(50% 80% at 90% 100%,rgba(217,190,140,.12),transparent 70%)}
+.festive-strip .container{position:relative}
+.fs-head{text-align:center;margin-bottom:30px}
+.fs-head .eyebrow{color:#D9BE8C}.fs-head .eyebrow::before,.fs-head .eyebrow::after{background:#D9BE8C}
+.fs-head .eyebrow::after{content:'';width:26px;height:1px}
+.fs-head h2{margin:0;color:#FBF7E2;font-size:clamp(26px,4.2vw,40px);line-height:1.15}
+.fs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:980px;margin:0 auto}
+.fs-grid:has(.fs-card:only-of-type){grid-template-columns:minmax(0,480px);justify-content:center}
+.fs-card{display:flex;flex-direction:column;gap:6px;padding:26px 26px 24px;border-radius:22px;border:1px solid rgba(217,190,140,.45);background:rgba(20,10,12,.38);backdrop-filter:blur(6px);color:#FBF7E2}
+.fs-date{margin:0;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#D9BE8C}
+.fs-card h3{margin:2px 0 0;font-size:clamp(21px,2.6vw,26px);line-height:1.2;color:#FBF7E2}
+.fs-meta{margin:0 0 12px;font-size:14px;color:rgba(251,247,226,.78)}
+.fs-prices{list-style:none;margin:0 0 20px;padding:0;border-top:1px solid rgba(217,190,140,.3)}
+.fs-prices li{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid rgba(217,190,140,.22);font-size:15px}
+.fs-prices b{font-variant-numeric:tabular-nums;color:#F1DDB3;white-space:nowrap}
+.fs-card .btn{margin-top:auto;align-self:flex-start}
+@media(max-width:760px){.festive-strip{padding:40px 0}.fs-grid{grid-template-columns:1fr}.fs-card{padding:22px 20px}.fs-card .btn{align-self:stretch}}
