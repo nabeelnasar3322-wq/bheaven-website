@@ -192,7 +192,7 @@ if (firstSlideImg) {
 }
 
 /* What's on: React Bits Pro Skewed Carousel of nights & offers */
-const SHOWS = [...FESTIVE.filter(e => Date.parse(e.until) > Date.now()).map(e => ({ ...e, type: 'Festive' })), ...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))];
+const SHOWS = [...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))];
 const track = $('#showTrack'), dotsEl = $('#showDots');
 if (track && dotsEl) {
   track.innerHTML = SHOWS.map((e, i) => `
