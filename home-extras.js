@@ -222,3 +222,70 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
     });
   });
 })();
+
+/* festive twisting gallery: photos tilt + twist in 3D as the column moves (page scroll + slow drift + mouse drag) */
+(function () {
+  var sec = document.getElementById('festive'), grid = sec && sec.querySelector('.fs-grid');
+  if (!grid) return;
+  var photos = [
+    ['xmas-1', 'Christmas table under the B-Heaven sign'], ['nye-4', 'DJ hands on the decks'], ['xmas-3', 'Golden reindeer and red berries'],
+    ['nye-1', 'New Year table with disco balls'], ['xmas-2', 'Festive centrepiece with candles'], ['nye-2', 'DJ at the B-Heaven party'],
+    ['nye-3', 'DJ with the Dubai skyline'], ['nye-5', 'DJ playing under fairy lights']
+  ];
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches, fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var gal = document.createElement('aside');
+  gal.className = 'fs-gal'; gal.setAttribute('aria-label', 'Festive photo gallery');
+  var tiles = photos.map(function (p) {
+    var t = document.createElement('div'); t.className = 'fs-tile';
+    t.innerHTML = '<img src="/festive/' + p[0] + '.webp" alt="' + p[1] + '" loading="lazy" decoding="async">';
+    gal.appendChild(t); return t;
+  });
+  grid.insertBefore(gal, grid.firstChild);
+  var seed = 7; function rnd() { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+  var cfg = tiles.map(function () { return { tilt: (rnd() * 2 - 1) * 9, roll: (rnd() * 2 - 1) * 8, twist: 120 + rnd() * 60 }; });
+  var first = true, W = 0, H = 0, tw = 0, th = 0, step = 0, total = 0, cur = 0, tgt = 0, auto = 0, drag = 0, speed = 0, last = 0, raf = 0, hover = false, vis = false, dragging = false, dx = 0;
+  function measure() {
+    W = gal.clientWidth; H = gal.clientHeight; tw = Math.min(220, W * 0.78); th = tw / 0.8; step = th + 36; total = step * tiles.length;
+    tiles.forEach(function (t) { t.style.width = tw + 'px'; t.style.height = th + 'px'; t.style.marginLeft = (-tw / 2) + 'px'; });
+  }
+  function render() {
+    var sp = Math.min(Math.max(speed - 8, 0) / 40, 1);
+    for (var i = 0; i < tiles.length; i++) {
+      var p = (((i * step - cur) % total) + total) % total; if (p > total - step) p -= total;
+      var t = tiles[i], c = (p + th / 2 - H / 2) / (H / 2 + th / 2);
+      if (p > H + 20 || p < -th - 20) { t.style.visibility = 'hidden'; continue; }
+      t.style.visibility = 'visible';
+      var a = Math.min(Math.abs(c), 1.3), sx = Math.sin(p / H * 2.2) * W * 0.12, z = -150 * (1 - Math.min(a, 1)), g = Math.min(0.9, 0.15 + a * 0.8) * (1 - sp * 0.4) + sp * 0.3;
+      t.style.transform = 'translate3d(' + sx.toFixed(1) + 'px,' + p.toFixed(1) + 'px,' + z.toFixed(0) + 'px) rotateX(' + (cfg[i].tilt).toFixed(1) + 'deg) rotateY(' + (c * cfg[i].twist / 2).toFixed(1) + 'deg) rotateZ(' + (cfg[i].roll).toFixed(1) + 'deg)';
+      t.style.filter = 'grayscale(' + g.toFixed(2) + ')' + (sp > 0.05 ? ' blur(' + (sp * 3).toFixed(1) + 'px)' : '');
+      t.style.zIndex = Math.round((1 - Math.min(a, 1)) * 10);
+    }
+  }
+  function frame(now) {
+    if (first) { first = false; cur = auto + window.scrollY * 0.45 + drag; }
+    var dt = Math.min(now - last, 50) / 1000; last = now;
+    if (!hover || dragging) { /* drift pauses while hovering */ }
+    if (!hover && !dragging) auto += 26 * dt;
+    tgt = auto + window.scrollY * 0.45 + drag;
+    var prev = cur; cur += (tgt - cur) * 0.1;
+    speed = speed * 0.85 + Math.abs(cur - prev) * 0.15 * 3;
+    render();
+    raf = vis ? requestAnimationFrame(frame) : 0;
+  }
+  function start() { if (!raf && !reduce) { first = true; last = performance.now(); raf = requestAnimationFrame(frame); } }
+  gal.classList.add('on');
+  measure(); cur = tgt = 120; render();
+  if (reduce) return;
+  addEventListener('resize', function () { measure(); render(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) start(); }, { rootMargin: '10% 0px' }).observe(gal);
+  } else { vis = true; start(); }
+  if (fine) {
+    gal.addEventListener('mouseenter', function () { hover = true; });
+    gal.addEventListener('mouseleave', function () { hover = false; });
+  }
+  gal.addEventListener('pointerdown', function (e) { if (e.pointerType === 'touch') return; dragging = true; dx = e.clientY; gal.setPointerCapture(e.pointerId); gal.classList.add('grab'); });
+  gal.addEventListener('pointermove', function (e) { if (!dragging) return; drag -= (e.clientY - dx) * 1.5; dx = e.clientY; });
+  function up() { dragging = false; gal.classList.remove('grab'); }
+  gal.addEventListener('pointerup', up); gal.addEventListener('pointercancel', up);
+})();
