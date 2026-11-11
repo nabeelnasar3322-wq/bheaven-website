@@ -299,21 +299,56 @@ html{scroll-padding-top:92px}
 @media(prefers-reduced-motion:reduce){.festiveCd .fc-star{animation:none}}
 
 /* ---------- Festive strip (home): highlighted band for Christmas Eve + New Year's Eve ---------- */
-.festive-strip{position:relative;padding:56px 0;background:linear-gradient(115deg,#4a1219 0%,#6E1A22 45%,#3a1a1d 100%);border-top:1px solid rgba(217,190,140,.55);border-bottom:1px solid rgba(217,190,140,.55);overflow:clip}
-.festive-strip::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 90% at 15% 0%,rgba(217,190,140,.16),transparent 70%),radial-gradient(50% 80% at 90% 100%,rgba(217,190,140,.12),transparent 70%)}
+@property --fsang{syntax:'<angle>';inherits:false;initial-value:0deg}
+.festive-strip{position:relative;padding:60px 0;background:linear-gradient(115deg,#4a1219 0%,#6E1A22 45%,#3a1a1d 100%);border-top:1px solid rgba(217,190,140,.55);border-bottom:1px solid rgba(217,190,140,.55);overflow:clip;isolation:isolate}
+.festive-strip::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(60% 90% at 15% 0%,rgba(217,190,140,.16),transparent 70%),radial-gradient(50% 80% at 90% 100%,rgba(217,190,140,.12),transparent 70%);background-size:140% 140%;animation:fsGlow 14s ease-in-out infinite alternate;animation-play-state:paused}
+.festive-strip.fs-live::before{animation-play-state:running}
+@keyframes fsGlow{from{background-position:0% 0%}to{background-position:100% 100%}}
 .festive-strip .container{position:relative}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .fs-head{text-align:center;margin-bottom:30px}
 .fs-head .eyebrow{color:#D9BE8C}.fs-head .eyebrow::before,.fs-head .eyebrow::after{background:#D9BE8C}
 .fs-head .eyebrow::after{content:'';width:26px;height:1px}
 .fs-head h2{margin:0;color:#FBF7E2;font-size:clamp(26px,4.2vw,40px);line-height:1.15}
+.fs-sub{margin:10px 0 0;color:rgba(251,247,226,.75);font-size:15px}
 .fs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:980px;margin:0 auto}
 .fs-grid:has(.fs-card:only-of-type){grid-template-columns:minmax(0,480px);justify-content:center}
-.fs-card{display:flex;flex-direction:column;gap:6px;padding:26px 26px 24px;border-radius:22px;border:1px solid rgba(217,190,140,.45);background:rgba(20,10,12,.38);backdrop-filter:blur(6px);color:#FBF7E2}
+/* sparkles drifting up behind the cards (made by home-extras.js) */
+.fs-sparks{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.fs-sp{position:absolute;bottom:-20px;left:var(--x);font-size:var(--s);color:#F1DDB3;opacity:0;animation:fsRise var(--d) linear var(--dl) infinite;animation-play-state:paused}
+.fs-live .fs-sp{animation-play-state:running}
+@keyframes fsRise{0%{transform:translate3d(0,0,0) rotate(0);opacity:0}12%{opacity:.85}60%{opacity:.5}100%{transform:translate3d(var(--dx),-120%,0) rotate(180deg);opacity:0}}
+.fs-card{--mx:50%;--my:0%;position:relative;display:flex;flex-direction:column;gap:6px;padding:26px 26px 24px;border-radius:22px;border:1px solid rgba(217,190,140,.35);background:rgba(20,10,12,.45);backdrop-filter:blur(6px);color:#FBF7E2;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out,box-shadow .3s}
+.fs-card::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:conic-gradient(from var(--fsang),rgba(217,190,140,0) 0%,rgba(241,221,179,.95) 12%,rgba(217,190,140,0) 28%,rgba(217,190,140,0) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:fsSpin 6s linear infinite;animation-play-state:paused}
+.fs-live .fs-card::before{animation-play-state:running}
+@keyframes fsSpin{to{--fsang:360deg}}
+.fs-card::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx) var(--my),rgba(241,221,179,.16),transparent 70%)}
+@media(hover:hover){.fs-card:hover{box-shadow:0 30px 60px -28px rgba(0,0,0,.7)}.fs-card:hover::after{opacity:1}}
 .fs-date{margin:0;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#D9BE8C}
 .fs-card h3{margin:2px 0 0;font-size:clamp(21px,2.6vw,26px);line-height:1.2;color:#FBF7E2}
-.fs-meta{margin:0 0 12px;font-size:14px;color:rgba(251,247,226,.78)}
-.fs-prices{list-style:none;margin:0 0 20px;padding:0;border-top:1px solid rgba(217,190,140,.3)}
-.fs-prices li{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid rgba(217,190,140,.22);font-size:15px}
-.fs-prices b{font-variant-numeric:tabular-nums;color:#F1DDB3;white-space:nowrap}
+.fs-meta{margin:0 0 4px;font-size:14px;color:rgba(251,247,226,.78)}
+.fs-count{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#F1DDB3}
+.fs-count[hidden]{display:none}
+.fs-prices{margin:6px 0 14px;padding:0;border:0;min-width:0;display:grid;gap:8px}
+.fs-opt{position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(217,190,140,.28);background:rgba(251,247,226,.04);cursor:pointer;font-size:15px;transition:border-color .25s,background .25s,transform .25s}
+.fs-opt input{position:absolute;opacity:0;pointer-events:none}
+.fs-opt::before{content:'';flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(217,190,140,.7);transition:all .25s;background:radial-gradient(circle,#F1DDB3 0 0%,transparent 0)}
+.fs-opt .fs-lbl{flex:1}
+.fs-opt b{font-variant-numeric:tabular-nums;color:#F1DDB3;white-space:nowrap}
+.fs-opt:hover{border-color:rgba(241,221,179,.7)}
+.fs-opt:has(input:checked){border-color:#F1DDB3;background:rgba(217,190,140,.16);transform:translateX(3px)}
+.fs-opt:has(input:checked)::before{background:radial-gradient(circle,#F1DDB3 0 45%,transparent 50%);border-color:#F1DDB3}
+.fs-opt:has(input:focus-visible){outline:2px solid #F1DDB3;outline-offset:2px}
+.fs-calc{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:2px 0 16px;flex-wrap:wrap}
+.fs-guests{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(251,247,226,.85)}
+.fs-step{width:36px;height:36px;border-radius:50%;border:1px solid rgba(217,190,140,.6);background:rgba(251,247,226,.06);color:#FBF7E2;font-size:20px;line-height:1;cursor:pointer;transition:background .2s,transform .15s}
+.fs-step:hover{background:rgba(217,190,140,.25)}.fs-step:active{transform:scale(.9)}
+.fs-step:focus-visible{outline:2px solid #F1DDB3;outline-offset:2px}
+.fs-n{min-width:26px;text-align:center;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums;color:#fff}
+.fs-total{margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,226,.75)}
+.fs-sum{display:block;font-size:24px;letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums;color:#fff}
+.fs-sum.bump{animation:fsBump .4s ease}
+@keyframes fsBump{40%{transform:scale(1.12);color:#F1DDB3}}
 .fs-card .btn{margin-top:auto;align-self:flex-start}
-@media(max-width:760px){.festive-strip{padding:40px 0}.fs-grid{grid-template-columns:1fr}.fs-card{padding:22px 20px}.fs-card .btn{align-self:stretch}}
+@media(max-width:760px){.festive-strip{padding:40px 0}.fs-grid{grid-template-columns:1fr}.fs-card{padding:22px 18px}.fs-card .btn{align-self:stretch}}
+@media(prefers-reduced-motion:reduce){.fs-sp,.festive-strip::before,.fs-card::before{animation:none}.fs-card{transition:none;transform:none}.fs-opt,.fs-opt:has(input:checked){transform:none}}

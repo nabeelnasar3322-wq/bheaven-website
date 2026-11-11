@@ -176,27 +176,55 @@
 
 <div class="ribbon-wrap" aria-hidden="true"><div class="ribbon"><div class="ribbon-track" id="ribbon"></div></div></div>
 
-<!-- ============ FESTIVE STRIP (auto-hides after each night; see home-extras.js) ============ -->
+<!-- ============ FESTIVE STRIP (interactive; auto-hides after each night, see home-extras.js) ============ -->
 <section class="festive-strip" id="festive" aria-labelledby="fsTitle">
+  <div class="fs-sparks" aria-hidden="true"></div>
   <div class="container">
     <div class="fs-head" data-r>
       <p class="eyebrow">Festive season</p>
       <h2 id="fsTitle">Celebrate with us at <span class="script gold-text">B·Heaven</span></h2>
+      <p class="fs-sub">Pick your package and guests, then book on WhatsApp.</p>
     </div>
     <div class="fs-grid" data-r>
-    <article class="fs-card" data-until="2026-12-24T22:30:00+04:00" data-key="xmas">
+    <article class="fs-card" data-until="2026-12-24T22:30:00+04:00" data-key="xmas" data-event="Christmas Eve Dinner" data-day="24 December">
       <p class="fs-date"><span aria-hidden="true">✨</span> 24 December 2026</p>
       <h3>Christmas Eve Dinner</h3>
       <p class="fs-meta">6:30 PM – 10:30 PM · B-Heaven Pool Area</p>
-      <ul class="fs-prices"><li><span>Soft beverages</span><b>AED 175</b></li><li><span>House beverages</span><b>AED 250</b></li><li><span>Premium beverages</span><b>AED 350</b></li></ul>
-      <a class="btn btn-gold" href="https://wa.me/971506129150?text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20Christmas%20Eve%20Dinner%20(24%20December)." target="_blank" rel="noopener">Book Christmas Eve</a>
+      <p class="fs-count" hidden></p>
+      <fieldset class="fs-prices"><legend class="sr-only">Choose your package</legend>
+        <label class="fs-opt"><input type="radio" name="fs-xmas" value="Soft beverages" data-price="175" checked><span class="fs-lbl">Soft beverages</span><b>AED 175</b></label>
+        <label class="fs-opt"><input type="radio" name="fs-xmas" value="House beverages" data-price="250"><span class="fs-lbl">House beverages</span><b>AED 250</b></label>
+        <label class="fs-opt"><input type="radio" name="fs-xmas" value="Premium beverages" data-price="350"><span class="fs-lbl">Premium beverages</span><b>AED 350</b></label>
+      </fieldset>
+      <div class="fs-calc">
+        <div class="fs-guests"><span>Guests</span>
+          <button type="button" class="fs-step" data-d="-1" aria-label="Fewer guests">−</button>
+          <output class="fs-n" aria-live="polite">2</output>
+          <button type="button" class="fs-step" data-d="1" aria-label="More guests">+</button>
+        </div>
+        <p class="fs-total">Total <strong class="fs-sum" aria-live="polite">AED 350</strong></p>
+      </div>
+      <a class="btn btn-gold fs-cta" href="https://wa.me/971506129150" target="_blank" rel="noopener">Book Christmas Eve</a>
     </article>
-    <article class="fs-card" data-until="2027-01-01T04:00:00+04:00" data-key="nye">
+    <article class="fs-card" data-until="2027-01-01T04:00:00+04:00" data-key="nye" data-event="New Year's Eve Celebration" data-day="31 December">
       <p class="fs-date"><span aria-hidden="true">🎉</span> 31 December 2026</p>
       <h3>New Year's Eve Celebration</h3>
       <p class="fs-meta">From 8:00 PM · B-Heaven Pool Area</p>
-      <ul class="fs-prices"><li><span>Soft beverages</span><b>AED 399</b></li><li><span>House beverages</span><b>AED 499</b></li><li><span>Premium beverages</span><b>AED 599</b></li></ul>
-      <a class="btn btn-gold" href="https://wa.me/971506129150?text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20New%20Year%27s%20Eve%20(31%20December)." target="_blank" rel="noopener">Book New Year's Eve</a>
+      <p class="fs-count" hidden></p>
+      <fieldset class="fs-prices"><legend class="sr-only">Choose your package</legend>
+        <label class="fs-opt"><input type="radio" name="fs-nye" value="Soft beverages" data-price="399" checked><span class="fs-lbl">Soft beverages</span><b>AED 399</b></label>
+        <label class="fs-opt"><input type="radio" name="fs-nye" value="House beverages" data-price="499"><span class="fs-lbl">House beverages</span><b>AED 499</b></label>
+        <label class="fs-opt"><input type="radio" name="fs-nye" value="Premium beverages" data-price="599"><span class="fs-lbl">Premium beverages</span><b>AED 599</b></label>
+      </fieldset>
+      <div class="fs-calc">
+        <div class="fs-guests"><span>Guests</span>
+          <button type="button" class="fs-step" data-d="-1" aria-label="Fewer guests">−</button>
+          <output class="fs-n" aria-live="polite">2</output>
+          <button type="button" class="fs-step" data-d="1" aria-label="More guests">+</button>
+        </div>
+        <p class="fs-total">Total <strong class="fs-sum" aria-live="polite">AED 350</strong></p>
+      </div>
+      <a class="btn btn-gold fs-cta" href="https://wa.me/971506129150" target="_blank" rel="noopener">Book New Year's Eve</a>
     </article>
     </div>
   </div>

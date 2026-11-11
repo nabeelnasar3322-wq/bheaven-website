@@ -70,15 +70,84 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   var id = setInterval(function () { if (!tick()) clearInterval(id); }, 1000);
 })();
 
-/* Festive strip: each night's card disappears once that night is over; the whole strip goes when both have. (Dubai time) */
+/* Festive strip (interactive). Each night's card disappears once that night is over; the whole strip goes when
+   both have (Dubai time). Package + guests give a live total and a pre-filled WhatsApp booking message. */
 (function () {
   'use strict';
   var sec = document.getElementById('festive');
   if (!sec) return;
-  var cards = sec.querySelectorAll('.fs-card'), left = 0, now = Date.now();
-  for (var i = 0; i < cards.length; i++) {
+  var cards = sec.querySelectorAll('.fs-card'), left = 0, now = Date.now(), i;
+  for (i = 0; i < cards.length; i++) {
     var until = Date.parse(cards[i].getAttribute('data-until'));
     if (until && now >= until) cards[i].remove(); else left++;
   }
-  if (!left) sec.remove();
+  if (!left) { sec.remove(); return; }
+
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fmt = function (n) { return 'AED ' + n.toLocaleString('en-US'); };
+  var WA = 'https://wa.me/971506129150?text=';
+
+  /* per-card: guests, package, total, WhatsApp link, countdown */
+  Array.prototype.forEach.call(sec.querySelectorAll('.fs-card'), function (card) {
+    var n = 2, shown = 0, raf = 0;
+    var out = card.querySelector('.fs-n'), sum = card.querySelector('.fs-sum'), cta = card.querySelector('.fs-cta'), cd = card.querySelector('.fs-count');
+    var target = Date.parse(card.getAttribute('data-until'));
+    function opt() { return card.querySelector('input:checked'); }
+    function total() { return n * Number(opt().getAttribute('data-price')); }
+    function paint() {
+      var t = total(), from = shown, t0 = performance.now();
+      cancelAnimationFrame(raf);
+      sum.classList.remove('bump'); void sum.offsetWidth; sum.classList.add('bump');
+      if (reduce) { shown = t; sum.textContent = fmt(t); return; }
+      (function step(ts) {
+        var p = Math.min(1, (ts - t0) / 450), e = 1 - Math.pow(1 - p, 3);
+        shown = Math.round(from + (t - from) * e); sum.textContent = fmt(shown);
+        if (p < 1) raf = requestAnimationFrame(step);
+      })(t0);
+    }
+    function link() {
+      var o = opt(), msg = "Hi B-Heaven, I'd like to book " + card.getAttribute('data-event') + ' on ' + card.getAttribute('data-day') +
+        ' for ' + n + (n === 1 ? ' guest' : ' guests') + ' – ' + o.value + ' package (' + fmt(total()) + ').';
+      cta.href = WA + encodeURIComponent(msg);
+    }
+    function update() { out.textContent = n; paint(); link(); }
+    card.addEventListener('click', function (e) {
+      var b = e.target.closest('.fs-step'); if (!b) return;
+      n = Math.max(1, Math.min(20, n + Number(b.getAttribute('data-d')))); update();
+    });
+    card.addEventListener('change', function (e) { if (e.target.name) update(); });
+    shown = total(); sum.textContent = fmt(shown); link();
+
+    function countdown() {
+      var ms = target - Date.now(); if (ms <= 0) { cd.hidden = true; return; }
+      var d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5);
+      cd.textContent = d > 0 ? 'Starts in ' + d + (d === 1 ? ' day ' : ' days ') + h + ' h' : 'Tonight';
+      cd.hidden = false;
+    }
+    countdown(); setInterval(countdown, 60000);
+
+    /* pointer tilt + moving highlight (mouse only) */
+    if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        card.style.setProperty('--ry', ((x - .5) * 6).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', ((.5 - y) * 5).toFixed(2) + 'deg');
+        card.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+      });
+      card.addEventListener('pointerleave', function () { card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); });
+    }
+  });
+
+  /* sparkles + animated borders only run while the strip is on screen */
+  if (!reduce) {
+    var box = sec.querySelector('.fs-sparks'), sp = matchMedia('(max-width:760px)').matches ? 10 : 18, html = '';
+    for (i = 0; i < sp; i++) {
+      html += '<span class="fs-sp" style="--x:' + (Math.random() * 100).toFixed(1) + '%;--s:' + (8 + Math.random() * 12).toFixed(0) + 'px;--d:' +
+        (7 + Math.random() * 8).toFixed(1) + 's;--dl:-' + (Math.random() * 12).toFixed(1) + 's;--dx:' + (Math.random() * 60 - 30).toFixed(0) + 'px">✦</span>';
+    }
+    box.innerHTML = html;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { sec.classList.toggle('fs-live', es[0].isIntersecting); }, { rootMargin: '10% 0px' }).observe(sec);
+    } else sec.classList.add('fs-live');
+  }
 })();
