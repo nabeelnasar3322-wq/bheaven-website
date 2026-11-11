@@ -100,8 +100,8 @@ const FESTIVE = [
 ];
 
 /* GUEST REVIEWS: kept in sync with the real Google reviews already published on the live
-   site (bheavendubai.com/menu/ — 4.8 stars, 309 reviews). */
-const GOOGLE_RATING = { value: '4.8', count: '309' };
+   site (bheavendubai.com/menu/ — 4.8 stars, 312 reviews). */
+const GOOGLE_RATING = { value: '4.8', count: '312' };
 const REVIEWS = [
   { name: 'Sam Khanjar', source: 'Google', rating: 5, text: 'A fantastic experience — the food was delicious, fresh and beautifully presented. Definitely a five-star experience.' },
   { name: 'Destiny bySasha', source: 'Google', rating: 5, text: 'The atmosphere is amazing, made even more special by the live singer — a perfect combination of great food, ambiance and live entertainment.' },
