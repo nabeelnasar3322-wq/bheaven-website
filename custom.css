@@ -413,3 +413,24 @@ html{scroll-padding-top:92px}
 .fs-ov{top:0;justify-content:flex-end}
 .fs-ov .fs-count{top:11px;left:18px;right:auto;bottom:auto}
 @media(max-width:760px){.fs-ov .fs-count{top:11px}}
+
+/* ===== festive v3: bigger photos + lightbox ===== */
+.fs-top{height:230px;cursor:zoom-in}
+.fs-photo img:nth-of-type(1){object-position:50% 38%}
+.fs-top:hover .fs-photo img{scale:1.04;transition:scale .6s}
+.fs-zoom{position:absolute;top:30px;right:14px;z-index:3;display:none}
+.fs-zoom{display:inline-flex;align-items:center;gap:5px;top:auto;right:16px;bottom:14px;padding:6px 11px;border-radius:99px;border:1px solid rgba(241,221,179,.55);background:rgba(20,10,12,.6);color:#FBF7E2;font:600 11px/1 inherit;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(4px);transition:background .2s,transform .2s}
+.fs-zoom:hover{background:rgba(217,190,140,.35);transform:scale(1.05)}
+.fs-zoom:focus-visible{outline:2px solid #F1DDB3;outline-offset:2px}
+@media(max-width:760px){.fs-top{height:210px}}
+.fs-lb{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(10,4,6,.94);animation:fsLbIn .25s ease}
+.fs-lb[hidden]{display:none}
+.fs-lb img{max-width:min(94vw,1400px);max-height:84vh;object-fit:contain;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.fs-lb button{position:absolute;border:0;background:rgba(251,247,226,.12);color:#FBF7E2;width:46px;height:46px;border-radius:50%;font-size:28px;line-height:1;cursor:pointer;transition:background .2s}
+.fs-lb button:hover{background:rgba(217,190,140,.4)}
+.fs-lb button:focus-visible{outline:2px solid #F1DDB3;outline-offset:2px}
+.fs-lb-x{top:16px;right:16px}.fs-lb-p{left:14px;top:50%;margin-top:-23px}.fs-lb-n{right:14px;top:50%;margin-top:-23px}
+.fs-lb-c{position:absolute;bottom:18px;left:0;right:0;margin:0;text-align:center;font-size:13px;letter-spacing:.14em;color:rgba(251,247,226,.8)}
+.fs-lb-open{overflow:hidden}
+@keyframes fsLbIn{from{opacity:0}}
+@media(prefers-reduced-motion:reduce){.fs-lb{animation:none}.fs-top:hover .fs-photo img{scale:1;transition:none}}
