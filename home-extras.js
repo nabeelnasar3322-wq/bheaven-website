@@ -152,3 +152,69 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
     } else sec.classList.add('fs-live');
   }
 })();
+
+/* Festive photo slider: arrows, drag/swipe (native scroll), gentle auto-advance while visible, tap-to-enlarge. */
+(function () {
+  'use strict';
+  var gal = document.querySelector('#festive .fz-gal');
+  if (!gal) return;
+  var track = gal.querySelector('.fz-track'), prev = gal.querySelector('.fz-prev'), next = gal.querySelector('.fz-next');
+  var imgs = [].slice.call(track.querySelectorAll('img')), paused = false, visible = false;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function step() { var s = track.querySelector('.fz-slide'); return s ? s.getBoundingClientRect().width + 14 : 240; }
+  function edges() { prev.disabled = track.scrollLeft < 4; next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; }
+  prev.addEventListener('click', function () { track.scrollBy({ left: -step() * 2 }); });
+  next.addEventListener('click', function () { track.scrollBy({ left: step() * 2 }); });
+  track.addEventListener('scroll', edges, { passive: true }); edges();
+  ['mouseenter', 'focusin', 'touchstart'].forEach(function (e) { gal.addEventListener(e, function () { paused = true; }, { passive: true }); });
+  ['mouseleave', 'focusout'].forEach(function (e) { gal.addEventListener(e, function () { paused = false; }); });
+  if (!reduce) setInterval(function () {
+    if (paused || !visible || document.hidden || document.querySelector('.fz-lb.on')) return;
+    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) track.scrollTo({ left: 0 }); else track.scrollBy({ left: step() });
+  }, 3500);
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(gal); else visible = true;
+
+  var lb, lbImg, cur = 0, sx = 0;
+  function build() {
+    lb = document.createElement('div'); lb.className = 'fz-lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', 'Photo viewer');
+    lb.innerHTML = '<button type="button" class="x" aria-label="Close">&times;</button><button type="button" class="p" aria-label="Previous photo">&#8249;</button><img alt=""><button type="button" class="n" aria-label="Next photo">&#8250;</button>';
+    lbImg = lb.querySelector('img'); document.body.appendChild(lb);
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target.className === 'x') close(); else if (e.target.className === 'p') go(-1); else if (e.target.className === 'n') go(1); });
+    lb.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function (e) { var d = e.changedTouches[0].clientX - sx; if (Math.abs(d) > 50) go(d < 0 ? 1 : -1); });
+  }
+  function show(n) { cur = (n + imgs.length) % imgs.length; lbImg.src = imgs[cur].currentSrc || imgs[cur].src; lbImg.alt = imgs[cur].alt; }
+  function go(d) { show(cur + d); }
+  function open(n) { if (!lb) build(); show(n); lb.classList.add('on'); document.documentElement.style.overflow = 'hidden'; lb.querySelector('.x').focus(); }
+  function close() { lb.classList.remove('on'); document.documentElement.style.overflow = ''; }
+  track.addEventListener('click', function (e) { var b = e.target.closest('.fz-open'); if (b) open(imgs.indexOf(b.querySelector('img'))); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb || !lb.classList.contains('on')) return;
+    if (e.key === 'Escape') close(); else if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1);
+  });
+})();
+
+/* scroll-bend for the festive slider */
+(function () {
+  'use strict';
+  var track = document.querySelector('#festive .fz-track');
+  if (!track || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  var slides = [].slice.call(track.querySelectorAll('.fz-slide')), last = track.scrollLeft, vel = 0, raf = 0, vis = false;
+  function frame() {
+    var x = track.scrollLeft, dv = x - last; last = x;
+    vel += (dv - vel) * 0.25;
+    var r = track.getBoundingClientRect(), cx = r.left + r.width / 2, sk = Math.max(-9, Math.min(9, -vel * 0.35));
+    for (var i = 0; i < slides.length; i++) {
+      var b = slides[i].getBoundingClientRect(), d = (b.left + b.width / 2 - cx) / (r.width / 2);
+      d = Math.max(-1.3, Math.min(1.3, d));
+      slides[i].style.setProperty('--ry', (-d * 20).toFixed(2) + 'deg');
+      slides[i].style.setProperty('--sc', (1 - Math.abs(d) * 0.07).toFixed(3));
+      slides[i].style.setProperty('--sk', sk.toFixed(2) + 'deg');
+    }
+    raf = (vis && (Math.abs(vel) > 0.05 || true)) ? requestAnimationFrame(frame) : 0;
+  }
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+    vis = es[0].isIntersecting; if (vis && !raf) raf = requestAnimationFrame(frame);
+  }).observe(track);
+  else { vis = true; raf = requestAnimationFrame(frame); }
+})();
