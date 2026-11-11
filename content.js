@@ -88,17 +88,6 @@ const OFFERS = [
     price: 'AED 89', cta: 'Book shisha' }
 ];
 
-/* Festive season 2026. Shown first in the What's on carousel and removed automatically after each night ends
-   (times are Asia/Dubai, UTC+4). To change a price or time, edit it here. */
-const FESTIVE = [
-  { key: 'xmas', day: '24 December', time: '6:30 PM – 10:30 PM', until: '2026-12-24T22:30:00+04:00', title: 'Christmas Eve Dinner', big: 'Christmas', sub: 'Eve Dinner',
-    perks: ['B·Heaven Pool Area', 'AED 175 per person · Soft beverages', 'AED 250 per person · House beverages', 'AED 350 per person · Premium beverages'],
-    price: 'From AED 175 per person', cta: 'Book Christmas Eve' },
-  { key: 'nye', day: '31 December', time: 'From 8 PM', until: '2027-01-01T04:00:00+04:00', title: "New Year's Eve Celebration", big: 'NYE', sub: 'Celebration · 2027',
-    perks: ['B·Heaven Pool Area', 'AED 399 per person · Soft beverages', 'AED 499 per person · House beverages', 'AED 599 per person · Premium beverages'],
-    price: 'From AED 399 per person', cta: 'Book New Year\'s Eve' }
-];
-
 /* GUEST REVIEWS: kept in sync with the real Google reviews already published on the live
    site (bheavendubai.com/menu/ — 4.8 stars, 312 reviews). */
 const GOOGLE_RATING = { value: '4.8', count: '312' };
