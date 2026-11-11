@@ -1,0 +1,27 @@
+/* 3D depth scroll for the inner pages (/menu/, /business-lunch/, /shisha/).
+   Loaded after scroll3d.css; scroll3d.js writes --s / --a on these containers (Firefox path),
+   Chrome / Edge / Safari 26+ run the same movement natively with animation-timeline.
+   Only translate / rotate are used, never `transform`, so each page's own reveal and hover
+   transforms keep working. Desktop only: phones keep the pages exactly as they were. */
+
+/* ---- variable version (Firefox) ---- */
+html.s3d-full .scatter,html.s3d-full .dgrid,html.s3d-full .cards{perspective:1500px}
+html.s3d-full .scatter .plate{rotate:x calc(var(--s,0)*-6deg);transform-origin:50% 50%}
+html.s3d-full .dgrid .dcard{rotate:x calc(var(--s,0)*-5deg);translate:0 calc(var(--s,0)*var(--k,1)*18px);transform-origin:50% 50%}
+html.s3d-full .dgrid>:nth-child(3n+1){--k:.5}
+html.s3d-full .dgrid>:nth-child(3n+2){--k:1}
+html.s3d-full .dgrid>:nth-child(3n+3){--k:1.5}
+html.s3d-full .cards .card .ph{rotate:x calc(var(--s,0)*-6deg);translate:0 calc(var(--s,0)*-22px);transform-origin:50% 50%}
+html.s3d-full .cat>.wrap>.ch,html.s3d-full .cat .ch{translate:0 calc(var(--s,0)*-18px)}
+.scatter.s3d-on .plate,.dgrid.s3d-on .dcard,.cards.s3d-on .ph{will-change:translate,rotate}
+
+/* ---- native version ---- */
+@supports (animation-timeline: view()) {
+  html.s3d-native :is(.scatter,.dgrid,.cards,.cat){view-timeline:--sec block}
+  @keyframes s3d-tilt{from{rotate:x var(--s3r,0deg)}to{rotate:x calc(var(--s3r,0deg)*-1)}}
+  html.s3d-native.s3d-full .scatter .plate{animation:s3d-tilt linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%;--s3r:-6deg}
+  html.s3d-native.s3d-full :is(.dgrid .dcard,.cards .card .ph,.cat .ch){animation:s3d-slide linear both;animation-timeline:--sec;animation-range:cover 0% cover 100%}
+  html.s3d-native .dgrid .dcard{--s3y:calc(var(--k,1)*18px);--s3r:-5deg}
+  html.s3d-native .cards .card .ph{--s3y:-22px;--s3r:-6deg}
+  html.s3d-native .cat .ch{--s3y:-18px}
+}
