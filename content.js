@@ -61,7 +61,7 @@ const TASTE = [
    weekday: 0=Sun..6=Sat, startHour: 24h clock (Asia/Dubai) — used by the "Tonight's Table" strip
    in main.js to find the next event; everything else (cards, carousel) only reads the fields above. */
 const EVENTS = [
-  { key: 'happy', day: 'Daily', time: 'Sunset – 8 PM', weekday: 0, startHour: 17, title: 'Sunset Happy Hours', big: 'Sunset', sub: 'Happy Hours · Daily', poster: '/menu/img/ev-happy-hours.webp',
+  { key: 'happy', day: 'Daily', time: '4 PM – 8 PM', weekday: 0, startHour: 16, title: 'Sunset Happy Hours', big: 'Sunset', sub: 'Happy Hours · Daily', poster: '/menu/img/ev-happy-hours.webp',
     perks: ['Sunset prices on spirits, cocktails, wine and beer', 'As the skyline turns gold'],
     price: 'Drinks from AED 35', cta: 'Book Happy Hour' },
   { key: 'grape', day: 'Every Thursday', time: '8 PM – Midnight', weekday: 4, startHour: 20, title: 'Grape & Graze', big: 'Grape', sub: '& Graze', poster: '/menu/img/ev-mezze-wine.webp',
