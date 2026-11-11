@@ -2,7 +2,9 @@
    Connect ONE of these in Vercel > Project > Settings > Environment Variables:
    - IG_TOKEN:   Instagram API access token (free, from a Meta developer app)
    - BEHOLD_URL: JSON feed URL from behold.so                                  */
+const reviews = require('./_reviews.js');
 module.exports = async (req, res) => {
+  if (/[?&]rating=1/.test(req.url || '')) return reviews(req, res); // shares this function (Hobby plan: 12-function limit)
   const token = process.env.IG_TOKEN, behold = process.env.BEHOLD_URL;
   try {
     let posts = [];

@@ -336,6 +336,15 @@ if (typeof GOOGLE_RATING !== 'undefined' && $('#revRating')) {
   $('#revRating').innerHTML = `${stars(5)} <strong>${esc(GOOGLE_RATING.value)}</strong> on Google · ${esc(GOOGLE_RATING.count)} reviews`;
   $('#revRating').removeAttribute('aria-hidden');
 }
+/* Live Google rating (falls back silently to the numbers already in the page) */
+if (document.querySelector('.rvScore')) {
+  fetch('/api/instagram?rating=1').then(r => r.status === 200 ? r.json() : null).then(d => {
+    if (!d || !d.rating || !d.count) return;
+    const big = document.querySelector('.rvScore .big'), sm = document.querySelector('.rvScore small');
+    if (big) big.textContent = d.rating;
+    if (sm) sm.textContent = 'from ' + d.count + ' Google reviews';
+  }).catch(() => {});
+}
 if (!$('#reviewsWrap')) { /* reviews now use the static Google carousel */ }
 else if (REVIEWS.length) {
   const initials = n => (n || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
