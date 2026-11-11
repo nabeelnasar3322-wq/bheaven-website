@@ -352,3 +352,15 @@ html{scroll-padding-top:92px}
 .fs-card .btn{margin-top:auto;align-self:flex-start}
 @media(max-width:760px){.festive-strip{padding:40px 0}.fs-grid{grid-template-columns:1fr}.fs-card{padding:22px 18px}.fs-card .btn{align-self:stretch}}
 @media(prefers-reduced-motion:reduce){.fs-sp,.festive-strip::before,.fs-card::before{animation:none}.fs-card{transition:none;transform:none}.fs-opt,.fs-opt:has(input:checked){transform:none}}
+
+/* festive card photos */
+.fs-photo{position:relative;aspect-ratio:16/10;margin:-26px -26px 16px;border-radius:21px 21px 0 0;overflow:hidden;background:#2a1013}
+.fs-photo::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(20,10,12,0) 55%,rgba(20,10,12,.75))}
+.fs-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;scale:1}
+.fs-photo img:first-child{opacity:1}
+.fs-live .fs-photo img{animation:fsPhoto 15s ease-in-out infinite}
+.fs-live .fs-photo img:nth-child(2){animation-delay:5s}
+.fs-live .fs-photo img:nth-child(3){animation-delay:10s}
+@keyframes fsPhoto{0%{opacity:0;scale:1}6%{opacity:1}33%{opacity:1}39%{opacity:0}100%{opacity:0;scale:1.09}}
+@media(max-width:760px){.fs-photo{margin:-22px -18px 14px}}
+@media(prefers-reduced-motion:reduce){.fs-live .fs-photo img{animation:none}.fs-photo img{opacity:0}.fs-photo img:first-child{opacity:1}}
