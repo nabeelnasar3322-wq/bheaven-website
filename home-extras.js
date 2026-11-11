@@ -202,3 +202,23 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
     });
   });
 })();
+
+/* festive card frame: glowing travelling border + noise + click pulse (CSS recreation of an animated frame-border look) */
+(function () {
+  var sec = document.getElementById('festive');
+  if (!sec) return;
+  [].forEach.call(sec.querySelectorAll('.fs-card'), function (card) {
+    var fx = document.createElement('span');
+    fx.className = 'fs-fx'; fx.setAttribute('aria-hidden', 'true');
+    fx.innerHTML = '<span class="fs-in"><span class="fs-glow"></span><span class="fs-noise"></span><span class="fs-ring"></span></span>';
+    card.insertBefore(fx, card.firstChild);
+    var inner = fx.firstChild;
+    card.addEventListener('pointerdown', function (e) {
+      if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      var r = card.getBoundingClientRect(), rip = document.createElement('span');
+      rip.className = 'fs-rip'; rip.style.left = (e.clientX - r.left) + 'px'; rip.style.top = (e.clientY - r.top) + 'px';
+      inner.appendChild(rip); setTimeout(function () { rip.remove(); }, 1000);
+      inner.classList.remove('fs-flash'); void inner.offsetWidth; inner.classList.add('fs-flash');
+    });
+  });
+})();

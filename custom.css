@@ -434,3 +434,33 @@ html{scroll-padding-top:92px}
 .fs-lb-open{overflow:hidden}
 @keyframes fsLbIn{from{opacity:0}}
 @media(prefers-reduced-motion:reduce){.fs-lb{animation:none}.fs-top:hover .fs-photo img{scale:1;transition:none}}
+
+/* ===== festive frame: glowing travelling border (recreation of animated frame-border look) ===== */
+@property --fsr{syntax:'<angle>';inherits:false;initial-value:360deg}
+.fs-card::before{display:none}
+.fs-card>*:not(.fs-fx){position:relative;z-index:1}
+.fs-fx{position:absolute!important;inset:0;z-index:0!important;border-radius:inherit;overflow:hidden;pointer-events:none;--fsr:360deg;-webkit-mask-image:conic-gradient(#000 var(--fsr),transparent calc(var(--fsr) + .6deg));mask-image:conic-gradient(#000 var(--fsr),transparent calc(var(--fsr) + .6deg))}
+.fs-live .fs-fx{animation:fsDraw 1.6s cubic-bezier(.3,.7,.2,1) both}
+@keyframes fsDraw{from{--fsr:0deg}}
+.fs-in{position:absolute;inset:0;display:block}
+.fs-ring,.fs-glow,.fs-noise{position:absolute;inset:0;display:block;border-radius:inherit;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude}
+.fs-ring,.fs-glow{background:conic-gradient(from var(--fsang),#F1DDB3,#FF8FA3 22%,rgba(241,221,179,.18) 48%,#FF8FA3 74%,#F1DDB3);animation:fsSpin 8s linear infinite;animation-play-state:paused}
+.fs-live .fs-ring,.fs-live .fs-glow{animation-play-state:running}
+.fs-ring{padding:1.5px}
+.fs-glow{padding:48px;filter:blur(22px);opacity:.5;transition:opacity .4s}
+.fs-card:hover .fs-glow{opacity:.78}
+.fs-noise{padding:64px;opacity:.55;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .87 0 0 0 0 .7 1.9 0 0 0 -.72'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;animation:fsNoise 14s linear infinite;animation-play-state:paused}
+.fs-live .fs-noise{animation-play-state:running}
+@keyframes fsNoise{to{background-position:180px 360px}}
+.fs-flash{animation:fsFlash .9s ease-out}
+@keyframes fsFlash{30%{filter:brightness(2.2) saturate(1.3)}}
+.fs-rip{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;border:1.5px solid #F1DDB3;box-shadow:0 0 18px rgba(255,143,163,.8);opacity:.9;animation:fsRip .95s ease-out forwards}
+@keyframes fsRip{to{transform:scale(22);opacity:0}}
+@media(max-width:760px){.fs-glow{padding:36px;filter:blur(14px)}.fs-noise{padding:44px}}
+@media(prefers-reduced-motion:reduce){.fs-live .fs-fx{animation:none}.fs-ring,.fs-glow,.fs-noise{animation:none!important}.fs-rip{display:none}}
+/* v2 of glow/noise: soft inward fade from every edge (no hard bands) */
+.fs-glow,.fs-noise{padding:0;filter:none;-webkit-mask:linear-gradient(90deg,#000,transparent 70px),linear-gradient(270deg,#000,transparent 70px),linear-gradient(180deg,#000,transparent 70px),linear-gradient(0deg,#000,transparent 70px);mask:linear-gradient(90deg,#000,transparent 70px),linear-gradient(270deg,#000,transparent 70px),linear-gradient(180deg,#000,transparent 70px),linear-gradient(0deg,#000,transparent 70px);-webkit-mask-composite:source-over;mask-composite:add}
+.fs-glow{opacity:.32}
+.fs-card:hover .fs-glow{opacity:.5}
+.fs-noise{opacity:.22;-webkit-mask-size:100% 100%;mask:linear-gradient(90deg,#000,transparent 56px),linear-gradient(270deg,#000,transparent 56px),linear-gradient(180deg,#000,transparent 56px),linear-gradient(0deg,#000,transparent 56px);mask-composite:add}
+@media(max-width:760px){.fs-glow,.fs-noise{filter:none;padding:0}}
