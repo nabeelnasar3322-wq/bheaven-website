@@ -4,7 +4,7 @@
    - Dish and drink photos: cache first (the hashed .webp files never change).
    - Fonts and the other images: served from cache, refreshed in the background.
    - /api, /admin and anything that is not a GET are never touched. */
-const VERSION = 'v16';
+const VERSION = 'v17';
 const PAGES = 'bh-pages-' + VERSION;
 const IMAGES = 'bh-img-' + VERSION;
 const STATIC = 'bh-static-' + VERSION;

@@ -7,10 +7,10 @@ const IMG = '/';
 /* HERO SLIDES: photos rotate in this order. "focus" is the part of the photo kept
    in view on phones (left-right %, top-bottom %). Add or remove lines to change slides. */
 const HERO_SLIDES = [
-  { src: IMG + 'hero-1.jpeg', focus: '64% 50%' },
-  { src: IMG + 'hero-2.jpeg', focus: '55% 50%' },
-  { src: IMG + 'hero-3.jpeg', focus: '50% 50%' },
-  { src: IMG + 'hero-4.jpeg', focus: '45% 50%' }
+  { src: IMG + 'hero-1.webp', focus: '64% 50%' },
+  { src: IMG + 'hero-2.webp', focus: '55% 50%' },
+  { src: IMG + 'hero-3.webp', focus: '50% 50%' },
+  { src: IMG + 'hero-4.webp', focus: '45% 50%' }
 ];
 
 const SITE = {
@@ -25,13 +25,13 @@ const SITE = {
     terrace: IMG + 'terrace-lounge.webp', bar: IMG + 'bar-counter.webp',
     day: IMG + 'pool-day.webp', sunset: IMG + 'barcelofacade.webp', night: IMG + 'dome-night.webp',
     band1: IMG + 'barcelofacade.webp', band2: IMG + 'saxophonist.webp', pass: IMG + 'pool-pass.jpg',
-    resbg: IMG + 'hero-3.jpeg', visit: IMG + 'barcelofacade.webp'
+    resbg: IMG + 'hero-3.webp', visit: IMG + 'barcelofacade.webp'
   },
   /* Used until the photo above is uploaded */
   fallbacks: {
-    rooftop: IMG + 'hero-1.jpeg', pool: IMG + 'hero-3.jpeg', lounge: IMG + 'hero-4.jpeg', terrace: IMG + 'hero-2.jpeg',
-    day: IMG + 'hero-1.jpeg', sunset: IMG + 'hero-2.jpeg', night: IMG + 'hero-3.jpeg',
-    band1: IMG + 'hero-2.jpeg', band2: IMG + 'hero-3.jpeg'
+    rooftop: IMG + 'hero-1.webp', pool: IMG + 'hero-3.webp', lounge: IMG + 'hero-4.webp', terrace: IMG + 'hero-2.webp',
+    day: IMG + 'hero-1.webp', sunset: IMG + 'hero-2.webp', night: IMG + 'hero-3.webp',
+    band1: IMG + 'hero-2.webp', band2: IMG + 'hero-3.webp'
   },
   gallery: [
     { src: IMG + 'dome-night.webp', label: 'B·Heaven Dome Pavilion at night', alt: 'B·Heaven dome pavilion at night', size: 'tall' },
@@ -40,7 +40,7 @@ const SITE = {
     { src: IMG + 'BHVNevents5.webp', label: 'Premium shisha', alt: 'Premium shisha at B·Heaven', size: 'tall' },
     { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', alt: 'Rooftop pool with the Dubai skyline at B·Heaven', size: 'wide' },
     { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge', alt: 'Indoor dining lounge at B·Heaven' },
-    { src: IMG + 'hero-2.jpeg', label: 'Sunset on the rooftop', alt: 'Sunset on the B·Heaven rooftop, Al Jaddaf' },
+    { src: IMG + 'hero-2.webp', label: 'Sunset on the rooftop', alt: 'Sunset on the B·Heaven rooftop, Al Jaddaf' },
     { src: IMG + 'terrace-lounge.webp', label: 'Terrace lounge', alt: 'Terrace lounge seating at B·Heaven', size: 'wide' },
     { src: IMG + 'BHVNevents4.webp', label: 'Live saxophone & music', alt: 'Live saxophone music at B·Heaven', size: 'tall' },
     { src: IMG + 'bar-counter.webp', label: 'The bar', alt: 'The bar counter at B·Heaven', size: 'tall' },

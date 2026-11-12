@@ -8,9 +8,9 @@
   var WA = 'https://api.whatsapp.com/send/?phone=' + PHONE + '&text=';
 
   var T = {
-    en: { title: 'Book a table', sub: 'We confirm on WhatsApp.', name: 'Your name', date: 'Date', time: 'Time', guests: 'Guests', note: 'Occasion or request (optional)', send: 'Send on WhatsApp', close: 'Close', more: 'For groups of more than 12, please call', pick: 'Select', less: 'Fewer guests', plus: 'More guests', ev: 'Event', offer: 'Offer' },
-    es: { title: 'Reservar mesa', sub: 'Confirmamos por WhatsApp.', name: 'Tu nombre', date: 'Fecha', time: 'Hora', guests: 'Personas', note: 'Ocasión o petición (opcional)', send: 'Enviar por WhatsApp', close: 'Cerrar', more: 'Para grupos de más de 12, por favor llama', pick: 'Elegir', less: 'Menos personas', plus: 'Más personas', ev: 'Evento', offer: 'Oferta' },
-    ar: { title: 'احجز طاولة', sub: 'نؤكد الحجز عبر واتساب.', name: 'اسمك', date: 'التاريخ', time: 'الوقت', guests: 'عدد الضيوف', note: 'مناسبة أو طلب (اختياري)', send: 'أرسل عبر واتساب', close: 'إغلاق', more: 'للمجموعات الأكثر من 12 شخصًا، يرجى الاتصال', pick: 'اختر', less: 'ضيوف أقل', plus: 'ضيوف أكثر', ev: 'الفعالية', offer: 'العرض' }
+    en: { title: 'Book a table', sub: 'We confirm on WhatsApp.', name: 'Your name', date: 'Date', time: 'Time', guests: 'Guests', note: 'Occasion or request (optional)', send: 'Send on WhatsApp', err: 'Please add your name, date and time.', close: 'Close', more: 'For groups of more than 12, please call', pick: 'Select', less: 'Fewer guests', plus: 'More guests', ev: 'Event', offer: 'Offer' },
+    es: { title: 'Reservar mesa', sub: 'Confirmamos por WhatsApp.', name: 'Tu nombre', date: 'Fecha', time: 'Hora', guests: 'Personas', note: 'Ocasión o petición (opcional)', send: 'Enviar por WhatsApp', err: 'Indica tu nombre, la fecha y la hora.', close: 'Cerrar', more: 'Para grupos de más de 12, por favor llama', pick: 'Elegir', less: 'Menos personas', plus: 'Más personas', ev: 'Evento', offer: 'Oferta' },
+    ar: { title: 'احجز طاولة', sub: 'نؤكد الحجز عبر واتساب.', name: 'اسمك', date: 'التاريخ', time: 'الوقت', guests: 'عدد الضيوف', note: 'مناسبة أو طلب (اختياري)', send: 'أرسل عبر واتساب', err: 'يرجى إدخال الاسم والتاريخ والوقت.', close: 'إغلاق', more: 'للمجموعات الأكثر من 12 شخصًا، يرجى الاتصال', pick: 'اختر', less: 'ضيوف أقل', plus: 'ضيوف أكثر', ev: 'الفعالية', offer: 'العرض' }
   };
   function lang() {
     var l = (document.documentElement.lang || '').slice(0, 2);
@@ -52,6 +52,7 @@
       '@media(min-width:620px){#bhBook{align-items:center}#bhBook .sh{border-radius:24px}}' +
       '#bhBook h2{margin:0;font-size:1.35rem;font-weight:600;letter-spacing:.01em;color:#1F2A33}' +
       '#bhBook .sub{margin:4px 0 0;font-size:.85rem;color:#5B656C}' +
+      '#bhBook .err{margin:0 0 10px;color:#b3402f;font-size:.84rem;font-weight:500;line-height:1.45}#bhBook .err[hidden]{display:none}' +
       '#bhBook .ctx{display:inline-block;margin-top:12px;padding:6px 12px;border-radius:999px;background:#EADFCB;color:#1E474C;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}' +
       '#bhBook .x{position:absolute;top:10px;inset-inline-end:12px;width:44px;height:44px;border:0;background:none;font-size:1.7rem;line-height:1;color:#1F2A33;cursor:pointer}' +
       '#bhBook .hd{position:relative;padding-inline-end:40px}' +
@@ -97,6 +98,7 @@
       '<div><label id="bhGL"></label><div class="step" role="group" aria-labelledby="bhGL"><button type="button" data-d="-1"></button><output aria-live="polite">2</output><button type="button" data-d="1"></button></div>' +
       '<p class="hint"></p></div>' +
       '<div><label for="bhO"></label><textarea id="bhO" rows="2"></textarea></div>' +
+      '<p class="err" role="alert" hidden></p>' +
       '<button class="go" type="submit"></button></form></div>';
     document.body.appendChild(root);
 
@@ -105,6 +107,7 @@
     q('.sub').textContent = t.sub;
     var cx = q('.ctx'); if (cx) cx.textContent = ctx.kind === 'event' ? t.ev + ': ' + ctx.label : (ctx.kind === 'offer' ? t.offer + ': ' + ctx.label : ctx.label);
     q('.x').setAttribute('aria-label', t.close);
+    q('.err').textContent = t.err;
     q('label[for=bhN]').textContent = t.name;
     q('label[for=bhD]').textContent = t.date;
     q('label[for=bhT]').textContent = t.time;
@@ -149,6 +152,11 @@
     var prevOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
 
+    q('form').addEventListener('input', function (e) {
+      var el = e.target;
+      if (el.getAttribute && el.getAttribute('aria-invalid') === 'true' && el.value.trim()) { el.setAttribute('aria-invalid', 'false'); el.style.borderColor = ''; }
+      if (!q('[aria-invalid="true"]')) q('.err').hidden = true;
+    });
     q('form').addEventListener('submit', function (e) {
       e.preventDefault();
       var nameEl = q('#bhN'), bad = null;
@@ -158,7 +166,7 @@
         el.style.borderColor = empty ? '#b3402f' : '';
         if (empty && !bad) bad = el;
       });
-      if (bad) { bad.focus(); return; }
+      if (bad) { q('.err').hidden = false; bad.focus(); return; }
       var d = new Date(dateEl.value + 'T12:00:00');
       var dateTxt = isNaN(d) ? dateEl.value : d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
       var what = ctx.kind === 'event' ? 'a table for ' + ctx.label : (ctx.kind === 'offer' ? 'a table for the offer "' + ctx.label + '"' : (ctx.kind === 'lunch' ? 'a business lunch table' : 'a table'));
