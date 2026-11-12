@@ -91,18 +91,32 @@
   function progress() {
     return Math.max(0, Math.min(1, (window.pageYOffset - start) / range));
   }
-  function tick() {
+  /* Scrub: the video time chases the scroll position with frame-rate-independent smoothing, so
+     it glides the same on 60 and 120 Hz screens. Seeks are snapped to whole frames and skipped
+     when the frame wouldn't change, which stops the stutter from redundant seeks. The first and
+     last slice of the scroll hold on the first/last frame so the ends feel settled. */
+  var FPS = 25, FR = 1 / FPS, lastT = 0, lastFrame = -1, HOLD_A = 0.012, HOLD_B = 0.982;
+  function vidProgress(p) { return Math.max(0, Math.min(1, (p - HOLD_A) / (HOLD_B - HOLD_A))); }
+  function tick(now) {
     raf = 0;
     window.__skyBusy = true; /* tells hero-fx.js to skip its own parallax/bokeh work this
       frame, so that loop doesn't compete with the video-seek cost below for frame budget */
     var p = progress();
     apply(p);
-    goal = p * (dur || 0);
+    var dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 0.016;
+    lastT = now;
+    goal = vidProgress(p) * Math.max(0, (dur || 0) - FR);
     if (ready) {
-      cur += (goal - cur) * 0.2;
-      if (!v.seeking && Math.abs(goal - cur) > 0.012) { try { v.currentTime = cur; } catch (_) {} }
-      if (Math.abs(goal - cur) > 0.012) { raf = requestAnimationFrame(tick); return; }
+      cur += (goal - cur) * (1 - Math.exp(-dt / 0.085));
+      if (Math.abs(goal - cur) < FR * 0.35) cur = goal;
+      var f = Math.round(cur * FPS);
+      if (f !== lastFrame && !v.seeking) {
+        lastFrame = f;
+        try { v.currentTime = Math.min(dur - 0.001, f * FR + 0.001); } catch (_) {}
+      }
+      if (cur !== goal || v.seeking) { raf = requestAnimationFrame(tick); return; }
     }
+    lastT = 0;
     window.__skyBusy = false;
   }
   function kick() { if (!raf) raf = requestAnimationFrame(tick); }
