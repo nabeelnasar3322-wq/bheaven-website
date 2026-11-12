@@ -84,7 +84,8 @@
     var op = 1 - ease((p - 0.02) / 0.14);
     root.setProperty('--sk-op', op.toFixed(3));
     root.setProperty('--sk-cy', (p * -90).toFixed(1) + 'px');
-    var part = p < 0.34 ? 0 : p < 0.67 ? 1 : 2;
+    /* switch points follow the clip: day -> sunset at ~3.6s, sunset -> night at ~8.7s of 16.5s */
+    var part = p < 0.22 ? 0 : p < 0.53 ? 1 : 2;
     setPart(part);
   }
   function progress() {
