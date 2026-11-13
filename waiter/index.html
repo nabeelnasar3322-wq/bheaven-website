@@ -45,6 +45,10 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
 .step button[data-d="1"]{background:var(--teal-deep);border-color:var(--teal-deep);color:#fff}
 .step button:disabled{opacity:.3;cursor:default}
 .step .q{min-width:24px;text-align:center;font-weight:700;font-size:17px}
+.ring.photo{max-width:360px;aspect-ratio:1302/1208}
+.ring.photo .table-photo{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+.ring.photo .top{background:none!important;border:0!important;box-shadow:none!important}
+.ring.photo .plates{left:47.9%;top:49.9%}
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .cat{text-align:left;font:inherit;background:var(--tile);border:1px solid var(--line);border-left:4px solid var(--yellow);border-radius:14px;padding:14px 14px 13px;cursor:pointer;min-height:78px;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
 .cat .cn{font-weight:700;font-size:14px;letter-spacing:.04em;color:var(--ink);text-transform:uppercase}
@@ -234,15 +238,10 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
   }
 
   function renderRing() {
+    // Table photo (sofa and chairs are part of the picture); dish plates sit on the rose table
     var list = plateList();
-    // Curved tropical sofa wrapping the upper-left of the table (decorative, sits in the gap between chairs)
-    var html = '<svg class="sofa" viewBox="0 0 100 100" aria-hidden="true"><defs><pattern id="lf" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#F3EBD3"/><path d="M6 1.3C9 3.7 9.3 8 6 10.7C2.7 8 3 3.7 6 1.3Z" fill="#4E7A3C"/><path d="M0 6C2 4 3.3 4 4 6C3.3 8 2 8 0 6Z" fill="#7FA34A"/><path d="M12 6C10 4 8.7 4 8 6C8.7 8 10 8 12 6Z" fill="#7FA34A"/></pattern></defs><path d="M4.45 56.4A46 46 0 0 1 34.27 6.77L41.79 27.45A24 24 0 0 0 26.24 53.35Z" fill="url(#lf)" stroke="#B9763C" stroke-width="2.2" stroke-linejoin="round"/></svg>';
+    var html = '<img class="table-photo" src="/assets/table.png" alt="Round rose table with tropical sofa and teal chairs" width="1302" height="1208">';
     html += '<div class="top' + (list.length ? ' busy' : '') + '"><b>Table</b><span id="tnum"></span></div>';
-    for (var s = 1; s <= SEATS; s++) {
-      var a = (s - 1) * 360 / SEATS * Math.PI / 180;
-      var x = 50 + 40 * Math.sin(a), y = 50 - 40 * Math.cos(a);
-      html += '<span class="chair" aria-hidden="true" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%;--a:' + (s - 1) * 360 / SEATS + 'deg"><i class="cush"></i></span>';
-    }
     if (list.length) {
       var shown = list.slice(0, 6), extra = list.length - shown.length;
       html += '<div class="plates">' + shown.map(function (p) {
@@ -250,6 +249,7 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
       }).join('') + (extra > 0 ? '<span class="plate more">+' + extra + ' more</span>' : '') + '</div>';
     }
     $('#ring').innerHTML = html;
+    $('#ring').classList.add('photo');
     $('#tnum').textContent = $('#table').value || '';
     var st = sent[tableKey()] || {};
     $('#clearTable').hidden = !Object.keys(st).length;
@@ -262,9 +262,9 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     return '<div class="dish"><div class="info"><div class="n">' + esc(d.n) + '</div>' +
       (d.d ? '<div class="d">' + esc(d.d) + '</div>' : '') +
       '<div class="p">' + esc(d.p || '') + '</div></div>' +
-      '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + '">−</button>' +
+      '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + ' for seat ' + seat + '">−</button>' +
       '<span class="q" aria-live="polite">' + q + '</span>' +
-      '<button type="button" data-n="' + esc(d.n) + '" data-d="1" aria-label="Add one ' + esc(d.n) + '">+</button></div></div>';
+      '<button type="button" data-n="' + esc(d.n) + '" data-d="1" aria-label="Add one ' + esc(d.n) + ' for seat ' + seat + '">+</button></div></div>';
   }
   function renderSheet() {
     var cats = Object.keys(menu);
