@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ECECE9">
+<title>Waiter order | B-Heaven</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECECE9;--tile:#F5F5F3;--ink:#1F2A33;--muted:#5B656C;--teal-d:#376C71;--teal-deep:#1E474C;--gold:#B08D57;--gold-t:#80622F;--line:rgba(31,42,51,.12);--alarm:#B3261E;--yellow:#F4B824}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Montserrat',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{padding:0 0 130px}
+header{position:sticky;top:0;z-index:5;background:rgba(236,236,233,.97);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+h1{font-size:18px;margin:0;font-weight:600}
+.link{border:1.5px solid var(--teal-deep);background:transparent;color:var(--teal-deep);border-radius:999px;padding:7px 14px;font:inherit;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;cursor:pointer;text-decoration:none}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+.card{background:var(--tile);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:16px}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:500}
+input[type=text],input[type=password],textarea{width:100%;font:inherit;font-size:18px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--teal-d);outline-offset:1px}
+textarea{min-height:60px;resize:vertical;font-size:16px}
+.seats-hint{font-size:13px;color:var(--muted);text-align:center;margin:0 0 4px}
+.ring{position:relative;width:100%;max-width:290px;aspect-ratio:1;margin:4px auto 2px}
+.top{position:absolute;left:50%;top:50%;width:44%;height:44%;transform:translate(-50%,-50%);border-radius:50%;background:#fff;border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.top b{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-t)}
+.top span{font-size:15px;font-weight:700;margin-top:2px}
+.chair{position:absolute;width:48px;height:48px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--teal-d);background:#fff;color:var(--teal-d);font:inherit;font-weight:700;font-size:14px;cursor:pointer;padding:0}
+.chair[aria-pressed=true]{background:var(--teal-deep);border-color:var(--teal-deep);color:#fff;box-shadow:0 0 0 4px rgba(55,108,113,.22)}
+.chair .badge{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;border-radius:10px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.chair .badge[hidden]{display:none}
+.for{font-size:15px;background:#E3ECEB;border-radius:12px;padding:10px 12px;margin:14px 0 4px}
+.for b{color:var(--teal-deep)}
+h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-t);margin:22px 0 8px;font-weight:700}
+.dish{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.dish .info{min-width:0;flex:1}
+.dish .n{font-weight:600;font-size:15px}
+.dish .d{color:var(--muted);font-size:13px;margin-top:3px;line-height:1.4}
+.dish .p{color:var(--gold-t);font-size:13px;font-weight:700;margin-top:5px}
+.step{display:flex;align-items:center;gap:8px;flex:none}
+.step button{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--teal-d);background:#fff;color:var(--teal-d);font-size:22px;line-height:1;cursor:pointer;font-family:inherit}
+.step button[data-d="1"]{background:var(--teal-deep);border-color:var(--teal-deep);color:#fff}
+.step button:disabled{opacity:.3;cursor:default}
+.step .q{min-width:24px;text-align:center;font-weight:700;font-size:17px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--tile);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -12px 28px -16px rgba(31,42,51,.35)}
+.bar .in{max-width:640px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.bar .tot{font-size:13px;color:var(--muted)}
+.bar .tot b{color:var(--ink);font-size:17px;display:block}
+.btn{border:0;border-radius:999px;background:var(--teal-deep);color:#fff;font:inherit;font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;padding:15px 22px;cursor:pointer;white-space:nowrap}
+.btn:disabled{opacity:.4;cursor:default}
+#msg{color:var(--alarm);font-size:14px;min-height:20px;margin:10px 0 0}
+#ok{color:#2E7D5B;font-size:14px;font-weight:600;min-height:20px;margin:10px 0 0}
+#lock{max-width:340px;margin:12vh auto 0;padding:0 16px}
+#lock form{display:flex;flex-direction:column;gap:12px}
+#lock input{font:inherit;font-size:20px;letter-spacing:4px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+#lock button{font:inherit;font-weight:500;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;background:var(--teal-deep);color:#fff;border:0;border-radius:999px;padding:15px;cursor:pointer}
+#lock p{color:var(--muted);font-size:14px;text-align:center;margin:0}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div id="lock" class="hide">
+  <form id="pinForm">
+    <h1 style="text-align:center">Waiter sign in</h1>
+    <input id="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN" aria-label="Staff PIN" required>
+    <button type="submit">Open</button>
+    <p id="lockMsg"></p>
+  </form>
+</div>
+
+<div id="app" class="hide">
+  <header>
+    <h1>Waiter order</h1>
+    <a class="link" href="/staff/">Kitchen and floor</a>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <label for="table">Table number</label>
+      <input type="text" id="table" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="e.g. 12">
+      <p class="seats-hint" style="margin-top:14px">Tap a chair, then add dishes for that guest.</p>
+      <div class="ring" id="ring"></div>
+    </section>
+
+    <div id="menu" aria-live="polite"><p class="seats-hint">Loading the menu…</p></div>
+
+    <section class="card" style="margin-top:18px">
+      <label for="note">Notes for the kitchen</label>
+      <textarea id="note" maxlength="300" placeholder="e.g. no nuts, sauce on the side"></textarea>
+    </section>
+
+    <p id="msg" role="alert"></p>
+    <p id="ok" role="status"></p>
+  </main>
+</div>
+
+<div class="bar hide" id="bar">
+  <div class="in">
+    <div class="tot">Items: <span id="count">0</span><b id="total">AED 0</b></div>
+    <button class="btn" id="send" type="button" disabled>Send to kitchen</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var KEY = 'bh_staff_pin';
+  var pin = '';
+  try { pin = sessionStorage.getItem(KEY) || ''; } catch (e) {}
+  var $ = function (s) { return document.querySelector(s); };
+  var SEATS = 8;
+  var cart = {};   // seat (1-8) -> { dish name -> { n, p, q } }
+  var seat = 1;
+  var menu = {};
+  var sending = false;
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function price(p) { var n = parseFloat(String(p || '').replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; }
+  function msg(t) { $('#msg').textContent = t || ''; $('#ok').textContent = ''; }
+  function okMsg(t) { $('#ok').textContent = t || ''; $('#msg').textContent = ''; }
+  function seatCount(s) { var c = cart[s] || {}; return Object.keys(c).reduce(function (a, k) { return a + c[k].q; }, 0); }
+
+  function showLock(text) {
+    $('#app').classList.add('hide');
+    $('#bar').classList.add('hide');
+    $('#lock').classList.remove('hide');
+    $('#lockMsg').textContent = text || '';
+    $('#pin').value = '';
+    $('#pin').focus();
+  }
+
+  // Check the PIN against the staff API before opening the order screen.
+  function unlock() {
+    fetch('/api/orders', { headers: { 'x-staff-pin': pin }, cache: 'no-store' }).then(function (r) {
+      if (r.status === 401 || r.status === 429) {
+        pin = ''; try { sessionStorage.removeItem(KEY); } catch (e) {}
+        return r.json().catch(function () { return {}; }).then(function (j) { showLock(j.error || 'Wrong PIN'); });
+      }
+      $('#lock').classList.add('hide');
+      $('#app').classList.remove('hide');
+      loadMenu();
+      renderAll();
+    }).catch(function () { showLock('Connection lost. Try again.'); });
+  }
+
+  $('#pinForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    pin = $('#pin').value.trim();
+    if (!pin) return;
+    try { sessionStorage.setItem(KEY, pin); } catch (err) {}
+    unlock();
+  });
+
+  function loadMenu() {
+    if (Object.keys(menu).length) return;
+    fetch('/menu/', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
+      var m = html.match(/^const M = (\{.*\});$/m);
+      if (!m) throw new Error('no menu');
+      menu = JSON.parse(m[1]);
+      renderAll();
+    }).catch(function () {
+      $('#menu').innerHTML = '<p class="seats-hint">The menu could not load. Refresh the page.</p>';
+    });
+  }
+
+  function renderRing() {
+    var html = '<div class="top"><b>Table</b><span id="tnum"></span></div>';
+    for (var s = 1; s <= SEATS; s++) {
+      var a = (s - 1) * 360 / SEATS * Math.PI / 180;
+      var x = 50 + 40 * Math.sin(a), y = 50 - 40 * Math.cos(a);
+      var c = seatCount(s);
+      html += '<button type="button" class="chair" data-seat="' + s + '" aria-pressed="' + (s === seat) + '"' +
+        ' aria-label="Seat ' + s + (c ? ', ' + c + ' items' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%">' + s +
+        '<span class="badge"' + (c ? '' : ' hidden') + '>' + c + '</span></button>';
+    }
+    $('#ring').innerHTML = html;
+    $('#tnum').textContent = $('#table').value || '';
+  }
+
+  function renderMenu() {
+    var html = '<p class="for">Adding to <b>Seat ' + seat + '</b></p>';
+    var mine = cart[seat] || {};
+    Object.keys(menu).forEach(function (cat) {
+      html += '<h2>' + esc(cat) + '</h2>';
+      menu[cat].forEach(function (d) {
+        var q = mine[d.n] ? mine[d.n].q : 0;
+        html += '<div class="dish"><div class="info"><div class="n">' + esc(d.n) + '</div>' +
+          (d.d ? '<div class="d">' + esc(d.d) + '</div>' : '') +
+          '<div class="p">' + esc(d.p || '') + '</div></div>' +
+          '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + '">−</button>' +
+          '<span class="q" aria-live="polite">' + q + '</span>' +
+          '<button type="button" data-n="' + esc(d.n) + '" data-d="1" aria-label="Add one ' + esc(d.n) + '">+</button></div></div>';
+      });
+    });
+    $('#menu').innerHTML = html;
+  }
+
+  function updateBar() {
+    var count = 0, total = 0;
+    Object.keys(cart).forEach(function (s) {
+      Object.keys(cart[s]).forEach(function (k) { count += cart[s][k].q; total += cart[s][k].q * cart[s][k].p; });
+    });
+    $('#count').textContent = count;
+    $('#total').textContent = 'AED ' + total.toFixed(0);
+    $('#bar').classList.toggle('hide', count === 0);
+    $('#send').disabled = count === 0 || sending;
+  }
+
+  function renderAll() {
+    renderRing();
+    renderMenu();
+    updateBar();
+  }
+
+  $('#ring').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-seat]');
+    if (!b) return;
+    seat = parseInt(b.getAttribute('data-seat'), 10);
+    msg('');
+    renderAll();
+  });
+
+  $('#menu').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-n]');
+    if (!b) return;
+    var name = b.getAttribute('data-n');
+    var delta = parseInt(b.getAttribute('data-d'), 10);
+    var dish = null;
+    Object.keys(menu).forEach(function (cat) { menu[cat].forEach(function (d) { if (d.n === name) dish = d; }); });
+    if (!dish) return;
+    var mine = cart[seat] || (cart[seat] = {});
+    var cur = mine[name] ? mine[name].q : 0;
+    var next = Math.min(20, Math.max(0, cur + delta));
+    if (next === 0) delete mine[name];
+    else mine[name] = { n: name, p: price(dish.p), q: next };
+    if (!Object.keys(mine).length) delete cart[seat];
+    msg('');
+    renderAll();
+  });
+
+  $('#table').value = (function () { try { return localStorage.getItem('bh_table') || ''; } catch (e) { return ''; } })();
+  $('#table').addEventListener('input', function () {
+    this.value = this.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    try { localStorage.setItem('bh_table', this.value); } catch (e) {}
+    $('#tnum').textContent = this.value;
+  });
+
+  $('#send').addEventListener('click', function () {
+    var table = $('#table').value.trim();
+    if (!/^[A-Z0-9-]{1,6}$/.test(table)) { msg('Enter the table number first.'); $('#table').focus(); return; }
+    var items = [];
+    Object.keys(cart).forEach(function (s) {
+      Object.keys(cart[s]).forEach(function (k) { items.push({ n: cart[s][k].n, q: cart[s][k].q, s: parseInt(s, 10) }); });
+    });
+    sending = true; updateBar(); msg('');
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-staff-pin': pin },
+      cache: 'no-store',
+      body: JSON.stringify({ action: 'create', table: table, items: items, note: $('#note').value.trim() })
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, ok: r.ok, j: j }; });
+    }).then(function (res) {
+      if (res.status === 401) { showLock('Wrong PIN'); return; }
+      if (!res.ok) throw new Error(res.j.error || 'Could not send. Try again.');
+      cart = {}; seat = 1; $('#note').value = '';
+      renderAll();
+      okMsg('Table ' + res.j.table + ' sent to the kitchen.');
+    }).catch(function (err) {
+      msg(err.message || 'Could not send. Try again.');
+    }).then(function () { sending = false; updateBar(); });
+  });
+
+  if (pin) unlock(); else showLock('');
+})();
+</script>
+</body>
+</html>

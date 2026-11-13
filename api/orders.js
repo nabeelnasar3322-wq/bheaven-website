@@ -34,8 +34,13 @@ async function listOpen() {
   return (vals || []).filter(Boolean).map((v) => JSON.parse(v));  // oldest first
 }
 
+function isStaffPin(req) {
+  return !!process.env.STAFF_PIN && safeEq(String(req.headers['x-staff-pin'] || ''), process.env.STAFF_PIN);
+}
+
 async function createOrder(req, b, res) {
-  if ((await rateHit(req, 'order', ORDER_WINDOW)) > MAX_ORDERS) {
+  // Waiters send with the staff PIN and are not counted against the guest order limit.
+  if (!isStaffPin(req) && (await rateHit(req, 'order', ORDER_WINDOW)) > MAX_ORDERS) {
     return send(res, 429, { error: 'Too many orders from this device in a short time. Please ask your waiter.' });
   }
   const table = String(b.table || '').trim().toUpperCase();
