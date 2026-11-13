@@ -80,6 +80,8 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
 .plates{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;grid-template-columns:repeat(2,44px);gap:6px;justify-content:center;pointer-events:none;z-index:2}
 .plate{position:relative;width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid #F4B824;box-shadow:0 2px 4px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;text-align:center;overflow:visible;padding:4px}
 .plate.sent{border-color:#2F7F7B}
+.plate.photo{background-size:cover;background-position:center;padding:0;overflow:hidden}
+.dish .thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none;background:#EEEDEA}
 .plate.more{font-size:10px;font-weight:700;color:#fff;background:#A4574A;border-color:#fff;border-radius:50%}
 .plate .pn{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:8.5px;line-height:1.15;color:#23303A;font-weight:600}
 .plate .qty{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:#F4B824;color:#23303A;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
@@ -106,6 +108,8 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
   .ring.photo{max-width:500px}
   .cats{grid-template-columns:repeat(3,1fr);gap:12px}
   .cat{min-height:96px}
+  .plates{grid-template-columns:repeat(2,64px);gap:8px}
+  .plate{width:64px;height:64px}
 }
 
 /* iPad landscape: dish categories as a list on the left, table large on the right */
@@ -118,6 +122,8 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
   .wrap>section.card:nth-of-type(3){grid-column:1;grid-row:3;margin:0!important;padding:9px 12px 8px}
   #menu .cats{grid-template-columns:1fr;gap:10px;margin-top:0}
   #menu .cat{min-height:0;padding:9px 12px 8px;gap:2px}
+  .plates{grid-template-columns:repeat(2,80px);gap:10px}
+  .plate{width:80px;height:80px}
   #menu .cat .cn{font-size:13px}
   #menu .cat .cc{font-size:11px}
   .seats{grid-column:2;grid-row:1 / span 3;margin-top:0;padding:18px 16px 14px;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
@@ -189,6 +195,7 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
   var cart = {};   // seat (1-8) -> { dish name -> { n, p, q } }
   var seat = 0;
   var menu = {};
+  var photos = {};   // dish name -> real food photo (from the menu page)
   var sending = false;
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -258,6 +265,8 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
       var m = html.match(/^const M = (\{.*\});$/m);
       if (!m) throw new Error('no menu');
       menu = JSON.parse(m[1]);
+      var pm = html.match(/PHOTOS = (\{"[^\n]*\});/);
+      if (pm) { try { var raw = JSON.parse(pm[1]); Object.keys(raw).forEach(function (k) { photos[k] = '/menu/' + raw[k]; }); } catch (e) {} }
       renderAll();
     }).catch(function () {
       $('#menu').innerHTML = '<p class="seats-hint">The menu could not load. Refresh the page.</p>';
@@ -272,7 +281,8 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     if (list.length) {
       var shown = list.slice(0, 6), extra = list.length - shown.length;
       html += '<div class="plates">' + shown.map(function (p) {
-        return '<span class="plate' + (p.sent ? ' sent' : '') + '" title="' + esc(p.n) + '"><span class="pn">' + esc(p.n) + '</span><b class="qty">' + p.q + '</b></span>';
+        var ph = photos[p.n];
+        return '<span class="plate' + (p.sent ? ' sent' : '') + (ph ? ' photo' : '') + '" title="' + esc(p.n) + '"' + (ph ? ' style="background-image:url(\'' + esc(ph) + '\')"' : '') + '>' + (ph ? '' : '<span class="pn">' + esc(p.n) + '</span>') + '<b class="qty">' + p.q + '</b></span>';
       }).join('') + (extra > 0 ? '<span class="plate more">+' + extra + ' more</span>' : '') + '</div>';
     }
     html += '</div>';
@@ -287,7 +297,8 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
   function dishHtml(d) {
     var mine = cart[seat] || {};
     var q = mine[d.n] ? mine[d.n].q : 0;
-    return '<div class="dish"><div class="info"><div class="n">' + esc(d.n) + '</div>' +
+    var thumb = photos[d.n] ? '<img class="thumb" src="' + esc(photos[d.n]) + '" alt="" loading="lazy" width="64" height="64">' : '';
+    return '<div class="dish">' + thumb + '<div class="info"><div class="n">' + esc(d.n) + '</div>' +
       (d.d ? '<div class="d">' + esc(d.d) + '</div>' : '') +
       '<div class="p">' + esc(d.p || '') + '</div></div>' +
       '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + ' for seat ' + seat + '">−</button>' +
