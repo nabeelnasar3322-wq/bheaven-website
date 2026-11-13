@@ -38,6 +38,10 @@ main{padding:16px;max-width:1100px;margin:0 auto}
 .age{font-size:12px;color:var(--muted)}
 ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 li{font-size:16px;line-height:1.35}
+li.row{display:flex;align-items:center;gap:12px}
+.thumb{width:56px;height:56px;border-radius:12px;object-fit:cover;flex:none;background:#EEEDEA}
+.check .thumb{margin-right:0}
+.check{gap:12px}
 li b{color:var(--gold-t)}
 .seat{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);background:rgba(55,108,113,.12);border-radius:999px;padding:2px 8px;margin-right:4px;vertical-align:1px}
 .note{margin:0;background:rgba(176,141,87,.14);color:var(--gold-t);border-radius:10px;padding:8px 10px;font-size:14px}
@@ -105,6 +109,7 @@ footer button:disabled{opacity:.4}
   var alerting = {};    // id -> 'new' | 'ready' while the alarm waits for a tap
   var timer = null, ringTimer = null;
   var audio = null, soundOn = false;
+  var photos = {};     // dish name -> real food photo (from the menu page)
   var ticks = {};      // order id -> { itemIndex: true } while the cook is checking the ticket
 
   var $ = function (s) { return document.querySelector(s); };
@@ -128,7 +133,22 @@ footer button:disabled{opacity:.4}
     $('#lock').classList.add('hide');
     $('#app').classList.remove('hide');
     syncAlarm();
+    loadPhotos();
     poll();
+  }
+
+  // Same dish photos the public menu page uses, keyed by dish name.
+  var photosLoaded = false;
+  function loadPhotos() {
+    if (photosLoaded) return;
+    fetch('/menu/', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
+      var pm = html.match(/PHOTOS = (\{"[^\n]*\});/);
+      if (!pm) return;
+      var raw = JSON.parse(pm[1]);
+      Object.keys(raw).forEach(function (k) { photos[k] = '/menu/' + raw[k]; });
+      photosLoaded = true;
+      render();
+    }).catch(function () {});
   }
 
   $('#pinForm').addEventListener('submit', function (e) {
@@ -247,11 +267,14 @@ footer button:disabled{opacity:.4}
     var allTicked = o.items.every(function (_, idx) { return !!mine[idx]; });
     var items = o.items.map(function (i, idx) {
       var seatTag = i.s ? '<span class="seat">Seat ' + i.s + '</span> ' : '';
+      var thumb = photos[i.n] ? '<img class="thumb" src="' + esc(photos[i.n]) + '" alt="" width="64" height="64" loading="lazy">' : '';
       var line = seatTag + '<b>' + i.q + '×</b> ' + esc(i.n);
+      var text = '<span class="ln">' + line + '</span>';
+      line = thumb + text;
       if (view === 'kitchen' && o.status === 'new') {
         return '<li><label class="check"><input type="checkbox" data-item="' + idx + '" data-order="' + o.id + '"' + (mine[idx] ? ' checked' : '') + '> ' + line + '</label></li>';
       }
-      return '<li>' + line + '</li>';
+      return '<li class="row">' + line + '</li>';
     }).join('');
     var note = o.note ? '<p class="note">' + esc(o.note) + '</p>' : '';
     var actions = '';
