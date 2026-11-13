@@ -83,7 +83,6 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
       <input type="text" id="table" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="e.g. 12">
     </section>
     <section class="seats" aria-label="Table seats">
-      <p class="seats-hint">Tap a chair, then add dishes for that guest.</p>
       <div class="ring" id="ring"></div>
     </section>
 
@@ -114,7 +113,7 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
   var $ = function (s) { return document.querySelector(s); };
   var SEATS = 8;
   var cart = {};   // seat (1-8) -> { dish name -> { n, p, q } }
-  var seat = 1;
+  var seat = 0;
   var menu = {};
   var sending = false;
 
@@ -172,17 +171,14 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     for (var s = 1; s <= SEATS; s++) {
       var a = (s - 1) * 360 / SEATS * Math.PI / 180;
       var x = 50 + 40 * Math.sin(a), y = 50 - 40 * Math.cos(a);
-      var c = seatCount(s);
-      html += '<button type="button" class="chair" data-seat="' + s + '" aria-pressed="' + (s === seat) + '"' +
-        ' aria-label="Seat ' + s + (c ? ', ' + c + ' items' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%">' + s +
-        '<span class="badge"' + (c ? '' : ' hidden') + '>' + c + '</span></button>';
+      html += '<span class="chair" aria-hidden="true" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%"></span>';
     }
     $('#ring').innerHTML = html;
     $('#tnum').textContent = $('#table').value || '';
   }
 
   function renderMenu() {
-    var html = '<p class="for">Adding to <b>Seat ' + seat + '</b></p>';
+    var html = '';
     var mine = cart[seat] || {};
     Object.keys(menu).forEach(function (cat) {
       html += '<h2>' + esc(cat) + '</h2>';
@@ -215,14 +211,6 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     renderMenu();
     updateBar();
   }
-
-  $('#ring').addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-seat]');
-    if (!b) return;
-    seat = parseInt(b.getAttribute('data-seat'), 10);
-    msg('');
-    renderAll();
-  });
 
   $('#menu').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-n]');
@@ -267,7 +255,7 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     }).then(function (res) {
       if (res.status === 401) { showLock('Wrong PIN'); return; }
       if (!res.ok) throw new Error(res.j.error || 'Could not send. Try again.');
-      cart = {}; seat = 1; $('#note').value = '';
+      cart = {}; seat = 0; $('#note').value = '';
       renderAll();
       okMsg('Table ' + res.j.table + ' sent to the kitchen.');
     }).catch(function (err) {

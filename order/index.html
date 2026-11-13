@@ -33,7 +33,7 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
 .top{position:absolute;left:50%;top:50%;width:44%;height:44%;transform:translate(-50%,-50%);border-radius:50%;background:#FBF9F4;border:2px solid var(--rust);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:inset 0 0 0 6px #fff}
 .top b{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
 .top span{font-size:11px;color:var(--muted);margin-top:2px}
-.chair{position:absolute;width:46px;height:46px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--teal);background:#fff;color:var(--teal);font:inherit;font-weight:700;font-size:13px;cursor:pointer;padding:0}
+.chair{position:absolute;width:46px;height:46px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--teal);background:#fff}
 .chair[aria-pressed=true]{background:var(--teal);color:#fff;box-shadow:0 0 0 4px rgba(47,127,123,.22)}
 .chair .badge{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;border-radius:10px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px}
 .chair .badge[hidden]{display:none}
@@ -81,7 +81,6 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
   </section>
 
   <section class="seats" id="seatsBox" aria-label="Table seats">
-    <p class="hint">Tap a chair to choose whose order you are adding to.</p>
     <div class="ring" id="ring"></div>
   </section>
 
@@ -112,7 +111,7 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
   var $ = function (s) { return document.querySelector(s); };
   var SEATS = 8;
   var cart = {};        // seat (1-8) -> { dish name -> { n, p, q } }
-  var seat = 1;         // the chair the guest is ordering for
+  var seat = 0;         // the chair the guest is ordering for
   var menu = {};        // category -> dishes
   var sending = false;
 
@@ -137,10 +136,7 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
     for (var s = 1; s <= SEATS; s++) {
       var a = (s - 1) * 360 / SEATS * Math.PI / 180;
       var x = 50 + 40 * Math.sin(a), y = 50 - 40 * Math.cos(a);
-      var c = seatCount(s);
-      html += '<button type="button" class="chair" data-seat="' + s + '" aria-pressed="' + (s === seat) + '"' +
-        ' aria-label="Seat ' + s + (c ? ', ' + c + ' items' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%">' + s +
-        '<span class="badge"' + (c ? '' : ' hidden') + '>' + c + '</span></button>';
+      html += '<span class="chair" aria-hidden="true" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%"></span>';
     }
     $('#ring').innerHTML = html;
     $('#tnum').textContent = $('#table').value || '';
@@ -148,7 +144,7 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
 
   function render() {
     renderRing();
-    var html = '<p class="for">Adding to <b>Seat ' + seat + '</b></p>';
+    var html = '';
     var mine = cart[seat] || {};
     Object.keys(menu).forEach(function (cat) {
       html += '<h2>' + esc(cat) + '</h2>';
@@ -165,14 +161,6 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
     $('#menu').innerHTML = html;
     updateBar();
   }
-
-  $('#ring').addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-seat]');
-    if (!b) return;
-    seat = parseInt(b.getAttribute('data-seat'), 10);
-    msg('');
-    render();
-  });
 
   $('#menu').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-n]');
@@ -227,7 +215,7 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
       return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; });
     }).then(function (res) {
       if (!res.ok) throw new Error(res.j.error || 'Could not send. Please ask your waiter.');
-      cart = {}; seat = 1; $('#note').value = '';
+      cart = {}; seat = 0; $('#note').value = '';
       render();
       $('#doneText').textContent = 'Table ' + res.j.table + ' — your waiter has your order and will bring it to you.';
       $('#done').classList.remove('hide');
