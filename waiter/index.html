@@ -59,6 +59,12 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
 #lock button{font:inherit;font-weight:500;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;background:var(--teal-deep);color:#fff;border:0;border-radius:999px;padding:15px;cursor:pointer}
 #lock p{color:var(--muted);font-size:14px;text-align:center;margin:0}
 .hide{display:none!important}
+
+/* Table and chairs from the reference photo: rose-brown round table, teal leather chairs with the backs facing outward */
+.top{background:radial-gradient(circle at 42% 36%,#B9766A 0%,#A4574A 55%,#8C4A40 100%)!important;border:0!important;box-shadow:0 8px 18px -8px rgba(60,30,25,.55),inset 0 0 0 5px rgba(255,255,255,.12)!important}
+.top b{color:#FBEFE9!important}
+.top span{color:#F6DED6!important}
+.chair{width:50px;height:44px;border-radius:25px 25px 16px 16px;border:1.5px solid #1F6B67;background:linear-gradient(180deg,#3D9F97 0%,#2F8C84 55%,#257A74 100%);box-shadow:inset 0 5px 6px -2px rgba(255,255,255,.28),0 4px 8px -3px rgba(0,0,0,.35);transform:translate(-50%,-50%) rotate(var(--a,0deg))}
 </style>
 </head>
 <body>
@@ -171,7 +177,7 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     for (var s = 1; s <= SEATS; s++) {
       var a = (s - 1) * 360 / SEATS * Math.PI / 180;
       var x = 50 + 40 * Math.sin(a), y = 50 - 40 * Math.cos(a);
-      html += '<span class="chair" aria-hidden="true" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%"></span>';
+      html += '<span class="chair" aria-hidden="true" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%;--a:' + (s - 1) * 360 / SEATS + 'deg"></span>';
     }
     $('#ring').innerHTML = html;
     $('#tnum').textContent = $('#table').value || '';
