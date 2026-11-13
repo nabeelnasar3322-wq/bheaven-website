@@ -14,10 +14,10 @@
   /* the content that used to live in the "One rooftop, three moods" section, now surfaced
      here as you scroll through each stage of the hero clip */
   var PARTS = [
-    { key: 'day', label: 'Poolside day', when: 'From 9 AM', title: 'Poolside days',
-      desc: 'Sun loungers, fresh juices and a dedicated pool menu. Pool access passes are available for daytime visitors.',
-      perks: ['Pool pass available', 'Fresh juices', 'Sun loungers'],
-      cta: 'Ask About Pool Pass', href: 'https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20Could%20you%20share%20the%20pool%20pass%20price%2C%20access%20hours%20and%20what%27s%20included%3F' },
+    { key: 'day', label: 'Poolside day', when: 'Pool access', title: 'Poolside days',
+      desc: 'Pool passes are fully redeemable on food and drinks at B·Heaven.',
+      perks: ['Weekdays AED 99', 'Weekends AED 149'],
+      cta: 'Book Pool Pass', href: 'https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%27d%20like%20to%20book%20a%20pool%20pass.' },
     { key: 'sunset', label: 'Golden sunset', when: 'Golden hour', title: 'Sunset & cocktails',
       desc: 'Watch the skyline turn gold with a signature cocktail in hand and the pool glowing below.',
       perks: ['Sunset Happy Hour', '180° Skyline views', 'Signature serves'],
