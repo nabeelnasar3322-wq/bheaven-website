@@ -111,15 +111,18 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
 /* iPad landscape: dish categories as a list on the left, table large on the right */
 @media (min-width:768px) and (orientation:landscape){
   .wrap{max-width:1180px;display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start;padding:16px 20px}
-  #menu{grid-column:1;grid-row:1 / span 4;margin-top:0}
+  #menu{grid-column:1;grid-row:2;margin-top:0}
+  .wrap>section.card:first-of-type{grid-column:1;grid-row:1;padding:8px 12px 7px;margin-bottom:0}
+  .wrap>section.card:first-of-type label{font-size:11px;margin-bottom:4px}
+  .wrap>section.card:first-of-type input{padding:6px 10px;font-size:13px}
+  .wrap>section.card:nth-of-type(3){grid-column:1;grid-row:3;margin:0!important;padding:9px 12px 8px}
   #menu .cats{grid-template-columns:1fr;gap:10px;margin-top:0}
   #menu .cat{min-height:0;padding:9px 12px 8px;gap:2px}
   #menu .cat .cn{font-size:13px}
   #menu .cat .cc{font-size:11px}
-  .wrap>section,#msg,#ok{grid-column:2}
-  .seats{margin-top:0;padding:18px 16px 14px}
-  .ring.photo{max-width:430px}
-  #msg,#ok{grid-column:1 / -1}
+  .seats{grid-column:2;grid-row:1 / span 3;margin-top:0;padding:18px 16px 14px;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+  .ring.photo{max-width:600px}
+  #msg,#ok{grid-column:1 / -1;grid-row:4}
 }
 </style>
 </head>
