@@ -56,6 +56,11 @@ footer button:disabled{opacity:.45}
 .check input{width:22px;height:22px;accent-color:var(--teal-deep);flex:none}
 footer button:disabled{opacity:.4}
 .hide{display:none!important}
+/* iPad portrait (the main device): two large ticket columns, easy to read from a short distance */
+@media (min-width:600px) and (orientation:portrait){
+  #board{grid-template-columns:repeat(2,1fr);gap:16px;padding:16px}
+  header{padding:14px 20px}
+}
 </style>
 </head>
 <body>
