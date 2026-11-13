@@ -1,4 +1,4 @@
-// Table orders: guests send from /order (public), kitchen and floor staff work them from /staff (PIN).
+// Table orders: waiters send from /waiter (PIN), kitchen and floor staff work them from /staff (PIN).
 // Storage: one JSON record per order plus a sorted set of open order ids, both in Vercel KV.
 // Statuses: new -> checked -> preparing -> ready -> served. Cancelled is allowed before ready.
 const crypto = require('crypto');
