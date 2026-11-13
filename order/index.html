@@ -52,8 +52,9 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
 .step button:disabled{opacity:.3;cursor:default}
 .step .q{min-width:24px;text-align:center;font-weight:700;font-size:16px}
 .ring.photo{max-width:360px;aspect-ratio:1302/1208}
+.ring.photo .pic{position:absolute;left:8%;top:8%;width:84%;height:84%}
 .ring.photo .table-photo{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
-.ring.photo .top{background:none!important;border:0!important;box-shadow:none!important}
+.ring.photo .top{background:none!important;border:0!important;box-shadow:none!important;left:47.9%;top:49.9%}
 .ring.photo .plates{left:47.9%;top:49.9%}
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
 .cat{text-align:left;font:inherit;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--yellow);border-radius:14px;padding:14px 14px 13px;cursor:pointer;box-shadow:0 10px 24px -18px rgba(35,48,58,.35);min-height:78px;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
@@ -182,8 +183,8 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
   // Chairs sit evenly around the round table, seat 1 at the top, numbering clockwise.
   function renderRing() {
     // Table photo (sofa and chairs are part of the picture)
-    $('#ring').innerHTML = '<img class="table-photo" src="/assets/table.png" alt="Round rose table with tropical sofa and teal chairs" width="1302" height="1208">' +
-      '<div class="top"><b>Table</b><span id="tnum"></span></div>';
+    $('#ring').innerHTML = '<div class="pic"><img class="table-photo" src="/assets/table.png" alt="Round rose table with tropical sofa and teal chairs" width="1302" height="1208">' +
+      '<div class="top"><b>Table</b><span id="tnum"></span></div></div>';
     $('#ring').classList.add('photo');
     $('#tnum').textContent = $('#table').value || '';
   }
