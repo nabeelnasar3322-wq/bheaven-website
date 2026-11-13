@@ -233,6 +233,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/stats",
+      "destination": "/api/track?fn=stats"
+    },
+    {
       "source": "/:lang(ar|es)/:page(menu|business-lunch|shisha)",
       "destination": "/api/page?lang=:lang&page=:page"
     },

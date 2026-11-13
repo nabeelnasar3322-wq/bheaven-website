@@ -1,10 +1,13 @@
 // Public, cookie-free event collector for the menu page. Stores daily counters in Vercel KV (Upstash).
 const { body, kvPipeline, dubaiDay, rateHit } = require('./_lib');
+const statsHandler = require('./_stats');
 
 const TYPES = { dish_open: 1, pick_add: 1, picks_send: 1, cat_view: 1, lang: 1, mode: 1, visit: 1, page: 1, book: 1, source: 1 };
 const TTL = 60 * 60 * 24 * 400;
 
 module.exports = async (req, res) => {
+  // /api/stats is rewritten here (vercel.json) so both share one serverless function.
+  if (req.query && req.query.fn === 'stats') return statsHandler(req, res);
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') { res.statusCode = 405; return res.end(); }
   try {
