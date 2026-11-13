@@ -45,6 +45,19 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
 .step button[data-d="1"]{background:var(--teal-deep);border-color:var(--teal-deep);color:#fff}
 .step button:disabled{opacity:.3;cursor:default}
 .step .q{min-width:24px;text-align:center;font-weight:700;font-size:17px}
+.cats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.cat{text-align:left;font:inherit;background:var(--tile);border:1px solid var(--line);border-left:4px solid var(--yellow);border-radius:14px;padding:14px 14px 13px;cursor:pointer;min-height:78px;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.cat .cn{font-weight:700;font-size:14px;letter-spacing:.04em;color:var(--ink);text-transform:uppercase}
+.cat .cc{font-size:12px;color:var(--muted)}
+.cat .cc b{color:var(--teal-deep);font-weight:700}
+.sheet{position:fixed;inset:0;background:rgba(31,42,51,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.sheet-card{background:var(--bg);width:100%;max-width:640px;max-height:88vh;border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -20px 40px -20px rgba(31,42,51,.5)}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px 12px;border-bottom:1px solid var(--line)}
+.sheet-head h3{margin:0;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-t)}
+.sheet-x{border:1px solid var(--line);background:var(--tile);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink)}
+.sheet-body{overflow-y:auto;padding:12px 16px 8px;-webkit-overflow-scrolling:touch}
+.sheet-foot{padding:10px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--tile)}
+.sheet-foot .btn{width:100%}
 .bar{position:fixed;left:0;right:0;bottom:0;background:var(--tile);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -12px 28px -16px rgba(31,42,51,.35)}
 .bar .in{max-width:640px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
 .bar .tot{font-size:13px;color:var(--muted)}
@@ -118,6 +131,14 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     <p id="msg" role="alert"></p>
     <p id="ok" role="status"></p>
   </main>
+</div>
+
+<div class="sheet hide" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-card">
+    <div class="sheet-head"><h3 id="sheetTitle"></h3><button type="button" class="sheet-x" id="sheetClose">Close</button></div>
+    <div class="sheet-body" id="sheetBody"></div>
+    <div class="sheet-foot"><button type="button" class="btn" id="sheetDone">Done</button></div>
+  </div>
 </div>
 
 <div class="bar hide" id="bar">
@@ -234,22 +255,36 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     $('#clearTable').hidden = !Object.keys(st).length;
   }
 
-  function renderMenu() {
-    var html = '';
+  var openCat = -1;
+  function dishHtml(d) {
     var mine = cart[seat] || {};
-    Object.keys(menu).forEach(function (cat) {
-      html += '<h2>' + esc(cat) + '</h2>';
-      menu[cat].forEach(function (d) {
-        var q = mine[d.n] ? mine[d.n].q : 0;
-        html += '<div class="dish"><div class="info"><div class="n">' + esc(d.n) + '</div>' +
-          (d.d ? '<div class="d">' + esc(d.d) + '</div>' : '') +
-          '<div class="p">' + esc(d.p || '') + '</div></div>' +
-          '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + '">−</button>' +
-          '<span class="q" aria-live="polite">' + q + '</span>' +
-          '<button type="button" data-n="' + esc(d.n) + '" data-d="1" aria-label="Add one ' + esc(d.n) + '">+</button></div></div>';
-      });
-    });
-    $('#menu').innerHTML = html;
+    var q = mine[d.n] ? mine[d.n].q : 0;
+    return '<div class="dish"><div class="info"><div class="n">' + esc(d.n) + '</div>' +
+      (d.d ? '<div class="d">' + esc(d.d) + '</div>' : '') +
+      '<div class="p">' + esc(d.p || '') + '</div></div>' +
+      '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + '">−</button>' +
+      '<span class="q" aria-live="polite">' + q + '</span>' +
+      '<button type="button" data-n="' + esc(d.n) + '" data-d="1" aria-label="Add one ' + esc(d.n) + '">+</button></div></div>';
+  }
+  function renderSheet() {
+    var cats = Object.keys(menu);
+    if (openCat < 0 || !cats[openCat]) return;
+    $('#sheetTitle').textContent = cats[openCat];
+    $('#sheetBody').innerHTML = menu[cats[openCat]].map(dishHtml).join('');
+  }
+  function openSheet(i) { openCat = i; renderSheet(); $('#sheetBody').scrollTop = 0; $('#sheet').classList.remove('hide'); }
+  function closeSheet() { openCat = -1; $('#sheet').classList.add('hide'); }
+
+  function renderMenu() {
+    var mine = cart[seat] || {};
+    var cats = Object.keys(menu);
+    $('#menu').innerHTML = '<div class="cats">' + cats.map(function (cat, i) {
+      var n = 0;
+      menu[cat].forEach(function (d) { if (mine[d.n]) n += mine[d.n].q; });
+      return '<button type="button" class="cat" data-cat="' + i + '"><span class="cn">' + esc(cat) + '</span><span class="cc">' +
+        menu[cat].length + ' dishes' + (n ? ' · <b>' + n + ' chosen</b>' : '') + '</span></button>';
+    }).join('') + '</div>';
+    renderSheet();
   }
 
   function updateBar() {
@@ -269,7 +304,10 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     updateBar();
   }
 
-  $('#menu').addEventListener('click', function (e) {
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-cat]');
+    if (t && t.closest('#menu')) { openSheet(parseInt(t.getAttribute('data-cat'), 10)); return; }
+    if (e.target.closest('#sheetClose, #sheetDone') || e.target.id === 'sheet') { closeSheet(); return; }
     var b = e.target.closest('button[data-n]');
     if (!b) return;
     var name = b.getAttribute('data-n');
