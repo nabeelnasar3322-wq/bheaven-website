@@ -17,7 +17,7 @@
     { key: 'day', label: 'Poolside day', when: 'From 9 AM', title: 'Poolside days',
       desc: 'Sun loungers, fresh juices and a dedicated pool menu. Pool access passes are available for daytime visitors.',
       perks: ['Pool pass available', 'Fresh juices', 'Sun loungers'],
-      cta: 'Book Pool Pass', href: 'https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%20would%20like%20to%20book%20a%20Poolside%20Day%20pass.' },
+      cta: 'Ask About Pool Pass', href: 'https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20Could%20you%20share%20the%20pool%20pass%20price%2C%20access%20hours%20and%20what%27s%20included%3F' },
     { key: 'sunset', label: 'Golden sunset', when: 'Golden hour', title: 'Sunset & cocktails',
       desc: 'Watch the skyline turn gold with a signature cocktail in hand and the pool glowing below.',
       perks: ['Sunset Happy Hour', '180° Skyline views', 'Signature serves'],
