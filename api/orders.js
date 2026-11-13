@@ -40,10 +40,15 @@ async function createOrder(req, b, res) {
   }
   const table = String(b.table || '').trim().toUpperCase();
   if (!/^[A-Z0-9-]{1,6}$/.test(table)) return send(res, 400, { error: 'Please enter a valid table number.' });
-  const items = (Array.isArray(b.items) ? b.items : []).slice(0, 30).map((i) => ({
-    n: String((i && i.n) || '').trim().slice(0, 80),
-    q: Math.floor(Number(i && i.q)),
-  })).filter((i) => i.n && i.q >= 1 && i.q <= 20);
+  // s = chair number at the table (1-8); 0 means the order is not tied to a chair.
+  const items = (Array.isArray(b.items) ? b.items : []).slice(0, 60).map((i) => {
+    const s = Math.floor(Number(i && i.s));
+    return {
+      n: String((i && i.n) || '').trim().slice(0, 80),
+      q: Math.floor(Number(i && i.q)),
+      s: s >= 1 && s <= 8 ? s : 0,
+    };
+  }).filter((i) => i.n && i.q >= 1 && i.q <= 20);
   if (!items.length) return send(res, 400, { error: 'Your order is empty.' });
   const note = String(b.note || '').trim().slice(0, 300);
   const now = Date.now();

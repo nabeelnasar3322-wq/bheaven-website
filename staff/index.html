@@ -39,6 +39,7 @@ main{padding:16px;max-width:1100px;margin:0 auto}
 ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 li{font-size:16px;line-height:1.35}
 li b{color:var(--gold-t)}
+.seat{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);background:rgba(55,108,113,.12);border-radius:999px;padding:2px 8px;margin-right:4px;vertical-align:1px}
 .note{margin:0;background:rgba(176,141,87,.14);color:var(--gold-t);border-radius:10px;padding:8px 10px;font-size:14px}
 footer{display:flex;gap:8px;flex-wrap:wrap}
 footer button{flex:1;min-width:130px;border:0;border-radius:999px;background:var(--teal-deep);color:#fff;font:inherit;font-weight:500;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;padding:13px 10px;cursor:pointer}
@@ -240,7 +241,8 @@ footer button:disabled{opacity:.4}
     var mine = ticks[o.id] || {};
     var allTicked = o.items.every(function (_, idx) { return !!mine[idx]; });
     var items = o.items.map(function (i, idx) {
-      var line = '<b>' + i.q + '×</b> ' + esc(i.n);
+      var seatTag = i.s ? '<span class="seat">Seat ' + i.s + '</span> ' : '';
+      var line = seatTag + '<b>' + i.q + '×</b> ' + esc(i.n);
       if (view === 'kitchen' && o.status === 'new') {
         return '<li><label class="check"><input type="checkbox" data-item="' + idx + '" data-order="' + o.id + '"' + (mine[idx] ? ' checked' : '') + '> ' + line + '</label></li>';
       }

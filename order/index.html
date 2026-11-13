@@ -25,6 +25,22 @@ input[type=text]:focus,textarea:focus{outline:2px solid var(--teal);outline-offs
 textarea{min-height:64px;resize:vertical}
 h2{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--palm);margin:28px 0 10px;font-weight:700;display:flex;align-items:center;gap:10px}
 h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--yellow) 0 12px,transparent 12px 18px)}
+
+/* Table with chairs: tap a chair to choose whose order the dishes below go to */
+.seats{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 12px 10px;box-shadow:0 10px 24px -18px rgba(35,48,58,.35)}
+.seats .hint{font-size:13px;color:var(--muted);text-align:center;margin:0 0 6px}
+.ring{position:relative;width:100%;max-width:290px;aspect-ratio:1;margin:4px auto 2px}
+.top{position:absolute;left:50%;top:50%;width:44%;height:44%;transform:translate(-50%,-50%);border-radius:50%;background:#FBF9F4;border:2px solid var(--rust);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:inset 0 0 0 6px #fff}
+.top b{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+.top span{font-size:11px;color:var(--muted);margin-top:2px}
+.chair{position:absolute;width:46px;height:46px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--teal);background:#fff;color:var(--teal);font:inherit;font-weight:700;font-size:13px;cursor:pointer;padding:0}
+.chair[aria-pressed=true]{background:var(--teal);color:#fff;box-shadow:0 0 0 4px rgba(47,127,123,.22)}
+.chair .badge{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;border-radius:10px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.chair .badge[hidden]{display:none}
+
+.for{font-size:14px;color:var(--ink);background:#EEF6F5;border-radius:12px;padding:10px 12px;margin:0 0 4px}
+.for b{color:var(--teal-d)}
+
 .dish{display:flex;gap:12px;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 14px;margin-bottom:10px;box-shadow:0 10px 24px -18px rgba(35,48,58,.35)}
 .dish .info{min-width:0;flex:1}
 .dish .n{font-weight:600;font-size:15px}
@@ -54,7 +70,7 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
 <header>
   <h1>Order from your table</h1>
   <p class="eyebrow">Table ordering</p>
-  <p class="sub">Choose your dishes and send them to the kitchen. Your waiter will bring them to you. Pay your waiter when you leave.</p>
+  <p class="sub">Tap your chair, choose your dishes and send them to the kitchen. Your waiter will bring them to you. Pay your waiter when you leave.</p>
 </header>
 
 <main class="wrap">
@@ -62,6 +78,11 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
     <label for="table">Table number</label>
     <input type="text" id="table" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="e.g. 12" aria-describedby="tableHelp">
     <p class="sub" id="tableHelp" style="margin-top:8px">Your table number is on the table card. Ask your waiter if you can't find it.</p>
+  </section>
+
+  <section class="seats" id="seatsBox" aria-label="Table seats">
+    <p class="hint">Tap a chair to choose whose order you are adding to.</p>
+    <div class="ring" id="ring"></div>
   </section>
 
   <div id="menu" aria-live="polite"><p class="sub">Loading the menu…</p></div>
@@ -89,13 +110,16 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
 <script>
 (function () {
   var $ = function (s) { return document.querySelector(s); };
-  var cart = {};        // name -> { n, p, q }
+  var SEATS = 8;
+  var cart = {};        // seat (1-8) -> { dish name -> { n, p, q } }
+  var seat = 1;         // the chair the guest is ordering for
   var menu = {};        // category -> dishes
   var sending = false;
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function price(p) { var n = parseFloat(String(p || '').replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; }
   function msg(t) { $('#msg').textContent = t || ''; }
+  function seatCount(s) { var c = cart[s] || {}; return Object.keys(c).reduce(function (a, k) { return a + c[k].q; }, 0); }
 
   // Read the dishes from the menu page's own data, so the menu is only edited in one place.
   fetch('/menu/', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
@@ -107,23 +131,48 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
     $('#menu').innerHTML = '<p class="sub">The menu could not load. Please refresh, or ask your waiter.</p>';
   });
 
+  // Chairs sit evenly around the round table, seat 1 at the top, numbering clockwise.
+  function renderRing() {
+    var html = '<div class="top"><b>Table</b><span id="tnum"></span></div>';
+    for (var s = 1; s <= SEATS; s++) {
+      var a = (s - 1) * 360 / SEATS * Math.PI / 180;
+      var x = 50 + 40 * Math.sin(a), y = 50 - 40 * Math.cos(a);
+      var c = seatCount(s);
+      html += '<button type="button" class="chair" data-seat="' + s + '" aria-pressed="' + (s === seat) + '"' +
+        ' aria-label="Seat ' + s + (c ? ', ' + c + ' items' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%">' + s +
+        '<span class="badge"' + (c ? '' : ' hidden') + '>' + c + '</span></button>';
+    }
+    $('#ring').innerHTML = html;
+    $('#tnum').textContent = $('#table').value || '';
+  }
+
   function render() {
-    var html = '';
+    renderRing();
+    var html = '<p class="for">Adding to <b>Seat ' + seat + '</b></p>';
+    var mine = cart[seat] || {};
     Object.keys(menu).forEach(function (cat) {
       html += '<h2>' + esc(cat) + '</h2>';
       menu[cat].forEach(function (d) {
-        var q = cart[d.n] ? cart[d.n].q : 0;
+        var q = mine[d.n] ? mine[d.n].q : 0;
         html += '<div class="dish"><div class="info"><div class="n">' + esc(d.n) + '</div>' +
           (d.d ? '<div class="d">' + esc(d.d) + '</div>' : '') +
           '<div class="p">' + esc(d.p || '') + '</div></div>' +
-          '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + '">−</button>' +
+          '<div class="step"><button type="button" data-n="' + esc(d.n) + '" data-d="-1"' + (q ? '' : ' disabled') + ' aria-label="Remove one ' + esc(d.n) + ' for seat ' + seat + '">−</button>' +
           '<span class="q" aria-live="polite">' + q + '</span>' +
-          '<button type="button" data-n="' + esc(d.n) + '" data-d="1" aria-label="Add one ' + esc(d.n) + '">+</button></div></div>';
+          '<button type="button" data-n="' + esc(d.n) + '" data-d="1" aria-label="Add one ' + esc(d.n) + ' for seat ' + seat + '">+</button></div></div>';
       });
     });
     $('#menu').innerHTML = html;
     updateBar();
   }
+
+  $('#ring').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-seat]');
+    if (!b) return;
+    seat = parseInt(b.getAttribute('data-seat'), 10);
+    msg('');
+    render();
+  });
 
   $('#menu').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-n]');
@@ -133,17 +182,21 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
     var dish = null;
     Object.keys(menu).forEach(function (cat) { menu[cat].forEach(function (d) { if (d.n === name) dish = d; }); });
     if (!dish) return;
-    var cur = cart[name] ? cart[name].q : 0;
+    var mine = cart[seat] || (cart[seat] = {});
+    var cur = mine[name] ? mine[name].q : 0;
     var next = Math.min(20, Math.max(0, cur + delta));
-    if (next === 0) delete cart[name];
-    else cart[name] = { n: name, p: price(dish.p), q: next };
+    if (next === 0) delete mine[name];
+    else mine[name] = { n: name, p: price(dish.p), q: next };
+    if (!Object.keys(mine).length) delete cart[seat];
     msg('');
     render();
   });
 
   function updateBar() {
     var count = 0, total = 0;
-    Object.keys(cart).forEach(function (k) { count += cart[k].q; total += cart[k].q * cart[k].p; });
+    Object.keys(cart).forEach(function (s) {
+      Object.keys(cart[s]).forEach(function (k) { count += cart[s][k].q; total += cart[s][k].q * cart[s][k].p; });
+    });
     $('#count').textContent = count;
     $('#total').textContent = 'AED ' + total.toFixed(0);
     $('#bar').classList.toggle('hide', count === 0);
@@ -154,12 +207,16 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
   $('#table').addEventListener('input', function () {
     this.value = this.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
     try { localStorage.setItem('bh_table', this.value); } catch (e) {}
+    $('#tnum').textContent = this.value;
   });
 
   $('#send').addEventListener('click', function () {
     var table = $('#table').value.trim();
     if (!/^[A-Z0-9-]{1,6}$/.test(table)) { msg('Please enter your table number first.'); $('#table').focus(); return; }
-    var items = Object.keys(cart).map(function (k) { return { n: cart[k].n, q: cart[k].q }; });
+    var items = [];
+    Object.keys(cart).forEach(function (s) {
+      Object.keys(cart[s]).forEach(function (k) { items.push({ n: cart[s][k].n, q: cart[s][k].q, s: parseInt(s, 10) }); });
+    });
     sending = true; updateBar(); msg('');
     fetch('/api/orders', {
       method: 'POST',
@@ -170,11 +227,11 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
       return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; });
     }).then(function (res) {
       if (!res.ok) throw new Error(res.j.error || 'Could not send. Please ask your waiter.');
-      cart = {}; $('#note').value = '';
+      cart = {}; seat = 1; $('#note').value = '';
       render();
       $('#doneText').textContent = 'Table ' + res.j.table + ' — your waiter has your order and will bring it to you.';
       $('#done').classList.remove('hide');
-      $('#menu').classList.add('hide'); $('#tableBox').classList.add('hide');
+      $('#menu').classList.add('hide'); $('#tableBox').classList.add('hide'); $('#seatsBox').classList.add('hide');
       $('#bar').classList.add('hide');
       window.scrollTo(0, 0);
     }).catch(function (err) {
@@ -183,7 +240,7 @@ h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90de
   });
 
   $('#again').addEventListener('click', function () {
-    $('#done').classList.add('hide'); $('#menu').classList.remove('hide'); $('#tableBox').classList.remove('hide');
+    $('#done').classList.add('hide'); $('#menu').classList.remove('hide'); $('#tableBox').classList.remove('hide'); $('#seatsBox').classList.remove('hide');
     render();
   });
 })();
