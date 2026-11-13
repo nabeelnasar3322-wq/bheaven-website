@@ -22,13 +22,15 @@ input[type=text],input[type=password],textarea{width:100%;font:inherit;font-size
 input[type=text]:focus,textarea:focus{outline:2px solid var(--teal-d);outline-offset:1px}
 textarea{min-height:60px;resize:vertical;font-size:16px}
 .seats-hint{font-size:13px;color:var(--muted);text-align:center;margin:0 0 4px}
+/* Table and chairs: same colours and sizes as the guest page (/order/) */
+.seats{background:#FFFFFF;border:1px solid var(--line);border-radius:16px;padding:14px 12px 10px;box-shadow:0 10px 24px -18px rgba(35,48,58,.35);margin-top:12px}
 .ring{position:relative;width:100%;max-width:290px;aspect-ratio:1;margin:4px auto 2px}
-.top{position:absolute;left:50%;top:50%;width:44%;height:44%;transform:translate(-50%,-50%);border-radius:50%;background:#fff;border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.top b{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-t)}
-.top span{font-size:15px;font-weight:700;margin-top:2px}
-.chair{position:absolute;width:48px;height:48px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--teal-d);background:#fff;color:var(--teal-d);font:inherit;font-weight:700;font-size:14px;cursor:pointer;padding:0}
-.chair[aria-pressed=true]{background:var(--teal-deep);border-color:var(--teal-deep);color:#fff;box-shadow:0 0 0 4px rgba(55,108,113,.22)}
-.chair .badge{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;border-radius:10px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.top{position:absolute;left:50%;top:50%;width:44%;height:44%;transform:translate(-50%,-50%);border-radius:50%;background:#FBF9F4;border:2px solid #A4574A;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:inset 0 0 0 6px #fff}
+.top b{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#A4574A}
+.top span{font-size:11px;color:#5E6A72;margin-top:2px}
+.chair{position:absolute;width:46px;height:46px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid #2F7F7B;background:#fff;color:#2F7F7B;font:inherit;font-weight:700;font-size:13px;cursor:pointer;padding:0}
+.chair[aria-pressed=true]{background:#2F7F7B;color:#fff;box-shadow:0 0 0 4px rgba(47,127,123,.22)}
+.chair .badge{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;border-radius:10px;background:#F4B824;color:#23303A;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px}
 .chair .badge[hidden]{display:none}
 .for{font-size:15px;background:#E3ECEB;border-radius:12px;padding:10px 12px;margin:14px 0 4px}
 .for b{color:var(--teal-deep)}
@@ -79,7 +81,9 @@ h2{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--go
     <section class="card">
       <label for="table">Table number</label>
       <input type="text" id="table" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="e.g. 12">
-      <p class="seats-hint" style="margin-top:14px">Tap a chair, then add dishes for that guest.</p>
+    </section>
+    <section class="seats" aria-label="Table seats">
+      <p class="seats-hint">Tap a chair, then add dishes for that guest.</p>
       <div class="ring" id="ring"></div>
     </section>
 
