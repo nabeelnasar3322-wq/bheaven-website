@@ -1,3 +1,7 @@
+/* the frame-sequence canvas: hidden unless the sequence runs; fades in over the poster (frame 1) */
+.hero-seq{display:none;opacity:0}
+.sky-on .hero-seq{display:block}
+.sky-on .hero-seq.on{opacity:1}
 /* ============ Hero: 3D scroll skyline (hero-3d.js) — all visitors except reduced-motion/Data Saver ============ */
 .sky-on .hero{height:360svh;min-height:0;display:block;padding:0;overflow:visible;background:#1E1F21}
 .sky-on .hero .sky-stick{position:sticky;top:0;height:100svh;min-height:620px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 70px;overflow:hidden;isolation:isolate}

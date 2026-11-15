@@ -26,8 +26,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <script src="/consent.js" data-ga="G-5EP0X5NXPJ" defer></script>
-<link rel="preload" as="image" href="/hero-2.webp" type="image/webp" media="(min-width:901px)" fetchpriority="high">
-<link rel="preload" as="image" href="/hero-2-m.webp" type="image/webp" media="(max-width:900px)" fetchpriority="high">
+<link rel="preload" as="image" href="/hero-seq/d/0001.jpg" media="(min-width:901px)" fetchpriority="high">
+<link rel="preload" as="image" href="/hero-seq/m/0001.webp" type="image/webp" media="(max-width:900px)" fetchpriority="high">
 <meta name="robots" content="index, follow">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -147,7 +147,8 @@
   <div class="frame" aria-hidden="true">
     <div class="pan">
       <video muted playsinline webkit-playsinline preload="auto" poster="/hero-2.webp" class="hero-video" id="heroVid"></video>
-      <script>(function(){try{var v=document.getElementById('heroVid');if(!v)return;var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,sd=(navigator.connection||{}).saveData,sky=!rm&&!sd,mobile=matchMedia('(max-width: 900px)').matches;if(mobile)v.poster='/hero-2-m.webp';window.__skyOn=sky;v.muted=true;v.defaultMuted=true;if(sky){document.documentElement.classList.add('sky-on');v.loop=false;v.addEventListener('play',function(){v.pause()});v.src=mobile?'/hero-scroll-m.mp4':'/hero-scroll.mp4';v.pause()}else{v.src='/bhvn.mp4';v.loop=true;v.play().catch(function(){})}}catch(e){}})();</script>
+      <canvas class="hero-video hero-seq" id="heroSeq" aria-hidden="true"></canvas>
+      <script>(function(){try{var v=document.getElementById('heroVid');if(!v)return;var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,c=navigator.connection||{},sd=c.saveData,slow=/(^|-)2g$/.test(c.effectiveType||''),sky=!rm&&!sd&&!slow&&typeof createImageBitmap==='function'&&!!window.fetch,mobile=matchMedia('(max-width: 900px)').matches;window.__skyOn=sky;v.muted=true;v.defaultMuted=true;if(sky){var d=mobile?'m':'d',ext=mobile?'webp':'jpg';window.__skySeq={n:273,dir:'/hero-seq/'+d+'/',ext:ext,mobile:mobile,coarse:/3g/.test(c.effectiveType||'')};v.poster='/hero-seq/'+d+'/0001.'+ext;document.documentElement.classList.add('sky-on');v.loop=false;v.addEventListener('play',function(){v.pause()})}else{if(mobile)v.poster='/hero-2-m.webp';v.src='/bhvn.mp4';v.loop=true;v.play().catch(function(){})}}catch(e){}})();</script>
       <div class="rays"></div><div class="sun"></div>
       <div class="cloud a"></div><div class="cloud b"></div><div class="cloud c"></div>
       <div class="water"></div>
