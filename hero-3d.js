@@ -179,18 +179,19 @@
       var c = Math.round(cur);
       if (j !== 0 && (j < c - AHEAD - 6 || j > c + AHEAD + 6)) { b.close(); return; }
       bmp[j] = b;
-      if (j === 0 || Math.abs(j - c) <= 1) kick();
+      if (j === 0 || shown < 0 || Math.abs(j - c) < Math.abs(shown - c)) kick();   /* redraw whenever this beats what is on screen */
     }, function () { pend[j] = 0; });
   }
   function warm(f) {
     var j, k, lo = dirn > 0 ? f - BACK - 1 : f - AHEAD - 2, hi = dirn > 0 ? f + AHEAD + 2 : f + BACK + 1;
     for (k = 0; k <= AHEAD; k++) { j = f + dirn * k; if (j >= 0 && j < N) wantBmp(j); }
     for (k = 1; k <= BACK; k++) { j = f - dirn * k; if (j >= 0 && j < N) wantBmp(j); }
-    for (j = 0; j < N; j++) if (bmp[j] && j !== 0 && (j < lo || j > hi)) { bmp[j].close(); bmp[j] = null; }
+    for (j = 0; j < N; j++) if (bmp[j] && j !== 0 && j !== shown && (j < lo || j > hi)) { bmp[j].close(); bmp[j] = null; }   /* keep the frame on screen until a closer one is decoded */
   }
   function render(f) {
     warm(f);
     var use = nearest(f);
+    if (shown >= 0 && bmp[shown] && (use < 0 || Math.abs(shown - f) <= Math.abs(use - f))) use = shown;   /* never fall back to frame 0 while the shown frame is as close */
     if (use < 0 || (use === shown && !force)) return;
     force = false; draw(use); shown = use;
     if (!cv.classList.contains('on')) cv.classList.add('on');
