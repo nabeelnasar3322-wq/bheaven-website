@@ -128,8 +128,8 @@
   }
   function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
 
-  function draw(i) {
-    var img = bmp[i], iw = img.width, ih = img.height;
+  function draw(i, alpha) {
+    var over = alpha !== undefined, img = bmp[i], iw = img.width, ih = img.height;
     if (!iw || !ih || !cw) return;
     var portrait = cw / ch < 0.9, fx, fit = 1;
     if (portrait) {
@@ -141,20 +141,24 @@
     } else fx = 0.64;                              /* same anchor the video had (object-position 64% 50%) */
     var sc = Math.max(cw / iw, (ch / ih) * fit), dw = iw * sc, dh = ih * sc, dx = (cw - dw) * fx, dy = (ch - dh) * 0.5, g, e;
     var bands = dh < ch - 1;
-    if (bands) {
-      e = edgesOf(i);
+    if (bands) e = edgesOf(i);
+    if (bands && !over) {
       g = ctx.createLinearGradient(0, 0, 0, dy); g.addColorStop(0, rgba(BG, 1)); g.addColorStop(1, rgba(e[0], 1));
       ctx.fillStyle = g; ctx.fillRect(0, 0, cw, Math.ceil(dy) + 1);
       g = ctx.createLinearGradient(0, dy + dh, 0, ch); g.addColorStop(0, rgba(e[1], 1)); g.addColorStop(1, rgba(BG, 1));
       ctx.fillStyle = g; ctx.fillRect(0, Math.floor(dy + dh) - 1, cw, ch - Math.floor(dy + dh) + 1);
     }
+    if (over) ctx.globalAlpha = alpha;
     ctx.drawImage(img, dx, dy, dw, dh);
-    if (bands) {                                   /* feather the seams */
+    if (over) ctx.globalAlpha = 1;
+    if (bands) {                                   /* feather the seams (also on the cross-faded frame, at its alpha) */
+      if (over) ctx.globalAlpha = alpha;
       var f = Math.min(dh * 0.14, 90 * dpr);
       g = ctx.createLinearGradient(0, dy, 0, dy + f); g.addColorStop(0, rgba(e[0], 1)); g.addColorStop(1, rgba(e[0], 0));
       ctx.fillStyle = g; ctx.fillRect(0, dy, cw, f);
       g = ctx.createLinearGradient(0, dy + dh - f, 0, dy + dh); g.addColorStop(0, rgba(e[1], 0)); g.addColorStop(1, rgba(e[1], 1));
       ctx.fillStyle = g; ctx.fillRect(0, dy + dh - f, cw, f);
+      if (over) ctx.globalAlpha = 1;
     }
   }
 
@@ -180,7 +184,8 @@
       var c = Math.round(cur);
       if (j !== 0 && (j < c - AHEAD - 6 || j > c + AHEAD + 6)) { b.close(); return; }
       bmp[j] = b;
-      if (j === 0 || shown < 0 || Math.abs(j - c) < Math.abs(shown - c)) kick();   /* redraw whenever this beats what is on screen */
+      var fl = Math.floor(cur);
+      if (j === 0 || shown < 0 || j === fl || j === fl + 1 || Math.abs(j - c) < Math.abs(shown - c)) kick();   /* redraw whenever this beats what is on screen */
     }, function () { pend[j] = 0; });
   }
   function warm(f) {
@@ -189,12 +194,20 @@
     for (k = 1; k <= BACK; k++) { j = f - dirn * k; if (j >= 0 && j < N) wantBmp(j); }
     for (j = 0; j < N; j++) if (bmp[j] && j !== 0 && j !== shown && (j < lo || j > hi)) { bmp[j].close(); bmp[j] = null; }   /* keep the frame on screen until a closer one is decoded */
   }
-  function render(f) {
-    warm(f);
-    var use = nearest(f);
-    if (shown >= 0 && bmp[shown] && (use < 0 || Math.abs(shown - f) <= Math.abs(use - f))) use = shown;   /* never fall back to frame 0 while the shown frame is as close */
-    if (use < 0 || (use === shown && !force)) return;
-    force = false; draw(use); shown = use;
+  /* fl is fractional: between two decoded frames the next one is cross-faded in (6 steps), so a slow
+     scroll glides instead of stepping one frame at a time */
+  var shownKey = -1;
+  function render(fl) {
+    var f = Math.round(fl); warm(f);
+    var a = Math.floor(fl), q = Math.round((fl - a) * 6);
+    if (q === 6) { a++; q = 0; }
+    if (a >= N - 1) { a = N - 1; q = 0; }
+    var use = nearest(a);
+    if (shown >= 0 && bmp[shown] && (use < 0 || Math.abs(shown - a) <= Math.abs(use - a))) use = shown;   /* never fall back to frame 0 while the shown frame is as close */
+    if (use < 0) return;
+    var blend = q > 0 && use === a && !!bmp[a + 1], key = use * 8 + (blend ? q : 0);
+    if (key === shownKey && !force) return;
+    force = false; draw(use); if (blend) draw(a + 1, q / 6); shown = use; shownKey = key;
     if (!cv.classList.contains('on')) cv.classList.add('on');
   }
 
@@ -235,8 +248,8 @@
     goal = vidProgress(p) * (N - 1);
     if (goal !== cur) dirn = goal > cur ? 1 : -1;
     cur += (goal - cur) * (1 - Math.exp(-dt / 0.085));
-    if (Math.abs(goal - cur) < 0.35) cur = goal;
-    render(Math.round(cur));
+    if (Math.abs(goal - cur) < 0.08) cur = goal;
+    render(cur);
     if (cur !== goal) { raf = requestAnimationFrame(tick); return; }
     lastT = 0;
     window.__skyBusy = false;
