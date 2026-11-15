@@ -140,9 +140,9 @@
       fx = 0.5 + 0.17 * Math.max(0, 1 - i / 90);   /* pavilion starts right of centre, eases to centre */
     } else fx = 0.64;                              /* same anchor the video had (object-position 64% 50%) */
     var sc = Math.max(cw / iw, (ch / ih) * fit), dw = iw * sc, dh = ih * sc, dx = (cw - dw) * fx, dy = (ch - dh) * 0.5, g, e;
-    var bands = !over && dh < ch - 1;
-    if (bands) {
-      e = edgesOf(i);
+    var bands = dh < ch - 1;
+    if (bands) e = edgesOf(i);
+    if (bands && !over) {
       g = ctx.createLinearGradient(0, 0, 0, dy); g.addColorStop(0, rgba(BG, 1)); g.addColorStop(1, rgba(e[0], 1));
       ctx.fillStyle = g; ctx.fillRect(0, 0, cw, Math.ceil(dy) + 1);
       g = ctx.createLinearGradient(0, dy + dh, 0, ch); g.addColorStop(0, rgba(e[1], 1)); g.addColorStop(1, rgba(BG, 1));
@@ -151,12 +151,14 @@
     if (over) ctx.globalAlpha = alpha;
     ctx.drawImage(img, dx, dy, dw, dh);
     if (over) ctx.globalAlpha = 1;
-    if (bands) {                                   /* feather the seams */
+    if (bands) {                                   /* feather the seams (also on the cross-faded frame, at its alpha) */
+      if (over) ctx.globalAlpha = alpha;
       var f = Math.min(dh * 0.14, 90 * dpr);
       g = ctx.createLinearGradient(0, dy, 0, dy + f); g.addColorStop(0, rgba(e[0], 1)); g.addColorStop(1, rgba(e[0], 0));
       ctx.fillStyle = g; ctx.fillRect(0, dy, cw, f);
       g = ctx.createLinearGradient(0, dy + dh - f, 0, dy + dh); g.addColorStop(0, rgba(e[1], 0)); g.addColorStop(1, rgba(e[1], 1));
       ctx.fillStyle = g; ctx.fillRect(0, dy + dh - f, cw, f);
+      if (over) ctx.globalAlpha = 1;
     }
   }
 
@@ -182,7 +184,8 @@
       var c = Math.round(cur);
       if (j !== 0 && (j < c - AHEAD - 6 || j > c + AHEAD + 6)) { b.close(); return; }
       bmp[j] = b;
-      if (j === 0 || shown < 0 || Math.abs(j - c) < Math.abs(shown - c)) kick();   /* redraw whenever this beats what is on screen */
+      var fl = Math.floor(cur);
+      if (j === 0 || shown < 0 || j === fl || j === fl + 1 || Math.abs(j - c) < Math.abs(shown - c)) kick();   /* redraw whenever this beats what is on screen */
     }, function () { pend[j] = 0; });
   }
   function warm(f) {
