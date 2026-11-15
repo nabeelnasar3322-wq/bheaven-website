@@ -1,16 +1,18 @@
-/* Hero 3D scroll: the uploaded skyline clip (Poolside Day -> Golden Sunset -> Starlit Night) is
-   scrubbed by scroll position while the frame scales and drifts, giving a sense of depth as you
-   scroll. Runs only where the inline check in index.html set window.__skyOn (desktop, hover,
-   no reduced motion, no Data Saver). */
+/* Hero 3D scroll: the skyline sequence (Poolside Day -> Golden Sunset -> Starlit Night) is 273
+   pre-rendered frames drawn on a <canvas> and driven by scroll position (the same technique as the
+   Apple product pages), while the frame scales and drifts for a sense of depth. Frames load
+   coarse-to-fine (every 32nd, then 16th ... then all) so scrubbing works almost immediately, and the
+   nearest loaded frame is shown until the exact one arrives. Runs only where the inline check in
+   index.html set window.__skyOn (hover/any size, no reduced motion, no Data Saver, not 2G). */
 (function () {
   'use strict';
   if (!window.__skyOn) return;
-  var hero = document.getElementById('hero'), v = document.getElementById('heroVid');
-  if (!hero || !v) return;
+  var hero = document.getElementById('hero'), cv = document.getElementById('heroSeq'), cfg = window.__skySeq;
+  if (!hero || !cv || !cfg) return;
   var pan = hero.querySelector('.pan'), stick = hero.querySelector('.sky-stick');
   if (!pan || !stick) return;
 
-  var dur = 0, ready = false, goal = 0, cur = 0, raf = 0, lastPart = -1, start = 0, range = 1;
+  var raf = 0, lastPart = -1, start = 0, range = 1;
   /* the content that used to live in the "One rooftop, three moods" section, now surfaced
      here as you scroll through each stage of the hero clip */
   var PARTS = [
@@ -53,9 +55,6 @@
     capTitle = cap.querySelector('.sky-title'), capDesc = cap.querySelector('.sky-desc'),
     capPerks = cap.querySelector('.sky-perks'), capCta = cap.querySelector('.sky-cta'),
     capEy = cap.querySelector('.sky-eyebrow'), capRail = cap.querySelectorAll('.sky-rail b');
-  /* the clip must not run on its own: it is driven only by the scroll position */
-  v.loop = false; v.autoplay = false;
-  v.addEventListener('play', function () { v.pause(); });
   function measure() {
     var r = hero.getBoundingClientRect();
     start = r.top + window.pageYOffset;
@@ -84,50 +83,172 @@
     var op = 1 - ease((p - 0.02) / 0.14);
     root.setProperty('--sk-op', op.toFixed(3));
     root.setProperty('--sk-cy', (p * -90).toFixed(1) + 'px');
-    /* switch points follow the clip: day -> sunset at ~3.6s, sunset -> night at ~8.7s of 13.6s */
-    var part = p < 0.26 ? 0 : p < 0.64 ? 1 : 2;
+    /* switch points follow the frames: day -> sunset at about frame 66, sunset -> night at about frame 165 of 273 */
+    var part = p < 0.25 ? 0 : p < 0.60 ? 1 : 2;
     setPart(part);
   }
   function progress() {
     return Math.max(0, Math.min(1, (window.pageYOffset - start) / range));
   }
-  /* Scrub: the video time chases the scroll position with frame-rate-independent smoothing, so
-     it glides the same on 60 and 120 Hz screens. Seeks are snapped to whole frames and skipped
-     when the frame wouldn't change, which stops the stutter from redundant seeks. The first and
-     last slice of the scroll hold on the first/last frame so the ends feel settled. */
-  var FPS = 25, FR = 1 / FPS, lastT = 0, lastFrame = -1, HOLD_A = 0.012, HOLD_B = 0.982;
+  /* ---------- frame sequence on canvas ---------- */
+  var N = cfg.n, blob = new Array(N), ok = new Array(N), bmp = new Array(N), pend = {}, edge = new Array(N);
+  var ctx = cv.getContext('2d', { alpha: false });
+  var BG = [30, 31, 33];                 /* page background #1E1F21 */
+  var PORTRAIT_FIT = 0.58;               /* portrait phones: zoom out so the whole sign + dome stays in view */
+  var AHEAD = cfg.mobile ? 8 : 10, BACK = 3;
+  var probe = document.createElement('canvas'); probe.width = 4; probe.height = 1;
+  var pctx = probe.getContext('2d', { willReadFrequently: true });
+  var cw = 0, ch = 0, dpr = 1, shown = -1, force = true, dirn = 1, cur = 0, goal = 0;
+  function pad(n) { return ('000' + n).slice(-4); }
+
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = Math.max(1, Math.round(cv.clientWidth * dpr)), h = Math.max(1, Math.round(cv.clientHeight * dpr));
+    var cap = cfg.mobile ? 2200 : 1920;  /* no point exceeding the source resolution */
+    if (w > cap) { h = Math.round(h * cap / w); w = cap; }
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+    cw = w; ch = h;
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    force = true;
+  }
+
+  /* average colour of the top / bottom strip of a frame: extends the picture on portrait screens */
+  function edgesOf(i) {
+    if (edge[i]) return edge[i];
+    var img = bmp[i], out = [BG, BG];
+    try {
+      var iw = img.width, ih = img.height, hh = Math.round(ih * 0.03);
+      [0, ih - hh].forEach(function (sy, k) {
+        pctx.clearRect(0, 0, 4, 1); pctx.drawImage(img, 0, sy, iw, hh, 0, 0, 4, 1);
+        var d = pctx.getImageData(0, 0, 4, 1).data;
+        out[k] = [(d[0] + d[4] + d[8] + d[12]) >> 2, (d[1] + d[5] + d[9] + d[13]) >> 2, (d[2] + d[6] + d[10] + d[14]) >> 2];
+      });
+    } catch (e) {}
+    return (edge[i] = out);
+  }
+  function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+
+  function draw(i) {
+    var img = bmp[i], iw = img.width, ih = img.height;
+    if (!iw || !ih || !cw) return;
+    var portrait = cw / ch < 0.9, fx, fit = 1;
+    if (portrait) {
+      /* the last frames push in close; pull back a little so the sign never clips */
+      var t = Math.min(1, Math.max(0, (i - 170) / 103));
+      fit = PORTRAIT_FIT - 0.2 * t * t * (3 - 2 * t);
+      fx = 0.5 + 0.17 * Math.max(0, 1 - i / 90);   /* pavilion starts right of centre, eases to centre */
+    } else fx = 0.64;                              /* same anchor the video had (object-position 64% 50%) */
+    var sc = Math.max(cw / iw, (ch / ih) * fit), dw = iw * sc, dh = ih * sc, dx = (cw - dw) * fx, dy = (ch - dh) * 0.5, g, e;
+    var bands = dh < ch - 1;
+    if (bands) {
+      e = edgesOf(i);
+      g = ctx.createLinearGradient(0, 0, 0, dy); g.addColorStop(0, rgba(BG, 1)); g.addColorStop(1, rgba(e[0], 1));
+      ctx.fillStyle = g; ctx.fillRect(0, 0, cw, Math.ceil(dy) + 1);
+      g = ctx.createLinearGradient(0, dy + dh, 0, ch); g.addColorStop(0, rgba(e[1], 1)); g.addColorStop(1, rgba(BG, 1));
+      ctx.fillStyle = g; ctx.fillRect(0, Math.floor(dy + dh) - 1, cw, ch - Math.floor(dy + dh) + 1);
+    }
+    ctx.drawImage(img, dx, dy, dw, dh);
+    if (bands) {                                   /* feather the seams */
+      var f = Math.min(dh * 0.14, 90 * dpr);
+      g = ctx.createLinearGradient(0, dy, 0, dy + f); g.addColorStop(0, rgba(e[0], 1)); g.addColorStop(1, rgba(e[0], 0));
+      ctx.fillStyle = g; ctx.fillRect(0, dy, cw, f);
+      g = ctx.createLinearGradient(0, dy + dh - f, 0, dy + dh); g.addColorStop(0, rgba(e[1], 0)); g.addColorStop(1, rgba(e[1], 1));
+      ctx.fillStyle = g; ctx.fillRect(0, dy + dh - f, cw, f);
+    }
+  }
+
+  /* the nearest frame that is ready to draw (decoded) */
+  function nearest(f) {
+    if (bmp[f]) return f;
+    for (var d = 1; d < N; d++) {
+      if (f - d >= 0 && bmp[f - d]) return f - d;
+      if (f + d < N && bmp[f + d]) return f + d;
+    }
+    return -1;
+  }
+
+  /* Decoding happens off the main thread: frames are fetched as raw files (blobs) and turned into
+     ImageBitmaps by createImageBitmap(blob), which decodes on a worker. Only a small window around
+     the scroll position is kept decoded (a few MB per frame); everything outside it is closed, so
+     memory stays small and drawing a frame while scrolling is a plain copy. */
+  function wantBmp(j) {
+    if (bmp[j] || pend[j] || !blob[j]) return;
+    pend[j] = 1;
+    createImageBitmap(blob[j]).then(function (b) {
+      pend[j] = 0;
+      var c = Math.round(cur);
+      if (j !== 0 && (j < c - AHEAD - 6 || j > c + AHEAD + 6)) { b.close(); return; }
+      bmp[j] = b;
+      if (j === 0 || Math.abs(j - c) <= 1) kick();
+    }, function () { pend[j] = 0; });
+  }
+  function warm(f) {
+    var j, k, lo = dirn > 0 ? f - BACK - 1 : f - AHEAD - 2, hi = dirn > 0 ? f + AHEAD + 2 : f + BACK + 1;
+    for (k = 0; k <= AHEAD; k++) { j = f + dirn * k; if (j >= 0 && j < N) wantBmp(j); }
+    for (k = 1; k <= BACK; k++) { j = f - dirn * k; if (j >= 0 && j < N) wantBmp(j); }
+    for (j = 0; j < N; j++) if (bmp[j] && j !== 0 && (j < lo || j > hi)) { bmp[j].close(); bmp[j] = null; }
+  }
+  function render(f) {
+    warm(f);
+    var use = nearest(f);
+    if (use < 0 || (use === shown && !force)) return;
+    force = false; draw(use); shown = use;
+    if (!cv.classList.contains('on')) cv.classList.add('on');
+  }
+
+  /* loading: first frame at once, the rest coarse-to-fine after the page has settled */
+  function load(k, done) {
+    fetch(cfg.dir + pad(k + 1) + '.' + cfg.ext, { priority: k === 0 ? 'high' : 'low' })
+      .then(function (r) { if (!r.ok) throw 0; return r.blob(); })
+      .then(function (b) { blob[k] = b; ok[k] = true; if (done) done(); if (k === 0) wantBmp(0); else warm(Math.round(cur)); }, function () { if (done) done(); });
+  }
+  function order() {
+    var seen = {}, out = [0], strides = cfg.coarse ? [32, 16, 8, 4] : [32, 16, 8, 4, 2, 1];
+    seen[0] = 1;
+    strides.forEach(function (st) { for (var i = 0; i < N; i += st) if (!seen[i]) { seen[i] = 1; out.push(i); } });
+    if (!seen[N - 1]) out.push(N - 1);
+    return out;
+  }
+  function startLoading() {
+    var q = order(), i = 1, active = 0, MAX = cfg.mobile ? 3 : 6;
+    (function pump() {
+      while (active < MAX && i < q.length) { active++; load(q[i++], function () { active--; pump(); }); }
+    })();
+  }
+
+  /* Scrub: the frame index chases the scroll position with frame-rate-independent smoothing, so it
+     glides the same on 60 and 120 Hz screens. Only whole frames are drawn, and only when the frame
+     changes. The first and last slice of the scroll hold on the first/last frame so the ends feel
+     settled. */
+  var lastT = 0, HOLD_A = 0.012, HOLD_B = 0.982;
   function vidProgress(p) { return Math.max(0, Math.min(1, (p - HOLD_A) / (HOLD_B - HOLD_A))); }
   function tick(now) {
     raf = 0;
-    window.__skyBusy = true; /* tells hero-fx.js to skip its own parallax/bokeh work this
-      frame, so that loop doesn't compete with the video-seek cost below for frame budget */
+    window.__skyBusy = true; /* tells hero-fx.js / scroll3d.js to skip their own parallax work while
+      this loop is still gliding, so they don't compete for the frame budget */
     var p = progress();
     apply(p);
     var dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 0.016;
     lastT = now;
-    goal = vidProgress(p) * Math.max(0, (dur || 0) - FR);
-    if (ready) {
-      cur += (goal - cur) * (1 - Math.exp(-dt / 0.085));
-      if (Math.abs(goal - cur) < FR * 0.35) cur = goal;
-      var f = Math.round(cur * FPS);
-      if (f !== lastFrame && !v.seeking) {
-        lastFrame = f;
-        try { v.currentTime = Math.min(dur - 0.001, f * FR + 0.001); } catch (_) {}
-      }
-      if (cur !== goal || v.seeking) { raf = requestAnimationFrame(tick); return; }
-    }
+    goal = vidProgress(p) * (N - 1);
+    if (goal !== cur) dirn = goal > cur ? 1 : -1;
+    cur += (goal - cur) * (1 - Math.exp(-dt / 0.085));
+    if (Math.abs(goal - cur) < 0.35) cur = goal;
+    render(Math.round(cur));
+    if (cur !== goal) { raf = requestAnimationFrame(tick); return; }
     lastT = 0;
     window.__skyBusy = false;
   }
   function kick() { if (!raf) raf = requestAnimationFrame(tick); }
 
-  function onMeta() {
-    dur = v.duration || 10; ready = true; measure(); kick();
-  }
-  if (v.readyState >= 1) onMeta(); else v.addEventListener('loadedmetadata', onMeta, { once: true });
-  v.addEventListener('seeked', kick);
+  size();
+  load(0, null);
+  if (document.readyState === 'complete') setTimeout(startLoading, 150);
+  else window.addEventListener('load', function () { setTimeout(startLoading, 150); }, { once: true });
+  measure(); kick();
+  if ('ResizeObserver' in window) new ResizeObserver(function () { size(); kick(); }).observe(cv);
   window.addEventListener('scroll', kick, { passive: true });
-  window.addEventListener('resize', function () { measure(); kick(); }, { passive: true });
+  window.addEventListener('resize', function () { size(); measure(); kick(); }, { passive: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
   setTimeout(measure, 600);
   apply(0);

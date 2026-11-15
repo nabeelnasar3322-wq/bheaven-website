@@ -126,6 +126,8 @@ self.addEventListener('fetch', (event) => {
   }
   if (url.origin !== self.location.origin) return;
   if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/admin')) return;
+  // hero scroll frames (273 files): browser HTTP cache only, so they never push dish photos out of the image cache
+  if (url.pathname.startsWith('/hero-seq/')) return;
 
   // pages
   if (request.mode === 'navigate') {

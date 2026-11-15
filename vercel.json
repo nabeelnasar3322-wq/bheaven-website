@@ -90,6 +90,15 @@
       ]
     },
     {
+      "source": "/hero-seq/:set(d|m)/:file",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
       "source": "/menu/img/t/:file([0-9a-f]{12}\\.webp)",
       "headers": [
         {
