@@ -135,7 +135,8 @@
     if (portrait) {
       /* the last frames push in close; pull back a little so the sign never clips */
       var t = Math.min(1, Math.max(0, (i - 170) / 103));
-      fit = PORTRAIT_FIT - 0.2 * t * t * (3 - 2 * t);
+      var base = Math.min(1, Math.max(PORTRAIT_FIT, 1.125 * cw / ch));   /* tablets: near full-bleed; phones keep the zoom-out */
+      fit = base - 0.2 * t * t * (3 - 2 * t);
       fx = 0.5 + 0.17 * Math.max(0, 1 - i / 90);   /* pavilion starts right of centre, eases to centre */
     } else fx = 0.64;                              /* same anchor the video had (object-position 64% 50%) */
     var sc = Math.max(cw / iw, (ch / ih) * fit), dw = iw * sc, dh = ih * sc, dx = (cw - dw) * fx, dy = (ch - dh) * 0.5, g, e;
