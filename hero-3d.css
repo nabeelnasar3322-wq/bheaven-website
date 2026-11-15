@@ -49,3 +49,12 @@
    description and the booking link are what matter most on a small screen */
 @media (max-width:1100px){.sky-perks{display:none}}
 @media (max-width:480px){.sky-desc{font-size:14px}.sky-cta{padding:12px 20px;font-size:12px}}
+
+/* Smoothness: blurred glass over a canvas that changes every frame forces the browser to re-blur
+   the backdrop on every scroll frame. In sky mode the hero glass uses a slightly deeper flat tint
+   instead, which looks the same on the dark scene and costs nothing per frame. */
+.sky-on .hero .hero-tag,.sky-on .hero .chips li,.sky-on .hero .btn-line,.sky-on .hero .sky-perks li{-webkit-backdrop-filter:none;backdrop-filter:none}
+.sky-on .hero .hero-tag,.sky-on .hero .chips li{background:rgba(30,31,33,.58)}
+.sky-on .hero .btn-line{background:rgba(38,39,41,.42)}
+.sky-on .hero .sky-perks li{background:rgba(30,31,33,.5)}
+.sky-on .hero-seq{will-change:transform;transform:translateZ(0)}
