@@ -208,7 +208,9 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
       var b = slides[i].getBoundingClientRect(), d = (b.left + b.width / 2 - cx) / (r.width / 2);
       d = Math.max(-1.3, Math.min(1.3, d));
       slides[i].style.setProperty('--ry', (-d * 20).toFixed(2) + 'deg');
-      slides[i].style.setProperty('--sc', (1 - Math.abs(d) * 0.07).toFixed(3));
+      var f = 1 - Math.min(1, Math.abs(d)); /* centre slide 1.24x, easing to 0.94x at the edges */
+      slides[i].style.setProperty('--sc', (0.94 + 0.30 * f * f * (3 - 2 * f)).toFixed(3));
+      slides[i].style.zIndex = Math.round(f * 10);
       slides[i].style.setProperty('--sk', sk.toFixed(2) + 'deg');
     }
     raf = (vis && (Math.abs(vel) > 0.05 || true)) ? requestAnimationFrame(frame) : 0;
