@@ -211,6 +211,7 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
       var f = 1 - Math.min(1, Math.abs(d)); /* centre slide 1.24x, easing to 0.94x at the edges */
       slides[i].style.setProperty('--sc', (0.94 + 0.30 * f * f * (3 - 2 * f)).toFixed(3));
       slides[i].style.zIndex = Math.round(f * 10);
+      slides[i].style.setProperty('--fo', (f * f).toFixed(3));
       slides[i].style.setProperty('--sk', sk.toFixed(2) + 'deg');
     }
     raf = (vis && (Math.abs(vel) > 0.05 || true)) ? requestAnimationFrame(frame) : 0;

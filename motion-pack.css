@@ -11,23 +11,33 @@
 .mp-rail a:hover::before,.mp-rail a:focus-visible::before{transform:scale(1.5);border-color:#C9DADC}
 .mp-rail a.on::before{background:#9AB6BA;border-color:#C9DADC;transform:scale(1.55);box-shadow:0 0 0 4px rgba(154,182,186,.22)}
 .mp-rail a:focus-visible{outline:2px solid #C9DADC;outline-offset:2px}
-.mp-rail a span{position:absolute;right:100%;top:50%;margin-right:10px;padding:5px 10px;border-radius:999px;background:rgba(30,31,33,.82);border:1px solid rgba(154,182,186,.35);color:#FBF7E2;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translate(8px,-50%);pointer-events:none;transition:opacity .3s,transform .35s var(--ease)}
+.mp-rail a span{position:absolute;right:100%;top:50%;margin-right:10px;padding:6px 12px;border-radius:999px;background:rgba(30,31,33,.82);border:1px solid rgba(154,182,186,.35);color:#FBF7E2;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translate(8px,-50%);pointer-events:none;transition:opacity .3s,transform .35s var(--ease)}
 .mp-rail a:hover span,.mp-rail a:focus-visible span,.mp-rail a.on span{opacity:1;transform:translate(0,-50%)}
-.mp-rail a.on:not(:hover):not(:focus-visible) span{opacity:0}
+.mp-rail a.on span{background:#9AB6BA;color:#1E1F21;border-color:#C9DADC}
+@media(min-width:1200px){.mp-rail a span{opacity:.8;transform:translate(0,-50%)}}
 @media(min-width:1000px) and (hover:hover){.mp-rail{display:flex}}
 
 /* 2. Sky wash: one fixed tint per time of day, cross-faded by opacity only */
 .mp-sky{position:fixed;inset:0;z-index:30;pointer-events:none}
 .mp-sky i{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
-.mp-sky i:nth-child(1){background:linear-gradient(180deg,rgba(150,205,225,.09),rgba(255,236,190,.05))}
-.mp-sky i:nth-child(2){background:linear-gradient(180deg,rgba(255,150,70,.10),rgba(190,70,90,.07))}
-.mp-sky i:nth-child(3){background:linear-gradient(180deg,rgba(40,50,140,.13),rgba(20,24,70,.10))}
+.mp-sky i:nth-child(1){background:linear-gradient(180deg,rgba(130,200,230,.20),rgba(255,236,190,.10))}
+.mp-sky i:nth-child(2){background:linear-gradient(180deg,rgba(255,140,50,.24),rgba(200,60,90,.16))}
+.mp-sky i:nth-child(3){background:linear-gradient(180deg,rgba(40,50,160,.28),rgba(20,24,90,.20))}
 html[data-mp-sky="day"] .mp-sky i:nth-child(1),html[data-mp-sky="sunset"] .mp-sky i:nth-child(2),html[data-mp-sky="night"] .mp-sky i:nth-child(3){opacity:1}
 
 /* 4. Menu cards: photo floats, leans and breathes as the card crosses the screen; dish count rolls up */
-.mp-on .tcard>img{translate:0 calc(var(--mp-s,0)*-22px);rotate:calc(var(--mp-s,0)*2.2deg);scale:1.1;will-change:translate,rotate}
+.mp-on .tcard>img{translate:0 calc(var(--mp-s,0)*-46px);rotate:calc(var(--mp-s,0)*4.5deg);scale:1.16;will-change:translate,rotate}
 .mp-num{font-variant-numeric:tabular-nums}
 
 /* 5. Gallery: viewer image grows out of the tapped tile and flies back on close */
 .mp-fly{position:fixed;z-index:95;margin:0;object-fit:cover;pointer-events:none;border-radius:18px;transform-origin:0 0;will-change:transform,opacity;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+/* Festive carousel: centred resting position, spotlight on the centre photo, dim the rest */
+.fz-slide{scroll-snap-align:center}
+.fz-track{padding-left:calc(50% - clamp(85px,11vw,115px));padding-right:calc(50% - clamp(85px,11vw,115px))}
+@media(max-width:620px){.fz-track{padding-left:calc(50% - 31vw);padding-right:calc(50% - 31vw)}}
+.fz-open{position:relative}
+.fz-open::before,.fz-open::after{content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit}
+.fz-open::after{background:#1a0509;opacity:calc((1 - var(--fo,1))*.62)}
+.fz-open::before{z-index:1;box-shadow:inset 0 0 0 2px #D9BE8C,inset 0 0 46px rgba(217,190,140,.38);opacity:var(--fo,1)}
+.fz-slide:not(:has(.fz-open:focus-visible)) .fz-open{cursor:pointer}
 @media(prefers-reduced-motion:reduce){.mp-rail,.mp-sky,.mp-fly{display:none!important}.tcard>img{translate:none!important;rotate:none!important}}

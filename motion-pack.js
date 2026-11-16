@@ -72,6 +72,60 @@
   measure(); frame();
   if (window.ResizeObserver) new ResizeObserver(function () { measure(); }).observe(doc.body);
 
+  /* ---------- festive carousel: tap a side photo to centre it; viewer grows out of the photo ---------- */
+  var ftrack = $('#festive .fz-track');
+  function flyImg(src, from, to, dur, fade, done) {
+    var im = doc.createElement('img'); im.className = 'mp-fly'; im.src = src; im.alt = '';
+    im.style.cssText += 'left:' + to.left + 'px;top:' + to.top + 'px;width:' + to.width + 'px;height:' + to.height + 'px;';
+    doc.body.appendChild(im);
+    var a = im.animate([
+      { transform: 'translate(' + (from.left - to.left) + 'px,' + (from.top - to.top) + 'px) scale(' + (from.width / to.width) + ',' + (from.height / to.height) + ')', opacity: fade[0] },
+      { transform: 'none', opacity: fade[1] }
+    ], { duration: dur, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
+    a.onfinish = a.oncancel = function () { im.remove(); if (done) done(); };
+  }
+  if (ftrack) {
+    var ftile = null;
+    ftrack.addEventListener('click', function (e) {
+      var sl = e.target.closest('.fz-slide'); if (!sl) return;
+      var r = ftrack.getBoundingClientRect(), b = sl.getBoundingClientRect();
+      var off = (b.left + b.width / 2) - (r.left + r.width / 2);
+      if (Math.abs(off) > b.width * 0.35) {
+        e.stopPropagation(); e.preventDefault();
+        ftrack.scrollBy({ left: off, behavior: 'smooth' });
+      } else { ftile = sl.querySelector('img'); }
+    }, true);
+    var fopen = false, fobs = null;
+    function watch(lbx) {
+      fobs = new MutationObserver(function () {
+        var open = lbx.classList.contains('on'), img = $('img', lbx);
+        if (open === fopen || !img || !img.animate) return; fopen = open;
+        var t = ftile; if (!t) return;
+        var tr = t.getBoundingClientRect();
+        if (open) {
+          requestAnimationFrame(function () {
+            var fr = img.getBoundingClientRect(); if (!fr.width) return;
+            img.style.visibility = 'hidden';
+            flyImg(img.src, tr, fr, 600, [0.9, 1], function () { img.style.visibility = ''; });
+          });
+        } else {
+          var fr2 = img.getBoundingClientRect();
+          if (fr2.width && tr.bottom > 0 && tr.top < innerHeight) flyImg(img.src, fr2, tr, 500, [1, 0.15]);
+        }
+      });
+      fobs.observe(lbx, { attributes: true, attributeFilter: ['class'] });
+    }
+    /* the viewer is built on first open: attach right after the page's own click handler has run */
+    ftrack.addEventListener('click', function () {
+      if (fobs) return;
+      setTimeout(function () {
+        var lbx = $('.fz-lb'); if (!lbx) return;
+        watch(lbx);
+        if (lbx.classList.contains('on')) { fopen = false; lbx.dispatchEvent(new Event('mp-open')); var img = $('img', lbx); if (img && ftile && img.animate) { var tr = ftile.getBoundingClientRect(), fr = img.getBoundingClientRect(); if (fr.width) { fopen = true; img.style.visibility = 'hidden'; flyImg(img.src, tr, fr, 600, [0.9, 1], function () { img.style.visibility = ''; }); } } }
+      }, 0);
+    });
+  }
+
   /* ---------- gallery: grow from tile / fly back ---------- */
   var grid = $('#gallery'), lb = $('#lb'), lbImg = lb && $('img', lb), tile = null;
   if (!grid || !lbImg) return;
