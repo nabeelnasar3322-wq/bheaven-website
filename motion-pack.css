@@ -12,9 +12,10 @@
 .mp-rail a.on::before{background:#9AB6BA;border-color:#C9DADC;transform:scale(1.55);box-shadow:0 0 0 4px rgba(154,182,186,.22)}
 .mp-rail a:focus-visible{outline:2px solid #C9DADC;outline-offset:2px}
 .mp-rail a span{position:absolute;right:100%;top:50%;margin-right:10px;padding:6px 12px;border-radius:999px;background:rgba(30,31,33,.82);border:1px solid rgba(154,182,186,.35);color:#FBF7E2;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;opacity:0;transform:translate(8px,-50%);pointer-events:none;transition:opacity .3s,transform .35s var(--ease)}
-.mp-rail a:hover span,.mp-rail a:focus-visible span,.mp-rail a.on span{opacity:1;transform:translate(0,-50%)}
+.mp-rail a:hover span,.mp-rail a:focus-visible span{opacity:1;transform:translate(0,-50%)}
 .mp-rail a.on span{background:#9AB6BA;color:#1E1F21;border-color:#C9DADC}
-@media(min-width:1200px){.mp-rail a span{opacity:.8;transform:translate(0,-50%)}}
+@media(min-width:1360px){.mp-rail a.on span{opacity:1;transform:translate(0,-50%)}}
+
 @media(min-width:1000px) and (hover:hover){.mp-rail{display:flex}}
 
 /* 2. Sky wash: one fixed tint per time of day, cross-faded by opacity only */

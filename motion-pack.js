@@ -95,23 +95,24 @@
         ftrack.scrollBy({ left: off, behavior: 'smooth' });
       } else { ftile = sl.querySelector('img'); }
     }, true);
-    var fopen = false, fobs = null;
+    var fopen = false, fobs = null, lastFr = null;
+    function grow(lbx) {
+      var img = $('img', lbx), t = ftile; if (!img || !t || !img.animate) return;
+      var tr = t.getBoundingClientRect(), fr = img.getBoundingClientRect(); if (!fr.width) return;
+      lastFr = { left: fr.left, top: fr.top, width: fr.width, height: fr.height, src: img.src };
+      img.style.visibility = 'hidden';
+      flyImg(img.src, tr, fr, 600, [0.9, 1], function () { img.style.visibility = ''; });
+    }
+    function shrink() {
+      var t = ftile; if (!t || !lastFr) return;
+      var tr = t.getBoundingClientRect();
+      if (tr.bottom > 0 && tr.top < innerHeight) flyImg(lastFr.src, lastFr, tr, 500, [1, 0.15]);
+    }
     function watch(lbx) {
       fobs = new MutationObserver(function () {
-        var open = lbx.classList.contains('on'), img = $('img', lbx);
-        if (open === fopen || !img || !img.animate) return; fopen = open;
-        var t = ftile; if (!t) return;
-        var tr = t.getBoundingClientRect();
-        if (open) {
-          requestAnimationFrame(function () {
-            var fr = img.getBoundingClientRect(); if (!fr.width) return;
-            img.style.visibility = 'hidden';
-            flyImg(img.src, tr, fr, 600, [0.9, 1], function () { img.style.visibility = ''; });
-          });
-        } else {
-          var fr2 = img.getBoundingClientRect();
-          if (fr2.width && tr.bottom > 0 && tr.top < innerHeight) flyImg(img.src, fr2, tr, 500, [1, 0.15]);
-        }
+        var open = lbx.classList.contains('on');
+        if (open === fopen) return; fopen = open;
+        if (open) grow(lbx); else shrink();
       });
       fobs.observe(lbx, { attributes: true, attributeFilter: ['class'] });
     }
@@ -121,7 +122,7 @@
       setTimeout(function () {
         var lbx = $('.fz-lb'); if (!lbx) return;
         watch(lbx);
-        if (lbx.classList.contains('on')) { fopen = false; lbx.dispatchEvent(new Event('mp-open')); var img = $('img', lbx); if (img && ftile && img.animate) { var tr = ftile.getBoundingClientRect(), fr = img.getBoundingClientRect(); if (fr.width) { fopen = true; img.style.visibility = 'hidden'; flyImg(img.src, tr, fr, 600, [0.9, 1], function () { img.style.visibility = ''; }); } } }
+        if (lbx.classList.contains('on')) { fopen = true; grow(lbx); }
       }, 0);
     });
   }
