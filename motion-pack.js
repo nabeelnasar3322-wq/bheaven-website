@@ -26,8 +26,6 @@
     li.appendChild(a); rail.appendChild(li); s.a = a;
   });
   doc.body.appendChild(rail);
-  var sky = doc.createElement('div'); sky.className = 'mp-sky'; sky.setAttribute('aria-hidden', 'true'); sky.innerHTML = '<i></i><i></i><i></i>';
-  doc.body.appendChild(sky);
   html.classList.add('mp-on');
 
   /* ---------- menu cards + count-up ---------- */
@@ -53,7 +51,6 @@
     if (idx !== cur) {
       if (cur > -1) secs[cur].a.classList.remove('on');
       secs[idx].a.classList.add('on'); cur = idx;
-      if (secs[idx].sky !== curSky) { curSky = secs[idx].sky; html.setAttribute('data-mp-sky', curSky); }
     }
     var max = Math.max(1, html.scrollHeight - vh);
     rail.style.setProperty('--mp-p', Math.min(1, y / max).toFixed(4));

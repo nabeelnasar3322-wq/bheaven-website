@@ -18,13 +18,6 @@
 
 @media(min-width:1000px) and (hover:hover){.mp-rail{display:flex}}
 
-/* 2. Sky wash: one fixed tint per time of day, cross-faded by opacity only */
-.mp-sky{position:fixed;inset:0;z-index:30;pointer-events:none}
-.mp-sky i{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
-.mp-sky i:nth-child(1){background:linear-gradient(180deg,rgba(130,200,230,.20),rgba(255,236,190,.10))}
-.mp-sky i:nth-child(2){background:linear-gradient(180deg,rgba(255,140,50,.24),rgba(200,60,90,.16))}
-.mp-sky i:nth-child(3){background:linear-gradient(180deg,rgba(40,50,160,.28),rgba(20,24,90,.20))}
-html[data-mp-sky="day"] .mp-sky i:nth-child(1),html[data-mp-sky="sunset"] .mp-sky i:nth-child(2),html[data-mp-sky="night"] .mp-sky i:nth-child(3){opacity:1}
 
 /* 4. Menu cards: photo floats, leans and breathes as the card crosses the screen; dish count rolls up */
 .mp-on .tcard>img{translate:0 calc(var(--mp-s,0)*-46px);rotate:calc(var(--mp-s,0)*4.5deg);scale:1.16;will-change:translate,rotate}
@@ -41,4 +34,4 @@ html[data-mp-sky="day"] .mp-sky i:nth-child(1),html[data-mp-sky="sunset"] .mp-sk
 .fz-open::after{background:#1a0509;opacity:calc((1 - var(--fo,1))*.62)}
 .fz-open::before{z-index:1;box-shadow:inset 0 0 0 2px #D9BE8C,inset 0 0 46px rgba(217,190,140,.38);opacity:var(--fo,1)}
 .fz-slide:not(:has(.fz-open:focus-visible)) .fz-open{cursor:pointer}
-@media(prefers-reduced-motion:reduce){.mp-rail,.mp-sky,.mp-fly{display:none!important}.tcard>img{translate:none!important;rotate:none!important}}
+@media(prefers-reduced-motion:reduce){.mp-rail,.mp-fly{display:none!important}.tcard>img{translate:none!important;rotate:none!important}}
