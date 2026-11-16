@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const PAGES = ['menu/index.html', 'business-lunch/index.html', 'shisha/index.html'];
+const PAGES = ['index.html', 'menu/index.html', 'business-lunch/index.html', 'shisha/index.html'];
 
 let errors = [];
 
@@ -64,12 +64,16 @@ PAGES.forEach(relPath => {
       continue;
     }
 
-    const types = Array.isArray(json['@type']) ? json['@type'] : [json['@type']];
-    if (types.includes('Event')) {
-      validateEvent(json, relPath);
-    }
-    if (types.includes('Restaurant')) {
-      validateRestaurant(json, relPath);
+    const nodes = Array.isArray(json['@graph']) ? json['@graph'] : [json];
+    for (const node of nodes) {
+      const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']];
+      if (types.includes('Event')) {
+        validateEvent(node, relPath);
+      }
+      if (types.includes('Restaurant')) {
+        validateRestaurant(node, relPath);
+        if (!node.parentOrganization) errors.push(`[${relPath}] Restaurant "${node.name}": missing parentOrganization (Barceló Al Jaddaf hotel)`);
+      }
     }
   }
 });
