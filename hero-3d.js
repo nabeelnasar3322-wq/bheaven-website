@@ -224,11 +224,20 @@
     if (!seen[N - 1]) out.push(N - 1);
     return out;
   }
+  /* Data saver: after the page has loaded only a coarse set (every 16th frame, about 1 MB on desktop and
+     0.5 MB on phones) is fetched. The rest of the sequence is fetched once the visitor first scrolls,
+     touches or presses a key, so someone who just reads the top of the page never downloads it. */
   function startLoading() {
-    var q = order(), i = 1, active = 0, MAX = cfg.mobile ? 3 : 6;
-    (function pump() {
-      while (active < MAX && i < q.length) { active++; load(q[i++], function () { active--; pump(); }); }
-    })();
+    var q = order(), i = 1, active = 0, MAX = cfg.mobile ? 3 : 6, lim = 1, go = false;
+    q.forEach(function (k, idx) { if (k % 16 === 0) lim = idx + 1; });
+    function pump() {
+      while (active < MAX && i < q.length && (go || i < lim)) { active++; load(q[i++], function () { active--; pump(); }); }
+    }
+    function open() { if (go) return; go = true; pump(); }
+    ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function (ev) {
+      window.addEventListener(ev, open, { once: true, passive: true });
+    });
+    pump();
   }
 
   /* Scrub: the frame index chases the scroll position with frame-rate-independent smoothing, so it
