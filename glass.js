@@ -14,5 +14,5 @@
     if(cur&&!raf)raf=requestAnimationFrame(paint);
   },{passive:true});
   document.addEventListener('pointerleave',leave);
-  addEventListener('scroll',function(){rect=cur?cur.getBoundingClientRect():null;},{passive:true});
+  var rr=0;addEventListener('scroll',function(){if(!cur||rr)return;rr=requestAnimationFrame(function(){rr=0;rect=cur?cur.getBoundingClientRect():null;});},{passive:true});   /* one layout read per frame, not per scroll event */
 })();
