@@ -35,7 +35,7 @@
   var lead = $('#menus .head .lead'), numEl = null, counted = false;
   if (lead) {
     var m = lead.innerHTML.match(/(^|[^\d])(\d{2,3})(\s+dishes)/);
-    if (m) { lead.innerHTML = lead.innerHTML.replace(m[0], m[1] + '<span class="mp-num" data-to="' + m[2] + '">' + m[2] + '</span>' + m[3]); numEl = $('.mp-num', lead); }
+    if (m) { lead.innerHTML = lead.innerHTML.replace(m[0], m[1] + '<span class="mp-num" data-to="' + m[2] + '">' + m[2] + '</span>' + m[3]); numEl = $('.mp-num', lead); lead.setAttribute('aria-label', lead.textContent); numEl.textContent = '0'; }
   }
   function countUp() {
     if (!numEl || counted) return; counted = true;
