@@ -224,12 +224,15 @@
     if (!seen[N - 1]) out.push(N - 1);
     return out;
   }
-  function startLoading() {
-    var q = order(), i = 1, active = 0, MAX = cfg.mobile ? 3 : 6;
-    (function pump() {
-      while (active < MAX && i < q.length) { active++; load(q[i++], function () { active--; pump(); }); }
-    })();
+  /* Two phases: the coarse frames (every 16th, ~18 files) start as soon as the HTML is parsed, so a
+     visitor who scrolls straight away sees the sequence move instead of sitting frozen on frame 1
+     until the whole page has finished loading; the remaining frames follow after the load event. */
+  var lq = order(), li = 1, lactive = 0, LMAX = cfg.mobile ? 3 : 6, lcap = Math.min(lq.length, 20);
+  function pump() {
+    while (lactive < LMAX && li < lcap) { lactive++; load(lq[li++], function () { lactive--; pump(); }); }
   }
+  function startEarly() { pump(); }
+  function startLoading() { lcap = lq.length; pump(); }
 
   /* Scrub: the frame index chases the scroll position with frame-rate-independent smoothing, so it
      glides the same on 60 and 120 Hz screens. Only whole frames are drawn, and only when the frame
@@ -258,6 +261,8 @@
 
   size();
   load(0, null);
+  if (document.readyState !== 'loading') setTimeout(startEarly, 0);
+  else document.addEventListener('DOMContentLoaded', function () { setTimeout(startEarly, 0); }, { once: true });
   if (document.readyState === 'complete') setTimeout(startLoading, 150);
   else window.addEventListener('load', function () { setTimeout(startLoading, 150); }, { once: true });
   measure(); kick();
