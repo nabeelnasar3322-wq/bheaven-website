@@ -102,13 +102,13 @@
   function pad(n) { return ('000' + n).slice(-4); }
 
   function size() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, cfg.mobile ? 1.5 : 2);   /* phones: the frames are only 1024px wide, so more canvas pixels add cost, not detail */
     var w = Math.max(1, Math.round(cv.clientWidth * dpr)), h = Math.max(1, Math.round(cv.clientHeight * dpr));
     var cap = cfg.mobile ? 2200 : 1920;  /* no point exceeding the source resolution */
     if (w > cap) { h = Math.round(h * cap / w); w = cap; }
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     cw = w; ch = h;
-    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = cfg.mobile ? 'low' : 'high';   /* 'high' resampling is costly per frame on phones */
     force = true;
   }
 
@@ -199,7 +199,7 @@
   var shownKey = -1;
   function render(fl) {
     var f = Math.round(fl); warm(f);
-    var a = Math.floor(fl), q = Math.round((fl - a) * 6);
+    var a = Math.floor(fl), q = cfg.mobile ? 0 : Math.round((fl - a) * 6);   /* phones: no cross-fade, one canvas draw per frame (touch momentum already moves fast) */
     if (q === 6) { a++; q = 0; }
     if (a >= N - 1) { a = N - 1; q = 0; }
     var use = nearest(a);
