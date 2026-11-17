@@ -247,7 +247,7 @@
     lastT = now;
     goal = vidProgress(p) * (N - 1);
     if (goal !== cur) dirn = goal > cur ? 1 : -1;
-    cur += (goal - cur) * (1 - Math.exp(-dt / 0.085));
+    cur += (goal - cur) * (1 - Math.exp(-dt / 0.06));
     if (Math.abs(goal - cur) < 0.08) cur = goal;
     render(cur);
     if (cur !== goal) { raf = requestAnimationFrame(tick); return; }

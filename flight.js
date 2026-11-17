@@ -196,7 +196,7 @@
     gsap.registerPlugin(ScrollTrigger);
     var lenis = null;
     if (fine && window.Lenis) {
-      lenis = new Lenis({ lerp: .1, wheelMultiplier: .95, smoothWheel: true, anchors: true, prevent: function (n) { return !!(n.closest && n.closest('[data-lenis-prevent],.lb,.wa-card,[role=dialog]')); } });
+      lenis = new Lenis({ lerp: .18, wheelMultiplier: .95, smoothWheel: true, anchors: true, prevent: function (n) { return !!(n.closest && n.closest('[data-lenis-prevent],.lb,.wa-card,[role=dialog]')); } });
       perf.lenis = lenis; if (perf.lvl >= 2) { lenis.destroy(); perf.lenis = lenis = null; }
       if (lenis) lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add(function (t) { if (perf.lenis) perf.lenis.raf(t * 1000); });
