@@ -84,7 +84,7 @@ const EVENTS = [
 
 /* Daily offers (shown under the weekly nights) */
 const OFFERS = [
-  { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'BusinesL-clean.webp',
+  { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'biz-lunch.webp',
     perks: ['2-course set menu: AED 89', '3-course set menu: AED 105'],
     price: 'From AED 89', cta: 'Book lunch' },
   { key: 'shisha', day: 'Every day', time: '8 PM – 11 PM', title: 'Shisha & Drinks', big: 'SHISHA', sub: '& Drinks', poster: IMG + 'BHVNevents5.webp',
