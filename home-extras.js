@@ -91,7 +91,7 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   Array.prototype.forEach.call(sec.querySelectorAll('.fs-card'), function (card) {
     var n = 2, shown = 0, raf = 0;
     var out = card.querySelector('.fs-n'), sum = card.querySelector('.fs-sum'), cta = card.querySelector('.fs-cta'), cd = card.querySelector('.fs-count');
-    var target = Date.parse(card.getAttribute('data-until'));
+    var target = Date.parse(card.getAttribute('data-start') || card.getAttribute('data-until'));
     function opt() { return card.querySelector('input:checked'); }
     function total() { return n * Number(opt().getAttribute('data-price')); }
     function paint() {
@@ -119,7 +119,7 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
     shown = total(); sum.textContent = fmt(shown); link();
 
     function countdown() {
-      var ms = target - Date.now(); if (ms <= 0) { cd.hidden = true; return; }
+      var ms = target - Date.now(); if (ms <= 0) { cd.textContent = 'Happening now'; cd.hidden = false; return; }
       var d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5);
       cd.textContent = d > 0 ? 'Starts in ' + d + (d === 1 ? ' day ' : ' days ') + h + ' h' : 'Tonight';
       cd.hidden = false;
