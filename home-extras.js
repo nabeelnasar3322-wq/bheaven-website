@@ -161,11 +161,23 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   var track = gal.querySelector('.fz-track'), prev = gal.querySelector('.fz-prev'), next = gal.querySelector('.fz-next');
   var imgs = [].slice.call(track.querySelectorAll('img')), paused = false, visible = false;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function step() { var s = track.querySelector('.fz-slide'); return s ? s.getBoundingClientRect().width + 14 : 240; }
+  function step() { var s = track.querySelector('.fz-slide'); return s ? s.getBoundingClientRect().width + (parseFloat(getComputedStyle(track).columnGap) || 22) : 240; }
   function edges() { prev.disabled = track.scrollLeft < 4; next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; }
   prev.addEventListener('click', function () { track.scrollBy({ left: -step() * 2 }); });
   next.addEventListener('click', function () { track.scrollBy({ left: step() * 2 }); });
   track.addEventListener('scroll', edges, { passive: true }); edges();
+  var dotsEl = document.createElement('div'); dotsEl.className = 'fz-dots'; dotsEl.setAttribute('aria-hidden', 'true');
+  var slideEls = [].slice.call(track.querySelectorAll('.fz-slide'));
+  slideEls.forEach(function () { dotsEl.appendChild(document.createElement('i')); });
+  gal.appendChild(dotsEl);
+  function dots() {
+    var r = track.getBoundingClientRect(), cx = r.left + r.width / 2, best = 0, bd = 1e9;
+    slideEls.forEach(function (sl, i) { var b = sl.getBoundingClientRect(), d = Math.abs(b.left + b.width / 2 - cx); if (d < bd) { bd = d; best = i; } });
+    [].forEach.call(dotsEl.children, function (el, i) { el.classList.toggle('on', i === best); });
+  }
+  track.addEventListener('scroll', dots, { passive: true }); dots();
+  /* open on the second photo so there is a photo on each side of the centre */
+  requestAnimationFrame(function () { track.scrollTo({ left: step(), behavior: 'instant' }); dots(); edges(); });
   ['mouseenter', 'focusin', 'touchstart'].forEach(function (e) { gal.addEventListener(e, function () { paused = true; }, { passive: true }); });
   ['mouseleave', 'focusout'].forEach(function (e) { gal.addEventListener(e, function () { paused = false; }); });
   if (!reduce) setInterval(function () {
@@ -203,13 +215,13 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   function frame() {
     var x = track.scrollLeft, dv = x - last; last = x;
     vel += (dv - vel) * 0.25;
-    var r = track.getBoundingClientRect(), cx = r.left + r.width / 2, sk = Math.max(-9, Math.min(9, -vel * 0.35));
+    var r = track.getBoundingClientRect(), cx = r.left + r.width / 2, sk = Math.max(-5, Math.min(5, -vel * 0.25));
     for (var i = 0; i < slides.length; i++) {
       var b = slides[i].getBoundingClientRect(), d = (b.left + b.width / 2 - cx) / (r.width / 2);
       d = Math.max(-1.3, Math.min(1.3, d));
-      slides[i].style.setProperty('--ry', (-d * 20).toFixed(2) + 'deg');
-      var f = 1 - Math.min(1, Math.abs(d)); /* centre slide 1.24x, easing to 0.94x at the edges */
-      slides[i].style.setProperty('--sc', (0.94 + 0.30 * f * f * (3 - 2 * f)).toFixed(3));
+      slides[i].style.setProperty('--ry', (-d * 18).toFixed(2) + 'deg');
+      var f = 1 - Math.min(1, Math.abs(d)); /* centre slide 1.10x, easing to 0.90x at the edges */
+      slides[i].style.setProperty('--sc', (0.9 + 0.2 * f * f * (3 - 2 * f)).toFixed(3));
       slides[i].style.zIndex = Math.round(f * 10);
       slides[i].style.setProperty('--fo', (f * f).toFixed(3));
       slides[i].style.setProperty('--sk', sk.toFixed(2) + 'deg');
