@@ -410,3 +410,19 @@ html{scroll-padding-top:92px}
 /* keep the side-nav chip clear of the Book buttons */
 @media(min-width:900px){.festive-strip .fz-wrap{padding-left:40px;padding-right:128px}}
 @media(min-width:1200px){.festive-strip .fz-wrap{padding-left:128px}}
+
+/* Festive section design pass: flat maroon base, tighter rhythm, each night gets its own look */
+.festive-strip{background:#3a0e15}
+.festive-strip .fz-bg{opacity:.3}
+.festive-strip .fz-shade{background:rgba(58,14,21,.55)}
+.festive-strip .fz-list{gap:24px}
+@media(min-width:901px){.festive-strip .fz-wrap{row-gap:0}}
+.fz-row[data-key="xmas"]{border-left:4px solid #3f8a63;background:rgba(30,56,44,.5)}
+.fz-row[data-key="xmas"] .fz-date span{color:#a8d5ba}
+.fz-row[data-key="nye"]{border:1.5px solid #F1DDB3;background:rgba(74,22,34,.85)}
+.fz-row[data-key="nye"] .fz-date b{color:#F6D98F}
+.fz-row[data-key="nye"] .fz-main{position:relative;overflow:hidden;border-radius:18px}
+.fz-row[data-key="nye"] .fz-main::before{content:'';position:absolute;top:0;bottom:0;left:-90px;width:70px;background:rgba(255,255,255,.12);transform:skewX(-20deg);pointer-events:none}
+.fs-live .fz-row[data-key="nye"] .fz-main::before{animation:fzSweep 4.5s ease-in-out infinite}
+@keyframes fzSweep{0%,55%{left:-90px}90%,100%{left:105%}}
+@media(prefers-reduced-motion:reduce){.fz-row[data-key="nye"] .fz-main::before{animation:none!important;display:none}}
