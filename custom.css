@@ -427,3 +427,16 @@ html{scroll-padding-top:92px}
 .fs-live .fz-row[data-key="nye"] .fz-main::before{animation:fzSweep 4.5s ease-in-out infinite}
 @keyframes fzSweep{0%,55%{left:-90px}90%,100%{left:105%}}
 @media(prefers-reduced-motion:reduce){.fz-row[data-key="nye"] .fz-main::before{animation:none!important;display:none}}
+
+/* Sticky Book bar (phones, festive section only) */
+.fz-sticky{display:none}
+@media(max-width:699px){
+  .fz-sticky{position:fixed;left:0;right:0;bottom:0;z-index:70;display:flex;gap:10px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));background:#2a0a10;border-top:1px solid rgba(217,190,140,.4);transform:translateY(110%);transition:transform .35s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+  .fz-sticky.on{transform:none;pointer-events:auto}
+  .fz-sb{flex:1;text-align:center;font:600 14px/1 Montserrat,system-ui,sans-serif;padding:14px 0;border-radius:999px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .fz-sb-x{border:1px solid #3f8a63;color:#fff}
+  .fz-sb-n{background:#F1DDB3;color:#3a0e15}
+  .wa-wrap,.wa{transition:bottom .35s cubic-bezier(.2,.8,.2,1)}
+  .fz-bar-on .wa-wrap,.fz-bar-on .wa{bottom:88px}
+}
+@media(prefers-reduced-motion:reduce){.fz-sticky,.wa-wrap,.wa{transition:none}}

@@ -256,3 +256,39 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   else { vis = true; wake(); }
   window.addEventListener('load', function () { measure(); wake(); });
 })();
+
+/* Sticky "Book" bar for phones: pinned while the festive section is on screen, hidden while a booking panel is open. */
+(function () {
+  'use strict';
+  var sec = document.getElementById('festive');
+  if (!sec || !window.matchMedia || !matchMedia('(max-width:699px)').matches) return;
+  var rows = { xmas: sec.querySelector('.fz-row[data-key="xmas"]'), nye: sec.querySelector('.fz-row[data-key="nye"]') };
+  if (!rows.xmas || !rows.nye) return;
+  var bar = document.createElement('div');
+  bar.className = 'fz-sticky'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Book a festive night');
+  bar.innerHTML = '<a class="fz-sb fz-sb-x" href="https://wa.me/971506129150" data-k="xmas" target="_blank" rel="noopener">Book Xmas Eve</a>' +
+                  '<a class="fz-sb fz-sb-n" href="https://wa.me/971506129150" data-k="nye" target="_blank" rel="noopener">Book NYE</a>';
+  document.body.appendChild(bar);
+  var inView = false;
+  function sync() {
+    var anyOpen = !!sec.querySelector('.fz-row.open'), on = inView && !anyOpen;
+    var ck = document.querySelector('.ck'); /* sit above the cookie banner on a first visit */
+    bar.style.bottom = ck ? ck.offsetHeight + 'px' : '';
+    bar.classList.toggle('on', on); document.documentElement.classList.toggle('fz-bar-on', on);
+  }
+  bar.addEventListener('click', function (e) {
+    var a = e.target.closest('.fz-sb'); if (!a) return;
+    e.preventDefault();
+    var k = a.getAttribute('data-k'), row = rows[k], tog = row.querySelector('.fz-toggle');
+    window.__bhTrack && window.__bhTrack('book', 'Festive sticky ' + (k === 'nye' ? 'NYE' : 'Christmas Eve'));
+    if (!row.classList.contains('open')) tog.click();
+    requestAnimationFrame(function () { row.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { inView = es[0].isIntersecting; sync(); }, { threshold: 0.12 }).observe(sec);
+  } else { inView = true; sync(); }
+  if ('MutationObserver' in window) {
+    new MutationObserver(sync).observe(sec, { attributes: true, attributeFilter: ['class'], subtree: true });
+    new MutationObserver(sync).observe(document.body, { childList: true });
+  }
+})();
