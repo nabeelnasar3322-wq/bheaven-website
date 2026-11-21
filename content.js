@@ -36,7 +36,7 @@ const SITE = {
   gallery: [
     { src: IMG + 'dome-night.webp', label: 'B·Heaven Dome Pavilion at night', alt: 'B·Heaven dome pavilion at night', size: 'tall' },
     { src: IMG + 'cocktails.webp', label: 'Signature cocktails', alt: 'Signature cocktails at B·Heaven rooftop bar' },
-    { src: IMG + 'BusinesL.webp', label: 'Modern Levant cuisine', alt: 'Modern Levant dishes served at B·Heaven' },
+    { src: IMG + 'BusinesL-clean.webp', label: 'Modern Levant cuisine', alt: 'Modern Levant dishes served at B·Heaven' },
     { src: IMG + 'BHVNevents5.webp', label: 'Premium shisha', alt: 'Premium shisha at B·Heaven', size: 'tall' },
     { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', alt: 'Rooftop pool with the Dubai skyline at B·Heaven', size: 'wide' },
     { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge', alt: 'Indoor dining lounge at B·Heaven' },
@@ -55,7 +55,7 @@ const SITE = {
 
 /* "Made for sharing" photo tiles (menu tab opens when tapped) */
 const TASTE = [
-  { src: IMG + 'BusinesL.webp', title: 'Modern Levant plates', alt: 'Modern Levant dishes served at B·Heaven', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
+  { src: IMG + 'BusinesL-clean.webp', title: 'Modern Levant plates', alt: 'Modern Levant dishes served at B·Heaven', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
   { src: IMG + 'cocktails.webp', title: 'Signature cocktails', alt: 'Signature cocktails at B·Heaven rooftop bar', text: 'House creations shaken with a view.', tab: 'drinks' },
   { src: IMG + 'BHVNevents5.webp', title: 'Premium shisha', alt: 'Premium shisha at B·Heaven', text: 'Classic and signature flavours until late.', tab: 'shisha' },
   { src: IMG + 'pool-day.webp', title: 'Pool menu', alt: 'Rooftop pool with the Dubai skyline at B·Heaven', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
@@ -84,7 +84,7 @@ const EVENTS = [
 
 /* Daily offers (shown under the weekly nights) */
 const OFFERS = [
-  { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'BusinesL.webp',
+  { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'BusinesL-clean.webp',
     perks: ['2-course set menu: AED 89', '3-course set menu: AED 105'],
     price: 'From AED 89', cta: 'Book lunch' },
   { key: 'shisha', day: 'Every day', time: '8 PM – 11 PM', title: 'Shisha & Drinks', big: 'SHISHA', sub: '& Drinks', poster: IMG + 'BHVNevents5.webp',
