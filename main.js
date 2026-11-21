@@ -111,7 +111,7 @@ $('#ribbon').innerHTML = [...RIB, ...RIB].map(t => `<span>${t}</span>`).join('')
 document.querySelectorAll('[data-split]').forEach(el => {
   const text = el.dataset.split, start = parseFloat(el.dataset.start || 0);
   let n = 0;
-  el.innerHTML = text.split(' ').map(w => `<span class="w">${[...w].map(c => `<span class="ch" style="animation-delay:${(start + n++ * 0.035).toFixed(3)}s">${esc(c)}</span>`).join('')}</span>`).join(' ');
+  el.innerHTML = text.split(' ').map(w => `<span class="w">${[...w].map(c => `<span class="ch" style="animation-delay:${(start * 0.25 + n++ * 0.02).toFixed(3)}s">${esc(c)}</span>`).join('')}</span>`).join(' ');
 });
 
 /* Hero video: Sunset Terrace Cabanas (bhvn.mp4) with iOS Low Power Mode assurance */
