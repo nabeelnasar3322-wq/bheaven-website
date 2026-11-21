@@ -50,7 +50,7 @@ const SITE = {
     { src: IMG + 'brunch-buffet.webp', label: 'Ibiza Brunch spread', alt: 'Ibiza Brunch buffet spread at B·Heaven Dubai', size: 'wide' },
     { src: IMG + 'wine-cheese-plate.webp', label: 'Grape & Graze: wine & cheese', alt: 'Red wine and cheese plate for Grape & Graze at B·Heaven Dubai' },
     { src: IMG + 'live-guitar-neon.webp', label: 'Live music nights', alt: 'Guitarist performing under neon lights at B·Heaven' },
-    { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', alt: 'Barceló Al Jaddaf hotel at sunset', size: 'wide' }
+    { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', alt: 'Barceló Al Jaddaf hotel at sunset' }
   ]
 };
 
