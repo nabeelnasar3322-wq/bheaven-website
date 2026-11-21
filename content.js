@@ -24,7 +24,7 @@ const SITE = {
     rooftop: IMG + 'BHVNterrace-1.webp', pool: IMG + 'dome-night.webp', lounge: IMG + 'restaurant-lounge.webp',
     terrace: IMG + 'terrace-lounge.webp', bar: IMG + 'bar-counter.webp',
     day: IMG + 'pool-day.webp', sunset: IMG + 'barcelofacade.webp', night: IMG + 'dome-night.webp',
-    band1: IMG + 'barcelofacade.webp', band2: IMG + 'saxophonist.webp', pass: IMG + 'pool-pass.jpg',
+    band1: IMG + 'live-guitar-neon.webp', band2: IMG + 'live-sax-pool.webp', pass: IMG + 'pool-pass.jpg',
     resbg: IMG + 'hero-3.webp', visit: IMG + 'barcelofacade.webp'
   },
   /* Used until the photo above is uploaded */
@@ -45,6 +45,10 @@ const SITE = {
     { src: IMG + 'BHVNevents4.webp', label: 'Live saxophone & music', alt: 'Live saxophone music at B·Heaven', size: 'tall' },
     { src: IMG + 'bar-counter.webp', label: 'The bar', alt: 'The bar counter at B·Heaven', size: 'tall' },
     { src: IMG + 'Drinks.webp', label: 'Bar & mixology', alt: 'Bar and mixology at B·Heaven', size: 'wide' },
+    { src: IMG + 'live-guitar-stage.webp', label: 'Live guitar on the rooftop', alt: 'Live guitar performance at B·Heaven rooftop bar, Dubai', size: 'wide' },
+    { src: IMG + 'live-sax-pool.webp', label: 'Live saxophone by the pool', alt: 'Saxophonist playing by the pool at B·Heaven brunch' },
+    { src: IMG + 'brunch-buffet.webp', label: 'Ibiza Brunch spread', alt: 'Ibiza Brunch buffet spread at B·Heaven Dubai', size: 'wide' },
+    { src: IMG + 'live-guitar-neon.webp', label: 'Live music nights', alt: 'Guitarist performing under neon lights at B·Heaven' },
     { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', alt: 'Barceló Al Jaddaf hotel at sunset', size: 'wide' }
   ]
 };
