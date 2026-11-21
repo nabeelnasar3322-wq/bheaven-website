@@ -391,7 +391,8 @@ html{scroll-padding-top:92px}
 /* scroll-bend: slides curve away from the centre and lean with scroll speed */
 .fz-track{perspective:900px;perspective-origin:50% 50%;padding-top:34px;padding-bottom:40px}
 .fz-slide{position:relative}
-.fz-slide{transform:translate3d(0,0,0) rotateY(var(--ry,0deg)) skewX(var(--sk,0deg)) scale(var(--sc,1));transform-origin:50% 50%;will-change:transform}
+.fz-slide{transform:translate3d(0,0,0) rotateY(var(--ry,0deg)) skewX(var(--sk,0deg)) scale(var(--sc,1));transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fz-track{overscroll-behavior-x:contain}
 @media(prefers-reduced-motion:reduce){.fz-slide{transform:none}}
 
 /* Festive section polish: arrows tucked under the photos with a dot indicator, brighter small text, softer side dimming */

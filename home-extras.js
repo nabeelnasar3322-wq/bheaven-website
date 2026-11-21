@@ -173,11 +173,14 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   var slideEls = [].slice.call(track.querySelectorAll('.fz-slide'));
   slideEls.forEach(function () { dotsEl.appendChild(document.createElement('i')); });
   gal.appendChild(dotsEl);
-  function dots() {
-    var r = track.getBoundingClientRect(), cx = r.left + r.width / 2, best = 0, bd = 1e9;
-    slideEls.forEach(function (sl, i) { var b = sl.getBoundingClientRect(), d = Math.abs(b.left + b.width / 2 - cx); if (d < bd) { bd = d; best = i; } });
+  var dotRaf = 0;
+  function dotsNow() {
+    dotRaf = 0;
+    var padL = parseFloat(getComputedStyle(track).paddingLeft) || 0, o0 = slideEls[0].offsetLeft, cx = track.scrollLeft + track.clientWidth / 2, best = 0, bd = 1e9;
+    slideEls.forEach(function (sl, i) { var d = Math.abs(padL + sl.offsetLeft - o0 + sl.offsetWidth / 2 - cx); if (d < bd) { bd = d; best = i; } });
     [].forEach.call(dotsEl.children, function (el, i) { el.classList.toggle('on', i === best); });
   }
+  function dots() { if (!dotRaf) dotRaf = requestAnimationFrame(dotsNow); }
   track.addEventListener('scroll', dots, { passive: true }); dots();
   /* open on the second photo so there is a photo on each side of the centre */
   requestAnimationFrame(function () { track.scrollTo({ left: step(), behavior: 'instant' }); dots(); edges(); });
@@ -209,30 +212,47 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
   });
 })();
 
-/* scroll-bend for the festive slider */
+/* scroll-bend for the festive slider.
+   Smooth version: positions come from layout (offsetLeft), not getBoundingClientRect, so the slides' own
+   tilt/scale never feeds back into the maths; one read pass then one write pass per frame; the loop
+   sleeps when the track is still. */
 (function () {
   'use strict';
   var track = document.querySelector('#festive .fz-track');
   if (!track || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-  var slides = [].slice.call(track.querySelectorAll('.fz-slide')), last = track.scrollLeft, vel = 0, raf = 0, vis = false;
-  function frame() {
-    var x = track.scrollLeft, dv = x - last; last = x;
-    vel += (dv - vel) * 0.25;
-    var r = track.getBoundingClientRect(), cx = r.left + r.width / 2, sk = Math.max(-5, Math.min(5, -vel * 0.25));
-    for (var i = 0; i < slides.length; i++) {
-      var b = slides[i].getBoundingClientRect(), d = (b.left + b.width / 2 - cx) / (r.width / 2);
-      d = Math.max(-1.3, Math.min(1.3, d));
-      slides[i].style.setProperty('--ry', (-d * 18).toFixed(2) + 'deg');
-      var f = 1 - Math.min(1, Math.abs(d)); /* centre slide 1.10x, easing to 0.90x at the edges */
-      slides[i].style.setProperty('--sc', (0.9 + 0.2 * f * f * (3 - 2 * f)).toFixed(3));
-      slides[i].style.zIndex = Math.round(f * 10);
-      slides[i].style.setProperty('--fo', (f * f).toFixed(3));
-      slides[i].style.setProperty('--sk', sk.toFixed(2) + 'deg');
-    }
-    raf = (vis && (Math.abs(vel) > 0.05 || true)) ? requestAnimationFrame(frame) : 0;
+  var slides = [].slice.call(track.querySelectorAll('.fz-slide')), n = slides.length;
+  if (!n) return;
+  var mid = [], half = 1, last = track.scrollLeft, vel = 0, sk = 0, raf = 0, idle = 0, vis = false, zs = [];
+  function measure() {
+    var padL = parseFloat(getComputedStyle(track).paddingLeft) || 0, o0 = slides[0].offsetLeft;
+    for (var i = 0; i < n; i++) mid[i] = padL + slides[i].offsetLeft - o0 + slides[i].offsetWidth / 2;
+    half = (track.clientWidth / 2) || 1;
   }
-  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
-    vis = es[0].isIntersecting; if (vis && !raf) raf = requestAnimationFrame(frame);
-  }).observe(track);
-  else { vis = true; raf = requestAnimationFrame(frame); }
+  function frame() {
+    raf = 0;
+    var x = track.scrollLeft, dv = x - last; last = x;
+    vel += (dv - vel) * 0.18;
+    sk += (Math.max(-5, Math.min(5, -vel * 0.25)) - sk) * 0.3;
+    idle = dv ? 0 : idle + 1;
+    var skS = sk.toFixed(2), i, d, f, sc, z, el;
+    for (i = 0; i < n; i++) {
+      d = (mid[i] - x - half) / half;
+      d = d > 1.3 ? 1.3 : d < -1.3 ? -1.3 : d;
+      f = 1 - Math.min(1, Math.abs(d));
+      sc = 0.9 + 0.2 * f * f * (3 - 2 * f);
+      el = slides[i];
+      el.style.transform = 'translate3d(0,0,0) rotateY(' + (-d * 18).toFixed(2) + 'deg) skewX(' + skS + 'deg) scale(' + sc.toFixed(3) + ')';
+      el.style.setProperty('--fo', (f * f).toFixed(3));
+      z = Math.round(f * 10);
+      if (zs[i] !== z) { zs[i] = z; el.style.zIndex = z; }
+    }
+    if (vis && (idle < 12 || Math.abs(vel) > 0.05 || Math.abs(sk) > 0.02)) raf = requestAnimationFrame(frame);
+  }
+  function wake() { idle = 0; if (vis && !raf) raf = requestAnimationFrame(frame); }
+  track.addEventListener('scroll', wake, { passive: true });
+  window.addEventListener('resize', function () { measure(); wake(); }, { passive: true });
+  measure();
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) { measure(); wake(); } }).observe(track);
+  else { vis = true; wake(); }
+  window.addEventListener('load', function () { measure(); wake(); });
 })();
