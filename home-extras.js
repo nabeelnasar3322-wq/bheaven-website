@@ -128,6 +128,7 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
 
     /* Book button opens/closes this night's booking panel (falls back to a plain WhatsApp link without JS) */
     var tog = card.querySelector('.fz-toggle');
+    var short = card.getAttribute('data-key') === 'nye' ? 'NYE' : 'Christmas Eve';
     tog.setAttribute('role', 'button'); tog.setAttribute('aria-expanded', 'false');
     tog.addEventListener('click', function (e) {
       e.preventDefault();
@@ -135,8 +136,10 @@ const p=document.getElementById('rvP'),n=document.getElementById('rvN');if(p)p.o
       Array.prototype.forEach.call(sec.querySelectorAll('.fz-row.open'), function (r) {
         r.classList.remove('open'); var b = r.querySelector('.fz-toggle'); b.setAttribute('aria-expanded', 'false'); b.textContent = 'Book';
       });
-      if (open) { card.classList.add('open'); tog.setAttribute('aria-expanded', 'true'); tog.textContent = 'Close'; }
+      if (open) { card.classList.add('open'); tog.setAttribute('aria-expanded', 'true'); tog.textContent = 'Close'; window.__bhTrack && window.__bhTrack('page', 'Festive opened ' + short); }
     });
+    /* count confirm taps per night and package (cookie-free, same collector as the menu) */
+    cta.addEventListener('click', function () { window.__bhTrack && window.__bhTrack('book', 'Festive ' + short + ' - ' + opt().value); });
   });
 
   /* sparkles + shimmer + slow zoom only run while the strip is on screen */
