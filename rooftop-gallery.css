@@ -45,8 +45,3 @@
 .rg-x{top:18px;right:18px}.rg-p{left:16px;top:50%;margin-top:-23px}.rg-n{right:16px;top:50%;margin-top:-23px}
 @media(max-width:820px){.rg-p,.rg-n{top:auto;bottom:22px;margin:0}.rg-p{left:22px}.rg-n{right:22px}}
 @media(prefers-reduced-motion:reduce){.rg-t img,.rg-lb img{transition:opacity .3s ease}}
-
-/* sunset band replaces the old arch/tunnel gate */
-.band-sunset{min-height:64vh;padding:110px 0}
-.band-sunset .band-shade{background:radial-gradient(70% 60% at 50% 50%,rgba(30,31,33,.15),rgba(30,31,33,.65)),linear-gradient(180deg,#262729 0%,transparent 22%,transparent 78%,#262729 100%)}
-@media(max-width:820px){.band-sunset{min-height:56vh;padding:80px 0}}
