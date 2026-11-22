@@ -81,7 +81,7 @@ const EVENTS = [
   { key: 'layali', day: 'Every Saturday', time: '9 PM – 1 AM', weekday: 6, startHour: 21, title: 'Layali Night', big: 'layali', sub: 'Night · Nouha Issa', poster: '/menu/img/ev-layali-night-2.webp',
     perks: ['Classic Arabic songs with Nouha Issa', 'Shisha and late-night plates', 'Reservation required'],
     price: 'Free entry · à la carte dining & shisha' },
-  { key: 'ibiza', day: 'Every Sunday', time: '1 PM – 5 PM', weekday: 0, startHour: 13, title: 'Ibiza Brunch', big: 'IBIZA', sub: 'Brunch', poster: '/menu/img/ev-ibiza-brunch-live-2.webp',
+  { key: 'ibiza', day: 'Every Sunday', time: '1 PM – 5 PM', weekday: 0, startHour: 13, title: 'Ibiza Brunch', big: 'IBIZA', sub: 'Brunch', poster: '/menu/img/ev-ibiza-brunch-live-3.webp',
     perks: ['Unlimited food and drinks', 'Live BBQ', 'Pool entry', 'DJ music'],
     price: 'Soft package from AED 149', cta: 'Book the brunch' }
 ];
