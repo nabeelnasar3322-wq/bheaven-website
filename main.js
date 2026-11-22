@@ -104,7 +104,7 @@ $('#menuCatGrid').querySelectorAll('.tcard').forEach((el, i) => fillPhoto(el, TA
 }
 
 /* Ribbon */
-const RIB = ['Modern Levant cuisine', 'Signature cocktails', 'Premium shisha', 'Poolside lounge', '180° skyline views', 'Live entertainment', 'Al Jaddaf’s hidden rooftop'];
+const RIB = ['Modern Levant cuisine', 'Signature cocktails', 'Premium shisha', 'Poolside lounge', 'Skyline views', 'Live entertainment', 'Al Jaddaf’s hidden rooftop'];
 $('#ribbon').innerHTML = [...RIB, ...RIB].map(t => `<span>${t}</span>`).join('');
 
 /* Hero letters */

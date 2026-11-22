@@ -22,7 +22,7 @@
       cta: 'Book Pool Pass', href: 'https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%27d%20like%20to%20book%20a%20pool%20pass.' },
     { key: 'sunset', label: 'Golden sunset', when: 'Golden hour', title: 'Sunset & cocktails',
       desc: 'Watch the skyline turn gold with a signature cocktail in hand and the pool glowing below.',
-      perks: ['Sunset Happy Hour', '180° Skyline views', 'Signature serves'],
+      perks: ['Sunset Happy Hour', 'Skyline views', 'Signature serves'],
       cta: 'Book Sunset Table', href: 'https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%20would%20like%20to%20reserve%20a%20Sunset%20table.' },
     { key: 'night', label: 'Starlit night', when: 'Until 2 AM', title: 'Nights above the city',
       desc: 'Modern Levant sharing plates, premium shisha and live entertainment under the stars.',
