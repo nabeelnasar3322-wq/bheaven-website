@@ -396,4 +396,4 @@
 .faq-list details p a{color:#D6B46E}
 /* main Gallery: keep every tile on the grid lines (no scroll stagger / lean) */
 html .gal-grid .ph{animation:none!important;translate:none!important;rotate:none!important}
-html.s3d-full .gal-grid .ph:not(.tilt-on){transform:none!important}
+html .gal-grid .ph,html.s3d-full .gal-grid .ph{transform:none!important;perspective:none!important}

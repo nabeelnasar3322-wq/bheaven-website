@@ -9,8 +9,8 @@
   if ((navigator.connection || {}).saveData) return;
   if (!matchMedia('(min-width:900px) and (hover:hover) and (pointer:fine)').matches) return;
   var root = document.documentElement;
-  var SEL = '.menu-cat-grid .tcard,.gal-grid .ph,.about-photos .ph,.features .feature,.loc .loc-map';
-  var CONT = '.menu-cat-grid,.gal-grid,.about-photos,.features';
+  var SEL = '.menu-cat-grid .tcard,.about-photos .ph,.features .feature,.loc .loc-map';
+  var CONT = '.menu-cat-grid,.about-photos,.features';
   var live = new Set(), raf = 0;
 
   /* ---- pointer tilt: spring each hovered card toward the cursor, then back to flat ---- */
