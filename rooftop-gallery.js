@@ -34,7 +34,7 @@
   var interval = 3000, visible = true, timers = [];
 
   function swap(k) {
-    if (!visible || document.hidden || reduce) return;
+    if (!visible || document.hidden) return;
     var free = [];
     for (var i = 0; i < POOL.length; i++) if (shown.indexOf(i) < 0) free.push(i);
     var idx = free[Math.floor(Math.random() * free.length)], t = tiles[k], p = POOL[idx];
@@ -51,7 +51,6 @@
     img.src = '/' + p[0] + '.webp';
   }
   function start() {
-    if (reduce) return;
     tiles.forEach(function (t, k) {
       timers.push(setTimeout(function () {
         timers.push(setInterval(function () { swap(k); }, interval));
@@ -65,7 +64,7 @@
     var t = now / 1000, r = grid.getBoundingClientRect(), vh = innerHeight;
     var c = ((vh - r.top) / (vh + r.height)) - .5;
     c = Math.max(-.7, Math.min(.7, c));
-    var m = innerWidth < 820 ? .85 : 1;
+    var mob = innerWidth < 820, m = mob ? .3 : 1;
     PX += (TX - PX) * .08; PY += (TY - PY) * .08;
     var dx = Math.sin(t * .7), dy = Math.cos(t * .5);
     tiles.forEach(function (tl, k) {
@@ -73,12 +72,13 @@
         rv = Math.max(0, Math.min(1, (vh * .92 - top - k * 28) / (vh * .3))),
         e = rv * rv * (3 - 2 * rv), u = 1 - e,
         d = k % 2 ? 1 : -1,
-        y = -c * SP[k] * 260 * m + Math.sin(t * .9 + k * 1.3) * 18 + u * 110,
-        z = DP[k] * 26 + Math.sin(t * .8 + k) * 45,
-        rx = (-c * 26 + PY * -9 + dy * 8) * m + u * 28,
+        y = (-c * SP[k] * 260 + Math.sin(t * .9 + k * 1.3) * 18) * m + u * (mob ? 50 : 110),
+        z = (DP[k] * 26 + Math.sin(t * .8 + k) * 45) * m,
+        rx = (-c * 26 + PY * -9 + dy * 8) * m + u * (mob ? 14 : 28),
         ry = (d * c * 18 + PX * 12 + dx * 13 + d * 4) * m,
         s = (1 - Math.abs(c) * .08) * (.86 + .14 * e);
       tl.el.style.opacity = e.toFixed(3);
+      if (reduce) return; /* gentle mode: fades only, no 3D movement */
       tl.el.style.transform = 'translate3d(' + (PX * DP[k] * 6).toFixed(1) + 'px,' + y.toFixed(1) + 'px,' + z.toFixed(0) + 'px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
     });
     raf = requestAnimationFrame(par);
@@ -88,11 +88,11 @@
   addEventListener('touchmove', function (e) { var q = e.touches[0]; if (q) aim(q.clientX, q.clientY); }, { passive: true });
   function setVisible(v) {
     visible = v;
-    if (v && !raf && !reduce) raf = requestAnimationFrame(par);
+    if (v && !raf) raf = requestAnimationFrame(par);
   }
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) { setVisible(es[0].isIntersecting); }, { rootMargin: '200px 0px' }).observe(grid);
-  } else if (!reduce) { raf = requestAnimationFrame(par); }
+  } else { raf = requestAnimationFrame(par); }
   POOL.forEach(function (p) { var i = new Image(); i.src = '/' + p[0] + '.webp'; });
   start();
 })();

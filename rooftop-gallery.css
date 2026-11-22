@@ -17,4 +17,3 @@
   .rg-grid{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:240px 140px 120px 120px;grid-template-areas:"a a" "b b" "c d" "c e"}
   .rg-cap{font-size:10px;padding:22px 10px 9px}
 }
-@media(prefers-reduced-motion:reduce){.rg-t{transform:none!important}}
