@@ -57,42 +57,29 @@
       }, k * (interval / tiles.length)));
     });
   }
-  /* parallax */
-  var SP = [.4, .8, 1.2, 1.6, 2], DP = [0, 1, 2, 3, 4], PX = 0, PY = 0, TX = 0, TY = 0, raf = 0;
-  function par(now) {
-    if (!visible) { raf = 0; return; }
-    var t = now / 1000, r = grid.getBoundingClientRect(), vh = innerHeight;
-    var c = ((vh - r.top) / (vh + r.height)) - .5;
-    c = Math.max(-.7, Math.min(.7, c));
-    var mob = innerWidth < 820, m = mob ? .3 : 1;
-    PX += (TX - PX) * .08; PY += (TY - PY) * .08;
-    var dx = Math.sin(t * .7), dy = Math.cos(t * .5);
+  /* entrance only: each tile glides in one by one as you scroll down, then sits fixed in the grid */
+  var ticking = false, mob = innerWidth < 820;
+  function par() {
+    ticking = false;
+    var r = grid.getBoundingClientRect(), vh = innerHeight;
+    mob = innerWidth < 820;
     tiles.forEach(function (tl, k) {
       var top = r.top + tl.el.offsetTop,
         rv = Math.max(0, Math.min(1, (vh * .92 - top - k * 28) / (vh * .3))),
-        e = rv * rv * (3 - 2 * rv), u = 1 - e,
-        d = k % 2 ? 1 : -1,
-        y = (-c * SP[k] * 260 + Math.sin(t * .9 + k * 1.3) * 18) * m + u * (mob ? 50 : 110),
-        z = (DP[k] * 26 + Math.sin(t * .8 + k) * 45) * m,
-        rx = (-c * 26 + PY * -9 + dy * 8) * m + u * (mob ? 14 : 28),
-        ry = (d * c * 18 + PX * 12 + dx * 13 + d * 4) * m,
-        s = (1 - Math.abs(c) * .08) * (.86 + .14 * e);
+        e = rv * rv * (3 - 2 * rv), u = 1 - e;
       tl.el.style.opacity = e.toFixed(3);
-      if (reduce) return; /* gentle mode: fades only, no 3D movement */
-      tl.el.style.transform = 'translate3d(' + (PX * DP[k] * 6).toFixed(1) + 'px,' + y.toFixed(1) + 'px,' + z.toFixed(0) + 'px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
+      if (reduce) return;
+      tl.el.style.transform = u < .002 ? 'none' :
+        'translate3d(0,' + (u * (mob ? 50 : 110)).toFixed(1) + 'px,0) rotateX(' + (u * (mob ? 14 : 28)).toFixed(2) + 'deg) scale(' + (.86 + .14 * e).toFixed(3) + ')';
     });
-    raf = requestAnimationFrame(par);
   }
-  function aim(x, y) { TX = (x / innerWidth - .5) * 2; TY = (y / innerHeight - .5) * 2; }
-  addEventListener('pointermove', function (e) { aim(e.clientX, e.clientY); }, { passive: true });
-  addEventListener('touchmove', function (e) { var q = e.touches[0]; if (q) aim(q.clientX, q.clientY); }, { passive: true });
-  function setVisible(v) {
-    visible = v;
-    if (v && !raf) raf = requestAnimationFrame(par);
-  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(par); } }
+  addEventListener('scroll', req, { passive: true });
+  addEventListener('resize', req);
+  par();
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) { setVisible(es[0].isIntersecting); }, { rootMargin: '200px 0px' }).observe(grid);
-  } else { raf = requestAnimationFrame(par); }
+    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { rootMargin: '200px 0px' }).observe(grid);
+  }
   POOL.forEach(function (p) { var i = new Image(); i.src = '/' + p[0] + '.webp'; });
   start();
 })();
