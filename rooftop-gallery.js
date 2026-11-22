@@ -69,12 +69,16 @@
     PX += (TX - PX) * .08; PY += (TY - PY) * .08;
     var dx = Math.sin(t * .7), dy = Math.cos(t * .5);
     tiles.forEach(function (tl, k) {
-      var d = k % 2 ? 1 : -1,
-        y = -c * SP[k] * 260 * m + Math.sin(t * .9 + k * 1.3) * 18,
+      var top = r.top + tl.el.offsetTop,
+        rv = Math.max(0, Math.min(1, (vh * .92 - top - k * 28) / (vh * .3))),
+        e = rv * rv * (3 - 2 * rv), u = 1 - e,
+        d = k % 2 ? 1 : -1,
+        y = -c * SP[k] * 260 * m + Math.sin(t * .9 + k * 1.3) * 18 + u * 110,
         z = DP[k] * 26 + Math.sin(t * .8 + k) * 45,
-        rx = (-c * 26 + PY * -9 + dy * 8) * m,
+        rx = (-c * 26 + PY * -9 + dy * 8) * m + u * 28,
         ry = (d * c * 18 + PX * 12 + dx * 13 + d * 4) * m,
-        s = 1 - Math.abs(c) * .08;
+        s = (1 - Math.abs(c) * .08) * (.86 + .14 * e);
+      tl.el.style.opacity = e.toFixed(3);
       tl.el.style.transform = 'translate3d(' + (PX * DP[k] * 6).toFixed(1) + 'px,' + y.toFixed(1) + 'px,' + z.toFixed(0) + 'px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
     });
     raf = requestAnimationFrame(par);
