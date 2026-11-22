@@ -83,4 +83,12 @@
     new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { rootMargin: '200px 0px' }).observe(grid);
   }
   /* photos are fixed: no automatic swapping (start() intentionally not called) */
+
+  /* if a photo ever fails to load (patchy mobile network), quietly retry so no broken icon is left */
+  Array.prototype.forEach.call(grid.querySelectorAll('img'), function (im) {
+    var base = im.getAttribute('src'), tries = 0;
+    function retry() { if (tries++ < 4) setTimeout(function () { im.src = base + (base.indexOf('?') < 0 ? '?' : '&') + 'r=' + tries; }, 700 * tries); }
+    im.addEventListener('error', retry);
+    if (im.complete && im.naturalWidth === 0 && im.getAttribute('src')) retry();
+  });
 })();
