@@ -908,7 +908,7 @@ body[data-mode=drinks] .plate .lbl em,body[data-mode=drinks] .meta em,body[data-
 .md .price{font-size:30px!important}
 @media (max-width:800px){#menuRoot .cat{padding:22px 0 8px!important}.scatter{padding-bottom:10px!important}.scatter.v2{padding-bottom:16px!important}}
 /* events: small cards, one row, fade instead of 3D flip (fixes mirrored text on iPad) */
-.evs{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:14px!important}
+.evs{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:12px!important}
 .ev{height:300px!important;transform:none!important;transform-style:flat!important}
 .ev .b{transform:none!important;opacity:0;transition:opacity .45s;pointer-events:none}
 .ev .f{transition:opacity .45s}
@@ -922,8 +922,8 @@ body[data-mode=drinks] .plate .lbl em,body[data-mode=drinks] .meta em,body[data-
 .ev .f p{font-size:.8rem!important}
 .ev .b .kv b{font-size:1.05rem!important}
 .ev .b a{padding:10px 14px!important;font-size:.62rem!important}
-@media (max-width:1100px) and (min-width:701px){.evs{grid-template-columns:repeat(3,minmax(0,1fr))!important}.ev{height:280px!important}}
-@media (max-width:700px){.evs{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px!important;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}.evs::-webkit-scrollbar{display:none}.ev{flex:0 0 68%;scroll-snap-align:start;height:300px!important}}
+@media (max-width:1100px){.evs{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px!important;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}.evs::-webkit-scrollbar{display:none}.ev{flex:0 0 250px;scroll-snap-align:start}}
+@media (max-width:700px){.ev{flex:0 0 68%;height:300px!important}}
 /* smaller footer wordmark */
 .logo.fWord{width:min(100%,420px)!important;margin:50px auto 0!important;display:block}
 
@@ -2330,6 +2330,8 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 #events .ev .f.ph.pOnly>.turn{margin-top:auto!important}
 @media (max-width:1100px) and (min-width:701px){#events .ev{height:380px!important}}
 @media (max-width:700px){#events .ev{height:420px!important}}
+/* events: all six cards on one row on desktop */
+@media (min-width:1101px){#events .ev .f.ph>.evChip{white-space:normal;line-height:1.35}#events .ev .f,#events .ev .b{padding:18px 14px!important}}
 </style>
 <style id="smooth-reveal">
 /* lighter dish reveal: opacity only, short, no per-image rotate/scale */
