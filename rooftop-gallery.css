@@ -23,3 +23,25 @@
   .rg-grid{grid-template-rows:260px 230px 150px 150px}
   .rg-b img{object-position:50% 36% !important}
 }
+
+/* interactive: sheen follows the pointer, tiles lift on hover, photo opens full screen on tap */
+.rg-t{cursor:zoom-in;transition:box-shadow .3s ease;-webkit-tap-highlight-color:transparent;outline:none}
+.rg-t::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .3s ease;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,248,225,.28),transparent 55%)}
+.rg-t.hot::after{opacity:1}
+.rg-t.hot{box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.rg-t:focus-visible{box-shadow:0 0 0 2px var(--gold,#d9b36c)}
+.rg-t img{transition:opacity var(--rg-fade,1000ms) ease,transform .6s ease}
+.rg-t.hot img.on{transform:scale(1.05)}
+@media(hover:none){.rg-t:active img.on{transform:scale(1.04)}}
+.rg-lb{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(6,7,10,.94);opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s}
+.rg-lb.open{opacity:1;visibility:visible}
+.rg-lb figure{margin:0;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;align-items:center}
+.rg-lb img{max-width:94vw;max-height:80vh;object-fit:contain;border-radius:3px;opacity:0;transform:translateX(var(--dx,0)) scale(.97);transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.rg-lb img.in{opacity:1;transform:none}
+.rg-lb figcaption{margin-top:14px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#f4efe6}
+.rg-lb figcaption b{color:var(--gold,#d9b36c);margin-right:10px}
+.rg-lb button{position:absolute;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:50%;width:46px;height:46px;font-size:28px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.rg-lb button:hover{background:rgba(255,255,255,.2)}
+.rg-x{top:18px;right:18px}.rg-p{left:16px;top:50%;margin-top:-23px}.rg-n{right:16px;top:50%;margin-top:-23px}
+@media(max-width:820px){.rg-p,.rg-n{top:auto;bottom:22px;margin:0}.rg-p{left:22px}.rg-n{right:22px}}
+@media(prefers-reduced-motion:reduce){.rg-t img,.rg-lb img{transition:opacity .3s ease}}
