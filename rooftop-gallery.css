@@ -17,3 +17,9 @@
   .rg-grid{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:240px 140px 120px 120px;grid-template-areas:"a a" "b b" "c d" "c e"}
   .rg-cap{font-size:10px;padding:22px 10px 9px}
 }
+
+/* tablet portrait: give the night-dome tile more height so the sign is never cropped */
+@media (min-width:600px) and (max-width:820px){
+  .rg-grid{grid-template-rows:260px 230px 150px 150px}
+  .rg-b img{object-position:50% 36% !important}
+}

@@ -66,7 +66,7 @@
     tiles.forEach(function (tl, k) {
       var top = r.top + tl.el.offsetTop,
         rv = mob
-          ? Math.max(0, Math.min(1, (vh * .98 - (top + tl.el.offsetHeight * .5) - k * 10) / (vh * .16)))
+          ? Math.max(0, Math.min(1, (vh * .98 - top - k * 6) / (vh * .14)))
           : Math.max(0, Math.min(1, (vh * .92 - top - k * 28) / (vh * .3))),
         e = rv * rv * (3 - 2 * rv), u = 1 - e;
       tl.el.style.opacity = e.toFixed(3);
