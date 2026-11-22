@@ -80,6 +80,5 @@
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { rootMargin: '200px 0px' }).observe(grid);
   }
-  POOL.forEach(function (p) { var i = new Image(); i.src = '/' + p[0] + '.webp'; });
-  start();
+  /* photos are fixed: no automatic swapping (start() intentionally not called) */
 })();
