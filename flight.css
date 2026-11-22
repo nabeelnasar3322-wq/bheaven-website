@@ -112,3 +112,7 @@ html.sky-on .sky-cap .sky-cta,html.sky-on .sky-cap .sky-rail,html.sky-on .sky-ca
 html.sky-on .sky-cap.in .sky-eyebrow,html.sky-on .sky-cap.in .sky-title{animation:skyIn .45s cubic-bezier(.22,1,.36,1) both}
 @media(prefers-reduced-motion:reduce){html.sky-on .sky-cap.in .sky-eyebrow,html.sky-on .sky-cap.in .sky-title{animation:none}}
 @media(max-width:899px){html.sky-on .sky-cap,html.sky-on .sky-cap.in{right:auto}}
+/* tighter dark gap between the Rooftop gallery and the arch */
+html.fl-gate .gate{margin-top:-30px}
+html.fl-gate .gate-frame{top:40%}
+@media(max-width:900px){html.fl-gate .gate-frame{top:39%}}
