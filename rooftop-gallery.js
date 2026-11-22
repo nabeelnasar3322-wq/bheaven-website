@@ -26,7 +26,7 @@
     'live-sax-pool': 'Live saxophonist playing by the B·Heaven pool',
     'wine-cheese-plate': 'A glass of red wine with a cheese and fruit plate at B·Heaven'
   };
-  var POS = { 'rooftop-night': '50% 46%', 'rooftop-flag': '50% 50%', 'live-sax-pool': '40% 40%', 'live-guitar-neon': '70% 50%' };
+  var POS = { 'cocktails': '50% 55%', 'rooftop-night': '50% 46%', 'rooftop-flag': '50% 50%', 'live-sax-pool': '40% 40%', 'live-guitar-neon': '70% 50%' };
   var EXT = { 'rooftop-night': '.webp?v=2', 'rooftop-flag': '.webp?v=2' };
   function url(n) { return '/' + n + (EXT[n] || '.webp'); }
   var tiles = [].slice.call(grid.querySelectorAll('.rg-t')).map(function (el, k) {
