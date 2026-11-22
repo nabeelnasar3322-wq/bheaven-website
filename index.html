@@ -245,6 +245,7 @@ el.textContent=JSON.stringify(o)}catch(e){}})();</script>
 <link rel="stylesheet" href="flight.css">
 <link rel="stylesheet" href="reviews.css">
 <link rel="stylesheet" href="motion-pack.css">
+<link rel="stylesheet" href="rooftop-gallery.css?v=1">
 </head>
 <body>
 <script>document.documentElement.className='js'</script>
@@ -391,27 +392,23 @@ el.textContent=JSON.stringify(o)}catch(e){}})();</script>
 </section>
 
 <!-- ============ ABOUT ============ -->
-<section class="section about" id="about">
-  <div class="container about-grid">
-    <div data-r>
-      <p class="eyebrow">The rooftop</p>
-      <h2>An urban beach club <span class="script gold-text">oasis</span></h2>
-      <p class="lead" style="margin-top:16px">Tucked away on the rooftop of Barceló Al Jaddaf, B·Heaven is a restaurant and poolside lounge where the day slows down and the evening comes alive.</p>
-      <p class="lead">Settle in indoors or out, order from our modern Levant kitchen and a bar full of signature cocktails, and watch the skyline light up.</p>
-      <div class="features">
-        <div class="feature" data-tilt data-r style="--i:1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V10h3v11M10 21V4h4v17M16 21v-8h3v8"/></svg><strong>180° skyline</strong><p>Panoramic views over Dubai.</p></div>
-        <div class="feature" data-tilt data-r style="--i:2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 17c2 0 2-1.5 4-1.5S8 17 10 17s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 21c2 0 2-1.5 4-1.5S8 21 10 21s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M8 13V5a2 2 0 0 1 4 0M16 13V5a2 2 0 0 0-4 0"/></svg><strong>Poolside lounge</strong><p>Pool passes are AED 99 on weekdays and AED 149 on weekends, fully redeemable on food and drinks at B·Heaven.</p></div>
-        <div class="feature" data-tilt data-r style="--i:3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11h16M6 11V8a6 6 0 0 1 12 0v3M5 11l1 9h12l1-9"/></svg><strong>Modern Levant</strong><p>All-day dining and a pool menu.</p></div>
-        <div class="feature" data-tilt data-r style="--i:4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3h8l-4 7zM12 10v8M8 21h8M4 3h16"/></svg><strong>Signature cocktails</strong><p>Plus premium shisha.</p></div>
+<section class="section about rg" id="about">
+  <div class="container">
+    <div class="rg-head" data-r>
+      <div>
+        <p class="eyebrow">The rooftop</p>
+        <h2>An urban beach club <span class="script gold-text">oasis</span></h2>
       </div>
+      <ul class="rg-feat"><li>180° skyline</li><li>Poolside lounge</li><li>Modern Levant</li><li>Signature cocktails</li></ul>
     </div>
-    <div class="about-photos" data-r style="--i:1">
-      <div class="ph" data-photo="rooftop" data-alt="Rooftop terrace at B·Heaven with a green pergola, pale blue sofas and the Dubai skyline in the distance"><div class="ph-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>Rooftop photo</div></div>
-      <div class="ph" data-photo="pool" data-alt="The B·Heaven dome pavilion at night"><div class="ph-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>Pool photo</div></div>
-      <div class="ph" data-photo="lounge" data-alt="Indoor dining lounge at B·Heaven, Barceló Al Jaddaf"><div class="ph-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>Lounge photo</div></div>
-      <div class="ph" data-photo="terrace" data-alt="Terrace lounge seating at B·Heaven"><div class="ph-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>Terrace photo</div></div>
-      <div class="ph" data-photo="bar" data-alt="The bar at B·Heaven rooftop lounge"><div class="ph-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>Bar photo</div></div>
-    </div>
+    <p class="lead rg-lead">Tucked away on the rooftop of Barceló Al Jaddaf, B·Heaven is a restaurant and poolside lounge where the day slows down and the evening comes alive. Settle in indoors or out, order from our modern Levant kitchen and a bar full of signature cocktails, and watch the skyline light up.</p>
+    <div class="rg-stage"><div class="rg-grid" id="rgGrid">
+      <figure class="rg-t rg-a"><img src="/BHVNterrace-1.webp" alt="Rooftop terrace at B·Heaven with a green pergola, pale blue sofas and the Dubai skyline" loading="lazy" decoding="async"><figcaption class="rg-cap"><b>01</b>Terrace</figcaption></figure>
+      <figure class="rg-t rg-b"><img src="/dome-night.webp" alt="The B·Heaven dome pavilion beside the pool at night" loading="lazy" decoding="async"><figcaption class="rg-cap"><b>02</b>Dome at night</figcaption></figure>
+      <figure class="rg-t rg-c"><img src="/restaurant-lounge.webp" alt="Indoor dining lounge at B·Heaven, Barceló Al Jaddaf" loading="lazy" decoding="async"><figcaption class="rg-cap"><b>03</b>Lounge</figcaption></figure>
+      <figure class="rg-t rg-d"><img src="/terrace-lounge.webp" alt="Terrace lounge seating at B·Heaven" loading="lazy" decoding="async"><figcaption class="rg-cap"><b>04</b>Seating</figcaption></figure>
+      <figure class="rg-t rg-e"><img src="/bar-counter.webp" alt="The bar at B·Heaven rooftop lounge" loading="lazy" decoding="async"><figcaption class="rg-cap"><b>05</b>Bar</figcaption></figure>
+    </div></div>
   </div>
 </section>
 
@@ -617,6 +614,7 @@ el.textContent=JSON.stringify(o)}catch(e){}})();</script>
 
 <script>window.__noBand2 = 1</script>
 <script src="content.js"></script>
+<script src="rooftop-gallery.js?v=1" defer></script>
 <script>if (!document.getElementById('bandWa')) document.body.insertAdjacentHTML('beforeend', '<a id="bandWa" hidden></a>')</script>
 <script src="main.js"></script>
 <script src="home-extras.js" defer></script>
