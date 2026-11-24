@@ -13,15 +13,15 @@ const camera = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 document.querySelectorAll('[data-link]').forEach(a => {
   const t = a.dataset.link;
   if (t === 'tel') { a.href = 'tel:' + SITE.phone.replace(/\s/g, ''); a.textContent = SITE.phone; }
-  if (t === 'wa') { a.href = wa('Hi B·Heaven!'); a.textContent = SITE.phone; }
-  if (t === 'wa-icon') a.href = wa('Hi B·Heaven!');
+  if (t === 'wa') { a.href = wa('Hi B-Heaven!'); a.textContent = SITE.phone; }
+  if (t === 'wa-icon') a.href = wa('Hi B-Heaven!');
   if (t === 'email') { a.href = 'mailto:' + SITE.email; a.textContent = SITE.email; }
   if (t === 'email-icon') a.href = 'mailto:' + SITE.email;
 });
-$('#bandWa').href = wa('Hi B·Heaven, I would like to reserve a table.');
+$('#bandWa').href = wa('Hi B-Heaven, I would like to reserve a table.');
 $('#yr').textContent = new Date().getFullYear();
 
-/* Daypart theme: the homepage's hero mood matches the real time at B·Heaven right now
+/* Daypart theme: the homepage's hero mood matches the real time at B-Heaven right now
    (Asia/Dubai, UTC+4, no DST), reusing the day/sunset/night palettes already built for the
    "Day to night" section. Falls back to the visitor's own local hour if the Dubai timezone
    can't be read (very old browsers). */
@@ -42,7 +42,7 @@ $('#yr').textContent = new Date().getFullYear();
 })();
 
 /* Logo image (optional) */
-if (SITE.logo) document.querySelectorAll('[data-logo]').forEach(el => { el.innerHTML = `<img src="${esc(SITE.logo)}" alt="B·Heaven by Barceló">`; });
+if (SITE.logo) document.querySelectorAll('[data-logo]').forEach(el => { el.innerHTML = `<img src="${esc(SITE.logo)}" alt="B-Heaven by Barceló">`; });
 
 /* Photo slots: a photo only shows once it has loaded; otherwise the styled placeholder stays */
 /* Any of .webp / .jpg / .jpeg / .png works for a photo name */
@@ -152,7 +152,7 @@ if (heroVid) {
 
 const firstSlideImg = pan ? pan.querySelector('img') : null;
 if (firstSlideImg) {
-  if (!firstSlideImg.alt) firstSlideImg.alt = 'B·Heaven rooftop at Barceló Al Jaddaf';
+  if (!firstSlideImg.alt) firstSlideImg.alt = 'B-Heaven rooftop at Barceló Al Jaddaf';
   /* Portrait phones get pre-cropped, lighter hero photos (hero-N-m.jpeg, centred on each photo's focus point) */
   const MOB = matchMedia('(max-width:820px) and (orientation:portrait)').matches;
   const HS = HERO_SLIDES.map(x => typeof x === 'string' ? { src: x } : x)
@@ -178,7 +178,7 @@ if (firstSlideImg) {
     if (live.length === 2 && !hTimer) hTimer = setTimeout(() => showSlide(1), 7000);
   };
   const loadExtraSlides = () => HS.slice(1).forEach((sl, k) => loadImg(sl.src, im => {
-    im.className = 'slide'; im.alt = 'B·Heaven rooftop at Barceló Al Jaddaf'; slides[k + 1] = im;
+    im.className = 'slide'; im.alt = 'B-Heaven rooftop at Barceló Al Jaddaf'; slides[k + 1] = im;
     if (sl.focus) im.style.objectPosition = sl.focus;
     const rays = pan.querySelector('.rays'); liveSlides().forEach(x => pan.insertBefore(x, rays));
     hs = liveSlides().findIndex(x => x.classList.contains('on'));
@@ -210,7 +210,7 @@ if (track && dotsEl) {
         <div class="show-more"><div>
           <ul>${e.perks.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
           ${e.price ? `<p class="price">${esc(e.price)}</p>` : ''}
-          <a class="btn btn-gold btn-sm" href="${wa(`Hi B·Heaven, I would like to book a table for ${e.title}.`)}" target="_blank" rel="noopener">${esc(e.cta || 'Book ' + e.title.split(' ')[0])}</a>
+          <a class="btn btn-gold btn-sm" href="${wa(`Hi B-Heaven, I would like to book a table for ${e.title}.`)}" target="_blank" rel="noopener">${esc(e.cta || 'Book ' + e.title.split(' ')[0])}</a>
         </div></div>
       </div>
     </article>`).join('');
@@ -360,7 +360,7 @@ else if (REVIEWS.length) {
 } else {
   $('#reviewsWrap').innerHTML = `<div class="rev-empty">
     ${stars(5)}
-    <h3>Share your B·Heaven moment</h3>
+    <h3>Share your B-Heaven moment</h3>
     <p>Enjoyed a sunset, a Jazz Friday or a lazy pool day with us? We’d love to hear about it. Your review helps other guests find our hidden rooftop.</p>
   </div>`;
 }
@@ -368,7 +368,7 @@ else if (REVIEWS.length) {
 /* Reservation form */
 const telHref = 'tel:' + SITE.phone.replace(/\s/g, '');
 $('#rqTel').href = telHref; $('#locTel').href = telHref;
-$('#rqWa').href = wa('Hi B·Heaven, I would like to reserve a table.');
+$('#rqWa').href = wa('Hi B-Heaven, I would like to reserve a table.');
 document.querySelectorAll('[data-fill="phone"]').forEach(el => { el.textContent = SITE.phone; });
 const timeSel = $('#timeSel');
 for (let h = 9; h <= 25; h++) for (const m of [0, 30]) {
@@ -420,7 +420,7 @@ $('#resForm').addEventListener('input', () => { if (!rfStarted) { rfStarted = tr
 
 function bookingText() {
   const f = $('#resForm'), v = n => f.elements[n].value.trim();
-  return `Hi B·Heaven, I'd like to request a reservation.\n\nName: ${v('name')}\nPhone: ${v('phone')}\nDate: ${v('date')}\nTime: ${v('time')}\nGuests: ${v('guests')}\nSeating: ${$('#seatSeg .on span').textContent}\nOccasion: ${v('occasion')}${v('notes') ? `\nNotes: ${v('notes')}` : ''}`;
+  return `Hi B-Heaven, I'd like to request a reservation.\n\nName: ${v('name')}\nPhone: ${v('phone')}\nDate: ${v('date')}\nTime: ${v('time')}\nGuests: ${v('guests')}\nSeating: ${$('#seatSeg .on span').textContent}\nOccasion: ${v('occasion')}${v('notes') ? `\nNotes: ${v('notes')}` : ''}`;
 }
 /* Validation with visible messages: each missing field is outlined and named in one line above the button. */
 const RF_MSG = { name: 'Please enter your name.', phone: 'Please enter a phone number we can reach you on.', date: 'Please choose a date.', time: 'Please choose a time.' };
@@ -613,7 +613,7 @@ lb.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - 
 
 /* WhatsApp chat widget */
 const waWrap = $('#waWrap'), waFab = $('#waFab');
-const QUICK = [['Reserve a table', 'Hi B·Heaven, I would like to reserve a table.'], ['Pool pass', 'Hi B·Heaven, I would like to ask about daytime pool passes.'], ['Tonight’s event', 'Hi B·Heaven, what’s on tonight?'], ['Get the menu', 'Hi B·Heaven, could you send me your menu?']];
+const QUICK = [['Reserve a table', 'Hi B-Heaven, I would like to reserve a table.'], ['Pool pass', 'Hi B-Heaven, I would like to ask about daytime pool passes.'], ['Tonight’s event', 'Hi B-Heaven, what’s on tonight?'], ['Get the menu', 'Hi B-Heaven, could you send me your menu?']];
 $('#waQuick').innerHTML = QUICK.map(([l, t], i) => `<a href="${wa(t)}" target="_blank" rel="noopener" style="--i:${i}">${l}<b>→</b></a>`).join('');
 const waToggle = open => { waWrap.classList.toggle('open', open); waWrap.classList.remove('nudge'); waFab.setAttribute('aria-expanded', open); };
 waFab.addEventListener('click', () => waToggle(!waWrap.classList.contains('open')));

@@ -12,19 +12,19 @@
     ['live-sax-pool', 'Sax by the pool'], ['wine-cheese-plate', 'Wine & bites']
   ];
   var ALT = {
-    'BHVNterrace-1': 'Rooftop terrace at B·Heaven with a green pergola, pale blue sofas and the Dubai skyline',
-    'rooftop-night': 'The B·Heaven dome pavilion and glowing sign at night',
-    'restaurant-lounge': 'Indoor dining lounge at B·Heaven, Barceló Al Jaddaf',
-    'terrace-lounge': 'Terrace lounge seating at B·Heaven',
-    'bar-counter': 'The bar at B·Heaven rooftop lounge',
-    'cocktails': 'Signature cocktails at B·Heaven rooftop bar',
-    'pool-day': 'Poolside lounge at B·Heaven by day',
-    'live-guitar-neon': 'Live guitar night at B·Heaven rooftop',
-    'hero-2': 'Sunset on the B·Heaven rooftop, Al Jaddaf',
+    'BHVNterrace-1': 'Rooftop terrace at B-Heaven with a green pergola, pale blue sofas and the Dubai skyline',
+    'rooftop-night': 'The B-Heaven dome pavilion and glowing sign at night',
+    'restaurant-lounge': 'Indoor dining lounge at B-Heaven, Barceló Al Jaddaf',
+    'terrace-lounge': 'Terrace lounge seating at B-Heaven',
+    'bar-counter': 'The bar at B-Heaven rooftop lounge',
+    'cocktails': 'Signature cocktails at B-Heaven rooftop bar',
+    'pool-day': 'Poolside lounge at B-Heaven by day',
+    'live-guitar-neon': 'Live guitar night at B-Heaven rooftop',
+    'hero-2': 'Sunset on the B-Heaven rooftop, Al Jaddaf',
     'barcelofacade': 'Barceló Al Jaddaf hotel exterior',
-    'rooftop-flag': 'B·Heaven flag and garden terrace with the Dubai skyline behind',
-    'live-sax-pool': 'Live saxophonist playing by the B·Heaven pool',
-    'wine-cheese-plate': 'A glass of red wine with a cheese and fruit plate at B·Heaven'
+    'rooftop-flag': 'B-Heaven flag and garden terrace with the Dubai skyline behind',
+    'live-sax-pool': 'Live saxophonist playing by the B-Heaven pool',
+    'wine-cheese-plate': 'A glass of red wine with a cheese and fruit plate at B-Heaven'
   };
   var POS = { 'cocktails': '50% 55%', 'rooftop-night': '50% 46%', 'rooftop-flag': '50% 50%', 'live-sax-pool': '40% 40%', 'live-guitar-neon': '70% 50%' };
   var EXT = { 'rooftop-night': '.webp?v=2', 'rooftop-flag': '.webp?v=2' };

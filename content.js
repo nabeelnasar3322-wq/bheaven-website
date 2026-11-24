@@ -1,5 +1,5 @@
 /* =====================================================================
-   B·Heaven website content. Edit this file to update the site.
+   B-Heaven website content. Edit this file to update the site.
    Photos live in the GitHub folder: github.com/nabeelnasar3322-wq/bheaven-website
    ===================================================================== */
 const IMG = '/';
@@ -34,32 +34,32 @@ const SITE = {
     band1: IMG + 'hero-2.webp', band2: IMG + 'hero-3.webp'
   },
   gallery: [
-    { src: IMG + 'dome-night.webp', label: 'B·Heaven Dome Pavilion at night', alt: 'B·Heaven dome pavilion at night', size: 'tall' },
-    { src: IMG + 'cocktails.webp', label: 'Signature cocktails', alt: 'Signature cocktails at B·Heaven rooftop bar' },
-    { src: IMG + 'BusinesL-clean.webp', label: 'Modern Levant cuisine', alt: 'Modern Levant dishes served at B·Heaven' },
-    { src: IMG + 'BHVNevents5.webp', label: 'Premium shisha', alt: 'Premium shisha at B·Heaven', size: 'tall' },
-    { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', alt: 'Rooftop pool with the Dubai skyline at B·Heaven', size: 'wide' },
-    { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge', alt: 'Indoor dining lounge at B·Heaven' },
-    { src: IMG + 'hero-2.webp', label: 'Sunset on the rooftop', alt: 'Sunset on the B·Heaven rooftop, Al Jaddaf' },
-    { src: IMG + 'terrace-lounge.webp', label: 'Terrace lounge', alt: 'Terrace lounge seating at B·Heaven', size: 'wide' },
-    { src: IMG + 'BHVNevents4.webp', label: 'Live saxophone & music', alt: 'Live saxophone music at B·Heaven', size: 'tall' },
-    { src: IMG + 'bar-counter.webp', label: 'The bar', alt: 'The bar counter at B·Heaven', size: 'tall' },
-    { src: IMG + 'Drinks.webp', label: 'Bar & mixology', alt: 'Bar and mixology at B·Heaven', size: 'wide' },
-    { src: IMG + 'live-guitar-stage.webp', label: 'Live guitar on the rooftop', alt: 'Live guitar performance at B·Heaven rooftop bar, Dubai', size: 'wide' },
-    { src: IMG + 'live-sax-pool.webp', label: 'Live saxophone by the pool', alt: 'Saxophonist playing by the pool at B·Heaven brunch' },
-    { src: IMG + 'brunch-buffet.webp', label: 'Ibiza Brunch spread', alt: 'Ibiza Brunch buffet spread at B·Heaven Dubai', size: 'wide' },
-    { src: IMG + 'wine-cheese-plate.webp', label: 'Grape & Graze: wine & cheese', alt: 'Red wine and cheese plate for Grape & Graze at B·Heaven Dubai' },
-    { src: IMG + 'live-guitar-neon.webp', label: 'Live music nights', alt: 'Guitarist performing under neon lights at B·Heaven' },
+    { src: IMG + 'dome-night.webp', label: 'B-Heaven Dome Pavilion at night', alt: 'B-Heaven dome pavilion at night', size: 'tall' },
+    { src: IMG + 'cocktails.webp', label: 'Signature cocktails', alt: 'Signature cocktails at B-Heaven rooftop bar' },
+    { src: IMG + 'BusinesL-clean.webp', label: 'Modern Levant cuisine', alt: 'Modern Levant dishes served at B-Heaven' },
+    { src: IMG + 'BHVNevents5.webp', label: 'Premium shisha', alt: 'Premium shisha at B-Heaven', size: 'tall' },
+    { src: IMG + 'pool-day.webp', label: 'Rooftop pool & skyline', alt: 'Rooftop pool with the Dubai skyline at B-Heaven', size: 'wide' },
+    { src: IMG + 'restaurant-lounge.webp', label: 'Indoor dining lounge', alt: 'Indoor dining lounge at B-Heaven' },
+    { src: IMG + 'hero-2.webp', label: 'Sunset on the rooftop', alt: 'Sunset on the B-Heaven rooftop, Al Jaddaf' },
+    { src: IMG + 'terrace-lounge.webp', label: 'Terrace lounge', alt: 'Terrace lounge seating at B-Heaven', size: 'wide' },
+    { src: IMG + 'BHVNevents4.webp', label: 'Live saxophone & music', alt: 'Live saxophone music at B-Heaven', size: 'tall' },
+    { src: IMG + 'bar-counter.webp', label: 'The bar', alt: 'The bar counter at B-Heaven', size: 'tall' },
+    { src: IMG + 'Drinks.webp', label: 'Bar & mixology', alt: 'Bar and mixology at B-Heaven', size: 'wide' },
+    { src: IMG + 'live-guitar-stage.webp', label: 'Live guitar on the rooftop', alt: 'Live guitar performance at B-Heaven rooftop bar, Dubai', size: 'wide' },
+    { src: IMG + 'live-sax-pool.webp', label: 'Live saxophone by the pool', alt: 'Saxophonist playing by the pool at B-Heaven brunch' },
+    { src: IMG + 'brunch-buffet.webp', label: 'Ibiza Brunch spread', alt: 'Ibiza Brunch buffet spread at B-Heaven Dubai', size: 'wide' },
+    { src: IMG + 'wine-cheese-plate.webp', label: 'Grape & Graze: wine & cheese', alt: 'Red wine and cheese plate for Grape & Graze at B-Heaven Dubai' },
+    { src: IMG + 'live-guitar-neon.webp', label: 'Live music nights', alt: 'Guitarist performing under neon lights at B-Heaven' },
     { src: IMG + 'barcelofacade.webp', label: 'Barceló Al Jaddaf Sunset', alt: 'Barceló Al Jaddaf hotel at sunset' }
   ]
 };
 
 /* "Made for sharing" photo tiles (menu tab opens when tapped) */
 const TASTE = [
-  { src: IMG + 'BusinesL-clean.webp', title: 'Modern Levant plates', alt: 'Modern Levant dishes served at B·Heaven', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
-  { src: IMG + 'cocktails.webp', title: 'Signature cocktails', alt: 'Signature cocktails at B·Heaven rooftop bar', text: 'House creations shaken with a view.', tab: 'drinks' },
-  { src: IMG + 'BHVNevents5.webp', title: 'Premium shisha', alt: 'Premium shisha at B·Heaven', text: 'Classic and signature flavours until late.', tab: 'shisha' },
-  { src: IMG + 'pool-day.webp', title: 'Pool menu', alt: 'Rooftop pool with the Dubai skyline at B·Heaven', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
+  { src: IMG + 'BusinesL-clean.webp', title: 'Modern Levant plates', alt: 'Modern Levant dishes served at B-Heaven', text: 'Mezze, grills and sharing platters, all day.', tab: 'food' },
+  { src: IMG + 'cocktails.webp', title: 'Signature cocktails', alt: 'Signature cocktails at B-Heaven rooftop bar', text: 'House creations shaken with a view.', tab: 'drinks' },
+  { src: IMG + 'BHVNevents5.webp', title: 'Premium shisha', alt: 'Premium shisha at B-Heaven', text: 'Classic and signature flavours until late.', tab: 'shisha' },
+  { src: IMG + 'pool-day.webp', title: 'Pool menu', alt: 'Rooftop pool with the Dubai skyline at B-Heaven', text: 'Light bites and fresh juices by the water.', tab: 'pool' }
 ];
 
 /* Kept in sync with the live site's events (bheavendubai.com/menu/ JSON-LD, #ldEv1-4).

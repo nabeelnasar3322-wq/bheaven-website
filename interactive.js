@@ -1,5 +1,5 @@
 /**
- * B·Heaven Dubai — High-End Interactive Feature Suite
+ * B-Heaven Dubai — High-End Interactive Feature Suite
  * 1. Interactive Day-to-Night Mood Switcher
  * 2. Procedural Web Audio Rooftop Jazz Synthesizer (Tonight's Soundtrack)
  * 3. Interactive "Curate Your Vibe" Concierge & Reservation Form Auto-Sync
@@ -140,7 +140,7 @@
       pairing: "Tito's Toasted Pineapple Mule + Levant Trio Dips",
       occasion: "Dinner",
       seating: "Outdoor",
-      waText: "Hi B·Heaven! I'd like to reserve an outdoor sunset table for drinks & dinner."
+      waText: "Hi B-Heaven! I'd like to reserve an outdoor sunset table for drinks & dinner."
     },
     jazz: {
       title: "Live Jazz Friday with Anetta",
@@ -150,7 +150,7 @@
       pairing: "Grape Selection + Smokehouse Beef Ribs",
       occasion: "Jazz Friday",
       seating: "Indoor",
-      waText: "Hi B·Heaven! I'd like to book a table for Jazz Friday with Anetta."
+      waText: "Hi B-Heaven! I'd like to book a table for Jazz Friday with Anetta."
     },
     shisha: {
       title: "Open-Air Shisha & Skyline Lounge",
@@ -160,7 +160,7 @@
       pairing: "Special Mint Shisha + Farmers Nectar Mocktail",
       occasion: "Shisha & drinks",
       seating: "Outdoor",
-      waText: "Hi B·Heaven! I'd like to book a terrace lounge table for shisha and drinks."
+      waText: "Hi B-Heaven! I'd like to book a terrace lounge table for shisha and drinks."
     },
     brunch: {
       title: "Ibiza Sunday Pool Brunch",
@@ -170,7 +170,7 @@
       pairing: "Live Grill Skewers + Frozen Berry Sangria",
       occasion: "Dinner",
       seating: "Poolside",
-      waText: "Hi B·Heaven! I'd like to book packages for the Sunday Ibiza Brunch."
+      waText: "Hi B-Heaven! I'd like to book packages for the Sunday Ibiza Brunch."
     }
   };
 

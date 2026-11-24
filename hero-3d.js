@@ -17,7 +17,7 @@
      here as you scroll through each stage of the hero clip */
   var PARTS = [
     { key: 'day', label: 'Poolside day', when: 'Pool access', title: 'Poolside days',
-      desc: 'Pool passes are fully redeemable on food and drinks at B·Heaven.',
+      desc: 'Pool passes are fully redeemable on food and drinks at B-Heaven.',
       perks: ['Weekdays AED 99', 'Weekends AED 149'],
       cta: 'Book Pool Pass', href: 'https://wa.me/971506129150?text=Hi%20B%C2%B7Heaven%2C%20I%27d%20like%20to%20book%20a%20pool%20pass.' },
     { key: 'sunset', label: 'Golden sunset', when: 'Golden hour', title: 'Sunset & cocktails',
