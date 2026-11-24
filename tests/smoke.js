@@ -73,7 +73,7 @@ const ok = (c, msg) => { if (!c) { fails++; console.log('  FAIL  ' + msg); } els
     const html = fs.readFileSync(path.join(ROOT, p, 'index.html'), 'utf8');
     for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
       const src = (tag.match(/\ssrc="([^"]+)"/) || [])[1] || '';
-      if (!src || src.startsWith('data:') || src.includes('${')) continue;
+      if (!src || src.startsWith('data:') || src.includes('${') || /'\s*\+|\+\s*'/.test(src)) continue; // skip src values built by JavaScript string concatenation
       const clean = src.split('?')[0];
       const file = path.join(ROOT, clean.startsWith('/') ? clean : path.join(p, clean));
       if (!fs.existsSync(file)) { imgProblems.push(p + ' missing ' + src); continue; }
