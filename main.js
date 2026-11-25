@@ -211,6 +211,7 @@ if (track && dotsEl) {
           <ul>${e.perks.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
           ${e.price ? `<p class="price">${esc(e.price)}</p>` : ''}
           <a class="btn btn-gold btn-sm" href="${wa(`Hi B-Heaven, I would like to book a table for ${e.title}.`)}" target="_blank" rel="noopener">${esc(e.cta || 'Book ' + e.title.split(' ')[0])}</a>
+          ${e.page ? `<a class="show-more-link" href="${e.page}">Full details</a>` : ''}
         </div></div>
       </div>
     </article>`).join('');

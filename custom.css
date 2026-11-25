@@ -82,6 +82,8 @@ html{scroll-padding-top:92px}
 .show li{display:flex;gap:8px}.show li::before{content:'✦';color:var(--lagoon);font-size:10px;margin-top:4px}
 .show .price{font-size:18px;font-weight:800;color:var(--gold-l)}
 .show .btn{align-self:flex-start;margin-bottom:2px}
+.show-more-link{align-self:flex-start;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--lagoon);text-decoration:underline;text-underline-offset:3px;opacity:.85}
+.show-more-link:hover{opacity:1}
 .show-hint{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--lagoon);transition:opacity .3s}
 .show-hint i{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--lagoon);display:grid;place-items:center;font-style:normal;font-size:14px;line-height:1;animation:pulse 2s infinite}
 .show:hover .show-hint,.show.open .show-hint,.show:focus-within .show-hint{opacity:0;height:0;overflow:hidden}
