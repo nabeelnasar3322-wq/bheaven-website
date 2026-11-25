@@ -66,32 +66,32 @@ const TASTE = [
    weekday: 0=Sun..6=Sat, startHour: 24h clock (Asia/Dubai) — used by the "Tonight's Table" strip
    in main.js to find the next event; everything else (cards, carousel) only reads the fields above. */
 const EVENTS = [
-  { key: 'happy', day: 'Daily', time: '4 PM – 8 PM', weekday: 0, startHour: 16, title: 'Sunset Happy Hours', big: 'Sunset', sub: 'Happy Hours · Daily', poster: '/menu/img/ev-happy-hours.webp',
+  { key: 'happy', tag: 'DAILY · SUNSET DRINKS', hook: 'Drinks from AED 35', day: 'Daily', time: '4 PM – 8 PM', weekday: 0, startHour: 16, title: 'Sunset Happy Hours', big: 'Sunset', sub: 'Happy Hours · Daily', poster: '/menu/img/ev-happy-hours.webp',
     perks: ['Sunset prices on spirits, cocktails, wine and beer', 'As the skyline turns gold'],
     price: 'Drinks from AED 35', cta: 'Book Happy Hour' },
-  { key: 'dj', day: 'Daily', time: '4 PM – 8 PM', weekday: 0, startHour: 16, title: 'DJ Night', big: 'DJ', sub: 'Night', poster: '/menu/img/ev-dj-night.webp',
+  { key: 'dj', tag: 'DAILY · LIVE DJ', hook: 'Drinks from AED 35', day: 'Daily', time: '4 PM – 8 PM', weekday: 0, startHour: 16, title: 'DJ Night', big: 'DJ', sub: 'Night', poster: '/menu/img/ev-dj-night.webp',
     perks: ['Sunset prices on spirits, cocktails, wine and beer', 'Live DJ on the rooftop'],
     price: 'Drinks from AED 35', cta: 'Book DJ Night' },
-  { key: 'grape', day: 'Every Thursday', time: '8 PM – Midnight', weekday: 4, startHour: 20, title: 'Grape & Graze', big: 'Grape', sub: '& Graze', poster: '/menu/img/ev-grape-graze.webp',
+  { key: 'grape', tag: 'THU · WINE & MEZZE', hook: 'AED 99 per person', day: 'Every Thursday', time: '8 PM – Midnight', weekday: 4, startHour: 20, title: 'Grape & Graze', big: 'Grape', sub: '& Graze', poster: '/menu/img/ev-grape-graze.webp',
     perks: ['A cheese board', 'Levantine mezze selections', 'Two glasses of wine (white, rosé or red)'],
     price: 'AED 99 per person' },
-  { key: 'jazz', day: 'Every Friday', time: '9 PM – Midnight', weekday: 5, startHour: 21, title: 'Jazz Friday', big: 'JAZZ', sub: 'Live singing · Anetta', poster: '/menu/img/ev-jazz-night-2.webp',
+  { key: 'jazz', tag: 'FRI · LIVE JAZZ', hook: 'From AED 99', day: 'Every Friday', time: '9 PM – Midnight', weekday: 5, startHour: 21, title: 'Jazz Friday', big: 'JAZZ', sub: 'Live singing · Anetta', poster: '/menu/img/ev-jazz-night-2.webp',
     perks: ['Live jazz with Anetta on the rooftop', 'As the city lights come on'],
     price: 'Ladies AED 99 · Gentlemen AED 149' },
-  { key: 'layali', day: 'Every Saturday', time: '9 PM – 1 AM', weekday: 6, startHour: 21, title: 'Layali Night', big: 'layali', sub: 'Night · Nouha Issa', poster: '/menu/img/ev-layali-night-2.webp',
+  { key: 'layali', tag: 'SAT · ARABIC NIGHT', hook: 'Free entry', day: 'Every Saturday', time: '9 PM – 1 AM', weekday: 6, startHour: 21, title: 'Layali Night', big: 'layali', sub: 'Night · Nouha Issa', poster: '/menu/img/ev-layali-night-2.webp',
     perks: ['Classic Arabic songs with Nouha Issa', 'Shisha and late-night plates', 'Reservation required'],
     price: 'Free entry · à la carte dining & shisha' },
-  { key: 'ibiza', day: 'Every Sunday', time: '1 PM – 5 PM', weekday: 0, startHour: 13, title: 'Ibiza Brunch', big: 'IBIZA', sub: 'Brunch', poster: '/menu/img/ev-ibiza-brunch-live-3.webp',
+  { key: 'ibiza', tag: 'SUN · BRUNCH & POOL', hook: 'From AED 149', day: 'Every Sunday', time: '1 PM – 5 PM', weekday: 0, startHour: 13, title: 'Ibiza Brunch', big: 'IBIZA', sub: 'Brunch', poster: '/menu/img/ev-ibiza-brunch-live-3.webp',
     perks: ['Unlimited food and drinks', 'Live BBQ', 'Pool entry', 'DJ music'],
     price: 'Soft package from AED 149', cta: 'Book the brunch' }
 ];
 
 /* Daily offers (shown under the weekly nights) */
 const OFFERS = [
-  { key: 'lunch', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'biz-lunch.webp',
+  { key: 'lunch', tag: 'MON–FRI · LUNCH', hook: 'From AED 89', day: 'Monday – Friday', time: '12:30 PM – 3:30 PM', title: 'Business Lunch', big: 'Business', sub: 'Lunch', poster: IMG + 'biz-lunch.webp',
     perks: ['2-course set menu: AED 89', '3-course set menu: AED 105'],
     price: 'From AED 89', cta: 'Book lunch' },
-  { key: 'shisha', day: 'Every day', time: '8 PM – 11 PM', title: 'Shisha & Drinks', big: 'SHISHA', sub: '& Drinks', poster: IMG + 'BHVNevents5.webp',
+  { key: 'shisha', tag: 'DAILY · SHISHA', hook: 'AED 89', day: 'Every day', time: '8 PM – 11 PM', title: 'Shisha & Drinks', big: 'SHISHA', sub: '& Drinks', poster: IMG + 'BHVNevents5.webp',
     perks: ['1 shisha + 1 drink', 'Alcoholic or non-alcoholic'],
     price: 'AED 89', cta: 'Book shisha' }
 ];

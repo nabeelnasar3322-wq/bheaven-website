@@ -192,7 +192,17 @@ if (firstSlideImg) {
 }
 
 /* What's on: React Bits Pro Skewed Carousel of nights & offers */
-const SHOWS = [...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))];
+/* "Tonight" badge: the weekly night that falls today (Asia/Dubai). Evening nights say Tonight, the daytime brunch says Today. */
+const dubaiNow = (() => {
+  try {
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dubai', weekday: 'short', hour: 'numeric', hour12: false }).formatToParts(new Date()).map(x => [x.type, x.value]));
+    return { wd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday), h: (+p.hour) % 24 };
+  } catch (_) { const d = new Date(); return { wd: d.getDay(), h: d.getHours() }; }
+})();
+const SHOWS = [...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))]
+  .map(e => (e.type === 'Weekly night' && e.day !== 'Daily' && e.weekday === dubaiNow.wd)
+    ? { ...e, today: e.startHour < 17 ? 'Today' : 'Tonight' } : e);
+const todayIdx = SHOWS.findIndex(e => e.today);
 const track = $('#showTrack'), dotsEl = $('#showDots');
 if (track && dotsEl) {
   track.innerHTML = SHOWS.map((e, i) => `
@@ -202,10 +212,12 @@ if (track && dotsEl) {
         <div class="big">${esc(e.big)}<small>${esc(e.sub)}</small></div>
       </div>
       <div class="show-shine"></div>
-      <span class="show-badge${e.type === 'Daily offer' ? ' offer' : e.type === 'Festive' ? ' festive' : ''}">${e.type}</span>
+      <span class="show-badge${e.type === 'Daily offer' ? ' offer' : e.type === 'Festive' ? ' festive' : ''}">${esc(e.tag || e.type)}</span>
+      ${e.today ? `<span class="show-now"><i></i>${e.today}</span>` : ''}
       <div class="show-info">
         <div class="show-meta"><span>${esc(e.day)}</span><span>${esc(e.time)}</span></div>
         <h3>${esc(e.title)}</h3>
+        ${e.hook ? `<p class="show-hook">${esc(e.hook)}</p>` : ''}
         <span class="show-hint"><i>+</i>See details</span>
         <div class="show-more"><div>
           <ul>${e.perks.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
@@ -220,7 +232,7 @@ if (track && dotsEl) {
   const cards = [...track.children], dots = [...dotsEl.children], N = cards.length;
   cards.forEach((c, i) => SHOWS[i].poster && loadImg(SHOWS[i].poster, im => { im.alt = SHOWS[i].title + ' poster'; c.querySelector('.show-art').append(im); }));
 
-  let current = 1;
+  let current = todayIdx >= 0 ? todayIdx : 1;
   const layout = () => {
     cards.forEach((c, i) => {
       let o = i - current;
