@@ -18,8 +18,9 @@
     if (n >= 2) {
       html.classList.add('perf-2');
       try { if (perf.lenis) { perf.lenis.destroy(); perf.lenis = null; } } catch (_) {}
-      try { if (window.ScrollTrigger) { ScrollTrigger.getAll().forEach(function (t) { t.kill(true); }); } } catch (_) {}
-      html.classList.remove('fl-gate', 's3d-full'); html.classList.add('s3d-lite');
+      /* drop the effects but keep pinned sections: killing a pin mid-scroll removes its spacer and the page jumps */
+      try { if (window.ScrollTrigger) { ScrollTrigger.getAll().forEach(function (t) { if (!t.pin) t.kill(true); }); } } catch (_) {}
+      html.classList.remove('s3d-full'); html.classList.add('s3d-lite');
     }
   }
   (function monitor() {

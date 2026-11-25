@@ -4,6 +4,13 @@
    GSAP only writes five custom properties per element; this file turns them into the individual
    translate / scale / rotate properties (compositor-only), so nothing fights the hover tilt,
    which uses `transform`, or the menu-card float, which moves the image inside the card. */
+/* Registered and non-inheriting: when GSAP changes one of these on an element, only that element is
+   restyled, not everything inside it (the photo band, booking form and map are large subtrees). */
+@property --gsx{syntax:'<length-percentage>';inherits:false;initial-value:0px}
+@property --gsy{syntax:'<length-percentage>';inherits:false;initial-value:0px}
+@property --gss{syntax:'<number>';inherits:false;initial-value:1}
+@property --gsr{syntax:'<angle>';inherits:false;initial-value:0deg}
+@property --gso{syntax:'<number>';inherits:false;initial-value:1}
 html.gs.gs .gs-t.gs-t.gs-t{
   translate:var(--gsx,0px) var(--gsy,0px);
   scale:var(--gss,1);
@@ -14,6 +21,8 @@ html.gs.gs .gs-t.gs-t.gs-t{
   transition-delay:0s;
 }
 html.gs .wd{display:inline-block}
+/* own compositor layer only while an element is actually moving (set by ScrollTrigger) */
+html.gs .gs-t.gs-live{will-change:translate,scale,rotate,opacity}
 
 /* gold reading-progress line across the top */
 .gs-bar{position:fixed;left:0;top:0;right:0;height:2px;z-index:120;pointer-events:none;

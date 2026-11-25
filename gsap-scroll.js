@@ -28,7 +28,7 @@
     els.forEach(function (e) { e.classList.add('gs-t'); });
     var vars = to(from); vars.ease = 'none';
     for (var k in extra) vars[k] = extra[k];
-    vars.scrollTrigger = { trigger: st.trigger || els[0], start: st.start || 'top 92%', end: st.end || 'top 58%', scrub: st.scrub == null ? .7 : st.scrub, invalidateOnRefresh: true };
+    vars.scrollTrigger = { trigger: st.trigger || els[0], start: st.start || 'top 92%', end: st.end || 'top 58%', scrub: st.scrub == null ? .7 : st.scrub, toggleClass: { targets: els, className: 'gs-live' } };
     return gsap.fromTo(els, from, vars);
   }
 
@@ -39,10 +39,11 @@
     var words = h ? $$('.wd', h) : [];
     if (h && !words.length) words = [h];
     var after = rest ? $$(rest, box) : [];
-    var tl = gsap.timeline({ scrollTrigger: { trigger: box, start: 'top 94%', end: 'top 52%', scrub: .7, invalidateOnRefresh: true } });
-    [eb].concat(words, after).forEach(function (e) { if (e) e.classList.add('gs-t'); });
+    var all = [eb].concat(words, after).filter(Boolean);
+    var tl = gsap.timeline({ scrollTrigger: { trigger: box, start: 'top 94%', end: 'top 52%', scrub: .7, toggleClass: { targets: all, className: 'gs-live' } } });
+    all.forEach(function (e) { e.classList.add('gs-t'); });
     if (eb) tl.fromTo(eb, { '--gsx': -44 * k + 'px', '--gso': 0 }, { '--gsx': '0px', '--gso': 1, ease: 'none', duration: .5 }, 0);
-    if (words.length) tl.fromTo(words, { '--gsy': '95%', '--gsr': 7 * k + 'deg', '--gso': 0 }, { '--gsy': '0px', '--gsr': '0deg', '--gso': 1, ease: 'none', duration: .6, stagger: .09 }, .12);
+    if (words.length) tl.fromTo(words, { '--gsy': '95%', '--gsr': 7 * k + 'deg', '--gso': 0 }, { '--gsy': '0%', '--gsr': '0deg', '--gso': 1, ease: 'none', duration: .6, stagger: .09 }, .12);
     if (after.length) tl.fromTo(after, { '--gsy': 34 * k + 'px', '--gso': 0 }, { '--gsy': '0px', '--gso': 1, ease: 'none', duration: .5, stagger: .06 }, .4);
   }
 
@@ -82,12 +83,13 @@
     /* 6. gallery tiles rise by column (the feed can arrive late, so new tiles are picked up) */
     var gal = doc.getElementById('gallery'), seen = [];
     function galTiles() {
+      var added = 0;
       $$('.ph', gal).forEach(function (t, i) {
-        if (seen.indexOf(t) > -1) return; seen.push(t);
+        if (seen.indexOf(t) > -1) return; seen.push(t); added++;
         var col = i % (D ? 4 : 2);
         scrub(t, { '--gsy': (110 + col * 40) * k + 'px', '--gss': .84, '--gso': 0 }, { trigger: t, start: 'top 104%', end: 'top ' + (70 - col * 4) + '%' });
       });
-      ScrollTrigger.refresh();
+      if (added) ScrollTrigger.refresh();
     }
     if (gal) {
       galTiles();

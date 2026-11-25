@@ -471,7 +471,8 @@ mnav.addEventListener('click', e => { if (e.target.closest('a')) burger.click();
 const hero = $('#hero');
 if (!false) {
   let tick = false;
-  const par = () => { tick = false; hero.style.setProperty('--sy', Math.min(scrollY, innerHeight * 1.2).toFixed(1)); };
+  let lastSy = '';
+  const par = () => { tick = false; const v = Math.min(scrollY, innerHeight * 1.2).toFixed(1); if (v !== lastSy) { lastSy = v; hero.style.setProperty('--sy', v); } };
   addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(par); } }, { passive: true });
   par();
   if (matchMedia('(pointer:fine)').matches) hero.addEventListener('pointermove', e => {
@@ -526,7 +527,7 @@ function parFrame() {
     const t = p.kind === 'img' ? Math.max(-1, Math.min(1, off / vh)) * p.h * -.07 : p.kind === 'band' ? off * -.2 : off * p.k;
     p.cur += (t - p.cur) * .16;
     if (Math.abs(t - p.cur) > .4) moving = true; else p.cur = t;
-    p.el.style.setProperty('--p', p.cur.toFixed(1) + 'px');
+    const pv = p.cur.toFixed(1); if (pv !== p.pv) { p.pv = pv; p.el.style.setProperty('--p', pv + 'px'); }
   }
   parRun = moving; if (moving) requestAnimationFrame(parFrame);
 }

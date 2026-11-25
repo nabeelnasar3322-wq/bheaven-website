@@ -42,7 +42,12 @@
   }
 
   /* ---------- measurement + frame ---------- */
-  function measure() { var y = scrollY; secs.forEach(function (s) { var r = s.el.getBoundingClientRect(); s.top = r.top + y; s.h = r.height; }); }
+  /* page position from the layout (ignores transforms), so the scroll frame never has to read layout */
+  function absTop(el) { var t = 0; for (var e = el; e; e = e.offsetParent) t += e.offsetTop; return t; }
+  function measure() {
+    var y = scrollY; secs.forEach(function (s) { var r = s.el.getBoundingClientRect(); s.top = r.top + y; s.h = r.height; });
+    cards.forEach(function (c) { c.__top = absTop(c); c.__h = c.offsetHeight; });
+  }
   var cur = -1, raf = 0, curSky = '';
   function frame() {
     raf = 0;
@@ -53,13 +58,13 @@
       secs[idx].a.classList.add('on'); cur = idx;
     }
     var max = Math.max(1, html.scrollHeight - vh);
-    rail.style.setProperty('--mp-p', Math.min(1, y / max).toFixed(4));
+    var mpP = Math.min(1, y / max).toFixed(3); if (mpP !== rail.__p) { rail.__p = mpP; rail.style.setProperty('--mp-p', mpP); }
     for (var c = 0; c < cards.length; c++) {
-      var b = cards[c].getBoundingClientRect();
-      if (b.bottom < -60 || b.top > vh + 60) continue;
-      var s = Math.max(-1, Math.min(1, (b.top + b.height / 2 - vh / 2) / (vh / 2)));
-      cards[c].style.setProperty('--mp-s', s.toFixed(3));
-      if (!counted && numEl && b.top < vh * 0.85) countUp();
+      var top = cards[c].__top - y, h = cards[c].__h;
+      if (top + h < -60 || top > vh + 60) continue;
+      var s = (Math.max(-1, Math.min(1, (top + h / 2 - vh / 2) / (vh / 2)))).toFixed(3);
+      if (cards[c].__s !== s) { cards[c].__s = s; cards[c].style.setProperty('--mp-s', s); }
+      if (!counted && numEl && top < vh * 0.85) countUp();
     }
   }
   function onScroll() { if (!raf && !doc.hidden) raf = requestAnimationFrame(frame); }

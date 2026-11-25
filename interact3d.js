@@ -58,11 +58,11 @@
     vel += (Math.max(-60, Math.min(60, d)) / 60 - vel) * .18;
     if (Math.abs(vel) < .002 && d === 0) vel = 0;
     var v = Math.round(vel * 1000) / 1000;
-    if (v !== shown) {
+    if (v !== shown && !document.documentElement.classList.contains('gs')) {
       shown = v;
       vis.forEach(function (c) { c.style.setProperty('--vel', v); });
     }
-    if (v !== 0) busy = true;
+    if (v !== 0 && !document.documentElement.classList.contains('gs')) busy = true;
     /* tilt springs */
     live.forEach(function (el) {
       var s = el.__t;
