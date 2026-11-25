@@ -170,7 +170,7 @@ em,i:not([class]){font-style:normal}
 .head{max-width:880px}
 .hero h1{font-size:clamp(40px,6.6vw,118px)}
 
-/* ============ Food tab: B·Heaven food menu look ============ */
+/* ============ Food tab: B-Heaven food menu look ============ */
 .menu-card.fm-card{padding:0;background:none;border:0;box-shadow:none;border-radius:26px;overflow:hidden}
 .fm{--plate:168px;position:relative;isolation:isolate;overflow:hidden;border-radius:26px;padding:56px 24px 48px;text-align:center;color:#25282A;font-family:Poppins,'Helvetica Neue',Arial,sans-serif;
   background:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='130'%20height='164'%3E%3Cpath%20d='M65.0%200%20L130%2082.0%20L65.0%20164%20L0%2082.0%20Z%20M65.0%200%20L65.0%2085.28%20M65.0%2085.28%20L93.6%20121.36%20L65.0%20157.44%20L36.4%20121.36%20Z'%20fill='none'%20stroke='%23DEDEDE'%20stroke-width='1'/%3E%3C/svg%3E") center top/130px 164px repeat,#F3F3F3;box-shadow:0 30px 60px -30px rgba(37,40,42,.35)}

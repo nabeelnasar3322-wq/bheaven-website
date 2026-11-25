@@ -97,7 +97,7 @@ p{margin:0}
 
 /* Daypart hero tint: reuses the .time.day/.sunset/.night palettes already built for the
    "Day to night" section, applied over the hero photo so the homepage's first impression
-   matches the real time at B·Heaven right now. Set by main.js on <html data-daypart="...">. */
+   matches the real time at B-Heaven right now. Set by main.js on <html data-daypart="...">. */
 .daypart-tint{position:absolute;inset:0;z-index:-2;opacity:0;transition:opacity 1.4s var(--ease);pointer-events:none;mix-blend-mode:soft-light}
 [data-daypart="day"] .daypart-tint{opacity:.55;background:linear-gradient(180deg,rgba(154,182,186,.35) 0%,rgba(215,210,197,.18) 55%,transparent 100%)}
 [data-daypart="sunset"] .daypart-tint{opacity:.6;background:linear-gradient(180deg,rgba(110,146,150,.3) 0%,rgba(215,210,197,.3) 55%,rgba(38,39,41,.25) 100%)}
