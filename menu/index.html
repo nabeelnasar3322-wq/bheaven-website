@@ -4206,5 +4206,6 @@ var s=sessionStorage.getItem('bh_sid');if(!s){s=Math.random().toString(36).slice
 var p=JSON.stringify({s:s,e:[{t:'source',l:n.slice(0,40)}]});if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([p],{type:'application/json'}))))fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:p,keepalive:true}).catch(function(){})}catch(_){}})();
 </script>
 <script src="/reveal.js" defer></script>
+<script src="/split-headings.js" defer></script>
 </body>
 </html>
