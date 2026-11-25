@@ -2420,6 +2420,12 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 .avoid .row .al.snapOff{animation:alOff .3s ease-out}
 @media (prefers-reduced-motion:reduce){.ev{transform:none!important}.ev .shot{transform:none}.avoid .row .al.snap,.avoid .row .al.snapOff{animation:none}}
 </style>
+<style id="marble">
+/* white marble wall (food mode); drinks mode keeps its night marble */
+body:not([data-mode=drinks])::after{display:none}
+body:not([data-mode=drinks]) .grunge{opacity:1;background:#F6F5F2 url(/menu/img/marble-white-l.webp) center/cover no-repeat}
+@media (max-aspect-ratio:1/1){body:not([data-mode=drinks]) .grunge{background-image:url(/menu/img/marble-white-p.webp)}}
+</style>
 <link rel="stylesheet" href="/scroll3d.css">
 <link rel="stylesheet" href="/scroll3d-inner.css">
 <script src="/scroll3d.js" defer></script>

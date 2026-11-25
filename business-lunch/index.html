@@ -2256,12 +2256,19 @@ nav.top ul a.on::after{transform:scaleX(1)!important}
 .dcard em{font-style:normal;font-size:.7rem;letter-spacing:.18em;font-weight:600;color:var(--teal-d);text-transform:uppercase}
 @media (max-width:600px){.dgrid{grid-template-columns:1fr}.prices{justify-content:center}.prices div{flex:1 1 130px;padding:14px 18px}.prices b{font-size:1.6rem}}
 </style>
+<style id="marble">
+/* white marble wall (food mode); drinks mode keeps its night marble */
+body:not([data-mode=drinks])::after{display:none}
+body:not([data-mode=drinks]) .grunge{opacity:1;background:#F6F5F2 url(/menu/img/marble-white-l.webp) center/cover no-repeat}
+@media (max-aspect-ratio:1/1){body:not([data-mode=drinks]) .grunge{background-image:url(/menu/img/marble-white-p.webp)}}
+</style>
 <script src="/pwa.js" defer></script>
 <link rel="stylesheet" href="/scroll3d.css">
 <link rel="stylesheet" href="/scroll3d-inner.css">
 <script src="/scroll3d.js" defer></script>
 </head>
 <body class="bl" data-mode="food">
+<div class="grunge" aria-hidden="true"></div>
 <nav class="top" id="top">
   <a class="logo" href="/" aria-label="B-Heaven by Barceló – back to home"></a>
   <ul>
