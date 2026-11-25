@@ -30,3 +30,7 @@ html.gs .gs-t.gs-live{will-change:translate,scale,rotate,opacity}
   background:linear-gradient(90deg,#9AB6BA,#D9B56A 60%,#F1DDA4);box-shadow:0 0 10px rgba(217,181,106,.55)}
 
 @media(prefers-reduced-motion:reduce){.gs-bar{display:none}html.gs.gs .gs-t.gs-t.gs-t{translate:none;scale:none;rotate:none;opacity:1}}
+
+/* SplitText headings (h2.split): each word gets the gold sheen itself, because a word that moves
+   paints on its own layer and would drop out of its parent's clipped gradient */
+h2.split .gold-text .sw{background:inherit;-webkit-background-clip:text;background-clip:text;color:transparent;animation:inherit}

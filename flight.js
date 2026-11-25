@@ -224,6 +224,7 @@
   }
   function boot() {
     load('/vendor/gsap.min.js').then(function () { return load('/vendor/ScrollTrigger.min.js'); })
+      .then(function () { return load('/vendor/SplitText.min.js').catch(function () {}); })
       .then(function () { return fine ? load('/vendor/lenis.min.js').catch(function () {}) : 0; })
       .then(setup).catch(function () {});
   }

@@ -482,7 +482,8 @@ if (!false) {
 }
 
 /* Headings: split into words that rise in on reveal */
-document.querySelectorAll('.section h2, .band-title, .pass-card h2').forEach(h => {
+/* h2.split is split by GSAP SplitText instead (gsap-scroll.js) */
+document.querySelectorAll('.section h2:not(.split), .band-title, .pass-card h2').forEach(h => {
   let n = 0; const out = [];
   h.childNodes.forEach(node => {
     if (node.nodeType === 3) node.textContent.split(/(\s+)/).forEach(t => out.push(/^\s*$/.test(t) ? document.createTextNode(t) : Object.assign(document.createElement('span'), { className: 'wd', textContent: t })));

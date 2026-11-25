@@ -37,7 +37,8 @@
     if (!box) return;
     var eb = box.querySelector('.eyebrow'), h = box.querySelector('h2');
     var words = h ? $$('.wd', h) : [];
-    if (h && !words.length) words = [h];
+    if (h && h.matches('.split') && window.SplitText) words = [];
+    else if (h && !words.length) words = [h];
     var after = rest ? $$(rest, box) : [];
     var all = [eb].concat(words, after).filter(Boolean);
     var tl = gsap.timeline({ scrollTrigger: { trigger: box, start: 'top 94%', end: 'top 52%', scrub: .7, toggleClass: { targets: all, className: 'gs-live' } } });
@@ -114,6 +115,32 @@
     return function () { if (bar) { bar.remove(); bar = null; } $$('.gs-t').forEach(function (e) { e.classList.remove('gs-t'); }); };
   }
 
+  /* h2.split: SplitText masks each line and the words rise into it, once, when the heading scrolls into view.
+     autoSplit re-splits after font loads and width changes; a heading that already played is not replayed. */
+  var splits = [], played = typeof WeakSet === 'function' ? new WeakSet() : null;
+  function splitHeadings() {
+    if (!window.SplitText) return;
+    gsap.registerPlugin(SplitText);
+    $$('h2.split').forEach(function (h) {
+      splits.push(SplitText.create(h, {
+        type: 'lines, words',
+        mask: 'lines',
+        wordsClass: 'sw',
+        autoSplit: true,
+        onSplit: function (self) {
+          if (played && played.has(h)) return;
+          return gsap.from(self.words, {
+            duration: 1,
+            y: 100,
+            autoAlpha: 0,
+            stagger: 0.05,
+            scrollTrigger: { trigger: h, start: 'top 88%', once: true, onEnter: function () { if (played) played.add(h); } }
+          });
+        }
+      }));
+    });
+  }
+
   function start() {
     if (started || !window.gsap || !window.ScrollTrigger || html.classList.contains('perf-2')) return;
     started = true;
@@ -122,13 +149,14 @@
     html.classList.add('gs');
     html.classList.remove('s3d', 's3d-full', 's3d-lite', 's3d-native');
     $$('[data-r], .ri, h2').forEach(function (e) { e.classList.add('in'); });
+    splitHeadings();
     mm = gsap.matchMedia();
     mm.add({ desk: '(min-width: 900px)', mob: '(max-width: 899px)' }, build);
     ScrollTrigger.refresh();
     if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { ScrollTrigger.refresh(); });
     /* battery saver dropped the page to its lightest level: put everything back at rest */
     new MutationObserver(function () {
-      if (mm && html.classList.contains('perf-2')) { mm.revert(); mm = null; html.classList.remove('gs'); }
+      if (mm && html.classList.contains('perf-2')) { mm.revert(); mm = null; html.classList.remove('gs'); splits.forEach(function (x) { x.revert(); }); splits = []; }
     }).observe(html, { attributes: true, attributeFilter: ['class'] });
   }
 
