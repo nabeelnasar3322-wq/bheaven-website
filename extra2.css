@@ -405,5 +405,5 @@ html .gal-grid .ph,html.s3d-full .gal-grid .ph{transform:none!important;perspect
 .show-now i{width:6px;height:6px;border-radius:50%;background:#B3261E;animation:showNow 1.6s ease-in-out infinite}
 @keyframes showNow{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
 @media (prefers-reduced-motion:reduce){.show-now i{animation:none}}
-.show.open .show-hook{display:none}
+.show:hover .show-hook,.show.open .show-hook{display:none}
 .show-badge{max-width:calc(100% - 28px);white-space:nowrap}
