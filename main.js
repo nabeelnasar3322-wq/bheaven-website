@@ -202,7 +202,11 @@ const dubaiNow = (() => {
 const SHOWS = [...EVENTS.map(e => ({ ...e, type: 'Weekly night' })), ...OFFERS.map(e => ({ ...e, type: 'Daily offer' }))]
   .map(e => (e.type === 'Weekly night' && e.day !== 'Daily' && e.weekday === dubaiNow.wd)
     ? { ...e, today: e.startHour < 17 ? 'Today' : 'Tonight' } : e);
+/* order: the weekend run first (Thu, Fri, Sat, Sun), then the daily offers */
+const SHOW_ORDER = ['grape', 'jazz', 'layali', 'ibiza', 'happy', 'dj', 'lunch', 'shisha'];
+SHOWS.sort((a, b) => (SHOW_ORDER.indexOf(a.key) + 99) % 99 - (SHOW_ORDER.indexOf(b.key) + 99) % 99);
 const todayIdx = SHOWS.findIndex(e => e.today);
+const defaultIdx = Math.max(0, SHOWS.findIndex(e => e.key === 'happy'));
 const track = $('#showTrack'), dotsEl = $('#showDots');
 if (track && dotsEl) {
   track.innerHTML = SHOWS.map((e, i) => `
@@ -232,7 +236,7 @@ if (track && dotsEl) {
   const cards = [...track.children], dots = [...dotsEl.children], N = cards.length;
   cards.forEach((c, i) => SHOWS[i].poster && loadImg(SHOWS[i].poster, im => { im.alt = SHOWS[i].title + ' poster'; c.querySelector('.show-art').append(im); }));
 
-  let current = todayIdx >= 0 ? todayIdx : 1;
+  let current = todayIdx >= 0 ? todayIdx : defaultIdx;
   const layout = () => {
     cards.forEach((c, i) => {
       let o = i - current;
