@@ -24,18 +24,6 @@
     <image:image><image:loc>https://bheavendubai.com/biz-lunch.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://bheavendubai.com/ibiza-brunch-dubai/</loc>
-    <lastmod>2026-11-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bheavendubai.com/jazz-friday-dubai/</loc>
-    <lastmod>2026-11-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://bheavendubai.com/menu/</loc>
     <lastmod>2026-11-22</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://bheavendubai.com/menu/"/>
