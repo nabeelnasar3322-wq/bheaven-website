@@ -115,9 +115,10 @@
     return function () { if (bar) { bar.remove(); bar = null; } $$('.gs-t').forEach(function (e) { e.classList.remove('gs-t'); }); };
   }
 
-  /* h2.split: SplitText masks each line and the words rise into it, once, when the heading scrolls into view.
-     autoSplit re-splits after font loads and width changes; a heading that already played is not replayed. */
-  var splits = [], played = typeof WeakSet === 'function' ? new WeakSet() : null;
+  /* h2.split: SplitText masks each line and the words rise into it, scrubbed to the scroll like the rest of the
+     page (plays as the title comes up, rewinds when you scroll back). autoSplit re-splits after font loads and
+     width changes and rebuilds the tween at the same scroll position. */
+  var splits = [];
   function splitHeadings() {
     if (!window.SplitText) return;
     gsap.registerPlugin(SplitText);
@@ -128,13 +129,13 @@
         wordsClass: 'sw',
         autoSplit: true,
         onSplit: function (self) {
-          if (played && played.has(h)) return;
           return gsap.from(self.words, {
             duration: 1,
             y: 100,
             autoAlpha: 0,
-            stagger: 0.05,
-            scrollTrigger: { trigger: h, start: 'top 88%', once: true, onEnter: function () { if (played) played.add(h); } }
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: h, start: 'top 94%', end: 'top 52%', scrub: 0.7 }
           });
         }
       }));

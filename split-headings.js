@@ -1,6 +1,7 @@
 /* SplitText heading reveal for the inner pages (menu, shisha, business lunch, privacy, terms, thank-you, 404).
    Same motion as the homepage section titles: each line is masked and its words rise in
-   (y 100, fade in, 0.05s stagger, 1s), once, when the heading scrolls into view.
+   (y 100, fade in, 0.05s stagger, 1s, power4.out), once, when the heading scrolls into view.
+   Repeated titles (menu/business-lunch categories .ch, shisha cards .card) get a lighter rise: y 40, 0.6s, 0.03s stagger.
    - Headings already on screen when the page opens stay still (no flash, no delay to the first paint).
    - GSAP + SplitText (/vendor) load only when a heading below the fold needs them.
    - English only. The EN/ES/AR switch translates text node by node, so a heading goes back to plain
@@ -14,6 +15,7 @@
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData) return;
 
   var EXCL = '[aria-hidden="true"], .no-split, noscript, template';
+  var LIGHT = '.ch, .card, .light-split';
   var list = [], libs = null, raf = 0;
 
   function english() { return (html.lang || 'en').slice(0, 2).toLowerCase() === 'en'; }
@@ -60,8 +62,10 @@
         mask: 'lines',
         autoSplit: true,
         onSplit: function (self) {
+          /* section titles get the full rise; repeated titles (menu categories, shisha cards) a lighter, quicker one */
+          var light = !!h.closest(LIGHT);
           var t = gsap.from(self.words, {
-            duration: 1, y: 100, autoAlpha: 0, stagger: 0.05, paused: true,
+            duration: light ? 0.6 : 1, y: light ? 40 : 100, autoAlpha: 0, stagger: light ? 0.03 : 0.05, ease: 'power4.out', paused: true,
             onComplete: function () { requestAnimationFrame(function () { settle(h); }); }
           });
           st.t = t;
