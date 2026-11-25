@@ -1,0 +1,23 @@
+/* ============ GSAP scroll layer (gsap-scroll.js) ============
+   When GSAP ScrollTrigger is running (html.gs), every section below the hero moves with the scroll
+   position: it plays forward as you scroll down and rewinds as you scroll back up.
+   GSAP only writes five custom properties per element; this file turns them into the individual
+   translate / scale / rotate properties (compositor-only), so nothing fights the hover tilt,
+   which uses `transform`, or the menu-card float, which moves the image inside the card. */
+html.gs.gs .gs-t.gs-t.gs-t{
+  translate:var(--gsx,0px) var(--gsy,0px);
+  scale:var(--gss,1);
+  rotate:var(--gsr,0deg);
+  opacity:var(--gso,1);
+  /* the reveal fades are now driven by the scroll, so they must not ease on top of it */
+  transition-property:transform,box-shadow,border-color,background-color,color,filter;
+  transition-delay:0s;
+}
+html.gs .wd{display:inline-block}
+
+/* gold reading-progress line across the top */
+.gs-bar{position:fixed;left:0;top:0;right:0;height:2px;z-index:120;pointer-events:none;
+  transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,#9AB6BA,#D9B56A 60%,#F1DDA4);box-shadow:0 0 10px rgba(217,181,106,.55)}
+
+@media(prefers-reduced-motion:reduce){.gs-bar{display:none}html.gs.gs .gs-t.gs-t.gs-t{translate:none;scale:none;rotate:none;opacity:1}}

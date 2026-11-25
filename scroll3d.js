@@ -13,6 +13,7 @@
 
   var lite = matchMedia('(max-width: 899px), (hover: none)');
   function setMode() {
+    if (root.classList.contains('gs')) return; /* gsap-scroll.js owns the scroll motion */
     root.classList.add('s3d');
     root.classList.toggle('s3d-lite', lite.matches);
     root.classList.toggle('s3d-full', !lite.matches);

@@ -205,7 +205,9 @@
       new MutationObserver(lock).observe(html, { attributes: true, attributeFilter: ['style'] });
       new MutationObserver(lock).observe(doc.body, { attributes: true, attributeFilter: ['style'] });
     }
-    var gate = $('#gate'); if (!gate || perf.lvl >= 2) return;
+    /* gsap-scroll.js waits for this; it fires after the gate pin exists so later triggers measure past its spacer */
+    var ready = function () { try { doc.dispatchEvent(new Event('bh:gsap')); } catch (_) {} };
+    var gate = $('#gate'); if (!gate || perf.lvl >= 2) return ready();
     html.classList.add('fl-gate');
     var frame = $('.gate-frame', gate), deck = $('.gate-deck', gate), sub = $('.gate-sub', gate);
     var tl = gsap.timeline({ scrollTrigger: { trigger: gate, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 1.25); }, pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true } });
@@ -213,6 +215,7 @@
       .fromTo(deck, { scale: 1.18 }, { scale: 1, ease: 'none', duration: 1 }, 0)
       .fromTo(sub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, ease: 'power2.out', duration: .3 }, .22)
       .to(sub, { opacity: 0, ease: 'power1.in', duration: .22 }, .74);
+    ready();
     ScrollTrigger.refresh();
     addEventListener('load', function () { ScrollTrigger.refresh(); });
     if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { ScrollTrigger.refresh(); });
