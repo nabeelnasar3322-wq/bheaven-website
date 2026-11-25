@@ -28,7 +28,9 @@
      Phones only get the two cheapest effects (band zoom / float); the rest is desktop. */
   var SEL_FULL = '.about-photos,.features,.band,.reserve,.menu-cat-grid,.gal-grid,.loc,.head,.about-grid>div:first-child,.rvw,.faq,.ft-grid,.events,.gallery,.visit,.section.about,.scatter,.dgrid,.cards,.cat';
   var SEL_LITE = '.band,.reserve';
-  var items = [], raf = 0, io = null;
+  var items = [], raf = 0, io = null, stopped = false;
+  /* gsap-scroll.js takes over once GSAP has loaded: stop this loop so two engines never write --s */
+  window.__s3dStop = function () { stopped = true; if (raf) cancelAnimationFrame(raf); raf = 0; };
   /* the Reserve section is big (form, concierge): write the variables onto its background layer
      only, so the browser does not re-style the whole form on every scroll frame */
   function targetOf(el) { return el.classList.contains('reserve') ? (el.querySelector('.res-bg') || el) : el; }
@@ -37,6 +39,7 @@
 
   function frame() {
     raf = 0;
+    if (stopped) return;
     /* while the hero clip is seeking, let that finish first */
     if (window.__skyBusy) { raf = requestAnimationFrame(frame); return; }
     var vh = innerHeight, moving = false, i, it, act = [];
@@ -62,7 +65,7 @@
     }
     if (moving) raf = requestAnimationFrame(frame);
   }
-  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  function kick() { if (!raf && !stopped) raf = requestAnimationFrame(frame); }
 
   function collect() {
     var els = document.querySelectorAll(lite.matches ? SEL_LITE : SEL_FULL);
