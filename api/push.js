@@ -34,11 +34,14 @@ module.exports = async (req, res) => {
       if (typeof k.p256dh !== 'string' || typeof k.auth !== 'string') return send(res, 400, { error: 'Bad subscription' });
       if (fromB64u(k.p256dh).length !== 65 || fromB64u(k.auth).length !== 16) return send(res, 400, { error: 'Bad subscription keys' });
       const lang = LANGS[b.lang] ? b.lang : 'en';
-      const [count] = await kvPipeline([['HLEN', 'bh:push']]);
       const id = idOf(s.endpoint);
-      if (Number(count) > 50000) return send(res, 503, { error: 'Too many subscribers' });
       const rec = JSON.stringify({ sub: { endpoint: s.endpoint, keys: { p256dh: k.p256dh, auth: k.auth } }, lang, t: Date.now() });
-      await kvPipeline([['HSET', 'bh:push', id, rec]]);
+      // one round-trip: count and save together; the rare over-limit new phone is taken back out
+      const [count, added] = await kvPipeline([['HLEN', 'bh:push'], ['HSET', 'bh:push', id, rec]]);
+      if (Number(count) > 50000) {
+        if (Number(added) === 1) await kvPipeline([['HDEL', 'bh:push', id]]);
+        return send(res, 503, { error: 'Too many subscribers' });
+      }
       return send(res, 200, { ok: true });
     }
     return send(res, 400, { error: 'Unknown action' });
