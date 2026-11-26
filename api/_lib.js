@@ -107,13 +107,16 @@ function memCount(key) {
   const e = mem.get(key);
   return e && e.until > Date.now() ? e.n : 0;
 }
+const RATE_LUA = "local n = redis.call('INCR', KEYS[1]) if redis.call('TTL', KEYS[1]) < 0 then redis.call('EXPIRE', KEYS[1], tonumber(ARGV[1])) end return n";
 // Count one event for this visitor; returns how many happened in the window (including this one).
 async function rateHit(req, name, windowSec, opts = {}) {
   const key = rlKey(req, name);
   if (opts.local) return memHit(key, windowSec);
   try {
-    // one round-trip: start the window only if it is new (SET NX EX), then count; INCR keeps the expiry
-    const [, n] = await kvPipeline([['SET', key, 0, 'EX', windowSec, 'NX'], ['INCR', key]]);
+    // one atomic round-trip: count, and give the counter its expiry whenever it has none
+    // (covers a brand-new key and any old key left without one, so a visitor is never locked out for good)
+    const [n] = await kvPipeline([['EVAL', RATE_LUA, 1, key, windowSec]]);
+    if (!Number.isFinite(Number(n)) || n === null) throw new Error('rate count unavailable');
     return Number(n);
   } catch (e) { return memHit(key, windowSec); }
 }
