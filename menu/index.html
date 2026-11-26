@@ -1251,6 +1251,7 @@ body[data-mode=drinks] .ch .num,body[data-mode=drinks] .sideItem .num{-webkit-te
 html[dir=rtl] .cpHead{text-align:left;align-items:flex-start}html[dir=rtl] .cpHead .cpPill{direction:rtl}
 /* chef's pass: smoother scroll + motion */
 .cpSec{content-visibility:auto;contain-intrinsic-size:auto calc(760*var(--u));contain:layout paint style}
+@media (max-width:1099px){.cpSec{content-visibility:visible;contain-intrinsic-size:none}}   /* below desktop the 760u size estimate is 210-306px short, so the page jumped when the section rendered */
 .cpViz{touch-action:pan-y;-webkit-tap-highlight-color:transparent}
 .cpLeaf,.cpLemon{will-change:translate;filter:none;height:auto!important;transform:translate(-50%,-50%) rotate(var(--r,0deg))}
 .cpLeaf.l1{--r:-28deg}.cpLeaf.l2{--r:34deg}
@@ -2420,8 +2421,15 @@ body[data-mode=drinks] .langMenu [data-l=ar]{display:none}
 .avoid .row .al.snapOff{animation:alOff .3s ease-out}
 @media (prefers-reduced-motion:reduce){.ev{transform:none!important}.ev .shot{transform:none}.avoid .row .al.snap,.avoid .row .al.snapOff{animation:none}}
 </style>
+<style id="marble">
+/* white marble wall (food mode); drinks mode keeps its night marble */
+body:not([data-mode=drinks])::after{display:none}
+body:not([data-mode=drinks]) .grunge{opacity:1;background:#F6F5F2 url(/menu/img/marble-white-l.webp) center/cover no-repeat}
+@media (max-aspect-ratio:1/1){body:not([data-mode=drinks]) .grunge{background-image:url(/menu/img/marble-white-p.webp)}}
+</style>
 <link rel="stylesheet" href="/scroll3d.css">
 <link rel="stylesheet" href="/scroll3d-inner.css">
+<link rel="stylesheet" href="/scroll3d-menu.css">
 <script src="/scroll3d.js" defer></script>
 </head>
 <body>
@@ -4206,5 +4214,6 @@ var s=sessionStorage.getItem('bh_sid');if(!s){s=Math.random().toString(36).slice
 var p=JSON.stringify({s:s,e:[{t:'source',l:n.slice(0,40)}]});if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([p],{type:'application/json'}))))fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:p,keepalive:true}).catch(function(){})}catch(_){}})();
 </script>
 <script src="/reveal.js" defer></script>
+<script src="/split-headings.js" defer></script>
 </body>
 </html>

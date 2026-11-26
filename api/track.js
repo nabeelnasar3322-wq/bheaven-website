@@ -15,12 +15,15 @@ module.exports = async (req, res) => {
     const sid = String(b.s || '').slice(0, 40);
     const day = dubaiDay();
     const cmds = [];
+    const keys = new Set();
     for (const ev of events) {
       if (!ev || !TYPES[ev.t]) continue;
       const label = String(ev.l || '_').replace(/[^\w &'’.\-]/g, '').slice(0, 60) || '_';
       const key = `bh:${day}:${ev.t}`;
-      cmds.push(['HINCRBY', key, label, 1], ['EXPIRE', key, TTL]);
+      cmds.push(['HINCRBY', key, label, 1]);
+      keys.add(key);
     }
+    keys.forEach((k) => cmds.push(['EXPIRE', k, TTL]));
     if (sid && cmds.length) cmds.push(['PFADD', `bh:${day}:users`, sid], ['EXPIRE', `bh:${day}:users`, TTL]);
     if (cmds.length) await kvPipeline(cmds);
   } catch (e) { /* analytics must never break the menu */ }

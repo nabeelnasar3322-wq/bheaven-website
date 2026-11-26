@@ -2214,6 +2214,7 @@ nav.top ul a.on::after{transform:scaleX(1)!important}
 .hero.bl h1 em{font-style:normal;font-weight:800;color:var(--teal-d)}
 .hero.bl .wrap{max-width:1400px;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:clamp(24px,3vw,48px);align-items:stretch}
 .blPhoto{position:relative;justify-self:end;align-self:stretch;width:100%;max-width:820px;min-height:420px;border-radius:28px;overflow:hidden;box-shadow:0 40px 70px -30px rgba(30,71,76,.55)}
+.blPhoto picture,.blBand picture{display:contents}
 .blPhoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
 .prices{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
 .prices div{background:var(--tile);border:1px solid var(--line);border-radius:18px;padding:16px 26px;display:flex;flex-direction:column;gap:4px;box-shadow:0 14px 30px -20px rgba(30,71,76,.4)}
@@ -2256,12 +2257,19 @@ nav.top ul a.on::after{transform:scaleX(1)!important}
 .dcard em{font-style:normal;font-size:.7rem;letter-spacing:.18em;font-weight:600;color:var(--teal-d);text-transform:uppercase}
 @media (max-width:600px){.dgrid{grid-template-columns:1fr}.prices{justify-content:center}.prices div{flex:1 1 130px;padding:14px 18px}.prices b{font-size:1.6rem}}
 </style>
+<style id="marble">
+/* white marble wall (food mode); drinks mode keeps its night marble */
+body:not([data-mode=drinks])::after{display:none}
+body:not([data-mode=drinks]) .grunge{opacity:1;background:#F6F5F2 url(/menu/img/marble-white-l.webp) center/cover no-repeat}
+@media (max-aspect-ratio:1/1){body:not([data-mode=drinks]) .grunge{background-image:url(/menu/img/marble-white-p.webp)}}
+</style>
 <script src="/pwa.js" defer></script>
 <link rel="stylesheet" href="/scroll3d.css">
 <link rel="stylesheet" href="/scroll3d-inner.css">
 <script src="/scroll3d.js" defer></script>
 </head>
 <body class="bl" data-mode="food">
+<div class="grunge" aria-hidden="true"></div>
 <nav class="top" id="top">
   <a class="logo" href="/" aria-label="B-Heaven by Barceló – back to home"></a>
   <ul>
@@ -2295,13 +2303,13 @@ nav.top ul a.on::after{transform:scaleX(1)!important}
       </div>
       <div class="prices"><div><span>2 course set menu</span><b><i class="aed" role="img" aria-label="AED"></i>89</b></div><div class="dk"><span>3 course set menu</span><b><i class="aed" role="img" aria-label="AED"></i>105</b></div></div>
     </div>
-    <div class="blPhoto"><img src="/menu/img/business-lunch-hero.jpg" width="933" height="1400" decoding="async" alt="Latte, laptop and bruschetta on a rooftop table" fetchpriority="high"></div>
+    <div class="blPhoto"><picture><source srcset="/menu/img/business-lunch-hero.avif" type="image/avif"><source srcset="/menu/img/business-lunch-hero.webp" type="image/webp"><img src="/menu/img/business-lunch-hero.jpg" width="933" height="1400" decoding="async" alt="Latte, laptop and bruschetta on a rooftop table" fetchpriority="high"></picture></div>
   </div>
 </header>
 <section class="blTools" id="menu"><div class="wrap"><div class="blChips"><a href="#starters">Starters · 8</a><a href="#mains">Chef's Mains · 7</a><a href="#sweet">Sweet Finish · 4</a></div></div></section>
 <main id="root"></main>
 <div class="wrap"><div class="blNote">C-Celery / G-Gluten / D-Dairy / S-Shellfish / N-Nuts / F-Fish / E-Egg / M-Mustard / P-Peanuts / SE-Sesame / SO-Soya / SUL-Sulphites / V-Vegetarian</div>
-<div class="blBand"><img loading="lazy" decoding="async" width="933" height="1400" src="/menu/img/business-lunch-band.jpg" alt="Working lunch on the rooftop"><div><h2>Make room for a better midday.</h2><p>Mon to Fri · 12:30 – 3:30 PM<br><i class="aed" role="img" aria-label="AED"></i>89 / <i class="aed" role="img" aria-label="AED"></i>105</p><a class="btn" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20business%20lunch" target="_blank" rel="noopener">Book on WhatsApp</a></div></div></div>
+<div class="blBand"><picture><source srcset="/menu/img/business-lunch-band.avif" type="image/avif"><source srcset="/menu/img/business-lunch-band.webp" type="image/webp"><img loading="lazy" decoding="async" width="933" height="1400" src="/menu/img/business-lunch-band.jpg" alt="Working lunch on the rooftop"></picture><div><h2>Make room for a better midday.</h2><p>Mon to Fri · 12:30 – 3:30 PM<br><i class="aed" role="img" aria-label="AED"></i>89 / <i class="aed" role="img" aria-label="AED"></i>105</p><a class="btn" href="https://api.whatsapp.com/send/?phone=971506129150&amp;text=Hi%20B-Heaven%2C%20I%27d%20like%20to%20book%20a%20business%20lunch" target="_blank" rel="noopener">Book on WhatsApp</a></div></div></div>
 <footer id="contact" data-pr="foot">
   <div class="wrap">
     <div class="fGrid">
@@ -2430,4 +2438,5 @@ var p=JSON.stringify({s:s,e:[{t:'source',l:n.slice(0,40)}]});if(!(navigator.send
 })();
 </script>
 <script src="/reveal.js" defer></script>
+<script src="/split-headings.js" defer></script>
 </body></html>

@@ -112,8 +112,8 @@ async function rateHit(req, name, windowSec, opts = {}) {
   const key = rlKey(req, name);
   if (opts.local) return memHit(key, windowSec);
   try {
-    const [n] = await kvPipeline([['INCR', key]]);
-    if (Number(n) === 1) await kvPipeline([['EXPIRE', key, windowSec]]);
+    // one round-trip: start the window only if it is new (SET NX EX), then count; INCR keeps the expiry
+    const [, n] = await kvPipeline([['SET', key, 0, 'EX', windowSec, 'NX'], ['INCR', key]]);
     return Number(n);
   } catch (e) { return memHit(key, windowSec); }
 }

@@ -48,16 +48,26 @@ if (SITE.logo) document.querySelectorAll('[data-logo]').forEach(el => { el.inner
 /* Any of .webp / .jpg / .jpeg / .png works for a photo name */
 /* Big photos are resized and compressed by Vercel; the original file is the backup */
 const optimise = (src, w) => w && location.protocol === 'https:' && /^https:\/\/cdn\.jsdelivr\.net\//.test(src) ? ['/_vercel/image?url=' + encodeURIComponent(src) + '&w=' + w + '&q=75'] : [];
-const variants = (src, w) => { const m = src.match(/^(.*)\.(jpe?g|webp|png)$/i); return [...optimise(src, w), ...(m ? [...new Set([src, m[1] + '.webp', m[1] + '.jpg', m[1] + '.jpeg', m[1] + '.png'])] : [src])]; };
+/* AVIF first (about 30% lighter than WebP) for our own photos, only on browsers that can show it; WebP/JPG stay as the fallback.
+   Covers photos in the site root, /festive/ and the /menu/img/ev-* posters: a new photo there needs its .avif copy too
+   (if one is missing the browser simply falls back to the WebP after one extra request). */
+const AVIF_OK = new Promise(r => { const t = new Image(); t.onload = () => r(t.width > 0); t.onerror = () => r(false); t.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADrbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAAAAAAAOcGl0bQAAAAAAAQAAAB5pbG9jAAAAAEQAAAEAAQAAAAEAAAETAAAAIQAAAChpaW5mAAAAAAABAAAAGmluZmUCAAAAAAEAAGF2MDFDb2xvcgAAAABqaXBycAAAAEtpcGNvAAAAFGlzcGUAAAAAAAAAAQAAAAEAAAAQcGl4aQAAAAADCAgIAAAADGF2MUOBAAwAAAAAE2NvbHJuY2x4AAEADQAGgAAAABdpcG1hAAAAAAAAAAEAAQQBAoMEAAAAKW1kYXQSAAoIGAAGiAhoNCAyExlHh4Yhh5555oAAAJBAyRxgimo='; });
+const variants = (src, w, avif) => { const m = src.match(/^(.*)\.(jpe?g|webp|png)$/i); const av = avif && m && /^\/(?:[^/]+|menu\/img\/ev-[^/]+|festive\/[^/]+)$/.test(src) ? [m[1] + '.avif'] : []; return [...optimise(src, w), ...av, ...(m ? [...new Set([src, m[1] + '.webp', m[1] + '.jpg', m[1] + '.jpeg', m[1] + '.png'])] : [src])]; };
 const loadImg = (src, ok, fail, w = 960) => {
   if (!src) return fail && fail();
-  const list = variants(src, w);
-  const tryN = k => { if (k >= list.length) return fail && fail(); const im = new Image(); im.onload = () => ok(im); im.onerror = () => tryN(k + 1); im.src = list[k]; };
-  tryN(0);
+  AVIF_OK.then(avif => {
+    const list = variants(src, w, avif);
+    const tryN = k => { if (k >= list.length) return fail && fail(); const im = new Image(); im.onload = () => ok(im); im.onerror = () => tryN(k + 1); im.src = list[k]; };
+    tryN(0);
+  });
 };
+/* Skeleton: a soft shimmer sits on a photo tile until its picture arrives (or fails and the styled placeholder shows) */
+function skelOn(el) { if (!el.querySelector(':scope > .ph-skel')) el.insertAdjacentHTML('beforeend', '<i class="ph-skel" aria-hidden="true"></i>'); el.classList.add('ph-wait'); }
+function skelOff(el) { el.classList.remove('ph-wait'); el.querySelector(':scope > .ph-skel')?.remove(); }
 function fillPhoto(el, src, alt, fallback) {
-  const put = im => { im.alt = alt || ''; im.loading = 'lazy'; im.dataset.par = ''; el.prepend(im); el.classList.add('has-img'); requestAnimationFrame(parTick); };
-  loadImg(src, put, () => fallback && loadImg(fallback, put));
+  skelOn(el);
+  const put = im => { skelOff(el); im.alt = alt || ''; im.loading = 'lazy'; im.dataset.par = ''; el.prepend(im); el.classList.add('has-img'); requestAnimationFrame(parTick); };
+  loadImg(src, put, () => fallback ? loadImg(fallback, put, () => skelOff(el)) : skelOff(el));
 }
 const FB = SITE.fallbacks || {};
 document.querySelectorAll('[data-photo]').forEach(el => fillPhoto(el, SITE.photos[el.dataset.photo], el.dataset.alt || el.textContent.trim(), FB[el.dataset.photo]));
@@ -79,6 +89,7 @@ fetch('/api/instagram').then(r => r.status === 200 ? r.json() : null).then(d => 
     <img src="${esc(p.img)}" alt="${esc(p.caption.slice(0, 100) || 'Instagram post')}" loading="lazy" data-par>
     ${p.type === 'VIDEO' ? '<i class="ig-badge">▶</i>' : p.type === 'CAROUSEL_ALBUM' ? '<i class="ig-badge">❐</i>' : ''}
     <span class="ig-ov">${igIcon}<span>${esc(p.caption.slice(0, 140))}</span></span></a>`).join('');
+  g.querySelectorAll('.ig img').forEach(im => { const t = im.closest('.ig'); if (im.complete && im.naturalWidth) return; skelOn(t); const off = () => skelOff(t); im.addEventListener('load', off, { once: true }); im.addEventListener('error', off, { once: true }); });
   const lead = $('.gallery .lead'); if (lead) lead.textContent = 'Fresh from our Instagram. Tap a post to open it.';
   requestAnimationFrame(parTick);
 }).catch(() => {});

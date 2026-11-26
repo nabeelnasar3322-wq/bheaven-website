@@ -1,0 +1,97 @@
+/* 3D depth scroll for the menu page, v2 (loaded after scroll3d.css and scroll3d-inner.css).
+   Phones now get it too, because most guests open the menu from the table QR code.
+   Every move enters, settles flat while the item is in the middle of the screen, then lifts away:
+   - chapter headers: the big number drifts up from the depth, the title folds up like a card
+   - dish plates: land on the table (tilted back, then flat) and turn slowly as you scroll
+   - square tiles: fold up out of the table, one column a beat after the other
+   - side-view dishes: the photo swings in from the side
+   Browser-run (animation-timeline: view()), compositor-only properties, no per-frame JavaScript.
+   Firefox and reduced-motion keep the page as it was (scroll3d.js adds no s3d-native class). */
+
+@property --spin { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+
+@supports (animation-timeline: view()) {
+  /* amounts: desktop / phone */
+  html.s3d-native { --m-tilt: 42deg; --m-lift: 70px; --m-spin: 28deg; --m-sq: 26deg; --m-side: 16deg; }
+  html.s3d-native.s3d-lite { --m-tilt: 30deg; --m-lift: 44px; --m-spin: 20deg; --m-sq: 18deg; --m-side: 10deg; }
+
+  /* the older desktop-only drum tilt is replaced by the moves below */
+  html.s3d-native.s3d-full .cat .ch { animation: none; }
+
+  /* ---------- 1. chapter headers ---------- */
+  @keyframes m-num {
+    0%   { translate: 0 calc(var(--m-lift) * 1.4); scale: 1.35; opacity: .15; }
+    45%  { translate: 0 0; scale: 1; opacity: 1; }
+    100% { translate: 0 calc(var(--m-lift) * -.8); scale: .92; opacity: .6; }
+  }
+  @keyframes m-fold {
+    from { rotate: x var(--m-tilt); translate: 0 calc(var(--m-lift) * .5); }
+    to   { rotate: x 0deg; translate: 0 0; }
+  }
+  html.s3d-native .cat .ch { perspective: 900px; }
+  html.s3d-native .cat .ch .num {
+    animation: m-num linear both; animation-timeline: view(); animation-range: entry 0% exit 60%;
+  }
+  html.s3d-native .cat .ch > div,
+  html.s3d-native .cat .ch > p {
+    transform-origin: 50% 100%;
+    animation: m-fold linear both; animation-timeline: view(); animation-range: entry 10% cover 38%;
+  }
+  html.s3d-native .cat .ch > p { animation-range: entry 25% cover 45%; }
+
+  /* ---------- 2. dish plates: land on the table, then turn ---------- */
+  @keyframes m-land {
+    0%   { rotate: x var(--m-tilt); scale: .86; }
+    40%  { rotate: x 0deg; scale: 1; }
+    80%  { rotate: x 0deg; scale: 1; }
+    100% { rotate: x calc(var(--m-tilt) * -.35); scale: .97; }
+  }
+  @keyframes m-turn {
+    from { --spin: calc(var(--m-spin) * -1); }
+    to   { --spin: var(--m-spin); }
+  }
+  html.s3d-native .scatter { perspective: 1200px; }
+  html.s3d-native:is(.s3d-full, .s3d-lite) .scatter .plate {
+    transform-origin: 50% 35%;
+    animation: m-land linear both, m-turn linear both;
+    animation-timeline: view(), view();
+    animation-range: entry 0% exit 100%, cover 0% cover 100%;
+  }
+  /* the dish photo turns with the scroll; only once it has revealed, so the fade-in rotate still plays */
+  html.s3d-native .scatter .plate:not(.pre) .disc img,
+  html.s3d-native .scatter .plate.pre.in .disc img {
+    rotate: var(--spin);
+    transition: transform .7s cubic-bezier(.2,.8,.2,1), filter .5s, rotate .4s cubic-bezier(.2,.8,.2,1);
+  }
+
+  /* ---------- 3. square tiles: fold up out of the table ---------- */
+  @keyframes m-tile {
+    0%   { rotate: x var(--m-sq); translate: 0 var(--m-lift); }
+    45%  { rotate: x 0deg; translate: 0 0; }
+    100% { rotate: x 0deg; translate: 0 calc(var(--m-lift) * -.25); }
+  }
+  html.s3d-native .squares { perspective: 1400px; }
+  html.s3d-native .sq .tileBox {
+    transform-origin: 50% 100%;
+    animation: m-tile linear both; animation-timeline: view(); animation-range: entry 0% exit 40%;
+  }
+  html.s3d-native .squares > .sq:nth-child(even) .tileBox { animation-range: entry 15% exit 50%; }
+
+  /* ---------- 4. side-view dishes: the photo swings in ---------- */
+  @keyframes m-swing {
+    from { rotate: y var(--m-side); translate: calc(var(--m-lift) * .6) 0; }
+    to   { rotate: y 0deg; translate: 0 0; }
+  }
+  html.s3d-native .side { perspective: 1400px; }
+  html.s3d-native .sideItem .ph {
+    animation: m-swing linear both; animation-timeline: view(); animation-range: entry 0% cover 40%;
+  }
+  html.s3d-native .sideItem:nth-child(even) .ph { animation-name: m-swing-l; }
+  @keyframes m-swing-l {
+    from { rotate: y calc(var(--m-side) * -1); translate: calc(var(--m-lift) * -.6) 0; }
+    to   { rotate: y 0deg; translate: 0 0; }
+  }
+
+  /* battery saver / weakest devices: back to rest */
+  html.perf-2 :is(.cat .ch .num, .cat .ch > div, .cat .ch > p, .scatter .plate, .sq .tileBox, .sideItem .ph) { animation: none !important; }
+}

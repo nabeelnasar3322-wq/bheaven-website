@@ -34,3 +34,6 @@ html.gs .gs-t.gs-live{will-change:translate,scale,rotate,opacity}
 /* SplitText headings (h2.split): each word gets the gold sheen itself, because a word that moves
    paints on its own layer and would drop out of its parent's clipped gradient */
 h2.split .gold-text .sw{background:inherit;-webkit-background-clip:text;background-clip:text;color:transparent;animation:inherit}
+
+/* keep script words together in titles: "B-Heaven" was breaking at its hyphen on phones (B- / HEAVEN) */
+h2 .script{white-space:nowrap}

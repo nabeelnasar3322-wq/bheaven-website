@@ -94,7 +94,7 @@ html.perf-1 *,html.perf-1 *::before,html.perf-1 *::after{-webkit-backdrop-filter
 html.perf-1 #header.solid{background:rgba(30,31,33,.94)!important}
 html.perf-1 .rbook,html.perf-1 .vibe-concierge{background:rgba(24,25,27,.9)!important}
 html.perf-1 .show-track .show{filter:none!important}
-html.perf-2 .gate{display:none!important}
+html.perf-2:not(.fl-gate) .gate{display:none!important}   /* once the gate is pinned it stays: hiding it mid-scroll made the page jump a full screen */
 
 /* hero dock (tags + booking button) removed on desktop and iPad */
 html.sky-on .sky-dock{display:none!important}

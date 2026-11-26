@@ -356,3 +356,10 @@ p{margin:0}
 /* Events subtitle: single line on desktop and iPad, balanced wrap on small screens */
 .head.center .lead.lead-oneline{max-width:none;white-space:nowrap}
 @media(max-width:768px){.head.center .lead.lead-oneline{white-space:normal;text-wrap:balance;max-width:34ch}}
+
+/* Skeleton loading: shimmer on photo tiles until the picture arrives */
+.ph-skel{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;border-radius:inherit;background:rgba(251,247,226,.035)}
+.ph-skel::after{content:'';position:absolute;top:0;bottom:0;left:0;width:55%;background:linear-gradient(100deg,transparent,rgba(251,247,226,.11) 45%,rgba(154,182,186,.12) 55%,transparent);transform:translateX(-110%);animation:phSkel 1.6s cubic-bezier(.4,0,.2,1) infinite}
+.ph.ph-wait .ph-label,.ph.ph-wait .ph-cap{visibility:hidden}
+@keyframes phSkel{to{transform:translateX(200%)}}
+@media(prefers-reduced-motion:reduce){.ph-skel::after{display:none}}

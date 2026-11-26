@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node scripts/validate-schema.js && node scripts/seo-menu.js && node scripts/seo-i18n.js",
+  "buildCommand": "node scripts/validate-schema.js && node scripts/seo-menu.js && node scripts/seo-i18n.js && node scripts/asset-version.js",
   "outputDirectory": ".",
   "redirects": [
     {
@@ -81,7 +81,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.google.com; media-src 'self' blob: data:; frame-src 'self' https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.google.com; media-src 'self' blob: data:; frame-src 'self' https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
         },
         {
           "key": "Strict-Transport-Security",
@@ -95,6 +95,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=2592000, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/menu/img/:file((?![0-9a-f]{12}\\.webp$)[^/]+\\.(?:webp|avif|jpe?g|png))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
         }
       ]
     },
@@ -126,7 +135,7 @@
       ]
     },
     {
-      "source": "/menu/img/:file(business-lunch-[a-z]+\\.jpg)",
+      "source": "/menu/img/:file(business-lunch-[a-z]+\\.(?:jpg|webp|avif))",
       "headers": [
         {
           "key": "Cache-Control",
@@ -189,6 +198,27 @@
           "key": "Cache-Control",
           "value": "public, max-age=3600, stale-while-revalidate=86400"
         }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "v"
+        }
+      ]
+    },
+    {
+      "source": "/:file([^/]+\\.(?:css|js))",
+      "has": [
+        {
+          "type": "query",
+          "key": "v"
+        }
+      ],
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
@@ -240,11 +270,38 @@
       ]
     },
     {
-      "source": "/:file([^/]+\\.(?:jpe?g|png|webp|JPG|PNG))",
+      "source": "/:file([^/]+\\.(?:jpe?g|png|webp|avif|JPG|PNG))",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=2592000, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/:file([^/]+\\.mp4)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/festive/:file",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/vendor/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
         }
       ]
     }

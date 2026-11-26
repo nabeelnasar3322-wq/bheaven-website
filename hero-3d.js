@@ -199,7 +199,7 @@
   var shownKey = -1;
   function render(fl) {
     var f = Math.round(fl); warm(f);
-    var a = Math.floor(fl), q = cfg.mobile ? 0 : Math.round((fl - a) * 6);   /* phones: no cross-fade, one canvas draw per frame (touch momentum already moves fast) */
+    var a = Math.floor(fl), q = (cfg.mobile || fast) ? 0 : Math.round((fl - a) * 6);   /* cross-fade only while the scrub is settling slowly; while the visitor scrolls it costs a second full-size draw per frame */   /* phones: no cross-fade, one canvas draw per frame (touch momentum already moves fast) */
     if (q === 6) { a++; q = 0; }
     if (a >= N - 1) { a = N - 1; q = 0; }
     var use = nearest(a);
@@ -238,7 +238,7 @@
      glides the same on 60 and 120 Hz screens. Only whole frames are drawn, and only when the frame
      changes. The first and last slice of the scroll hold on the first/last frame so the ends feel
      settled. */
-  var lastT = 0, HOLD_A = 0.012, HOLD_B = 0.982;
+  var lastT = 0, fast = false, HOLD_A = 0.012, HOLD_B = 0.982;
   function vidProgress(p) { return Math.max(0, Math.min(1, (p - HOLD_A) / (HOLD_B - HOLD_A))); }
   function tick(now) {
     raf = 0;
@@ -250,6 +250,7 @@
     lastT = now;
     goal = vidProgress(p) * (N - 1);
     if (goal !== cur) dirn = goal > cur ? 1 : -1;
+    fast = Math.abs(goal - cur) > 1.5;
     cur += (goal - cur) * (1 - Math.exp(-dt / 0.06));
     if (Math.abs(goal - cur) < 0.08) cur = goal;
     render(cur);

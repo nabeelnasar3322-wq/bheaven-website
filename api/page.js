@@ -106,15 +106,14 @@ module.exports = async (req, res) => {
     // only fetch from our own domain or a Vercel preview of it; never from an arbitrary Host header
     let host = String(req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase().split(',')[0].trim();
     if (!/^([a-z0-9-]+\.)*bheavendubai\.com$|^[a-z0-9-]+\.vercel\.app$/.test(host)) host = 'bheavendubai.com';
+    // the source page and the translated plain-text menu are fetched in parallel (one wait, not two)
+    // translated menu: if it is missing the English one stays, so this can never break the page
+    const fragP = fetch(`https://${host}/${page}/seo-${lang}.html`, { headers: { 'x-bh-i18n': '1' } })
+      .then((fr) => (fr.ok ? fr.text() : '')).catch(() => '');
     let r = await fetch(`https://${host}/${page}/`, { headers: { 'x-bh-i18n': '1' } });
     if (!r.ok) r = await fetch(`${ORIGIN}/${page}/`);
     if (!r.ok) throw new Error('source page ' + r.status);
-    // translated plain-text menu; if it is missing the English one stays, so this can never break the page
-    let frag = '';
-    try {
-      const fr = await fetch(`https://${host}/${page}/seo-${lang}.html`, { headers: { 'x-bh-i18n': '1' } });
-      if (fr.ok) frag = await fr.text();
-    } catch (_) {}
+    const frag = await fragP;
     const html = transform(await r.text(), page, lang, frag);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
