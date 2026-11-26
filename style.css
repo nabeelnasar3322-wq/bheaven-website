@@ -353,7 +353,7 @@ p{margin:0}
 .event.shisha .big{font-family:var(--serif);font-weight:700;font-size:64px;letter-spacing:.08em;color:#E8C77E}
 .event.shisha .big small{color:#E8C77E}
 
-/* Events subtitle: single line on desktop, balanced wrap on small screens */
+/* Events subtitle: single line on desktop and iPad, balanced wrap on small screens */
 .head.center .lead.lead-oneline{max-width:none;white-space:nowrap}
 @media(max-width:768px){.head.center .lead.lead-oneline{white-space:normal;text-wrap:balance;max-width:34ch}}
 
