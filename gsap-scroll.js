@@ -119,6 +119,11 @@
      page (plays as the title comes up, rewinds when you scroll back). autoSplit re-splits after font loads and
      width changes and rebuilds the tween at the same scroll position. */
   var splits = [];
+  /* split heading wrappers: immune to section rules like '.band div{padding:..}' */
+  var st = document.createElement('style');
+  st.textContent = '.shl,.shl-mask,.sw{padding:0!important;margin:0!important;border:0!important;gap:0!important;min-height:0!important;min-width:0!important;background:none!important;box-shadow:none!important;flex:none!important;max-width:none!important}';
+  document.head.appendChild(st);
+
   function splitHeadings() {
     if (!window.SplitText) return;
     gsap.registerPlugin(SplitText);
@@ -126,6 +131,7 @@
       splits.push(SplitText.create(h, {
         type: 'lines, words',
         mask: 'lines',
+        linesClass: 'shl',
         wordsClass: 'sw',
         autoSplit: true,
         onSplit: function (self) {

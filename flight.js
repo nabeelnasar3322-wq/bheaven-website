@@ -209,6 +209,11 @@
     /* gsap-scroll.js waits for this; it fires after the gate pin exists so later triggers measure past its spacer */
     var ready = function () { try { doc.dispatchEvent(new Event('bh:gsap')); } catch (_) {} };
     var gate = $('#gate'); if (!gate || perf.lvl >= 2) return ready();
+    /* GSAP arrives on idle; on a slow phone the visitor may already be at (or past) the gate's spot.
+       Inserting a full-screen pinned section there would shove the page down by more than two screens,
+       so in that case the page simply keeps going without the tunnel. */
+    var after = gate.nextElementSibling;
+    if (after && after.getBoundingClientRect().top < innerHeight * 1.5) return ready();
     html.classList.add('fl-gate');
     var frame = $('.gate-frame', gate), deck = $('.gate-deck', gate), sub = $('.gate-sub', gate);
     var tl = gsap.timeline({ scrollTrigger: { trigger: gate, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 1.25); }, pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true } });

@@ -1251,6 +1251,7 @@ body[data-mode=drinks] .ch .num,body[data-mode=drinks] .sideItem .num{-webkit-te
 html[dir=rtl] .cpHead{text-align:left;align-items:flex-start}html[dir=rtl] .cpHead .cpPill{direction:rtl}
 /* chef's pass: smoother scroll + motion */
 .cpSec{content-visibility:auto;contain-intrinsic-size:auto calc(760*var(--u));contain:layout paint style}
+@media (max-width:1099px){.cpSec{content-visibility:visible;contain-intrinsic-size:none}}   /* below desktop the 760u size estimate is 210-306px short, so the page jumped when the section rendered */
 .cpViz{touch-action:pan-y;-webkit-tap-highlight-color:transparent}
 .cpLeaf,.cpLemon{will-change:translate;filter:none;height:auto!important;transform:translate(-50%,-50%) rotate(var(--r,0deg))}
 .cpLeaf.l1{--r:-28deg}.cpLeaf.l2{--r:34deg}

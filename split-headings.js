@@ -17,6 +17,11 @@
   var EXCL = '[aria-hidden="true"], .no-split, noscript, template';
   var LIGHT = '.ch, .card, .light-split';
   var list = [], libs = null, raf = 0;
+  /* split heading wrappers: immune to section rules like '.band div{padding:..}' */
+  var st = document.createElement('style');
+  st.textContent = '.shl,.shl-mask,.shw{padding:0!important;margin:0!important;border:0!important;gap:0!important;min-height:0!important;min-width:0!important;background:none!important;box-shadow:none!important;flex:none!important;max-width:none!important}';
+  document.head.appendChild(st);
+
 
   function english() { return (html.lang || 'en').slice(0, 2).toLowerCase() === 'en'; }
   function load(src) { return new Promise(function (ok, no) { var s = doc.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; doc.head.appendChild(s); }); }
@@ -60,6 +65,8 @@
       st.split = SplitText.create(h, {
         type: 'lines, words',
         mask: 'lines',
+        linesClass: 'shl',
+        wordsClass: 'shw',
         autoSplit: true,
         onSplit: function (self) {
           /* section titles get the full rise; repeated titles (menu categories, shisha cards) a lighter, quicker one */
