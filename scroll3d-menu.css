@@ -1,4 +1,4 @@
-/* 3D depth scroll for the menu page, v2 (loaded after scroll3d.css and scroll3d-inner.css).
+/* 3D depth scroll for the menu page, v2.1 (loaded after scroll3d.css and scroll3d-inner.css).
    Phones now get it too, because most guests open the menu from the table QR code.
    Every move enters, settles flat while the item is in the middle of the screen, then lifts away:
    - chapter headers: the big number drifts up from the depth, the title folds up like a card
@@ -12,8 +12,8 @@
 
 @supports (animation-timeline: view()) {
   /* amounts: desktop / phone */
-  html.s3d-native { --m-tilt: 42deg; --m-lift: 70px; --m-spin: 28deg; --m-sq: 26deg; --m-side: 16deg; }
-  html.s3d-native.s3d-lite { --m-tilt: 30deg; --m-lift: 44px; --m-spin: 20deg; --m-sq: 18deg; --m-side: 10deg; }
+  html.s3d-native { --m-tilt: 50deg; --m-lift: 80px; --m-spin: 36deg; --m-sq: 30deg; --m-side: 18deg; }
+  html.s3d-native.s3d-lite { --m-tilt: 40deg; --m-lift: 60px; --m-spin: 32deg; --m-sq: 24deg; --m-side: 14deg; }
 
   /* the older desktop-only drum tilt is replaced by the moves below */
   html.s3d-native.s3d-full .cat .ch { animation: none; }
@@ -56,6 +56,15 @@
     animation: m-land linear both, m-turn linear both;
     animation-timeline: view(), view();
     animation-range: entry 0% exit 100%, cover 0% cover 100%;
+  }
+  /* second column lands a beat later and turns the other way, so each row moves as a wave */
+  @keyframes m-turn-r {
+    from { --spin: var(--m-spin); }
+    to   { --spin: calc(var(--m-spin) * -1); }
+  }
+  html.s3d-native:is(.s3d-full, .s3d-lite) .scatter .plate:nth-child(even) {
+    animation-name: m-land, m-turn-r;
+    animation-range: entry 14% exit 100%, cover 0% cover 100%;
   }
   /* the dish photo turns with the scroll; only once it has revealed, so the fade-in rotate still plays */
   html.s3d-native .scatter .plate:not(.pre) .disc img,
