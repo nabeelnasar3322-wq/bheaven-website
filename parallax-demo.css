@@ -1,0 +1,22 @@
+/* DEMO: depth-layer parallax for the Menus section.
+   Three decorative photo plates drift at different speeds as the section scrolls past.
+   CSS-only (animation-timeline: view()), desktop only, off for reduced motion / Data Saver.
+   Browsers without scroll-driven animation simply show the plates still. */
+.menus{position:relative;overflow-x:clip}
+.plx{display:none}
+@media(min-width:1100px) and (hover:hover){
+  .plx{display:block;position:absolute;z-index:0;pointer-events:none;border-radius:50%;overflow:hidden;
+    box-shadow:0 26px 60px rgba(38,39,41,.28),0 0 0 6px rgba(255,255,255,.7);background:#e9e4da}
+  .plx img{display:block;width:100%;height:100%;object-fit:cover}
+  .plx-a{width:190px;height:190px;left:2.5%;top:8%}
+  .plx-b{width:128px;height:128px;right:3.5%;top:30%}
+  .plx-c{width:160px;height:160px;left:1.2%;bottom:3%}
+  .menus .container{position:relative;z-index:1}
+}
+@keyframes plx-drift{from{transform:translate3d(0,var(--from),0) rotate(0deg)}to{transform:translate3d(0,var(--to),0) rotate(var(--r))}}
+@media (min-width:1100px) and (hover:hover){
+  .menus .plx{animation-name:plx-drift;animation-duration:1ms;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:view();animation-range:cover 0% cover 100%}
+  .menus .plx-a{--from:120px;--to:-160px;--r:-14deg}
+  .menus .plx-b{--from:260px;--to:-300px;--r:20deg}
+  .menus .plx-c{--from:60px;--to:-90px;--r:10deg}
+}
